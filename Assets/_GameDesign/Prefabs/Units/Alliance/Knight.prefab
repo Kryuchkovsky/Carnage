@@ -609,8 +609,6 @@ MonoBehaviour:
   <Id>k__BackingField: knight
   _animator: {fileID: 4781103851340548713}
   _navMeshAgent: {fileID: 5376744226770885451}
-  _dataComponent:
-    SpawnTime: 0
 --- !u!95 &4781103851340548713
 Animator:
   serializedVersion: 5
@@ -642,7 +640,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 12
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

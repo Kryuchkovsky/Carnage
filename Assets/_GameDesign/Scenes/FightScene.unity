@@ -519,6 +519,18 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &406082100 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3444996429133014902, guid: a88208d7e2dcd5d489ecb41e5e766a79,
+    type: 3}
+  m_PrefabInstance: {fileID: 1391534884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af836229e2685e34586376c925812362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &938657362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -615,6 +627,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrack
       objectReference: {fileID: 0}
+    - target: {fileID: 3444996429133014902, guid: a88208d7e2dcd5d489ecb41e5e766a79,
+        type: 3}
+      propertyPath: _teamId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3444996429133014902, guid: a88208d7e2dcd5d489ecb41e5e766a79,
+        type: 3}
+      propertyPath: serializedData.Value
+      value: 
+      objectReference: {fileID: 406082100}
     - target: {fileID: 8274736928136323719, guid: a88208d7e2dcd5d489ecb41e5e766a79,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -702,6 +724,7 @@ MonoBehaviour:
   _dontDestroyOnLoad: 0
   _configs:
   - {fileID: 11400000, guid: 8555d2716cda16941a479477f65daf25, type: 2}
+  - {fileID: 11400000, guid: c464bf219a1aa014a85cf2aa52d9e489, type: 2}
 --- !u!4 &1501100652
 Transform:
   m_ObjectHideFlags: 0

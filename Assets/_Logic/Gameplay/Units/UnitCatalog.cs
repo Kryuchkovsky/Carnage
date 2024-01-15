@@ -5,17 +5,18 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units
 {
+    [CreateAssetMenu]
     public class UnitCatalog : InitializableConfig
     {
-        [SerializeField] private List<UnitProvider> _units;
+        [SerializeField] private List<BasicUnitData> _unitData;
 
-        private Dictionary<string, UnitProvider> _unitsDictionary;
+        private Dictionary<string, BasicUnitData> _unitDataDictionary;
         
         public override void Initialize()
         {
-            _unitsDictionary = _units.ToDictionary(p => p.Id, p => p);
+            _unitDataDictionary = _unitData.ToDictionary(p => p.Id, p => p);
         }
 
-        public UnitProvider GetUnit(string id) => _unitsDictionary[id];
+        public BasicUnitData GetUnitData(string id) => _unitDataDictionary[id];
     }
 }

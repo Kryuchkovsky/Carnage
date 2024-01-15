@@ -12,5 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 199620dc137ac524eba071a5c6007ca1, type: 3}
   m_Name: Unit Catalog
   m_EditorClassIdentifier: 
-  _units:
-  - {fileID: 6669944024450786798, guid: 21533bb1230846348a0ec847fb888710, type: 3}
+  _unitData:
+  - <Id>k__BackingField: knight
+    <Prefab>k__BackingField: {fileID: 6669944024450786798, guid: 21533bb1230846348a0ec847fb888710,
+      type: 3}
+    <SpawnTime>k__BackingField: 3
+    <AttackData>k__BackingField:
+      BasicAttackTime: 2
+      Damage: 10
+      Range: 1
+      Speed: 100
+    <HealthData>k__BackingField:
+      MaxValue: 10
+      RegenerationRate: 0
+    <MovementData>k__BackingField:
+      MovementSpeed: 0
+      RotationSpeed: 720
