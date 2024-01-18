@@ -17,15 +17,15 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
                     attackComponent.AttackTime = 1 / attackComponent.AttacksPerSecond;
                     
-                    attackComponent.RemainingAttackTime = Mathf.Lerp(attackComponent.AttackTime, 0,
-                        attackComponent.AttackTimePercentage);
+                    attackComponent.RemainingAttackTime = Mathf.Lerp(0, attackComponent.AttackTime,
+                        1 - attackComponent.AttackTimePercentage);
 
                     if (attackComponent.AttackTimePercentage < 1)
                     {
                         attackComponent.RemainingAttackTime -= deltaTime;
                     }
 
-                    attackComponent.AttackTimePercentage = Mathf.InverseLerp(0, attackComponent.AttackTime,
+                    attackComponent.AttackTimePercentage = 1 - Mathf.InverseLerp(0, attackComponent.AttackTime, 
                         attackComponent.RemainingAttackTime);
                 });
         }

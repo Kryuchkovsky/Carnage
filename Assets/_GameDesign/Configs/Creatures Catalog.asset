@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a913f5118784c4996c4a7a88ac490c9, type: 3}
+  m_Name: Creatures Catalog
+  m_EditorClassIdentifier: 
+  _unitData:
+  - <Id>k__BackingField: knight
+    <Model>k__BackingField: {fileID: 6793499299369025809, guid: 21533bb1230846348a0ec847fb888710,
+      type: 3}
+    <SpawnTime>k__BackingField: 3
+    <AttackData>k__BackingField:
+      BasicAttackTime: 2
+      Damage: 10
+      Range: 2.5
+      Speed: 100
+    <HealthData>k__BackingField:
+      MaxValue: 50
+      RegenerationRate: 0
+    <MovementData>k__BackingField:
+      MovementSpeed: 5
+      RotationSpeed: 0
+  - <Id>k__BackingField: warrior
+    <Model>k__BackingField: {fileID: 4584233108307569853, guid: c28b377cf31c73942be92458f80957bd,
+      type: 3}
+    <SpawnTime>k__BackingField: 3
+    <AttackData>k__BackingField:
+      BasicAttackTime: 2
+      Damage: 10
+      Range: 2.5
+      Speed: 100
+    <HealthData>k__BackingField:
+      MaxValue: 50
+      RegenerationRate: 0
+    <MovementData>k__BackingField:
+      MovementSpeed: 5
+      RotationSpeed: 0
+  <CreatureProvider>k__BackingField: {fileID: 5305994223111122766, guid: 63d46729be2d8234da42548890143071,
+    type: 3}

@@ -1,8 +1,7 @@
 using _Logic.Core.Components;
-using _Logic.Extensions.Configs;
-using _Logic.Gameplay.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Movement.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -10,55 +9,30 @@ namespace _Logic.Gameplay.Units.AI.Systems
 {
     public sealed class TargetFollowingSystem : QuerySystem
     {
-        private readonly Collider[] _colliders;
-        
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<TeamIdComponent>().With<TransformComponent>()
-                .ForEach((Entity entity, ref AttackComponent attackComponent, ref TeamIdComponent teamIdComponent,
-                    ref TransformComponent transformComponent) =>
+                .With<UnitComponent>().With<AttackComponent>().With<TargetComponent>().With<DestinationComponent>().With<TransformComponent>()
+                .ForEach((Entity entity, ref AttackComponent attackComponent, ref TargetComponent targetComponent, 
+                    ref DestinationComponent destinationComponent, ref TransformComponent transformComponent) =>
                 {
-                    var aiSettings = ConfigsManager.GetConfig<AISettings>();
-                    var searchingRange = attackComponent.CurrentData.Range * aiSettings.TargetSearchingRangeToAttackRangeRatio;
-                    
-                    if (entity.Has<TargetComponent>())
+                    if (targetComponent.TargetEntity.IsNullOrDisposed() || 
+                        !targetComponent.TargetEntity.TryGetComponentValue<TransformComponent>(out var targetTransformComponent)) return;
+
+                    var direction = transformComponent.Value.position - targetTransformComponent.Value.position;
+                    var distance = direction.magnitude;
+                    var targetIsClose = distance <= attackComponent.CurrentData.Range;
+
+                    if (targetIsClose)
                     {
-                        var targetEntity = entity.GetComponent<TargetComponent>().TargetEntity;
-
-                        if (targetEntity == null || !targetEntity.Has<TransformComponent>())
-                        {
-                            entity.RemoveComponent<TargetComponent>();
-                        }
-                        else
-                        {
-                            var targetIsFar = (targetEntity.GetComponent<TransformComponent>().Value.position -
-                                               transformComponent.Value.position).magnitude > searchingRange;
-
-                            if (targetIsFar)
-                            {
-                                entity.RemoveComponent<TargetComponent>();
-                            }
-                        }
+                        destinationComponent.Value = transformComponent.Value.position;
+                        transformComponent.Value.rotation = Quaternion.LookRotation(-direction);
                     }
-                    
-                    var collisions = Physics.OverlapSphereNonAlloc(
-                        transformComponent.Value.position, searchingRange, _colliders);
-
-                    if (collisions > 0)
+                    else
                     {
-                        for (int i = 0; i < _colliders.Length; i++)
-                        {
-                            if (_colliders[i].TryGetComponent(out UnitProvider provider) && 
-                                provider.Entity.Has<TeamIdComponent>() &&
-                                provider.Entity.GetComponent<TeamIdComponent>().Value != teamIdComponent.Value)
-                            {
-                                entity.SetComponent(new TargetComponent
-                                {
-                                    TargetEntity = provider.Entity
-                                });
-                            }
-                        }
+                        var targetPosition = targetTransformComponent.Value.position + 
+                                             direction.normalized * attackComponent.CurrentData.Range;
+                        destinationComponent.Value = targetPosition;
                     }
                 });
         }

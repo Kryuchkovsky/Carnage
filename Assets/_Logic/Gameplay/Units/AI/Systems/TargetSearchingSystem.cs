@@ -10,8 +10,8 @@ namespace _Logic.Gameplay.Units.AI.Systems
 {
     public sealed class TargetSearchingSystem : QuerySystem
     {
-        private readonly Collider[] _colliders;
-
+        private readonly Collider[] _colliders = new Collider[10];
+        
         protected override void Configure()
         {
             CreateQuery()
@@ -26,13 +26,13 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     {
                         var targetEntity = entity.GetComponent<TargetComponent>().TargetEntity;
 
-                        if (targetEntity == null || !targetEntity.Has<TransformComponent>())
+                        if (targetEntity.IsNullOrDisposed() || !targetEntity.TryGetComponentValue<TransformComponent>(out var targetTransformComponent))
                         {
                             entity.RemoveComponent<TargetComponent>();
                         }
                         else
                         {
-                            var targetIsFar = (targetEntity.GetComponent<TransformComponent>().Value.position -
+                            var targetIsFar = (targetTransformComponent.Value.position -
                                                transformComponent.Value.position).magnitude > searchingRange;
 
                             if (targetIsFar)
@@ -45,19 +45,17 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     var collisions = Physics.OverlapSphereNonAlloc(
                         transformComponent.Value.position, searchingRange, _colliders);
 
-                    if (collisions > 0)
+                    for (int i = 0; i < collisions; i++)
                     {
-                        for (int i = 0; i < _colliders.Length; i++)
+                        if (_colliders[i].TryGetComponent(out UnitProvider enemyProvider) &&
+                            !enemyProvider.Entity.IsNullOrDisposed() &&
+                            enemyProvider.Entity.TryGetComponentValue<TeamIdComponent>(out var enemyTeamIdComponent) &&
+                            enemyTeamIdComponent.Value != teamIdComponent.Value)
                         {
-                            if (_colliders[i].TryGetComponent(out UnitProvider provider) && 
-                                provider.Entity.Has<TeamIdComponent>() &&
-                                provider.Entity.GetComponent<TeamIdComponent>().Value != teamIdComponent.Value)
+                            entity.SetComponent(new TargetComponent
                             {
-                                entity.SetComponent(new TargetComponent
-                                {
-                                    TargetEntity = provider.Entity
-                                });
-                            }
+                                TargetEntity = enemyProvider.Entity
+                            });
                         }
                     }
                 });

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7218749db6964231a1f81543ea1fda92, type: 3}
   m_Name: AI Settings
   m_EditorClassIdentifier: 
-  <TargetSearchingRangeToAttackRangeRatio>k__BackingField: 3
+  <TargetSearchingRangeToAttackRangeRatio>k__BackingField: 10

@@ -1,18 +1,16 @@
 ﻿using System;
 using _Logic.Gameplay.Units.Attack;
-using _Logic.Gameplay.Units.Creatures;
 using _Logic.Gameplay.Units.Health;
-using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units
 {
     [Serializable]
-    public class BasicUnitData
+    public class BasicUnitData<T> where T : UnitModel
     {
         [field: SerializeField] public string Id { get; private set; }
-        [field: SerializeField] public CreatureProvider Prefab { get; private set; }
+        [field: SerializeField] public T Model { get; private set; }
         [field: SerializeField, Min(0)] public float SpawnTime { get; private set; } = 3f;
 
         [field: SerializeField]

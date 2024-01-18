@@ -20,11 +20,11 @@ namespace _Logic.Gameplay.Units.Buildings.Systems
                         {
                             Position = barrackComponent.Value.SpawnPoint.position,
                             TeamId = teamId.Value,
-                            UnitId = "knight"
+                            UnitId = teamId.Value == 0 ? "knight" : "warrior"
                         });
                         entity.SetComponent(new TimerComponent
                         {
-                            Value = 1
+                            Value = 3
                         });
                     }
                 });

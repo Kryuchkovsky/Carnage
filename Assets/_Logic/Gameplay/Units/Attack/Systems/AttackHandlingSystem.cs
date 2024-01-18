@@ -9,7 +9,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 {
     public sealed class AttackHandlingSystem : QuerySystem
     {
-        private readonly Collider[] _colliders;
+        private Collider[] _colliders = new Collider[10];
         
         protected override void Configure()
         {
@@ -23,14 +23,13 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     var collisions = Physics.OverlapSphereNonAlloc(
                         transformComponent.Value.position, attackComponent.CurrentData.Range, _colliders);
 
-                    if (collisions == 0) return;
-
                     var isAttacking = false;
                     
-                    for (int i = 0; i < _colliders.Length; i++)
+                    for (int i = 0; i < collisions; i++)
                     {
                         if (_colliders[i].TryGetComponent(out UnitProvider provider) &&
-                            provider.Entity.TryGetComponent<TeamIdComponent>(out var enemyTeamIdComponent) &&
+                            !provider.Entity.IsNullOrDisposed() &&
+                            provider.Entity.TryGetComponentValue<TeamIdComponent>(out var enemyTeamIdComponent) &&
                             enemyTeamIdComponent.Value != teamIdComponent.Value)
                         {
                             var direction = (_colliders[i].transform.position -
@@ -53,7 +52,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     if (isAttacking)
                     {
                         attackComponent.AttackTimePercentage = 0;
-                        unitComponent.Value.PlayAttackAnimation();
+                        unitComponent.Value.OnAttack();
                     }
                 });
         }

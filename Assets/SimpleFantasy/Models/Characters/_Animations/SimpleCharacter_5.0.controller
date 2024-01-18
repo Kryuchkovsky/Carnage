@@ -1908,6 +1908,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Shoot_b
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: Attack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291614}
   m_Solo: 0
@@ -1986,6 +1989,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: MeleeType_int
     m_EventTreshold: 2
+  - m_ConditionMode: 1
+    m_ConditionEvent: Attack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110240064}
   m_Solo: 0
@@ -3139,6 +3145,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: MeleeType_int
     m_EventTreshold: 1
+  - m_ConditionMode: 1
+    m_ConditionEvent: Attack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110277130}
   m_Solo: 0
@@ -3814,6 +3823,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: WeaponType_int
     m_EventTreshold: 10
+  - m_ConditionMode: 1
+    m_ConditionEvent: Attack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110264428}
   m_Solo: 0
@@ -4225,6 +4237,9 @@ AnimatorStateTransition:
     m_EventTreshold: 12
   - m_ConditionMode: 6
     m_ConditionEvent: MeleeType_int
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: Attack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110207262}

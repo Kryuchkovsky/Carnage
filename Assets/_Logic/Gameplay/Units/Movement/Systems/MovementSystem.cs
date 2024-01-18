@@ -17,9 +17,26 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                     if (entity.Has<NavMeshAgentComponent>())
                     {
                         var agent = entity.GetComponent<NavMeshAgentComponent>().Value;
-                        agent.SetDestination(destinationData.Value);
-                        var speed = agent.velocity.magnitude / agent.speed;
-                        unitComponent.Value.SetMovementSpeed(speed);
+                        var transform = transformComponent.Value;
+                        var direction = destinationData.Value - transform.position;
+
+                        if (destinationData.Value == agent.destination || direction.magnitude <= agent.stoppingDistance)
+                        {
+                            //var rotation = Quaternion.LookRotation(direc tion);
+                            // transform.rotation = Quaternion.RotateTowards(
+                            //     transform.rotation, rotation, agent.angularSpeed * deltaTime);
+                            //transform.rotation = rotation;
+                            unitComponent.Value.OnMove(0);
+                            agent.isStopped = true;
+
+                        }
+                        else
+                        {
+                            agent.SetDestination(destinationData.Value);
+                            var speed = agent.velocity.magnitude / agent.speed;
+                            unitComponent.Value.OnMove(speed);
+                            agent.isStopped = false;
+                        }
                     }
                     else
                     {

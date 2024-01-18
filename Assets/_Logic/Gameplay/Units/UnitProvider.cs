@@ -1,11 +1,14 @@
 ﻿using _Logic.Core;
 using _Logic.Gameplay.Units.Components;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace _Logic.Gameplay.Units
 {
     public abstract class UnitProvider : ExtendedMonoProvider<UnitComponent>
     {
+        protected UnitModel Model;
+
         protected override void Initialize()
         {
             base.Initialize();
@@ -15,17 +18,32 @@ namespace _Logic.Gameplay.Units
             });
         }
 
-        public virtual void Kill()
+        public virtual void SetModel(UnitModel model)
         {
-            Destroy(this);
+            if (Model)
+            {
+                Destroy(Model);
+            }
+
+            Model = model;
+            model.transform.parent = transform;
+            model.transform.localPosition = Vector3.zero;
+            model.transform.rotation = Quaternion.identity;
         }
 
-        public virtual void PlayAttackAnimation()
+        public virtual void Kill()
         {
+            Destroy(gameObject);
         }
-        
-        public virtual void SetMovementSpeed(float value)
+
+        public virtual void OnAttack()
         {
+            Model.PlayAttackAnimation();
+        }
+
+        public virtual void OnMove(float speed)
+        {
+            Model.SetMovementSpeed(speed);
         }
     }
 }
