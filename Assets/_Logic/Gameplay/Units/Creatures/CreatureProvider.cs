@@ -27,5 +27,15 @@ namespace _Logic.Gameplay.Units.Creatures
                 });
             }
         }
+
+        public override void OnDie()
+        {
+            base.OnDie();
+            
+            if (_navMeshAgent != null)
+            {
+                _navMeshAgent.ResetPath();
+            }
+        }
     }
 }

@@ -41,21 +41,23 @@ namespace _Logic.Gameplay.Units.AI.Systems
                             }
                         }
                     }
-                    
-                    var collisions = Physics.OverlapSphereNonAlloc(
-                        transformComponent.Value.position, searchingRange, _colliders);
-
-                    for (int i = 0; i < collisions; i++)
+                    else
                     {
-                        if (_colliders[i].TryGetComponent(out UnitProvider enemyProvider) &&
-                            !enemyProvider.Entity.IsNullOrDisposed() &&
-                            enemyProvider.Entity.TryGetComponentValue<TeamIdComponent>(out var enemyTeamIdComponent) &&
-                            enemyTeamIdComponent.Value != teamIdComponent.Value)
+                        var collisions = Physics.OverlapSphereNonAlloc(
+                            transformComponent.Value.position, searchingRange, _colliders);
+
+                        for (int i = 0; i < collisions; i++)
                         {
-                            entity.SetComponent(new TargetComponent
+                            if (_colliders[i].TryGetComponent(out UnitProvider enemyProvider) &&
+                                !enemyProvider.Entity.IsNullOrDisposed() &&
+                                enemyProvider.Entity.TryGetComponentValue<TeamIdComponent>(out var enemyTeamIdComponent) &&
+                                enemyTeamIdComponent.Value != teamIdComponent.Value)
                             {
-                                TargetEntity = enemyProvider.Entity
-                            });
+                                entity.SetComponent(new TargetComponent
+                                {
+                                    TargetEntity = enemyProvider.Entity
+                                });
+                            }
                         }
                     }
                 });

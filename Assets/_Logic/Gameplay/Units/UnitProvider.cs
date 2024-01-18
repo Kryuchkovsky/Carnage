@@ -31,11 +31,6 @@ namespace _Logic.Gameplay.Units
             model.transform.rotation = Quaternion.identity;
         }
 
-        public virtual void Kill()
-        {
-            Destroy(gameObject);
-        }
-
         public virtual void OnAttack()
         {
             Model.PlayAttackAnimation();
@@ -44,6 +39,17 @@ namespace _Logic.Gameplay.Units
         public virtual void OnMove(float speed)
         {
             Model.SetMovementSpeed(speed);
+        }
+
+        public virtual void OnDamage()
+        {
+            Model.PlayHitAnimation();
+        }
+
+        public virtual void OnDie()
+        {
+            Model.PlayDeathAnimation();
+            Destroy(gameObject, 3);
         }
     }
 }

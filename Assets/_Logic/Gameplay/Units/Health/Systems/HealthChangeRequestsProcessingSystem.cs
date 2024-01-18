@@ -24,14 +24,18 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 healthComponent.Value += request.Change;
                 healthComponent.Percentage = healthComponent.Value / healthComponent.CurrentData.MaxValue;
                     
-                if (healthComponent.Value <= 0)
+                if (request.Entity.Has<UnitComponent>())
                 {
-                    if (request.Entity.Has<UnitComponent>())
+                    if (healthComponent.Value <= 0)
                     {
-                        request.Entity.GetComponent<UnitComponent>().Value.Kill();
+                        request.Entity.GetComponent<UnitComponent>().Value.OnDie();
+                        request.Entity.Dispose();
                     }
-                        
-                    request.Entity.Dispose();
+                    else
+                    {
+                        request.Entity.GetComponent<UnitComponent>().Value.OnDamage();
+                    }
+                    
                 }
             }
         }
