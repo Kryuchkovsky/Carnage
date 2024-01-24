@@ -1,6 +1,7 @@
 ﻿using _Logic.Core;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Components;
+using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement.Components;
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Spawn.Systems
 {
-    public class CreatureSpawnRequestsHandlingSystem : AbstractSystem
+    public sealed class CreatureSpawnRequestsHandlingSystem : AbstractSystem
     {
         private Request<UnitSpawnRequest> _request;
         private CreaturesCatalog _creaturesCatalog;
@@ -50,6 +51,17 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 creature.Entity.SetComponent(new DestinationComponent
                 {
                     Value = Vector3.zero
+                });
+
+                if (request.HasAI)
+                {
+                    creature.Entity.AddComponent<AIComponent>();
+                }
+                
+                World.GetEvent<UnitSpawnEvent>().NextFrame(new UnitSpawnEvent
+                {
+                    UnitProvider = creature,
+                    Data = request
                 });
             }
         }

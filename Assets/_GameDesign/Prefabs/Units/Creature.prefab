@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 381762577256161400}
   - component: {fileID: 5305994223111122766}
   - component: {fileID: 6278904384947501881}
-  - component: {fileID: 4567570622866565045}
+  - component: {fileID: 6617082677966315236}
+  - component: {fileID: 2211857052448072605}
   m_Layer: 0
   m_Name: Creature
   m_TagString: Untagged
@@ -48,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Value: {fileID: 5305994223111122766}
-  <Id>k__BackingField: knight
+  _rigidbody: {fileID: 6617082677966315236}
   _navMeshAgent: {fileID: 6278904384947501881}
 --- !u!195 &6278904384947501881
 NavMeshAgent:
@@ -72,8 +73,35 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!143 &4567570622866565045
-CharacterController:
+--- !u!54 &6617082677966315236
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8139585502292299976}
+  serializedVersion: 4
+  m_Mass: 100
+  m_Drag: 0.25
+  m_AngularDrag: 0.5
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &2211857052448072605
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -90,11 +118,8 @@ CharacterController:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 3
+  serializedVersion: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_Height: 3
+  m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}

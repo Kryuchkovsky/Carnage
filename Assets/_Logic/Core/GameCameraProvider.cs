@@ -1,21 +1,23 @@
-﻿using _Logic.Core;
-using _Logic.Core.Components;
+﻿using _Logic.Core.Components;
+using Cinemachine;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace _GameLogic.Common
+namespace _Logic.Core
 {
-    public class GameCameraProvider : ExtendedMonoProvider<CameraComponent>
+    public class GameCameraProvider : GameObjectProvider<GameCameraComponent>
     {
-        [SerializeField] private Camera _camera;
         [SerializeField, Min(0)] private int _index;
         
+        [field: SerializeField] public Camera Camera { get; private set; }
+        [field: SerializeField] public CinemachineTargetGroup TargetGroup { get; private set; }
+
         protected override void Initialize()
         {
             base.Initialize();
-            Entity.SetComponent(new CameraComponent
+            Entity.SetComponent(new GameCameraComponent
             {
-                Value = _camera
+                Value = this
             });
             Entity.SetComponent(new IndexComponent
             {

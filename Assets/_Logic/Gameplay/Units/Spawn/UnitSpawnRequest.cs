@@ -8,5 +8,6 @@ namespace _Logic.Gameplay.Units.Spawn
         public Vector3 Position;
         public string UnitId;
         public int TeamId;
+        public bool HasAI;
     }
 }

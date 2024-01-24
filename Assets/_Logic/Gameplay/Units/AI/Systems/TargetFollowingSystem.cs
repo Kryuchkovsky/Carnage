@@ -1,9 +1,9 @@
-using _Logic.Core.Components;
+﻿using _Logic.Core.Components;
+using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Movement.Components;
 using Scellecs.Morpeh;
-using UnityEngine;
 
 namespace _Logic.Gameplay.Units.AI.Systems
 {
@@ -12,7 +12,8 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<TargetComponent>().With<DestinationComponent>().With<TransformComponent>()
+                .With<UnitComponent>().With<AttackComponent>().With<TargetComponent>().With<DestinationComponent>()
+                .With<TransformComponent>().With<AIComponent>()
                 .ForEach((Entity entity, ref AttackComponent attackComponent, ref TargetComponent targetComponent, 
                     ref DestinationComponent destinationComponent, ref TransformComponent transformComponent) =>
                 {
@@ -26,7 +27,6 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     if (targetIsClose)
                     {
                         destinationComponent.Value = transformComponent.Value.position;
-                        transformComponent.Value.rotation = Quaternion.LookRotation(-direction);
                     }
                     else
                     {

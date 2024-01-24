@@ -20,7 +20,8 @@ namespace _Logic.Gameplay.Units.Buildings.Systems
                         {
                             Position = barrackComponent.Value.SpawnPoint.position,
                             TeamId = teamId.Value,
-                            UnitId = teamId.Value == 0 ? "knight" : "warrior"
+                            UnitId = teamId.Value == 0 ? "knight" : "warrior",
+                            HasAI = true
                         });
                         entity.SetComponent(new TimerComponent
                         {

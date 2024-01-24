@@ -45,6 +45,12 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                                 Damage = attackComponent.CurrentData.Damage
                             });
 
+                            if (provider.Entity.TryGetComponentValue<RigidbodyComponent>(out var enemyRigidbodyComponent))
+                            {
+                                var force = direction;
+                                enemyRigidbodyComponent.Value.AddForce(force * 5, ForceMode.VelocityChange);
+                            }
+
                             isAttacking = true;
                         }
                     }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units
 {
-    public abstract class UnitProvider : ExtendedMonoProvider<UnitComponent>
+    public abstract class UnitProvider : GameObjectProvider<UnitComponent>
     {
         protected UnitModel Model;
 
