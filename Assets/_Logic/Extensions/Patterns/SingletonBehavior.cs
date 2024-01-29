@@ -3,7 +3,7 @@ using UnityObject = UnityEngine.Object;
 
 namespace _GameLogic.Extensions.Patterns
 {
-    public class Singleton<T> : MonoBehaviour where T : Singleton<T>
+    public class SingletonBehavior<T> : MonoBehaviour where T : SingletonBehavior<T>
     {
         [SerializeField] private bool _dontDestroyOnLoad;
 

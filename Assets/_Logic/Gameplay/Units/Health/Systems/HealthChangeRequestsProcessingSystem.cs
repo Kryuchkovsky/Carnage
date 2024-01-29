@@ -1,4 +1,5 @@
 ﻿using _Logic.Core;
+using _Logic.Extensions.VFXManager;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using Scellecs.Morpeh;
@@ -24,16 +25,19 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 healthComponent.Value += request.Change;
                 healthComponent.Percentage = healthComponent.Value / healthComponent.CurrentData.MaxValue;
                     
-                if (request.Entity.Has<UnitComponent>())
+                if (request.Entity.TryGetComponentValue<UnitComponent>(out var unitComponent))
                 {
+                    var unitProvider = unitComponent.Value;
+                    EffectCreator.Instance.CreateEffect(unitProvider.Model.HitEffectId, unitProvider.transform.position);
+                    
                     if (healthComponent.Value <= 0)
                     {
-                        request.Entity.GetComponent<UnitComponent>().Value.OnDie();
+                        unitProvider.OnDie();
                         request.Entity.Dispose();
                     }
                     else
                     {
-                        request.Entity.GetComponent<UnitComponent>().Value.OnDamage();
+                        unitProvider.OnDamage();
                     }
                     
                 }

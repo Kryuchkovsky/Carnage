@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Logic.Extensions.Configs
 {
-    public class ConfigsManager : Singleton<ConfigsManager>
+    public class ConfigsManager : SingletonBehavior<ConfigsManager>
     {
         [SerializeField] private List<InitializableConfig> _configs;
 

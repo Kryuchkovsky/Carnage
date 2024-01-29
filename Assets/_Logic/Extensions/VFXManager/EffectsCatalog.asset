@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d9bc23a1b6147a0af8b0c9a90bae651, type: 3}
+  m_Name: EffectsCatalog
+  m_EditorClassIdentifier: 
+  <Effects>k__BackingField:
+  - Id: blood_explosion
+    _effect: {fileID: 8186480582374025290, guid: 50d42fb1a5d9a524d89c7b614a304171,
+      type: 3}

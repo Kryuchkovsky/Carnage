@@ -4,6 +4,8 @@ namespace _Logic.Gameplay.Units
 {
     public abstract class UnitModel : MonoBehaviour
     {
+        [field: SerializeField] public string HitEffectId { get; private set; } = "blood_explosion";
+        
         public virtual void PlayAttackAnimation()
         {
         }

@@ -14,7 +14,7 @@ namespace _Logic.Gameplay.Units
         [SerializeField, CanBeNull] protected Rigidbody _rigidbody;
         [SerializeField, CanBeNull] protected NavMeshAgent _navMeshAgent;
         
-        protected UnitModel Model;
+        public UnitModel Model { get; protected set; }
         
         protected override void Initialize()
         {
