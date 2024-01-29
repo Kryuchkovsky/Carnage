@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6278904384947501881}
   - component: {fileID: 6617082677966315236}
   - component: {fileID: 2211857052448072605}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Creature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Value: {fileID: 5305994223111122766}
+  _collider: {fileID: 0}
   _rigidbody: {fileID: 6617082677966315236}
   _navMeshAgent: {fileID: 6278904384947501881}
 --- !u!195 &6278904384947501881
@@ -82,8 +83,8 @@ Rigidbody:
   m_GameObject: {fileID: 8139585502292299976}
   serializedVersion: 4
   m_Mass: 100
-  m_Drag: 0.25
-  m_AngularDrag: 0.5
+  m_Drag: 0.75
+  m_AngularDrag: 0.75
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -92,7 +93,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1

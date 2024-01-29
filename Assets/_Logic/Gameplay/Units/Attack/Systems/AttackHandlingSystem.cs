@@ -48,7 +48,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                             if (provider.Entity.TryGetComponentValue<RigidbodyComponent>(out var enemyRigidbodyComponent))
                             {
                                 var force = direction;
-                                enemyRigidbodyComponent.Value.AddForce(force * 5, ForceMode.VelocityChange);
+                                enemyRigidbodyComponent.Value.AddForce(force * 2, ForceMode.VelocityChange);
                             }
 
                             isAttacking = true;
