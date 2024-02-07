@@ -44,7 +44,8 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 });
                 creature.Entity.SetComponent(new MovementComponent
                 {
-                    BacisData = data.MovementData
+                    BacisData = data.MovementData,
+                    CurrentData = data.MovementData
                 });
                 creature.Entity.SetComponent(new TeamIdComponent
                 {

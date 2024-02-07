@@ -5,8 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace _Logic.Gameplay.Input
 {
-    public class InputCatcher : GameObjectProvider<InputDataComponent>, IBeginDragHandler, IDragHandler,
-        IEndDragHandler
+    public class InputCatcher : GameObjectProvider<InputDataComponent>, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public void OnBeginDrag(PointerEventData eventData)
         {

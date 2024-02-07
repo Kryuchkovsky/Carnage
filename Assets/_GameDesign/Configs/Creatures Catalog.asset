@@ -26,7 +26,7 @@ MonoBehaviour:
       MaxValue: 50
       RegenerationRate: 0
     <MovementData>k__BackingField:
-      MovementSpeed: 5
+      MovementSpeed: 10
       RotationSpeed: 0
   - <Id>k__BackingField: warrior
     <Model>k__BackingField: {fileID: 4584233108307569853, guid: c28b377cf31c73942be92458f80957bd,
@@ -41,7 +41,7 @@ MonoBehaviour:
       MaxValue: 50
       RegenerationRate: 0
     <MovementData>k__BackingField:
-      MovementSpeed: 5
+      MovementSpeed: 10
       RotationSpeed: 0
   <CreatureProvider>k__BackingField: {fileID: 5305994223111122766, guid: 63d46729be2d8234da42548890143071,
     type: 3}

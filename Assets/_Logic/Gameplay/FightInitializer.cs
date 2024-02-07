@@ -1,6 +1,5 @@
 ﻿using _Logic.Core.Systems;
 using _Logic.Gameplay.Camera.Systems;
-using _Logic.Gameplay.Input.Systems;
 using _Logic.Gameplay.Units.AI.Systems;
 using _Logic.Gameplay.Units.Attack.Systems;
 using _Logic.Gameplay.Units.Buildings.Systems;
@@ -24,9 +23,7 @@ namespace _Logic.Gameplay
 
             _systemsGroup.AddSystem(new HeroPresenceControllingSystem());
             _systemsGroup.AddSystem(new CreatureSpawnRequestsHandlingSystem());
-
-            _systemsGroup.AddSystem(new InputHandlingSystem());
-
+            
             _systemsGroup.AddSystem(new TargetSearchingSystem());
             _systemsGroup.AddSystem(new TargetFollowingSystem());
             _systemsGroup.AddSystem(new SightHandlingSystem());
@@ -36,8 +33,10 @@ namespace _Logic.Gameplay
             _systemsGroup.AddSystem(new DamageRequestsProcessingSystem());
 
             _systemsGroup.AddSystem(new HealthChangeRequestsProcessingSystem());
-            
-            _systemsGroup.AddSystem(new MovementSystem());
+
+            _systemsGroup.AddSystem(new PlayerUnitDestinationSystem());
+            _systemsGroup.AddSystem(new ManualMovementSystem());
+            _systemsGroup.AddSystem(new AutomaticMovementSystem());
 
             _systemsGroup.AddSystem(new GameCameraTargetGroupHandlingSystem());
 

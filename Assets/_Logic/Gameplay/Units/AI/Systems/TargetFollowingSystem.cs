@@ -23,15 +23,14 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     var direction = transformComponent.Value.position - targetTransformComponent.Value.position;
                     var distance = direction.magnitude;
                     var targetIsClose = distance <= attackComponent.CurrentData.Range;
-
+                    
                     if (targetIsClose)
                     {
                         destinationComponent.Value = transformComponent.Value.position;
                     }
                     else
                     {
-                        var targetPosition = targetTransformComponent.Value.position + 
-                                             direction.normalized * attackComponent.CurrentData.Range;
+                        var targetPosition = targetTransformComponent.Value.position + direction.normalized * attackComponent.CurrentData.Range;
                         destinationComponent.Value = targetPosition;
                     }
                 });
