@@ -14,6 +14,8 @@ namespace _Logic.Gameplay.Units
         [SerializeField, CanBeNull] protected Rigidbody _rigidbody;
         [SerializeField, CanBeNull] protected NavMeshAgent _navMeshAgent;
         
+        [SerializeField] private SpriteRenderer _markerSprite;
+        
         public UnitModel Model { get; protected set; }
         
         protected override void Initialize()
@@ -55,6 +57,11 @@ namespace _Logic.Gameplay.Units
             model.transform.parent = transform;
             model.transform.localPosition = Vector3.zero;
             model.transform.rotation = Quaternion.identity;
+        }
+
+        public virtual void SetColor(Color color)
+        {
+            _markerSprite.color = color;
         }
 
         public virtual void OnAttack()

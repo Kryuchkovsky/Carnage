@@ -28,7 +28,6 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 if (request.Entity.TryGetComponentValue<UnitComponent>(out var unitComponent))
                 {
                     var unitProvider = unitComponent.Value;
-                    EffectCreator.Instance.CreateEffect(unitProvider.Model.HitEffectId, unitProvider.transform.position);
                     
                     if (healthComponent.Value <= 0)
                     {

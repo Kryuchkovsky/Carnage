@@ -41,6 +41,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                             
                             World.GetRequest<DamageRequest>().Publish(new DamageRequest
                             {
+                                AttackerEntity = entity,
                                 ReceiverEntity = provider.Entity,
                                 Damage = attackComponent.CurrentData.Damage
                             });

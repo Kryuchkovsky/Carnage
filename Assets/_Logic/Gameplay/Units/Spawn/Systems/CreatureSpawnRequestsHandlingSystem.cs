@@ -3,6 +3,7 @@ using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
+using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement.Components;
 using Scellecs.Morpeh;
@@ -29,6 +30,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 var creature = Object.Instantiate(_creaturesCatalog.CreatureProvider, request.Position, Quaternion.identity);
                 var model = Object.Instantiate(data.Model);
                 creature.SetModel(model);
+                creature.SetColor(request.TeamId == 0 ? Color.blue : Color.red);
                 creature.Entity.SetComponent(new AttackComponent
                 {
                     BacisData = data.AttackData,
@@ -51,6 +53,10 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 creature.Entity.SetComponent(new DestinationComponent
                 {
                     Value = Vector3.zero
+                });
+                creature.Entity.SetComponent(new ExperienceComponent
+                {
+                    Level = 1
                 });
 
                 if (request.HasAI)

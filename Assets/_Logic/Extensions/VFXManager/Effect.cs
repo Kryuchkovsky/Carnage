@@ -3,7 +3,9 @@ using UnityEngine;
 
 namespace _Logic.Extensions.VFXManager
 {
-    // Stop Action must be Callback, otherwise effect won't return to pool
+    /// <summary>
+    ///   <para>Stop Action must be Callback, otherwise effect won't return to pool.</para>
+    /// </summary>
     public class Effect : MonoBehaviour
     {
         public event Action Played;

@@ -1,4 +1,6 @@
 ﻿using _Logic.Core;
+using _Logic.Extensions.VFXManager;
+using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health;
 using Scellecs.Morpeh;
 
@@ -6,6 +8,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 {
     public sealed class DamageRequestsProcessingSystem : AbstractSystem
     {
+        private readonly float _effectIndent = 0.5f;
+
         public override void OnAwake()
         {
         }
@@ -19,6 +23,14 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     Entity = request.ReceiverEntity,
                     Change = -request.Damage
                 });
+
+                if (request.AttackerEntity.TryGetComponentValue<UnitComponent>(out var attackingUnit) &&
+                    request.ReceiverEntity.TryGetComponentValue<UnitComponent>(out var receivingUnit))
+                {
+                    var receiverPosition = receivingUnit.Value.transform.position;
+                    var effectPosition = receiverPosition + (attackingUnit.Value.transform.position - receiverPosition).normalized * _effectIndent;
+                    EffectCreator.Instance.CreateEffect(receivingUnit.Value.Model.HitEffectId, effectPosition);
+                }
             }
         }
     }
