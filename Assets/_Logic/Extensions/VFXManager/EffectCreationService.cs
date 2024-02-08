@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Logic.Extensions.VFXManager
 {
-    public class EffectCreator : SingletonBehavior<EffectCreator>
+    public class EffectCreationService : SingletonBehavior<EffectCreationService>
     {
         private Dictionary<string, ObjectPool<Effect>> _effectsPools;
 

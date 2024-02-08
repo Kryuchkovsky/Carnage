@@ -1,8 +1,9 @@
 ﻿using _Logic.Core;
-using _Logic.Extensions.VFXManager;
+using _Logic.Extensions.HealthBar;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Health.Systems
 {
@@ -29,6 +30,16 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 {
                     var unitProvider = unitComponent.Value;
                     
+                    if (request.Entity.TryGetComponentValue<HealthBarComponent>(out var healthBarComponent))
+                    {
+                        healthBarComponent.Value.SetFillValue(healthComponent.Percentage);
+                        
+                        if (healthComponent.Value <= 0)
+                        {
+                            HealthBarCreationService.Instance.RemoveHealthBar(healthBarComponent.Value);
+                        }
+                    }
+                    
                     if (healthComponent.Value <= 0)
                     {
                         unitProvider.OnDie();
@@ -38,7 +49,6 @@ namespace _Logic.Gameplay.Units.Health.Systems
                     {
                         unitProvider.OnDamage();
                     }
-                    
                 }
             }
         }

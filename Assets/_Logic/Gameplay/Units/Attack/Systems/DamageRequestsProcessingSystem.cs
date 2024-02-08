@@ -29,7 +29,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 {
                     var receiverPosition = receivingUnit.Value.transform.position;
                     var effectPosition = receiverPosition + (attackingUnit.Value.transform.position - receiverPosition).normalized * _effectIndent;
-                    EffectCreator.Instance.CreateEffect(receivingUnit.Value.Model.HitEffectId, effectPosition);
+                    EffectCreationService.Instance.CreateEffect(receivingUnit.Value.Model.HitEffectId, effectPosition);
                 }
             }
         }

@@ -32,6 +32,7 @@ namespace _Logic.Gameplay
             _systemsGroup.AddSystem(new AttackHandlingSystem());
             _systemsGroup.AddSystem(new DamageRequestsProcessingSystem());
 
+            _systemsGroup.AddSystem(new HealthBarAddingSystem());
             _systemsGroup.AddSystem(new HealthChangeRequestsProcessingSystem());
 
             _systemsGroup.AddSystem(new PlayerUnitDestinationSystem());
