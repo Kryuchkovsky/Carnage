@@ -31,7 +31,6 @@ namespace _Logic.Extensions.HealthBar
 					_currentFillValue = t;
 					_currentHpImage.fillAmount = _targetFillValue > _currentFillValue ? _currentFillValue : _targetFillValue;
 					_damageImage.fillAmount = _targetFillValue < _currentFillValue ? _currentFillValue : _targetFillValue;
-					Debug.Log(_currentFillValue);
 				})
 				.SetEase(_fillValueChangeCurve)
 				.SetAutoKill(false)

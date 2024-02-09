@@ -16,17 +16,20 @@ namespace _Logic.Gameplay.Units.Buildings.Systems
                 {
                     if (timerComponent.Value <= 0)
                     {
-                        World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest
+                        for (int i = 0; i < 5; i++)
                         {
-                            Position = barrackComponent.Value.SpawnPoint.position,
-                            TeamId = teamId.Value,
-                            UnitId = teamId.Value == 0 ? "knight" : "warrior",
-                            HasAI = true
-                        });
-                        entity.SetComponent(new TimerComponent
-                        {
-                            Value = 3
-                        });
+                            World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest
+                            {
+                                Position = barrackComponent.Value.SpawnPoint.position,
+                                TeamId = teamId.Value,
+                                UnitId = teamId.Value == 0 ? "knight" : "warrior",
+                                HasAI = true
+                            });
+                            entity.SetComponent(new TimerComponent
+                            {
+                                Value = 3
+                            });
+                        }
                     }
                 });
         }

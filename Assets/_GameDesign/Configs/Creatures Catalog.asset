@@ -14,9 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unitData:
   - <Id>k__BackingField: knight
-    <Model>k__BackingField: {fileID: 6793499299369025809, guid: 21533bb1230846348a0ec847fb888710,
+    <Model>k__BackingField: {fileID: 6793499299369025809, guid: 075d77a6e2bcc4f4692499d8d7842dd2,
       type: 3}
-    <SpawnTime>k__BackingField: 3
+    <SpawnTime>k__BackingField: 5
+    <AttackData>k__BackingField:
+      BasicAttackTime: 2
+      Damage: 10
+      Range: 2.5
+      Speed: 100
+    <HealthData>k__BackingField:
+      MaxValue: 2.5
+      RegenerationRate: 0
+    <MovementData>k__BackingField:
+      MovementSpeed: 10
+      RotationSpeed: 0
+  - <Id>k__BackingField: warrior
+    <Model>k__BackingField: {fileID: 4584233108307569853, guid: c28b377cf31c73942be92458f80957bd,
+      type: 3}
+    <SpawnTime>k__BackingField: 5
     <AttackData>k__BackingField:
       BasicAttackTime: 2
       Damage: 10
@@ -28,17 +43,17 @@ MonoBehaviour:
     <MovementData>k__BackingField:
       MovementSpeed: 10
       RotationSpeed: 0
-  - <Id>k__BackingField: warrior
-    <Model>k__BackingField: {fileID: 4584233108307569853, guid: c28b377cf31c73942be92458f80957bd,
+  - <Id>k__BackingField: king
+    <Model>k__BackingField: {fileID: 6793499299369025809, guid: 21533bb1230846348a0ec847fb888710,
       type: 3}
-    <SpawnTime>k__BackingField: 3
+    <SpawnTime>k__BackingField: 10
     <AttackData>k__BackingField:
       BasicAttackTime: 2
-      Damage: 10
+      Damage: 60
       Range: 2.5
       Speed: 100
     <HealthData>k__BackingField:
-      MaxValue: 50
+      MaxValue: 5000
       RegenerationRate: 0
     <MovementData>k__BackingField:
       MovementSpeed: 10

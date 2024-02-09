@@ -880,7 +880,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9027884210443768952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &3068274626521256452
+--- !u!1001 &7026192188514313615
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -890,23 +890,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1894420393175194494, guid: 91e7b33c764bfd7429e548f99fb12b1c,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894420393175194494, guid: 91e7b33c764bfd7429e548f99fb12b1c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894420393175194494, guid: 91e7b33c764bfd7429e548f99fb12b1c,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894420393175194494, guid: 91e7b33c764bfd7429e548f99fb12b1c,
-        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.69
+      value: -0.003
       objectReference: {fileID: 0}
     - target: {fileID: 1894420393175194494, guid: 91e7b33c764bfd7429e548f99fb12b1c,
         type: 3}
@@ -958,26 +943,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArmsTrail
       objectReference: {fileID: 0}
-    - target: {fileID: 3277496691974772621, guid: 91e7b33c764bfd7429e548f99fb12b1c,
-        type: 3}
-      propertyPath: m_Parameters.textureScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3277496691974772621, guid: 91e7b33c764bfd7429e548f99fb12b1c,
-        type: 3}
-      propertyPath: m_Parameters.textureScale.y
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91e7b33c764bfd7429e548f99fb12b1c, type: 3}
---- !u!4 &3521505719500294522 stripped
+--- !u!4 &8919477875488571121 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1894420393175194494, guid: 91e7b33c764bfd7429e548f99fb12b1c,
     type: 3}
-  m_PrefabInstance: {fileID: 3068274626521256452}
+  m_PrefabInstance: {fileID: 7026192188514313615}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7273018001252017750
 PrefabInstance:
@@ -1037,7 +1012,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 476614, guid: 8e6e95740e5530f45961c6d1f4c65422,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3521505719500294522}
+      addedObject: {fileID: 8919477875488571121}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e6e95740e5530f45961c6d1f4c65422, type: 3}
 --- !u!4 &7273018001251804048 stripped

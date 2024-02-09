@@ -17,7 +17,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
             {
                 Position = Vector3.zero,
                 TeamId = 0,
-                UnitId = "knight",
+                UnitId = "king",
                 HasAI = false
             });
         }
