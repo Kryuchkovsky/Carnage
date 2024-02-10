@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Logic.Extensions.Popup
 {
-    public class PopupCreationService : SingletonBehavior<PopupCreationService>
+    public class PopupsService : SingletonBehavior<PopupsService>
     {
         private ObjectPool<TextPopup> _textPopupsPool;
 

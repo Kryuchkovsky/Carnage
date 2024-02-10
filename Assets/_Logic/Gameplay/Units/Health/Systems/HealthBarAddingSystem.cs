@@ -26,7 +26,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 if (entity.IsNullOrDisposed() || !entity.Has<HealthComponent>() || entity.Has<HealthBarComponent>()) return;
                 
                 var isAlly = entity.TryGetComponentValue<TeamIdComponent>(out var teamIdComponent) && teamIdComponent.Value == 0;
-                var healthBar = HealthBarCreationService.Instance.CreateHealthBar(unitSpawnEvent.UnitProvider.transform, 3, isAlly);
+                var healthBar = HealthBarsService.Instance.CreateHealthBar(unitSpawnEvent.UnitProvider.transform, 3, isAlly);
                 entity.SetComponent(new HealthBarComponent
                 {
                     Value = healthBar

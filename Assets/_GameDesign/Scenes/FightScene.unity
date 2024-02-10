@@ -1791,7 +1791,7 @@ PrefabInstance:
     - target: {fileID: 9014770097076440882, guid: e1abc4bef70590b4bb90623a5f9a1b4e,
         type: 3}
       propertyPath: m_Name
-      value: EffectCreationService
+      value: EffectsService
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1927,7 +1927,7 @@ PrefabInstance:
     - target: {fileID: 724371658726077939, guid: 861b9509b62fe6f49a7ae194e7b2940d,
         type: 3}
       propertyPath: m_Name
-      value: HealthBarCreationService
+      value: HealthBarsService
       objectReference: {fileID: 0}
     - target: {fileID: 1145676570559232807, guid: 861b9509b62fe6f49a7ae194e7b2940d,
         type: 3}
@@ -2002,6 +2002,12 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 33001259}
+    - target: {fileID: 1156331967318048264, guid: acdc82ef40ad07d4a9c063207b045649,
+        type: 3}
+      propertyPath: _textPopup
+      value: 
+      objectReference: {fileID: 8601770602915532675, guid: e723ccfda852fb3498daa4ba70f46853,
+        type: 3}
     - target: {fileID: 4701017528398699300, guid: acdc82ef40ad07d4a9c063207b045649,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2055,12 +2061,12 @@ PrefabInstance:
     - target: {fileID: 4977705945928606761, guid: acdc82ef40ad07d4a9c063207b045649,
         type: 3}
       propertyPath: m_Name
-      value: PopupCreationService
+      value: PopupsService
       objectReference: {fileID: 0}
     - target: {fileID: 4977705945928606761, guid: acdc82ef40ad07d4a9c063207b045649,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Logic.Extensions.HealthBar
 {
-    public class HealthBarCreationService : SingletonBehavior<HealthBarCreationService>
+    public class HealthBarsService : SingletonBehavior<HealthBarsService>
     {
         [SerializeField] private Camera _camera;
         [SerializeField] private HealthBarView _healthBar;

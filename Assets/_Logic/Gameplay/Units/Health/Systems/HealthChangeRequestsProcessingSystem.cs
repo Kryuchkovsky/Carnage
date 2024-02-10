@@ -1,5 +1,6 @@
 ﻿using _Logic.Core;
 using _Logic.Extensions.HealthBar;
+using _Logic.Extensions.Popup;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using Scellecs.Morpeh;
@@ -36,9 +37,13 @@ namespace _Logic.Gameplay.Units.Health.Systems
                         
                         if (healthComponent.Value <= 0)
                         {
-                            HealthBarCreationService.Instance.RemoveHealthBar(healthBarComponent.Value);
+                            HealthBarsService.Instance.RemoveHealthBar(healthBarComponent.Value);
                         }
                     }
+
+                    var popupColor = request.Change >= 0 ? Color.green : Color.red;
+                    var popupText = request.Change >= 0 ? $"+{request.Change}" : $"{request.Change}";
+                    PopupsService.Instance.CreateWorldTextPopup(unitComponent.Value.transform, popupText, popupColor);
                     
                     if (healthComponent.Value <= 0)
                     {
