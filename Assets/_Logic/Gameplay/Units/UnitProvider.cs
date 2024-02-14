@@ -15,6 +15,10 @@ namespace _Logic.Gameplay.Units
         [SerializeField, CanBeNull] protected NavMeshAgent _navMeshAgent;
         
         [SerializeField] private SpriteRenderer _markerSprite;
+        [SerializeField, Range(0, 60)] private float _corpseExistenceTime = 3;
+        
+        
+        [field: SerializeField, CanBeNull] public Transform ProjectileSpawnPoint { get; private set; }
         
         public UnitModel Model { get; protected set; }
         
@@ -66,24 +70,24 @@ namespace _Logic.Gameplay.Units
 
         public virtual void OnAttack()
         {
-            Model.PlayAttackAnimation();
+            Model?.PlayAttackAnimation();
         }
 
         public virtual void OnMove(float speed)
         {
-            Model.SetMovementSpeed(speed);
+            Model?.SetMovementSpeed(speed);
         }
 
         public virtual void OnDamage()
         {
-            Model.PlayHitAnimation();
+            Model?.PlayHitAnimation();
         }
 
         public virtual void OnDie()
         {
             gameObject.layer = 7;
-            Model.PlayDeathAnimation();
-            Destroy(gameObject, 3);
+            Model?.PlayDeathAnimation();
+            Destroy(gameObject, _corpseExistenceTime);
         }
     }
 }

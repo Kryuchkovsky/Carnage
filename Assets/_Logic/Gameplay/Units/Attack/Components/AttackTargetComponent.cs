@@ -7,7 +7,7 @@ namespace _Logic.Gameplay.Units.Attack.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TargetComponent : IComponent
+    public struct AttackTargetComponent : IComponent
     {
         public Entity TargetEntity;
     }

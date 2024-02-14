@@ -26,7 +26,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                     var destination = transformComponent.Value.position + movementDirection;
                     entity.SetComponent(new DestinationComponent
                     {
-                        Value = destination
+                        EndValue = destination
                     });
                 });
         }

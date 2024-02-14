@@ -1,4 +1,4 @@
-using _Logic.Core.Components;
+﻿using _Logic.Core.Components;
 using _Logic.Gameplay.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
@@ -7,14 +7,14 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Attack.Systems
 {
-    public sealed class AttackHandlingSystem : QuerySystem
+    public sealed class MeleeAttackHandlingSystem : QuerySystem
     {
         private Collider[] _colliders = new Collider[10];
         
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<TeamIdComponent>().With<TransformComponent>()
+                .With<UnitComponent>().With<AttackComponent>().With<MeleeAttackComponent>().With<TeamIdComponent>().With<TransformComponent>()
                 .ForEach((Entity entity, ref UnitComponent unitComponent, ref AttackComponent attackComponent, 
                     ref TeamIdComponent teamIdComponent, ref TransformComponent transformComponent) =>
                 {
@@ -34,7 +34,6 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                         {
                             var direction = (_colliders[i].transform.position -
                                              transformComponent.Value.position).normalized;
-
                             var angle = Vector3.Angle(transformComponent.Value.forward, direction);
 
                             if (angle > 60) return;
@@ -48,8 +47,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
                             if (provider.Entity.TryGetComponentValue<RigidbodyComponent>(out var enemyRigidbodyComponent))
                             {
-                                var force = direction;
-                                enemyRigidbodyComponent.Value.AddForce(force * 2, ForceMode.VelocityChange);
+                                var force = direction * 2;
+                                enemyRigidbodyComponent.Value.AddForce(force, ForceMode.VelocityChange);
                             }
 
                             isAttacking = true;

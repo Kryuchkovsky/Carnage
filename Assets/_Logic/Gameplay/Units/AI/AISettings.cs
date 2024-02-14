@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units.AI
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "Create AISettings", fileName = "AISettings", order = 0)]
     public class AISettings : InitializableConfig
     {
         [field: SerializeField, Min(1)] public float TargetSearchingRangeToAttackRangeRatio { get; private set; } = 3;

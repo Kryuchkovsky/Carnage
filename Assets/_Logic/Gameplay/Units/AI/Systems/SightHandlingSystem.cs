@@ -12,9 +12,9 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<TargetComponent>().With<DestinationComponent>()
+                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<DestinationComponent>()
                 .With<TransformComponent>()
-                .ForEach((Entity entity, ref AttackComponent attackComponent, ref TargetComponent targetComponent, 
+                .ForEach((Entity entity, ref AttackComponent attackComponent, ref AttackTargetComponent targetComponent, 
                     ref TransformComponent transformComponent) =>
                 {
                     if (targetComponent.TargetEntity.IsNullOrDisposed() || 

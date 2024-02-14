@@ -19,9 +19,9 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                 {
                     var agent = entity.GetComponent<NavMeshAgentComponent>().Value;
                     var transform = transformComponent.Value;
-                    var direction = destinationData.Value - transform.position;
+                    var direction = destinationData.EndValue - transform.position;
 
-                    if (destinationData.Value == agent.destination || direction.magnitude <= agent.stoppingDistance)
+                    if (destinationData.EndValue == agent.destination || direction.magnitude <= agent.stoppingDistance)
                     {
                         unitComponent.Value.OnMove(0);
                         agent.isStopped = true;
@@ -29,7 +29,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                     }
                     else
                     {
-                        agent.SetDestination(destinationData.Value);
+                        agent.SetDestination(destinationData.EndValue);
                         var speed = agent.velocity.magnitude / agent.speed;
                         unitComponent.Value.OnMove(speed);
                         agent.isStopped = false;

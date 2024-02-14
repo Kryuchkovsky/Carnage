@@ -1,8 +1,10 @@
 ﻿using _Logic.Core;
+using _Logic.Core.Components;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
+using _Logic.Gameplay.Units.Creatures;
 using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement.Components;
@@ -53,12 +55,21 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 });
                 creature.Entity.SetComponent(new DestinationComponent
                 {
-                    Value = Vector3.zero
+                    EndValue = Vector3.zero
                 });
                 creature.Entity.SetComponent(new ExperienceComponent
                 {
                     Level = 1
                 });
+
+                if (string.IsNullOrEmpty(data.AttackData.ProjectileData.Id))
+                {
+                    creature.Entity.AddComponent<MeleeAttackComponent>();
+                }
+                else
+                {
+                    creature.Entity.AddComponent<RangeAttackComponent>();
+                }
 
                 if (request.HasAI)
                 {

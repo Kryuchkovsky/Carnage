@@ -12,9 +12,9 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<TargetComponent>().With<DestinationComponent>()
+                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<DestinationComponent>()
                 .With<TransformComponent>().With<AIComponent>()
-                .ForEach((Entity entity, ref AttackComponent attackComponent, ref TargetComponent targetComponent, 
+                .ForEach((Entity entity, ref AttackComponent attackComponent, ref AttackTargetComponent targetComponent, 
                     ref DestinationComponent destinationComponent, ref TransformComponent transformComponent) =>
                 {
                     if (targetComponent.TargetEntity.IsNullOrDisposed() || 
@@ -26,12 +26,12 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     
                     if (targetIsClose)
                     {
-                        destinationComponent.Value = transformComponent.Value.position;
+                        destinationComponent.EndValue = transformComponent.Value.position;
                     }
                     else
                     {
                         var targetPosition = targetTransformComponent.Value.position + direction.normalized * attackComponent.CurrentData.Range;
-                        destinationComponent.Value = targetPosition;
+                        destinationComponent.EndValue = targetPosition;
                     }
                 });
         }

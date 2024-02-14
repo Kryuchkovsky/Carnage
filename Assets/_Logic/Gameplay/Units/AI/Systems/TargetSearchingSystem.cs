@@ -22,13 +22,13 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     var aiSettings = ConfigsManager.GetConfig<AISettings>();
                     var searchingRange = attackComponent.CurrentData.Range * aiSettings.TargetSearchingRangeToAttackRangeRatio;
                     
-                    if (entity.Has<TargetComponent>())
+                    if (entity.Has<AttackTargetComponent>())
                     {
-                        var targetEntity = entity.GetComponent<TargetComponent>().TargetEntity;
+                        var targetEntity = entity.GetComponent<AttackTargetComponent>().TargetEntity;
 
                         if (targetEntity.IsNullOrDisposed() || !targetEntity.TryGetComponentValue<TransformComponent>(out var targetTransformComponent))
                         {
-                            entity.RemoveComponent<TargetComponent>();
+                            entity.RemoveComponent<AttackTargetComponent>();
                         }
                         else
                         {
@@ -37,7 +37,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
 
                             if (targetIsFar)
                             {
-                                entity.RemoveComponent<TargetComponent>();
+                                entity.RemoveComponent<AttackTargetComponent>();
                             }
                         }
                     }
@@ -53,7 +53,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                                 enemyProvider.Entity.TryGetComponentValue<TeamIdComponent>(out var enemyTeamIdComponent) &&
                                 enemyTeamIdComponent.Value != teamIdComponent.Value)
                             {
-                                entity.SetComponent(new TargetComponent
+                                entity.SetComponent(new AttackTargetComponent
                                 {
                                     TargetEntity = enemyProvider.Entity
                                 });

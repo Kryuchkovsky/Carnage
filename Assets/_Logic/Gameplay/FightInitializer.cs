@@ -5,6 +5,7 @@ using _Logic.Gameplay.Units.Attack.Systems;
 using _Logic.Gameplay.Units.Buildings.Systems;
 using _Logic.Gameplay.Units.Health.Systems;
 using _Logic.Gameplay.Units.Movement.Systems;
+using _Logic.Gameplay.Units.Projectiles.Systems;
 using _Logic.Gameplay.Units.Spawn.Systems;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
@@ -29,8 +30,12 @@ namespace _Logic.Gameplay
             _systemsGroup.AddSystem(new SightHandlingSystem());
 
             _systemsGroup.AddSystem(new AttackCooldownTimeProcessingSystem());
-            _systemsGroup.AddSystem(new AttackHandlingSystem());
+            _systemsGroup.AddSystem(new MeleeAttackHandlingSystem());
+            _systemsGroup.AddSystem(new RangeAttackHandlingSystem());
             _systemsGroup.AddSystem(new DamageRequestsProcessingSystem());
+
+            _systemsGroup.AddSystem(new HomingProjectileCreationRequestsHandlingSystem());
+            _systemsGroup.AddSystem(new ProjectileFlightProcessingSystem());
 
             _systemsGroup.AddSystem(new HealthBarAddingSystem());
             _systemsGroup.AddSystem(new HealthChangeRequestsProcessingSystem());

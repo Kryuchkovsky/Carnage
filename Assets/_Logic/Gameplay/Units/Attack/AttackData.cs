@@ -1,4 +1,5 @@
 ﻿using System;
+using _Logic.Gameplay.Units.Projectiles;
 
 namespace _Logic.Gameplay.Units.Attack
 {
@@ -9,5 +10,6 @@ namespace _Logic.Gameplay.Units.Attack
         public int Damage;
         public float Range;
         public float Speed;
+        public ProjectileData ProjectileData;
     }
 }

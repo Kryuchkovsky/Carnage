@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Value: {fileID: 5305994223111122766}
-  _collider: {fileID: 0}
+  _collider: {fileID: 2211857052448072605}
   _rigidbody: {fileID: 6617082677966315236}
   _navMeshAgent: {fileID: 6278904384947501881}
   _markerSprite: {fileID: 2028462850241952748}

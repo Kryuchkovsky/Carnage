@@ -1,9 +1,8 @@
-﻿using _Logic.Gameplay.Units.Creatures;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace _Logic.Gameplay.Units
+namespace _Logic.Gameplay.Units.Creatures
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "Create CreaturesCatalog", fileName = "CreaturesCatalog", order = 0)]
     public class CreaturesCatalog : UnitsCatalog<CreatureModel>
     {
         [field: SerializeField] public CreatureProvider CreatureProvider { get; private set; }

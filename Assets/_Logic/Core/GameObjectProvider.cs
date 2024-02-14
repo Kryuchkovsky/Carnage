@@ -14,5 +14,31 @@ namespace _Logic.Core
                 Value = transform
             });
         }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            if (!Entity.IsNullOrDisposed())
+            {
+                Entity.SetComponent(new ActivityComponent
+                {
+                    Value = true
+                });
+            }
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            
+            if (!Entity.IsNullOrDisposed())
+            {
+                Entity.SetComponent(new ActivityComponent
+                {
+                    Value = false
+                });
+            }
+        }
     }
 }

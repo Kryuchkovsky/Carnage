@@ -138,7 +138,7 @@ PrefabInstance:
     - target: {fileID: 415319891711843074, guid: e242ebf6f9f72d346b3e810870c4d691,
         type: 3}
       propertyPath: m_Name
-      value: Towel (2)
+      value: WallTower (2)
       objectReference: {fileID: 0}
     - target: {fileID: 3303724303884684126, guid: e242ebf6f9f72d346b3e810870c4d691,
         type: 3}
@@ -893,7 +893,7 @@ PrefabInstance:
     - target: {fileID: 415319891711843074, guid: e242ebf6f9f72d346b3e810870c4d691,
         type: 3}
       propertyPath: m_Name
-      value: Towel (3)
+      value: WallTower (3)
       objectReference: {fileID: 0}
     - target: {fileID: 3303724303884684126, guid: e242ebf6f9f72d346b3e810870c4d691,
         type: 3}
@@ -1115,7 +1115,7 @@ PrefabInstance:
     - target: {fileID: 415319891711843074, guid: e242ebf6f9f72d346b3e810870c4d691,
         type: 3}
       propertyPath: m_Name
-      value: Towel
+      value: WallTower
       objectReference: {fileID: 0}
     - target: {fileID: 3303724303884684126, guid: e242ebf6f9f72d346b3e810870c4d691,
         type: 3}
@@ -1268,7 +1268,7 @@ PrefabInstance:
     - target: {fileID: 415319891711843074, guid: e242ebf6f9f72d346b3e810870c4d691,
         type: 3}
       propertyPath: m_Name
-      value: Towel (1)
+      value: WallTower (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3303724303884684126, guid: e242ebf6f9f72d346b3e810870c4d691,
         type: 3}
