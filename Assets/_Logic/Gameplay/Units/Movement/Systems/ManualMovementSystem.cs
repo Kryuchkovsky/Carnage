@@ -23,14 +23,14 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                     var destination = transformComponent.Value.position + movementDirection;
                     entity.SetComponent(new DestinationComponent
                     {
-                        EndValue = destination
+                        Value = destination
                     });
                     
                     unitComponent.Value.OnMove(inputDataComponent.Direction.magnitude);
                     
-                    if (destinationData.EndValue == transformComponent.Value.position) return;
+                    if (destinationData.Value == transformComponent.Value.position) return;
                     
-                    var direction = (destinationData.EndValue - transformComponent.Value.position).normalized;
+                    var direction = (destinationData.Value - transformComponent.Value.position).normalized;
                     var step = direction * movementComponent.CurrentData.MovementSpeed * deltaTime;
                     transformComponent.Value.Translate(step, Space.World);
                     transformComponent.Value.rotation = Quaternion.LookRotation(direction);

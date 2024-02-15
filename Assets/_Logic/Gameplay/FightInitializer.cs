@@ -25,17 +25,17 @@ namespace _Logic.Gameplay
             _systemsGroup.AddSystem(new HeroPresenceControllingSystem());
             _systemsGroup.AddSystem(new CreatureSpawnRequestsHandlingSystem());
             
-            _systemsGroup.AddSystem(new TargetSearchingSystem());
-            _systemsGroup.AddSystem(new TargetFollowingSystem());
+            _systemsGroup.AddSystem(new EnemySearchingSystem());
+            _systemsGroup.AddSystem(new EnemyFollowingSystem());
+            _systemsGroup.AddSystem(new GlobalTargetFollowingSystem());
             _systemsGroup.AddSystem(new SightHandlingSystem());
-
+            
             _systemsGroup.AddSystem(new AttackCooldownTimeProcessingSystem());
             _systemsGroup.AddSystem(new MeleeAttackHandlingSystem());
             _systemsGroup.AddSystem(new RangeAttackHandlingSystem());
-            _systemsGroup.AddSystem(new DamageRequestsProcessingSystem());
-
             _systemsGroup.AddSystem(new HomingProjectileCreationRequestsHandlingSystem());
             _systemsGroup.AddSystem(new ProjectileFlightProcessingSystem());
+            _systemsGroup.AddSystem(new DamageRequestsProcessingSystem());
 
             _systemsGroup.AddSystem(new HealthBarAddingSystem());
             _systemsGroup.AddSystem(new HealthChangeRequestsProcessingSystem());
@@ -43,6 +43,7 @@ namespace _Logic.Gameplay
             _systemsGroup.AddSystem(new PlayerUnitDestinationSystem());
             _systemsGroup.AddSystem(new ManualMovementSystem());
             _systemsGroup.AddSystem(new AutomaticMovementSystem());
+            _systemsGroup.AddSystem(new DestinationChangeRequestsProcessingSystem());
 
             _systemsGroup.AddSystem(new GameCameraTargetGroupHandlingSystem());
 

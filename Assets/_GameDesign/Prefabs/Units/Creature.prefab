@@ -138,6 +138,10 @@ MonoBehaviour:
   _rigidbody: {fileID: 6617082677966315236}
   _navMeshAgent: {fileID: 6278904384947501881}
   _markerSprite: {fileID: 2028462850241952748}
+  _corpseExistenceTime: 3
+  _priority: 0
+  _isPrioritizedTarget: 0
+  <ProjectileSpawnPoint>k__BackingField: {fileID: 0}
 --- !u!195 &6278904384947501881
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -147,7 +151,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8139585502292299976}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.8
   m_Speed: 12
   m_Acceleration: 12
   avoidancePriority: 50
@@ -169,8 +173,8 @@ Rigidbody:
   m_GameObject: {fileID: 8139585502292299976}
   serializedVersion: 4
   m_Mass: 100
-  m_Drag: 0.75
-  m_AngularDrag: 0.75
+  m_Drag: 5
+  m_AngularDrag: 5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}

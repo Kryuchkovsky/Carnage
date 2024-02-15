@@ -1,7 +1,6 @@
 using _Logic.Core.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
-using _Logic.Gameplay.Units.Movement.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
 

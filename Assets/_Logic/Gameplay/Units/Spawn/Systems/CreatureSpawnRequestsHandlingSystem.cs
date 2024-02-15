@@ -53,10 +53,6 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 {
                     Value = request.TeamId
                 });
-                creature.Entity.SetComponent(new DestinationComponent
-                {
-                    EndValue = Vector3.zero
-                });
                 creature.Entity.SetComponent(new ExperienceComponent
                 {
                     Level = 1

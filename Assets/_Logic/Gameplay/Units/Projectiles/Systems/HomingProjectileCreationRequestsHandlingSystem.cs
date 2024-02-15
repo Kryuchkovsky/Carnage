@@ -48,7 +48,7 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                 });
                 projectile.Entity.SetComponent(new DestinationComponent
                 {
-                    EndValue = request.Target.position
+                    Value = request.Target.position
                 });
                 projectile.FlightEnded += request.Callback;
                 projectile.FlightEnded += _projectilePools[request.Data.Id].Return;

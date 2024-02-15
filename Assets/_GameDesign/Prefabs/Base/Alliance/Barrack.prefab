@@ -56,7 +56,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9010010041030944149}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -77,7 +77,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af836229e2685e34586376c925812362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: barrack
+  serializedData:
+    Value: {fileID: 0}
+  _collider: {fileID: 0}
+  _rigidbody: {fileID: 0}
+  _navMeshAgent: {fileID: 0}
+  _markerSprite: {fileID: 0}
+  _corpseExistenceTime: 3
+  _priority: 10
+  _isPrioritizedTarget: 1
+  <ProjectileSpawnPoint>k__BackingField: {fileID: 0}
+  _teamId: 0
   <SpawnPoint>k__BackingField: {fileID: 9057647686382208732}
 --- !u!1001 &6813759733686727777
 PrefabInstance:
@@ -134,8 +144,39 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 107974, guid: 6e323d600295e85498372437c65fc51e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7488505168019670648}
   m_SourcePrefab: {fileID: 100100000, guid: 6e323d600295e85498372437c65fc51e, type: 3}
+--- !u!1 &6813759733686620583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 107974, guid: 6e323d600295e85498372437c65fc51e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6813759733686727777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &7488505168019670648
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6813759733686620583}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 12.116809, y: 19.133862, z: 11.11362}
+  m_Center: {x: 1.8189894e-12, y: 9.566931, z: -0.000045776367}
 --- !u!4 &6813759733687070919 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 443558, guid: 6e323d600295e85498372437c65fc51e,

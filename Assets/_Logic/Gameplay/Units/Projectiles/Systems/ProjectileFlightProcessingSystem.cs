@@ -16,13 +16,13 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                 {
                     if (entity.TryGetComponentValue<FollowingTransformComponent>(out var followingTransformComponent))
                     {
-                        destinationComponent.EndValue = followingTransformComponent.Value.position;
+                        destinationComponent.Value = followingTransformComponent.Value.position;
                     }
 
                     var projectilePosition = projectileComponent.Value.transform.position;
-                    var direction = destinationComponent.EndValue - projectilePosition;
+                    var direction = destinationComponent.Value - projectilePosition;
                     var distance = direction.magnitude;
-                    var destination = destinationComponent.EndValue + Vector3.up * distance * projectileDataComponent.Value.FlightRangeToHeightRatio;
+                    var destination = destinationComponent.Value + Vector3.up * distance * projectileDataComponent.Value.FlightRangeToHeightRatio;
                     var delta = (destination - projectilePosition).normalized * projectileDataComponent.Value.Speed * deltaTime;
                     
                     transformComponent.Value.rotation = Quaternion.LookRotation(direction);

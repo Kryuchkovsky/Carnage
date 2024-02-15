@@ -17,7 +17,9 @@ namespace _Logic.Gameplay.Units
         [SerializeField] private SpriteRenderer _markerSprite;
         [SerializeField, Range(0, 60)] private float _corpseExistenceTime = 3;
         
-        
+        [SerializeField, Range(0, 100)] private int _priority;
+        [SerializeField] private bool _isPrioritizedTarget;
+
         [field: SerializeField, CanBeNull] public Transform ProjectileSpawnPoint { get; private set; }
         
         public UnitModel Model { get; protected set; }
@@ -32,6 +34,14 @@ namespace _Logic.Gameplay.Units
             {
                 Value = this
             });
+
+            if (_isPrioritizedTarget)
+            {
+                Entity.SetComponent(new PriorityComponent
+                {
+                    Value = _priority
+                });
+            }
             
             if (_rigidbody != null)
             {

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units.AI.Systems
 {
-    public sealed class TargetSearchingSystem : QuerySystem
+    public sealed class EnemySearchingSystem : QuerySystem
     {
         private readonly Collider[] _colliders = new Collider[10];
         
@@ -16,8 +16,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         {
             CreateQuery()
                 .With<UnitComponent>().With<AttackComponent>().With<TeamIdComponent>().With<TransformComponent>()
-                .ForEach((Entity entity, ref AttackComponent attackComponent, ref TeamIdComponent teamIdComponent,
-                    ref TransformComponent transformComponent) =>
+                .ForEach((Entity entity, ref AttackComponent attackComponent, ref TeamIdComponent teamIdComponent, ref TransformComponent transformComponent) =>
                 {
                     var aiSettings = ConfigsManager.GetConfig<AISettings>();
                     var searchingRange = attackComponent.CurrentData.Range * aiSettings.TargetSearchingRangeToAttackRangeRatio;
@@ -32,8 +31,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                         }
                         else
                         {
-                            var targetIsFar = (targetTransformComponent.Value.position -
-                                               transformComponent.Value.position).magnitude > searchingRange;
+                            var targetIsFar = (targetTransformComponent.Value.position - transformComponent.Value.position).magnitude > searchingRange;
 
                             if (targetIsFar)
                             {
@@ -43,8 +41,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     }
                     else
                     {
-                        var collisions = Physics.OverlapSphereNonAlloc(
-                            transformComponent.Value.position, searchingRange, _colliders);
+                        var collisions = Physics.OverlapSphereNonAlloc(transformComponent.Value.position, searchingRange, _colliders);
 
                         for (int i = 0; i < collisions; i++)
                         {
@@ -57,6 +54,8 @@ namespace _Logic.Gameplay.Units.AI.Systems
                                 {
                                     TargetEntity = enemyProvider.Entity
                                 });
+                                
+                                break;
                             }
                         }
                     }

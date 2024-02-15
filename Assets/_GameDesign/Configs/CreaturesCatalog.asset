@@ -22,8 +22,12 @@ MonoBehaviour:
       Damage: 10
       Range: 2.5
       Speed: 100
+      ProjectileData:
+        Id: 
+        Speed: 0
+        FlightRangeToHeightRatio: 0
     <HealthData>k__BackingField:
-      MaxValue: 2.5
+      MaxValue: 50
       RegenerationRate: 0
     <MovementData>k__BackingField:
       MovementSpeed: 10
@@ -37,6 +41,10 @@ MonoBehaviour:
       Damage: 10
       Range: 2.5
       Speed: 100
+      ProjectileData:
+        Id: 
+        Speed: 0
+        FlightRangeToHeightRatio: 0
     <HealthData>k__BackingField:
       MaxValue: 50
       RegenerationRate: 0
@@ -52,6 +60,10 @@ MonoBehaviour:
       Damage: 60
       Range: 2.5
       Speed: 100
+      ProjectileData:
+        Id: 
+        Speed: 0
+        FlightRangeToHeightRatio: 0
     <HealthData>k__BackingField:
       MaxValue: 5000
       RegenerationRate: 0

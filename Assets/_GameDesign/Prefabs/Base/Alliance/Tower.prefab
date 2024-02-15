@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1309987580365550579
 Transform:
@@ -46,7 +46,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &609239774932007112
 Transform:
@@ -83,9 +83,12 @@ MonoBehaviour:
   _rigidbody: {fileID: 0}
   _navMeshAgent: {fileID: 0}
   _markerSprite: {fileID: 0}
+  _corpseExistenceTime: 3
+  _priority: 20
+  _isPrioritizedTarget: 1
+  <ProjectileSpawnPoint>k__BackingField: {fileID: 1309987580365550579}
   _towerData: {fileID: 11400000, guid: 80c3da890edf94e47a2dabfedc4fbe37, type: 2}
   _teamId: 0
-  <ProjectileSpawnPoint>k__BackingField: {fileID: 1309987580365550579}
 --- !u!1001 &88382515280187906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97,6 +100,10 @@ PrefabInstance:
     - target: {fileID: 154154, guid: 4a4566bce7e5b41409dded05cba18c2f, type: 3}
       propertyPath: m_Name
       value: SF_Bld_Castle_Tower_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 154154, guid: 4a4566bce7e5b41409dded05cba18c2f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 481418, guid: 4a4566bce7e5b41409dded05cba18c2f, type: 3}
       propertyPath: m_LocalPosition.x
