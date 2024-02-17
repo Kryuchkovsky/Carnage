@@ -17,21 +17,29 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                     ref TransformComponent transformComponent, ref MovementComponent movementComponent, 
                     ref NavMeshAgentComponent navMeshAgentComponent, ref DestinationComponent destinationData) =>
                 {
-                    var agent = entity.GetComponent<NavMeshAgentComponent>().Value;
-                    var transform = transformComponent.Value;
-                    var direction = destinationData.Value - transform.position;
+                    var agent = navMeshAgentComponent.Value;
+                    var position = transformComponent.Value.position;
+                    var direction = destinationData.Value - position;
+                    var isReached = destinationData.Value == position || 
+                                    agent.remainingDistance <= agent.stoppingDistance || 
+                                    direction.magnitude <= agent.stoppingDistance;
                     
-                    if (destinationData.Value == transform.position || direction.magnitude <= agent.stoppingDistance)
+                    if (isReached)
                     {
                         unitComponent.Value.OnMove(0);
-                        agent.isStopped = true;
                         entity.RemoveComponent<DestinationComponent>();
                     }
                     else
                     {
                         var speed = agent.velocity.magnitude / agent.speed;
                         unitComponent.Value.OnMove(speed);
-                        agent.isStopped = false;
+                    }
+
+                    agent.enabled = !isReached;
+                    
+                    if (entity.TryGetComponentValue<NavMeshObstacleComponent>(out var navMeshObstacleComponent))
+                    {
+                        navMeshObstacleComponent.Value.enabled = isReached;
                     }
                 });
         }

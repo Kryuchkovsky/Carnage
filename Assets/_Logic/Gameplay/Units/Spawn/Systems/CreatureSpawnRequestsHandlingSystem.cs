@@ -6,6 +6,7 @@ using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Creatures;
 using _Logic.Gameplay.Units.Experience.Components;
+using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement.Components;
 using Scellecs.Morpeh;
@@ -15,18 +16,20 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
 {
     public sealed class CreatureSpawnRequestsHandlingSystem : AbstractSystem
     {
-        private Request<UnitSpawnRequest> _request;
+        private Request<UnitSpawnRequest> _unitSpawnRequest;
+        private Event<UnitSpawnEvent> _unitSpawnEvent;
         private CreaturesCatalog _creaturesCatalog;
 
         public override void OnAwake()
         {
-            _request = World.GetRequest<UnitSpawnRequest>();
+            _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
+            _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
             _creaturesCatalog = ConfigsManager.GetConfig<CreaturesCatalog>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var request in _request.Consume())
+            foreach (var request in _unitSpawnRequest.Consume())
             {
                 var data = _creaturesCatalog.GetUnitData(request.UnitId);
                 var creature = Object.Instantiate(_creaturesCatalog.CreatureProvider, request.Position, Quaternion.identity);
@@ -72,7 +75,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     creature.Entity.AddComponent<AIComponent>();
                 }
                 
-                World.GetEvent<UnitSpawnEvent>().NextFrame(new UnitSpawnEvent
+                _unitSpawnEvent.NextFrame(new UnitSpawnEvent
                 {
                     UnitProvider = creature,
                     Data = request

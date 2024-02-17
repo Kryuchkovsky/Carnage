@@ -25,17 +25,15 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     {
                         var targetEntity = entity.GetComponent<AttackTargetComponent>().TargetEntity;
 
-                        if (targetEntity.IsNullOrDisposed() || !targetEntity.TryGetComponentValue<TransformComponent>(out var targetTransformComponent))
+                        if (targetEntity.IsNullOrDisposed() || 
+                            !targetEntity.TryGetComponentValue<TransformComponent>(out var targetTransformComponent) || 
+                            (targetTransformComponent.Value.position - transformComponent.Value.position).magnitude > searchingRange)
                         {
                             entity.RemoveComponent<AttackTargetComponent>();
-                        }
-                        else
-                        {
-                            var targetIsFar = (targetTransformComponent.Value.position - transformComponent.Value.position).magnitude > searchingRange;
 
-                            if (targetIsFar)
+                            if (entity.Has<DestinationComponent>())
                             {
-                                entity.RemoveComponent<AttackTargetComponent>();
+                                entity.RemoveComponent<DestinationComponent>();
                             }
                         }
                     }

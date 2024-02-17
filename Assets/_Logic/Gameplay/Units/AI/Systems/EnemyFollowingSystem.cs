@@ -3,6 +3,7 @@ using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Movement;
+using _Logic.Gameplay.Units.Movement.Components;
 using Scellecs.Morpeh;
 
 namespace _Logic.Gameplay.Units.AI.Systems
@@ -12,23 +13,21 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<TransformComponent>().With<AIComponent>()
-                .ForEach((Entity entity, ref AttackComponent attackComponent, ref AttackTargetComponent targetComponent, ref TransformComponent transformComponent) =>
+                .With<UnitComponent>().With<MovementComponent>().With<AttackComponent>().With<AttackTargetComponent>()
+                .With<TransformComponent>().With<AIComponent>()
+                .ForEach((Entity entity, ref MovementComponent movementComponent, ref AttackComponent attackComponent, 
+                    ref AttackTargetComponent targetComponent, ref TransformComponent transformComponent) =>
                 {
-                    if (targetComponent.TargetEntity.IsNullOrDisposed() || 
-                        !targetComponent.TargetEntity.TryGetComponentValue<TransformComponent>(out var targetTransformComponent)) return;
-
-                    var direction = transformComponent.Value.position - targetTransformComponent.Value.position;
-                    var distance = direction.magnitude;
-                    var targetIsClose = distance <= attackComponent.CurrentData.Range;
-                    var destination = targetIsClose
-                        ? transformComponent.Value.position
-                        : targetTransformComponent.Value.position + direction.normalized * attackComponent.CurrentData.Range;
+                    if (!movementComponent.CanMove || 
+                        targetComponent.TargetEntity.IsNullOrDisposed() || 
+                        !targetComponent.TargetEntity.TryGetComponentValue<TransformComponent>(out var targetTransformComponent) || 
+                        (entity.TryGetComponentValue<DestinationComponent>(out var destinationComponent) && 
+                         destinationComponent.Value == targetTransformComponent.Value.position)) return;
                     
                     World.GetRequest<DestinationChangeRequest>().Publish(new DestinationChangeRequest
                     {
                         Entity = entity,
-                        Destination = destination
+                        Destination = targetTransformComponent.Value.position
                     });
                 });
         }

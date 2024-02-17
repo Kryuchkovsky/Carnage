@@ -39,10 +39,5 @@ namespace _Logic.Gameplay.Units.Buildings
                 Value = _teamId
             });
         }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawSphere(transform.position, Entity.GetComponent<AttackComponent>().CurrentData.Range);
-        }
     }
 }

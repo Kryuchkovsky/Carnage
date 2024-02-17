@@ -624,6 +624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f026a68ad4847f897adec0d001f766d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _meshRenderer: {fileID: 8859914998877507951}
+  <HitEffectId>k__BackingField: blood_explosion
   _animator: {fileID: 4781103851340548713}
 --- !u!1 &6282923538634562971
 GameObject:

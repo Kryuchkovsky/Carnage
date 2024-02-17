@@ -1,11 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace _Logic.Gameplay.Units
 {
     public abstract class UnitModel : MonoBehaviour
     {
-        [field: SerializeField] public string HitEffectId { get; private set; } = "blood_explosion";
+        [SerializeField] private Renderer _meshRenderer;
         
+        [field: SerializeField] public string HitEffectId { get; private set; } = "blood_explosion";
+
+        public Bounds Bounds => _meshRenderer.bounds;
+
+        private void Awake()
+        {
+            if (!_meshRenderer)
+            {
+                _meshRenderer = GetComponentInChildren<Renderer>();
+            }
+        }
+
         public virtual void PlayAttackAnimation()
         {
         }

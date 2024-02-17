@@ -41,6 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 609239774932007112}
   - component: {fileID: 6983508259518998581}
+  - component: {fileID: 3638532318905707229}
+  - component: {fileID: 1961928799212744720}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -82,13 +84,52 @@ MonoBehaviour:
   _collider: {fileID: 0}
   _rigidbody: {fileID: 0}
   _navMeshAgent: {fileID: 0}
+  _navMeshObstacle: {fileID: 0}
   _markerSprite: {fileID: 0}
   _corpseExistenceTime: 3
   _priority: 20
   _isPrioritizedTarget: 1
   <ProjectileSpawnPoint>k__BackingField: {fileID: 1309987580365550579}
+  <Model>k__BackingField: {fileID: 3039941706111605192}
   _towerData: {fileID: 11400000, guid: 80c3da890edf94e47a2dabfedc4fbe37, type: 2}
   _teamId: 0
+--- !u!65 &3638532318905707229
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3758082141397749206}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 15, y: 30, z: 15}
+  m_Center: {x: 0, y: 15, z: 0}
+--- !u!208 &1961928799212744720
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3758082141397749206}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.5, y: 15, z: 7.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 15, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &88382515280187906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -152,35 +193,34 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 154154, guid: 4a4566bce7e5b41409dded05cba18c2f,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8417583627581149599}
+      addedObject: {fileID: 3039941706111605192}
   m_SourcePrefab: {fileID: 100100000, guid: 4a4566bce7e5b41409dded05cba18c2f, type: 3}
+--- !u!23 &88382515278155444 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2301110, guid: 4a4566bce7e5b41409dded05cba18c2f,
+    type: 3}
+  m_PrefabInstance: {fileID: 88382515280187906}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &88382515280332840 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 154154, guid: 4a4566bce7e5b41409dded05cba18c2f,
     type: 3}
   m_PrefabInstance: {fileID: 88382515280187906}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &8417583627581149599
-BoxCollider:
+--- !u!114 &3039941706111605192
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88382515280332840}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 12.850109, y: 29.170422, z: 12.850092}
-  m_Center: {x: -0.000031471252, y: 14.585211, z: 0.0000019073523}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c05dae9d384f4781df92b890bb3740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meshRenderer: {fileID: 88382515278155444}
+  <HitEffectId>k__BackingField: 
 --- !u!4 &88382515280530056 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 481418, guid: 4a4566bce7e5b41409dded05cba18c2f,

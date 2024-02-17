@@ -1,4 +1,5 @@
-﻿using _Logic.Core;
+﻿using System;
+using _Logic.Core;
 using _Logic.Extensions.VFXManager;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health;
@@ -24,8 +25,11 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     Change = -request.Damage
                 });
 
-                if (request.AttackerEntity.TryGetComponentValue<UnitComponent>(out var attackingUnit) &&
-                    request.ReceiverEntity.TryGetComponentValue<UnitComponent>(out var receivingUnit))
+                if (!request.AttackerEntity.IsNullOrDisposed() && 
+                    !request.ReceiverEntity.IsNullOrDisposed() && 
+                    request.AttackerEntity.TryGetComponentValue<UnitComponent>(out var attackingUnit) &&
+                    request.ReceiverEntity.TryGetComponentValue<UnitComponent>(out var receivingUnit) &&
+                    !String.IsNullOrEmpty(receivingUnit.Value.Model.HitEffectId))
                 {
                     var receiverPosition = receivingUnit.Value.transform.position;
                     var effectPosition = receiverPosition + (attackingUnit.Value.transform.position - receiverPosition).normalized * _effectIndent;

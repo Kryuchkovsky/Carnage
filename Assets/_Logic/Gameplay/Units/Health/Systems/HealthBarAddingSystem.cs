@@ -1,37 +1,31 @@
-﻿using _Logic.Core;
+﻿using _Logic.Core.Components;
 using _Logic.Extensions.HealthBar;
 using _Logic.Gameplay.Components;
+using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
-using _Logic.Gameplay.Units.Spawn;
 using Scellecs.Morpeh;
-using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Health.Systems
 {
-    public sealed class HealthBarAddingSystem : AbstractSystem
+    public sealed class HealthBarAddingSystem : QuerySystem
     {
-        private Event<UnitSpawnEvent> _event;
+        private readonly float _additionalOffsetY = 1;
         
-        public override void OnAwake()
+        protected override void Configure()
         {
-            _event = World.GetEvent<UnitSpawnEvent>();
-        }
-
-        public override void OnUpdate(float deltaTime)
-        {
-            foreach (var unitSpawnEvent in _event.publishedChanges)
-            {
-                var entity = unitSpawnEvent.UnitProvider.Entity;
-                
-                if (entity.IsNullOrDisposed() || !entity.Has<HealthComponent>() || entity.Has<HealthBarComponent>()) return;
-                
-                var isAlly = entity.TryGetComponentValue<TeamIdComponent>(out var teamIdComponent) && teamIdComponent.Value == 0;
-                var healthBar = HealthBarsService.Instance.CreateHealthBar(unitSpawnEvent.UnitProvider.transform, 3, isAlly);
-                entity.SetComponent(new HealthBarComponent
+            CreateQuery()
+                .With<UnitComponent>().With<BoundsComponent>().With<HealthComponent>()
+                .Without<HealthBarComponent>()
+                .ForEach((Entity entity, ref UnitComponent unitComponent, ref BoundsComponent boundsComponent) =>
                 {
-                    Value = healthBar
+                    var isAlly = entity.TryGetComponentValue<TeamIdComponent>(out var teamIdComponent) && teamIdComponent.Value == 0;
+                    var offsetY = boundsComponent.Value.max.y + _additionalOffsetY;
+                    var healthBar = HealthBarsService.Instance.CreateHealthBar(unitComponent.Value.transform, offsetY, isAlly);
+                    entity.SetComponent(new HealthBarComponent
+                    {
+                        Value = healthBar
+                    });
                 });
-            }
         }
     }
 }

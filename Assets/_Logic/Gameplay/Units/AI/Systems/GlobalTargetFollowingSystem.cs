@@ -43,11 +43,12 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 var position = entity.GetComponent<TransformComponent>().Value.position;
                 var teamId = entity.GetComponent<TeamIdComponent>().Value;
                 var enemyTeamId = _dictionary.First(i => i.Key != teamId).Key;
+                var destination = _dictionary[enemyTeamId].Position + (position - _dictionary[enemyTeamId].Position).normalized;
 
                 World.GetRequest<DestinationChangeRequest>().Publish(new DestinationChangeRequest
                 {
                     Entity = entity,
-                    Destination = _dictionary[enemyTeamId].Position
+                    Destination = destination
                 });
             }
         }
@@ -62,14 +63,16 @@ namespace _Logic.Gameplay.Units.AI.Systems
 
                 _dictionary.TryAdd(teamId, new PriorityTargetData
                 {
-                    Priority = priority,
-                    Position = position
+                    Entity = entity,
+                    Position = position,
+                    Priority = priority
                 });
 
-                if (_dictionary[teamId].Priority < priority)
+                if (_dictionary[teamId].Entity.IsNullOrDisposed() || _dictionary[teamId].Priority < priority)
                 {
-                    _dictionary[teamId].Priority = priority;
+                    _dictionary[teamId].Entity = entity;
                     _dictionary[teamId].Position = position;
+                    _dictionary[teamId].Priority = priority;
                 }
             }
 
@@ -78,8 +81,9 @@ namespace _Logic.Gameplay.Units.AI.Systems
         
         private class PriorityTargetData
         {
-            public int Priority;
+            public Entity Entity;
             public Vector3 Position;
+            public int Priority;
         }
     }
 }

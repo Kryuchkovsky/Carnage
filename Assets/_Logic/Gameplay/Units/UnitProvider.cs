@@ -1,5 +1,8 @@
 ﻿using _Logic.Core;
 using _Logic.Core.Components;
+using _Logic.Extensions.Configs;
+using _Logic.Gameplay.Units.AI;
+using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using JetBrains.Annotations;
 using Scellecs.Morpeh;
@@ -13,6 +16,7 @@ namespace _Logic.Gameplay.Units
         [SerializeField, CanBeNull] protected Collider _collider;
         [SerializeField, CanBeNull] protected Rigidbody _rigidbody;
         [SerializeField, CanBeNull] protected NavMeshAgent _navMeshAgent;
+        [SerializeField, CanBeNull] protected NavMeshObstacle _navMeshObstacle;
         
         [SerializeField] private SpriteRenderer _markerSprite;
         [SerializeField, Range(0, 60)] private float _corpseExistenceTime = 3;
@@ -21,8 +25,7 @@ namespace _Logic.Gameplay.Units
         [SerializeField] private bool _isPrioritizedTarget;
 
         [field: SerializeField, CanBeNull] public Transform ProjectileSpawnPoint { get; private set; }
-        
-        public UnitModel Model { get; protected set; }
+        [field: SerializeField, CanBeNull] public UnitModel Model { get; protected set; }
         
         protected override void Initialize()
         {
@@ -35,6 +38,14 @@ namespace _Logic.Gameplay.Units
                 Value = this
             });
 
+            if (Model)
+            {
+                Entity.SetComponent(new BoundsComponent
+                {
+                    Value = Model.Bounds
+                });
+            }
+            
             if (_isPrioritizedTarget)
             {
                 Entity.SetComponent(new PriorityComponent
@@ -43,7 +54,7 @@ namespace _Logic.Gameplay.Units
                 });
             }
             
-            if (_rigidbody != null)
+            if (_rigidbody)
             {
                 Entity.SetComponent(new RigidbodyComponent()
                 {
@@ -51,11 +62,19 @@ namespace _Logic.Gameplay.Units
                 });
             }
             
-            if (_navMeshAgent != null)
+            if (_navMeshAgent)
             {
                 Entity.SetComponent(new NavMeshAgentComponent
                 {
                     Value = _navMeshAgent
+                });
+            }
+
+            if (_navMeshObstacle)
+            {
+                Entity.SetComponent(new NavMeshObstacleComponent
+                {
+                    Value = _navMeshObstacle
                 });
             }
         }
@@ -71,6 +90,11 @@ namespace _Logic.Gameplay.Units
             model.transform.parent = transform;
             model.transform.localPosition = Vector3.zero;
             model.transform.rotation = Quaternion.identity;
+            
+            Entity.SetComponent(new BoundsComponent
+            {
+                Value = model.Bounds
+            });
         }
 
         public virtual void SetColor(Color color)
@@ -98,6 +122,19 @@ namespace _Logic.Gameplay.Units
             gameObject.layer = 7;
             Model?.PlayDeathAnimation();
             Destroy(gameObject, _corpseExistenceTime);
+        }
+        
+        private void OnDrawGizmosSelected()
+        {
+            if (!Entity.IsNullOrDisposed() && Entity.TryGetComponentValue<AttackComponent>(out var attackComponent))
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(transform.position, attackComponent.CurrentData.Range);
+
+                var searchingRange = attackComponent.CurrentData.Range * ConfigsManager.GetConfig<AISettings>().TargetSearchingRangeToAttackRangeRatio;
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(transform.position, searchingRange);
+            } 
         }
     }
 }

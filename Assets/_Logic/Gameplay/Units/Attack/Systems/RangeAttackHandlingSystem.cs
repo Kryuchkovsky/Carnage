@@ -45,7 +45,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                                     {
                                         if (provider.Entity.TryGetComponentValue<RigidbodyComponent>(out var enemyRigidbodyComponent))
                                         {
-                                            var direction = (_colliders[i].transform.position - transform.position).normalized;
+                                            var direction = (enemyRigidbodyComponent.Value.position - transform.position).normalized;
                                             var force = direction * 2;
                                             enemyRigidbodyComponent.Value.AddForce(force, ForceMode.VelocityChange);
                                         }

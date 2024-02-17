@@ -39,6 +39,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                 
                 if (request.Entity.TryGetComponentValue<NavMeshAgentComponent>(out var navMeshAgentComponent))
                 {
+                    navMeshAgentComponent.Value.enabled = true;
                     navMeshAgentComponent.Value.SetDestination(request.Destination);
                 }
             }

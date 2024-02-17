@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 381762577256161400}
   - component: {fileID: 5305994223111122766}
   - component: {fileID: 6278904384947501881}
+  - component: {fileID: -5137279605775806654}
   - component: {fileID: 6617082677966315236}
   - component: {fileID: 2211857052448072605}
   m_Layer: 6
@@ -137,11 +138,13 @@ MonoBehaviour:
   _collider: {fileID: 2211857052448072605}
   _rigidbody: {fileID: 6617082677966315236}
   _navMeshAgent: {fileID: 6278904384947501881}
+  _navMeshObstacle: {fileID: -5137279605775806654}
   _markerSprite: {fileID: 2028462850241952748}
   _corpseExistenceTime: 3
   _priority: 0
   _isPrioritizedTarget: 0
   <ProjectileSpawnPoint>k__BackingField: {fileID: 0}
+  <Model>k__BackingField: {fileID: 0}
 --- !u!195 &6278904384947501881
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -164,6 +167,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!208 &-5137279605775806654
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8139585502292299976}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.75, y: 1.5, z: 0.75}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!54 &6617082677966315236
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -187,7 +206,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -210,7 +229,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.75
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}

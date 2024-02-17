@@ -32,8 +32,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                             provider.Entity.TryGetComponentValue<TeamIdComponent>(out var enemyTeamIdComponent) &&
                             enemyTeamIdComponent.Value != teamIdComponent.Value)
                         {
-                            var direction = (_colliders[i].transform.position -
-                                             transformComponent.Value.position).normalized;
+                            var direction = (_colliders[i].transform.position - transformComponent.Value.position).normalized;
                             var angle = Vector3.Angle(transformComponent.Value.forward, direction);
 
                             if (angle > 60) return;
