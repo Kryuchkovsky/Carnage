@@ -27,11 +27,13 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 healthComponent.Value += request.Change;
                 healthComponent.Percentage = healthComponent.Value / healthComponent.CurrentData.MaxValue;
                 
-                if (request.Entity.TryGetComponentValue<UnitComponent>(out var unitComponent))
+                var unitComponent = request.Entity.GetComponent<UnitComponent>(out var hasUnitComponent);
+                
+                if (hasUnitComponent)
                 {
-                    var unitProvider = unitComponent.Value;
+                    var healthBarComponent = request.Entity.GetComponent<HealthBarComponent>(out var hasHealthBarComponent);
                     
-                    if (request.Entity.TryGetComponentValue<HealthBarComponent>(out var healthBarComponent))
+                    if (hasHealthBarComponent)
                     {
                         healthBarComponent.Value.SetFillValue(healthComponent.Percentage);
                         
@@ -47,12 +49,12 @@ namespace _Logic.Gameplay.Units.Health.Systems
                     
                     if (healthComponent.Value <= 0)
                     {
-                        unitProvider.OnDie();
+                        unitComponent.Value.OnDie();
                         request.Entity.Dispose();
                     }
                     else
                     {
-                        unitProvider.OnDamage();
+                        unitComponent.Value.OnDamage();
                     }
                 }
             }

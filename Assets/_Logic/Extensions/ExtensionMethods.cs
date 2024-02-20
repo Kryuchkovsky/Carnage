@@ -47,5 +47,12 @@ namespace _GameLogic.Extensions
             
             return result;
         }
+        
+        public static float GetDistanceBetweenClosestPointsOfColliders(Collider collider1, Collider collider2)
+        {
+            var closestPoint1 = collider1.ClosestPoint(collider2.transform.position);
+            var closetsPoint2 = collider2.ClosestPoint(collider1.transform.position);
+            return (closestPoint1 - closetsPoint2).magnitude;
+        }
     }
 }

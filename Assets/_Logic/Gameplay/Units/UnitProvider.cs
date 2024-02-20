@@ -23,8 +23,7 @@ namespace _Logic.Gameplay.Units
         
         [SerializeField, Range(0, 100)] private int _priority;
         [SerializeField] private bool _isPrioritizedTarget;
-
-        [field: SerializeField, CanBeNull] public Transform ProjectileSpawnPoint { get; private set; }
+        
         [field: SerializeField, CanBeNull] public UnitModel Model { get; protected set; }
         
         protected override void Initialize()
@@ -51,6 +50,14 @@ namespace _Logic.Gameplay.Units
                 Entity.SetComponent(new PriorityComponent
                 {
                     Value = _priority
+                });
+            }
+
+            if (_collider)
+            {
+                Entity.SetComponent(new ColliderComponent
+                {
+                    Value = _collider
                 });
             }
             
@@ -121,19 +128,32 @@ namespace _Logic.Gameplay.Units
         {
             gameObject.layer = 7;
             Model?.PlayDeathAnimation();
+            
+            if (_navMeshAgent)
+            {
+                _navMeshAgent.enabled = false;
+            }
+
+            if (_navMeshObstacle)
+            {
+                _navMeshObstacle.enabled = false;
+            }
+            
             Destroy(gameObject, _corpseExistenceTime);
         }
         
         private void OnDrawGizmosSelected()
         {
-            if (!Entity.IsNullOrDisposed() && Entity.TryGetComponentValue<AttackComponent>(out var attackComponent))
+            if (!Entity.IsNullOrDisposed() && Entity.Has<AttackComponent>())
             {
+                var data = Entity.GetComponent<AttackComponent>().CurrentData;
+                
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, attackComponent.CurrentData.Range);
+                Gizmos.DrawWireSphere(transform.position, data.Range);
 
-                var searchingRange = attackComponent.CurrentData.Range * ConfigsManager.GetConfig<AISettings>().TargetSearchingRangeToAttackRangeRatio;
+                var searchRange = data.Range * ConfigsManager.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
                 Gizmos.color = Color.blue;
-                Gizmos.DrawWireSphere(transform.position, searchingRange);
+                Gizmos.DrawWireSphere(transform.position, searchRange);
             } 
         }
     }

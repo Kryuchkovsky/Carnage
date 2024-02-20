@@ -5,7 +5,7 @@ namespace _Logic.Gameplay.Units.Creatures
 {
     public class CreatureModel : UnitModel
     {
-        [field: SerializeField] private Animator _animator;
+        [SerializeField] private Animator _animator;
 
         private Sequence _jumpSequence;
         

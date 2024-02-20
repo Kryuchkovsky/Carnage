@@ -27,7 +27,7 @@ MonoBehaviour:
         Speed: 0
         FlightRangeToHeightRatio: 0
     <HealthData>k__BackingField:
-      MaxValue: 500
+      MaxValue: 50
       RegenerationRate: 0
     <MovementData>k__BackingField:
       MovementSpeed: 10

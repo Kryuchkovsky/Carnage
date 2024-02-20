@@ -16,7 +16,7 @@ namespace _Logic.Gameplay.Units.Buildings.Systems
                 {
                     if (timerComponent.Value <= 0)
                     {
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 10; i++)
                         {
                             World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest
                             {
@@ -27,7 +27,7 @@ namespace _Logic.Gameplay.Units.Buildings.Systems
                             });
                             entity.SetComponent(new TimerComponent
                             {
-                                Value = 3
+                                Value = 300
                             });
                         }
                     }

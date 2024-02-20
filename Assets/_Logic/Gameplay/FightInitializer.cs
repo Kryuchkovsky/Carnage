@@ -24,11 +24,12 @@ namespace _Logic.Gameplay
 
             _systemsGroup.AddSystem(new HeroPresenceControllingSystem());
             _systemsGroup.AddSystem(new CreatureSpawnRequestsHandlingSystem());
-            
-            _systemsGroup.AddSystem(new EnemySearchingSystem());
-            _systemsGroup.AddSystem(new EnemyFollowingSystem());
+
+            _systemsGroup.AddSystem(new AttackTargetValidationSystem());
+            _systemsGroup.AddSystem(new AttackTargetSearchSystem());
+            _systemsGroup.AddSystem(new AttackTargetFollowingSystem());
             _systemsGroup.AddSystem(new GlobalTargetFollowingSystem());
-            _systemsGroup.AddSystem(new SightHandlingSystem());
+            _systemsGroup.AddSystem(new UnitSightHandlingSystem());
             
             _systemsGroup.AddSystem(new AttackCooldownTimeProcessingSystem());
             _systemsGroup.AddSystem(new MeleeAttackHandlingSystem());

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3604832741712740369}
   - component: {fileID: 7008645384089966086}
   - component: {fileID: 88910943515369724}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5796599069793962778}
   - {fileID: 3234223108340352424}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -50,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Value: {fileID: 0}
-  _collider: {fileID: 0}
+  _collider: {fileID: 7008645384089966086}
   _rigidbody: {fileID: 0}
   _navMeshAgent: {fileID: 0}
   _navMeshObstacle: {fileID: 0}
@@ -58,8 +57,7 @@ MonoBehaviour:
   _corpseExistenceTime: 3
   _priority: 30
   _isPrioritizedTarget: 1
-  <ProjectileSpawnPoint>k__BackingField: {fileID: 5796599069793962778}
-  <Model>k__BackingField: {fileID: 1598617568758575954}
+  <Model>k__BackingField: {fileID: 8436710881911750736}
   _towerData: {fileID: 11400000, guid: 80c3da890edf94e47a2dabfedc4fbe37, type: 2}
   _teamId: 1
 --- !u!65 &7008645384089966086
@@ -99,37 +97,6 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 15, z: 0}
   m_TimeToStationary: 0.5
---- !u!1 &4227907691327506506
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5796599069793962778}
-  m_Layer: 0
-  m_Name: ProjectileSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &5796599069793962778
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4227907691327506506}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 16, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6974961393460599474}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3234223108340308288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141,10 +108,6 @@ PrefabInstance:
     - target: {fileID: 194134, guid: 793651b42d951cf4d886022f688c585d, type: 3}
       propertyPath: m_Name
       value: SF_Bld_Goblin_House_05
-      objectReference: {fileID: 0}
-    - target: {fileID: 194134, guid: 793651b42d951cf4d886022f688c585d, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 482536, guid: 793651b42d951cf4d886022f688c585d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -189,41 +152,23 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 194134, guid: 793651b42d951cf4d886022f688c585d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1598617568758575954}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 793651b42d951cf4d886022f688c585d, type: 3}
---- !u!23 &3234223108337991198 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2336606, guid: 793651b42d951cf4d886022f688c585d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3234223108340308288}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3234223108340133654 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 194134, guid: 793651b42d951cf4d886022f688c585d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3234223108340308288}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1598617568758575954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3234223108340133654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47c05dae9d384f4781df92b890bb3740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _meshRenderer: {fileID: 3234223108337991198}
-  <HitEffectId>k__BackingField: 
 --- !u!4 &3234223108340352424 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 482536, guid: 793651b42d951cf4d886022f688c585d,
     type: 3}
   m_PrefabInstance: {fileID: 3234223108340308288}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8436710881911750736 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6482776705441077520, guid: 793651b42d951cf4d886022f688c585d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3234223108340308288}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c05dae9d384f4781df92b890bb3740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,5 +1,4 @@
-﻿using System;
-using _Logic.Gameplay.Components;
+﻿using _Logic.Gameplay.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Buildings.Components;

@@ -25,15 +25,19 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     Change = -request.Damage
                 });
 
-                if (!request.AttackerEntity.IsNullOrDisposed() && 
-                    !request.ReceiverEntity.IsNullOrDisposed() && 
-                    request.AttackerEntity.TryGetComponentValue<UnitComponent>(out var attackingUnit) &&
-                    request.ReceiverEntity.TryGetComponentValue<UnitComponent>(out var receivingUnit) &&
-                    !String.IsNullOrEmpty(receivingUnit.Value.Model.HitEffectId))
+                if (request.AttackerEntity.IsNullOrDisposed() || 
+                    request.ReceiverEntity.IsNullOrDisposed() ||
+                    request.AttackerEntity.Has<UnitComponent>() ||
+                    request.ReceiverEntity.Has<UnitComponent>()) continue;
+
+                var attackingUnit = request.AttackerEntity.GetComponent<UnitComponent>().Value;
+                var receivingUnit = request.ReceiverEntity.GetComponent<UnitComponent>().Value;
+                
+                if (!String.IsNullOrEmpty(receivingUnit.Model.HitEffectId))
                 {
-                    var receiverPosition = receivingUnit.Value.transform.position;
-                    var effectPosition = receiverPosition + (attackingUnit.Value.transform.position - receiverPosition).normalized * _effectIndent;
-                    EffectsService.Instance.CreateEffect(receivingUnit.Value.Model.HitEffectId, effectPosition);
+                    var receiverPosition = receivingUnit.transform.position;
+                    var effectPosition = receiverPosition + (attackingUnit.transform.position - receiverPosition).normalized * _effectIndent;
+                    EffectsService.Instance.CreateEffect(receivingUnit.Model.HitEffectId, effectPosition);
                 }
             }
         }

@@ -1,12 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Logic.Gameplay.Units
 {
     public abstract class UnitModel : MonoBehaviour
     {
         [SerializeField] private Renderer _meshRenderer;
-        
+
+        [field: SerializeField] public Transform AttackPoint { get; private set; }
         [field: SerializeField] public string HitEffectId { get; private set; } = "blood_explosion";
 
         public Bounds Bounds => _meshRenderer.bounds;

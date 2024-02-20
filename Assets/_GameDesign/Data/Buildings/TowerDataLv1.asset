@@ -15,7 +15,7 @@ MonoBehaviour:
   <ProjectileId>k__BackingField: fireball
   <AttackData>k__BackingField:
     BasicAttackTime: 1
-    Damage: 10
+    Damage: 25
     Range: 35
     Speed: 100
     ProjectileData:

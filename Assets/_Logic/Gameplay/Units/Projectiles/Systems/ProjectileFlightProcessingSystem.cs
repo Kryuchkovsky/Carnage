@@ -14,7 +14,9 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                 .ForEach((Entity entity, ref ProjectileComponent projectileComponent, ref ProjectileDataComponent projectileDataComponent, 
                     ref TransformComponent transformComponent, ref DestinationComponent destinationComponent) =>
                 {
-                    if (entity.TryGetComponentValue<FollowingTransformComponent>(out var followingTransformComponent))
+                    ref var followingTransformComponent = ref entity.GetComponent<FollowingTransformComponent>(out var hasTransformComponent);
+                    
+                    if (hasTransformComponent)
                     {
                         destinationComponent.Value = followingTransformComponent.Value.position;
                     }

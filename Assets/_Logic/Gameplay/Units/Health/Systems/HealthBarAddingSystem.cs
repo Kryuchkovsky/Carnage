@@ -14,11 +14,12 @@ namespace _Logic.Gameplay.Units.Health.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<BoundsComponent>().With<HealthComponent>()
+                .With<UnitComponent>().With<BoundsComponent>().With<HealthComponent>().With<TeamIdComponent>()
                 .Without<HealthBarComponent>()
                 .ForEach((Entity entity, ref UnitComponent unitComponent, ref BoundsComponent boundsComponent) =>
                 {
-                    var isAlly = entity.TryGetComponentValue<TeamIdComponent>(out var teamIdComponent) && teamIdComponent.Value == 0;
+                    var teamComponent = entity.GetComponent<TeamIdComponent>(out var hasTeamComponent);
+                    var isAlly = hasTeamComponent && teamComponent.Value == 0;
                     var offsetY = boundsComponent.Value.max.y + _additionalOffsetY;
                     var healthBar = HealthBarsService.Instance.CreateHealthBar(unitComponent.Value.transform, offsetY, isAlly);
                     entity.SetComponent(new HealthBarComponent

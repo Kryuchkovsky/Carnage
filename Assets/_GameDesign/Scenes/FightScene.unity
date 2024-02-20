@@ -930,7 +930,7 @@ PrefabInstance:
     - target: {fileID: 3444996429133014902, guid: a88208d7e2dcd5d489ecb41e5e766a79,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8274736928136323719, guid: a88208d7e2dcd5d489ecb41e5e766a79,
         type: 3}
@@ -1262,11 +1262,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 199215470}
     m_Modifications:
-    - target: {fileID: 88382515280332840, guid: 963b72cd33a3ccf4db4859017b5acb7e,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 609239774932007112, guid: 963b72cd33a3ccf4db4859017b5acb7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1317,20 +1312,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3269483643491954006, guid: 963b72cd33a3ccf4db4859017b5acb7e,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 3758082141397749206, guid: 963b72cd33a3ccf4db4859017b5acb7e,
         type: 3}
       propertyPath: m_Name
       value: Tower (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3758082141397749206, guid: 963b72cd33a3ccf4db4859017b5acb7e,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6983508259518998581, guid: 963b72cd33a3ccf4db4859017b5acb7e,
         type: 3}
@@ -2004,6 +1989,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tower
       objectReference: {fileID: 0}
+    - target: {fileID: 4227907691327506506, guid: 5253322bfd5b2db47a4376e730baf3df,
+        type: 3}
+      propertyPath: m_Name
+      value: AttackPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 6974961393460599474, guid: 5253322bfd5b2db47a4376e730baf3df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2518,6 +2508,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Base (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2808214673922953526, guid: aa754616ccd24e54ba0463ee47203c24,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

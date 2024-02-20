@@ -4,6 +4,7 @@ using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Movement.Components;
 using Scellecs.Morpeh;
 
+
 namespace _Logic.Gameplay.Units.Movement.Systems
 {
     public class AutomaticMovementSystem : QuerySystem
@@ -11,35 +12,27 @@ namespace _Logic.Gameplay.Units.Movement.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<TransformComponent>().With<MovementComponent>()
-                .With<NavMeshAgentComponent>().With<DestinationComponent>().With<AIComponent>()
-                .ForEach((Entity entity, ref UnitComponent unitComponent, 
-                    ref TransformComponent transformComponent, ref MovementComponent movementComponent, 
-                    ref NavMeshAgentComponent navMeshAgentComponent, ref DestinationComponent destinationData) =>
+                .With<UnitComponent>().With<MovementComponent>().With<NavMeshAgentComponent>().With<AIComponent>()
+                .ForEach((Entity entity, ref UnitComponent unitComponent, ref MovementComponent movementComponent, ref NavMeshAgentComponent navMeshAgentComponent) =>
                 {
                     var agent = navMeshAgentComponent.Value;
-                    var position = transformComponent.Value.position;
-                    var direction = destinationData.Value - position;
-                    var isReached = destinationData.Value == position || 
-                                    agent.remainingDistance <= agent.stoppingDistance || 
-                                    direction.magnitude <= agent.stoppingDistance;
-                    
-                    if (isReached)
+                    var isCompleted = !agent.hasPath || agent.isStopped;
+
+                    if (isCompleted && entity.Has<DestinationComponent>())
                     {
-                        unitComponent.Value.OnMove(0);
                         entity.RemoveComponent<DestinationComponent>();
                     }
-                    else
-                    {
-                        var speed = agent.velocity.magnitude / agent.speed;
-                        unitComponent.Value.OnMove(speed);
-                    }
 
-                    agent.enabled = !isReached;
+                    agent.speed = movementComponent.CurrentData.MovementSpeed;
+                    var speed = agent.velocity.magnitude / agent.speed;
+                    unitComponent.Value.OnMove(speed);
+                    agent.enabled = !isCompleted;
+
+                    ref var obstacleComponent = ref entity.GetComponent<NavMeshObstacleComponent>(out var hasObstacleComponent);
                     
-                    if (entity.TryGetComponentValue<NavMeshObstacleComponent>(out var navMeshObstacleComponent))
+                    if (hasObstacleComponent)
                     {
-                        navMeshObstacleComponent.Value.enabled = isReached;
+                        obstacleComponent.Value.enabled = isCompleted;
                     }
                 });
         }
