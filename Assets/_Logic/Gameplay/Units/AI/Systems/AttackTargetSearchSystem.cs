@@ -33,7 +33,6 @@ namespace _Logic.Gameplay.Units.AI.Systems
                             !collider.Entity.IsNullOrDisposed() &&
                             collider.Entity.GetComponent<TeamDataComponent>().Id != teamDataComponent.Id)
                         {
-                            Debug.Log(1);
                             if (EcsExtensions.TryGetDistanceBetweenClosestPointsOfEntitiesColliders(entity, collider.Entity, out var distance) && 
                                 distance < attackComponent.CurrentData.Range && distance < minDistance)
                             {

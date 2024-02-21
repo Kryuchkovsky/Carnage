@@ -13,7 +13,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<AIComponent>()
+                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>()
                 .ForEach((Entity entity, ref AttackComponent attackComponent, ref AttackTargetComponent attackTargetComponent) =>
                 {
                     var aiSettings = ConfigsManager.GetConfig<AISettings>();
@@ -21,7 +21,9 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     var distanceIsGotten = EcsExtensions.TryGetDistanceBetweenClosestPointsOfEntitiesColliders(
                         entity, attackTargetComponent.TargetEntity, out var distance);
 
-                    if (distanceIsGotten && distance < followingRange)
+                    if (distanceIsGotten && 
+                        ((entity.Has<AIComponent>() && distance < followingRange) || 
+                        (!entity.Has<AIComponent>() && distance < attackComponent.CurrentData.Range)))
                     {
                         attackTargetComponent.IsInAttackRadius = distance < attackComponent.CurrentData.Range;
                     }
