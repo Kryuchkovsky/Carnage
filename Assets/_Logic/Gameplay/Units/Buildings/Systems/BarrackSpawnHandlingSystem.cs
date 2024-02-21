@@ -1,7 +1,7 @@
 ﻿using _Logic.Core.Components;
-using _Logic.Gameplay.Components;
 using _Logic.Gameplay.Units.Buildings.Components;
 using _Logic.Gameplay.Units.Spawn;
+using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 
 namespace _Logic.Gameplay.Units.Buildings.Systems
@@ -11,8 +11,8 @@ namespace _Logic.Gameplay.Units.Buildings.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<BarrackComponent>().With<TeamIdComponent>().With<TimerComponent>()
-                .ForEach((Entity entity, ref BarrackComponent barrackComponent, ref TeamIdComponent teamId, ref TimerComponent timerComponent) =>
+                .With<BarrackComponent>().With<TeamDataComponent>().With<TimerComponent>()
+                .ForEach((Entity entity, ref BarrackComponent barrackComponent, ref TeamDataComponent teamDataComponent, ref TimerComponent timerComponent) =>
                 {
                     if (timerComponent.Value <= 0)
                     {
@@ -21,8 +21,8 @@ namespace _Logic.Gameplay.Units.Buildings.Systems
                             World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest
                             {
                                 Position = barrackComponent.Value.SpawnPoint.position,
-                                TeamId = teamId.Value,
-                                UnitId = teamId.Value == 0 ? "knight" : "warrior",
+                                TeamId = teamDataComponent.Id,
+                                UnitId = teamDataComponent.Id == 0 ? "knight" : "warrior",
                                 HasAI = true
                             });
                             entity.SetComponent(new TimerComponent

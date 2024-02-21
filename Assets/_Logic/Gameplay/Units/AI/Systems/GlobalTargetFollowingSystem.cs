@@ -2,13 +2,13 @@
 using System.Linq;
 using _Logic.Core;
 using _Logic.Core.Components;
-using _Logic.Gameplay.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement;
 using _Logic.Gameplay.Units.Movement.Components;
+using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -24,7 +24,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         public override void OnAwake()
         {
             _dictionary = new Dictionary<int, PriorityTargetData>();
-            _prioritizedTargetsFilter = World.Filter.With<UnitComponent>().With<HealthComponent>().With<PriorityComponent>().With<TeamIdComponent>();
+            _prioritizedTargetsFilter = World.Filter.With<UnitComponent>().With<HealthComponent>().With<PriorityComponent>().With<TeamDataComponent>();
             _unitsFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().With<AttackComponent>().With<MovementComponent>().With<AIComponent>()
                 .Without<AttackTargetComponent>().Without<DestinationComponent>();
         }
@@ -41,15 +41,22 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 }
 
                 var position = entity.GetComponent<TransformComponent>().Value.position;
-                var teamId = entity.GetComponent<TeamIdComponent>().Value;
-                var enemyTeamId = _dictionary.First(i => i.Key != teamId).Key;
-                var destination = _dictionary[enemyTeamId].Position + (position - _dictionary[enemyTeamId].Position).normalized;
+                var teamId = entity.GetComponent<TeamDataComponent>().Id;
+                var pair = _dictionary.Where(p => p.Key != teamId)
+                    .Select(p => (KeyValuePair<int, PriorityTargetData>?) p)
+                    .FirstOrDefault();
 
-                World.GetRequest<DestinationChangeRequest>().Publish(new DestinationChangeRequest
+                if (pair != null)
                 {
-                    Entity = entity,
-                    Destination = destination
-                });
+                    var enemyTeamId = pair.Value.Key;
+                    var destination = _dictionary[enemyTeamId].Position + (position - _dictionary[enemyTeamId].Position).normalized;
+
+                    World.GetRequest<DestinationChangeRequest>().Publish(new DestinationChangeRequest
+                    {
+                        Entity = entity,
+                        Destination = destination
+                    });
+                }
             }
         }
 
@@ -57,7 +64,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         {
             foreach (var entity in _prioritizedTargetsFilter.Build())
             {
-                var teamId = entity.GetComponent<TeamIdComponent>().Value;
+                var teamId = entity.GetComponent<TeamDataComponent>().Id;
                 var priority = entity.GetComponent<PriorityComponent>().Value;
                 var position = entity.GetComponent<TransformComponent>().Value.position;
 

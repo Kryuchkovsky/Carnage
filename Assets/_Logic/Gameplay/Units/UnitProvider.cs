@@ -18,6 +18,7 @@ namespace _Logic.Gameplay.Units
         [SerializeField, CanBeNull] protected NavMeshAgent _navMeshAgent;
         [SerializeField, CanBeNull] protected NavMeshObstacle _navMeshObstacle;
         
+        [SerializeField] private LinkedCollider _linkedCollider;
         [SerializeField] private SpriteRenderer _markerSprite;
         [SerializeField, Range(0, 60)] private float _corpseExistenceTime = 3;
         
@@ -30,7 +31,7 @@ namespace _Logic.Gameplay.Units
         {
             base.Initialize();
             
-            gameObject.layer = 6;
+            gameObject.layer = LayerMask.NameToLayer("Unit");
             
             Entity.SetComponent(new UnitComponent
             {
@@ -104,8 +105,9 @@ namespace _Logic.Gameplay.Units
             });
         }
 
-        public virtual void SetColor(Color color)
+        public virtual void SetTeamData(Color color, int teamLayer)
         {
+            _linkedCollider?.Initiate(Entity, teamLayer);
             _markerSprite.color = color;
         }
 

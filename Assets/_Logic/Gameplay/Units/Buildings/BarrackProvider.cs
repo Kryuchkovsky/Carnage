@@ -1,6 +1,6 @@
 using _Logic.Core.Components;
-using _Logic.Gameplay.Components;
 using _Logic.Gameplay.Units.Buildings.Components;
+using _Logic.Gameplay.Units.Team;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -20,10 +20,12 @@ namespace _Logic.Gameplay.Units.Buildings
             {
                 Value = this
             });
-            Entity.SetComponent(new TeamIdComponent
+            
+            World.Default.GetRequest<TeamDataSettingRequest>().Publish(new TeamDataSettingRequest
             {
-                Value = _teamId
-            });
+                Entity = Entity,
+                TeamId = _teamId
+            }, true);
         }
     }
 }

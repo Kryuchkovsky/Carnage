@@ -7,6 +7,7 @@ using _Logic.Gameplay.Units.Health.Systems;
 using _Logic.Gameplay.Units.Movement.Systems;
 using _Logic.Gameplay.Units.Projectiles.Systems;
 using _Logic.Gameplay.Units.Spawn.Systems;
+using _Logic.Gameplay.Units.Team.Systems;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 
@@ -20,17 +21,20 @@ namespace _Logic.Gameplay
         {
             _systemsGroup = World.CreateSystemsGroup();
             _systemsGroup.AddSystem(new TimerProcessingSystem());
+            
             _systemsGroup.AddSystem(new BarrackSpawnHandlingSystem());
 
             _systemsGroup.AddSystem(new HeroPresenceControllingSystem());
-            _systemsGroup.AddSystem(new CreatureSpawnRequestsHandlingSystem());
+            _systemsGroup.AddSystem(new UnitSpawnRequestsHandlingSystem());
+            
+            _systemsGroup.AddSystem(new TeamDataSettingRequestsProcessingSystem());
 
             _systemsGroup.AddSystem(new AttackTargetValidationSystem());
             _systemsGroup.AddSystem(new AttackTargetSearchSystem());
             _systemsGroup.AddSystem(new AttackTargetFollowingSystem());
             _systemsGroup.AddSystem(new GlobalTargetFollowingSystem());
             _systemsGroup.AddSystem(new UnitSightHandlingSystem());
-            
+
             _systemsGroup.AddSystem(new AttackCooldownTimeProcessingSystem());
             _systemsGroup.AddSystem(new MeleeAttackHandlingSystem());
             _systemsGroup.AddSystem(new RangeAttackHandlingSystem());

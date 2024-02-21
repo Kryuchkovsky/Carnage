@@ -1,5 +1,4 @@
 ﻿using Scellecs.Morpeh;
-using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 
 namespace _Logic.Core
@@ -7,7 +6,7 @@ namespace _Logic.Core
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public abstract class AbstractSystem : ISystem
+    public abstract class FixedAbstractSystem : IFixedSystem
     {
         public World World { get; set; }
         public abstract void OnAwake();

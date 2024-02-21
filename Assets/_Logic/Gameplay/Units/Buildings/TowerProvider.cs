@@ -1,8 +1,8 @@
-﻿using _Logic.Gameplay.Components;
-using _Logic.Gameplay.Units.AI.Components;
+﻿using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Buildings.Components;
 using _Logic.Gameplay.Units.Health.Components;
+using _Logic.Gameplay.Units.Team;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -33,10 +33,12 @@ namespace _Logic.Gameplay.Units.Buildings
                 CurrentData = _towerData.HealthData,
                 Value = _towerData.HealthData.MaxValue
             });
-            Entity.SetComponent(new TeamIdComponent
+            
+            World.Default.GetRequest<TeamDataSettingRequest>().Publish(new TeamDataSettingRequest
             {
-                Value = _teamId
-            });
+                Entity = Entity,
+                TeamId = _teamId
+            }, true);
         }
     }
 }

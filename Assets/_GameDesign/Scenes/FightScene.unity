@@ -927,11 +927,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Base
       objectReference: {fileID: 0}
-    - target: {fileID: 3444996429133014902, guid: a88208d7e2dcd5d489ecb41e5e766a79,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8274736928136323719, guid: a88208d7e2dcd5d489ecb41e5e766a79,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1989,11 +1984,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tower
       objectReference: {fileID: 0}
-    - target: {fileID: 4227907691327506506, guid: 5253322bfd5b2db47a4376e730baf3df,
-        type: 3}
-      propertyPath: m_Name
-      value: AttackPoint
-      objectReference: {fileID: 0}
     - target: {fileID: 6974961393460599474, guid: 5253322bfd5b2db47a4376e730baf3df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2449,11 +2439,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 199215470}
     m_Modifications:
-    - target: {fileID: 1427756935072110064, guid: aa754616ccd24e54ba0463ee47203c24,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2182593258942310966, guid: aa754616ccd24e54ba0463ee47203c24,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2508,11 +2493,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Base (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2808214673922953526, guid: aa754616ccd24e54ba0463ee47203c24,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
