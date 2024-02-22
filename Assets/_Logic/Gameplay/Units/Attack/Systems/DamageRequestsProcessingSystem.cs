@@ -32,13 +32,9 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
                 var attackingUnit = request.AttackerEntity.GetComponent<UnitComponent>().Value;
                 var receivingUnit = request.ReceiverEntity.GetComponent<UnitComponent>().Value;
-                
-                if (!String.IsNullOrEmpty(receivingUnit.Model.HitEffectId))
-                {
-                    var receiverPosition = receivingUnit.transform.position;
-                    var effectPosition = receiverPosition + (attackingUnit.transform.position - receiverPosition).normalized * _effectIndent;
-                    EffectsService.Instance.CreateEffect(receivingUnit.Model.HitEffectId, effectPosition);
-                }
+                var receiverPosition = receivingUnit.transform.position;
+                var effectPosition = receiverPosition + (attackingUnit.transform.position - receiverPosition).normalized * _effectIndent;
+                EffectsService.Instance.CreateEffect(receivingUnit.Model.HitEffectType, effectPosition);
             }
         }
     }

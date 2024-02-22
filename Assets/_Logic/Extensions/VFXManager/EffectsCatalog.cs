@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using _Logic.Extensions.Configs;
 using UnityEngine;
 
 namespace _Logic.Extensions.VFXManager
 {
-    [CreateAssetMenu(menuName = "Create EffectsCatalog", fileName = "EffectsCatalog", order = 0)]
-    public class EffectsCatalog : ScriptableObject
+    [CreateAssetMenu(menuName = "Effects/Create EffectsCatalog", fileName = "EffectsCatalog", order = 0)]
+    public class EffectsCatalog : FunctionalConfig<EffectType, EffectData>
     {
-        [field: SerializeField] public List<EffectData> Effects { get; private set; }
-            
-        [Serializable]
-        public struct EffectData
-        {
-            public string Id;
-            public Effect _effect;
-        }
     }
 }

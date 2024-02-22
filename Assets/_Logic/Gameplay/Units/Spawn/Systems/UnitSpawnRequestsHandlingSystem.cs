@@ -60,7 +60,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     TeamId = request.TeamId
                 });
 
-                if (string.IsNullOrEmpty(data.AttackData.ProjectileData.Id))
+                if (data.AttackData.ProjectileData)
                 {
                     creature.Entity.AddComponent<MeleeAttackComponent>();
                 }

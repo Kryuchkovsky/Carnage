@@ -2,7 +2,7 @@
 
 namespace _Logic.Extensions.Configs
 {
-    public abstract class InitializableConfig : ScriptableObject
+    public abstract class Config : ScriptableObject
     {
         public virtual void Initialize()
         {

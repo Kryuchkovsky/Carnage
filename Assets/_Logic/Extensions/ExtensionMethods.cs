@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace _GameLogic.Extensions
@@ -53,6 +55,21 @@ namespace _GameLogic.Extensions
             var closestPoint1 = collider1.ClosestPoint(collider2.transform.position);
             var closetsPoint2 = collider2.ClosestPoint(collider1.transform.position);
             return (closestPoint1 - closetsPoint2).magnitude;
+        }
+
+        public static string GetScriptFolderPathByType<T>()
+        {
+            var scriptName = $"{typeof(T).Name}.cs";
+            var res = Directory.GetFiles(Application.dataPath, scriptName, SearchOption.AllDirectories);
+            
+            if (res.Length == 0)
+            {
+                Debug.LogError($"The script with name {scriptName} isn't found");
+                return null;
+            }
+            
+            var path = res[0].Replace(scriptName, "").Replace("\\", "/");
+            return path;
         }
     }
 }

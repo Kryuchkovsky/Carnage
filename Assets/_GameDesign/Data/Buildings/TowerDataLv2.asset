@@ -18,10 +18,7 @@ MonoBehaviour:
     Damage: 20
     Range: 35
     Speed: 100
-    ProjectileData:
-      Id: fireball
-      Speed: 20
-      FlightRangeToHeightRatio: 0
+    ProjectileData: {fileID: 11400000, guid: 83148e97aecf1924ab60310578cb0866, type: 2}
   <HealthData>k__BackingField:
     MaxValue: 1000
     RegenerationRate: 5

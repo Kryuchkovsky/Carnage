@@ -7,15 +7,15 @@ namespace _Logic.Extensions.Configs
 {
     public class ConfigsManager : SingletonBehavior<ConfigsManager>
     {
-        [SerializeField] private List<InitializableConfig> _configs;
+        [SerializeField] private List<Config> _configs;
 
-        private Dictionary<Type, InitializableConfig> _configDictionary;
+        private Dictionary<Type, Config> _configDictionary;
 
         protected override void Init()
         {
             base.Init();
 
-            _configDictionary = new Dictionary<Type, InitializableConfig>();
+            _configDictionary = new Dictionary<Type, Config>();
             
             foreach (var config in _configs)
             {
@@ -24,6 +24,18 @@ namespace _Logic.Extensions.Configs
             }
         }
 
+        public static void FillConfigs()
+        {
+            foreach (var config in Instance._configs)
+            {
+                if (config is IExpandedConfig)
+                {
+                    var expandedConfig = (IExpandedConfig)config;
+                    expandedConfig.FindAllDataObjects();
+                }
+            }
+        }
+        
         public static T GetConfig<T>() where T : ScriptableObject => Instance._configDictionary[typeof(T)] as T;
     }
 }

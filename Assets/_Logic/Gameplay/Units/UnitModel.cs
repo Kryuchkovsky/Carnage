@@ -7,7 +7,7 @@ namespace _Logic.Gameplay.Units
         [SerializeField] private Renderer _meshRenderer;
 
         [field: SerializeField] public Transform AttackPoint { get; private set; }
-        [field: SerializeField] public string HitEffectId { get; private set; } = "blood_explosion";
+        [field: SerializeField] public EffectType HitEffectType { get; private set; }
 
         public Bounds Bounds => _meshRenderer.bounds;
 

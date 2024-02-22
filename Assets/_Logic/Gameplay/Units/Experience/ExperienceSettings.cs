@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Experience
 {
-    public class ExperienceSettings : InitializableConfig
+    public class ExperienceSettings : Config
     {
         [SerializeField, Range(1, 1000)] private float _baseExperienceReward = 100;
         [SerializeField, Range(0.01f, 1)] private float _experienceMultiplier = 0.13f;

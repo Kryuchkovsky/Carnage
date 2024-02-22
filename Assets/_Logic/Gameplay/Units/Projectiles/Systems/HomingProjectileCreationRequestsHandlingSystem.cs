@@ -15,13 +15,13 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class HomingProjectileCreationRequestsHandlingSystem : AbstractSystem
     {
-        private Dictionary<string, ObjectPool<ProjectileProvider>> _projectilePools;
+        private Dictionary<ProjectileType, ObjectPool<ProjectileProvider>> _projectilePools;
         private Request<HomingProjectileCreationRequest> _request;
         private ProjectilesCatalog _projectilesCatalog;
 
         public override void OnAwake()
         {
-            _projectilePools = new Dictionary<string, ObjectPool<ProjectileProvider>>();
+            _projectilePools = new Dictionary<ProjectileType, ObjectPool<ProjectileProvider>>();
             _request = World.GetRequest<HomingProjectileCreationRequest>();
             _projectilesCatalog = ConfigsManager.GetConfig<ProjectilesCatalog>();
         }
@@ -30,13 +30,13 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
         {
             foreach (var request in _request.Consume())
             {
-                if (!_projectilePools.ContainsKey(request.Data.Id))
+                if (!_projectilePools.ContainsKey(request.Data.Type))
                 {
-                    _projectilePools.Add(request.Data.Id, new ObjectPool<ProjectileProvider>(
-                        _projectilesCatalog.GetProjectile(request.Data.Id)));
+                    _projectilePools.Add(request.Data.Type, new ObjectPool<ProjectileProvider>(
+                        _projectilesCatalog.GetData(request.Data.Type).Provider));
                 }
 
-                var projectile = _projectilePools[request.Data.Id].Take();
+                var projectile = _projectilePools[request.Data.Type].Take();
                 projectile.transform.position = request.InitialPosition;
                 projectile.Entity.SetComponent(new ProjectileDataComponent
                 {
@@ -51,7 +51,7 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                     Value = request.Target.position
                 });
                 projectile.FlightEnded += request.Callback;
-                projectile.FlightEnded += _projectilePools[request.Data.Id].Return;
+                projectile.FlightEnded += _projectilePools[request.Data.Type].Return;
             }
         }
     }

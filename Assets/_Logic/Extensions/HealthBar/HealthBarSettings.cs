@@ -4,7 +4,7 @@ using UnityEngine;
 namespace _Logic.Extensions.HealthBar
 {
     [CreateAssetMenu(menuName = "Create HealthBarSettings", fileName = "HealthBarSettings", order = 0)]
-    public class HealthBarSettings : InitializableConfig
+    public class HealthBarSettings : Config
     {
         [field: SerializeField] public HealthBarColorData AlliedHealthBarColorData { get; private set; } = new(
             new Color32(148, 58, 59, 155),

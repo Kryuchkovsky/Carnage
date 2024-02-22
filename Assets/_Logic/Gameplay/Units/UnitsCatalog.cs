@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units
 {
-    public abstract class UnitsCatalog<T> : InitializableConfig where T : UnitModel
+    public abstract class UnitsCatalog<T> : Config where T : UnitModel
     {
         [SerializeField] private List<BasicUnitData<T>> _unitData;
 

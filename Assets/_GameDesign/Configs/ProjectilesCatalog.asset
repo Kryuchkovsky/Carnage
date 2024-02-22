@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4798ea3d92488eb4a9eb25b8517960, type: 3}
   m_Name: ProjectilesCatalog
   m_EditorClassIdentifier: 
-  _projectileProviders:
-  - {fileID: 321956882559183147, guid: 9608301fe55d72a4ab1845f2851fc7e2, type: 3}
+  _dataList:
+  - {fileID: 11400000, guid: 83148e97aecf1924ab60310578cb0866, type: 2}
