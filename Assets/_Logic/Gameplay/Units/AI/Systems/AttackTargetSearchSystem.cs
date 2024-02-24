@@ -34,7 +34,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                             collider.Entity.GetComponent<TeamDataComponent>().Id != teamDataComponent.Id)
                         {
                             if (EcsExtensions.TryGetDistanceBetweenClosestPointsOfEntitiesColliders(entity, collider.Entity, out var distance) && 
-                                distance < attackComponent.CurrentData.Range && distance < minDistance)
+                                distance < searchRange && distance < minDistance)
                             {
                                 minDistance = distance;
                                 targetEntity = collider.Entity;

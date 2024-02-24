@@ -37,7 +37,7 @@ namespace _Logic.Gameplay.Units.Creatures
 
             if (!_jumpSequence.IsPlaying())
             {
-                _jumpSequence.Restart();
+                //_jumpSequence.Restart();
             }
         }
 

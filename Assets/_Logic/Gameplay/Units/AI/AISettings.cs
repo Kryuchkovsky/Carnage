@@ -7,6 +7,5 @@ namespace _Logic.Gameplay.Units.AI
     public class AISettings : Config
     {
         [field: SerializeField, Min(1)] public float TargetSearchRangeToAttackRangeRatio { get; private set; } = 3;
-        [field: SerializeField, Min(1)] public float TargetFollowingRangeToAttackRangeRatio { get; private set; } = 1.5f;
     }
 }

@@ -62,11 +62,11 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
 
                 if (data.AttackData.ProjectileData)
                 {
-                    creature.Entity.AddComponent<MeleeAttackComponent>();
+                    creature.Entity.AddComponent<RangeAttackComponent>();
                 }
                 else
                 {
-                    creature.Entity.AddComponent<RangeAttackComponent>();
+                    creature.Entity.AddComponent<MeleeAttackComponent>();
                 }
 
                 if (request.HasAI)

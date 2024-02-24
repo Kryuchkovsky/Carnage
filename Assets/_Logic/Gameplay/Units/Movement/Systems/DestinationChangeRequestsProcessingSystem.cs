@@ -20,7 +20,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                 if (request.Entity.IsNullOrDisposed() || 
                     !request.Entity.Has<TransformComponent>() && 
                      (request.Destination - request.Entity.GetComponent<TransformComponent>().Value.position).magnitude < 0.1f) continue;
-
+                
                 var transform = request.Entity.GetComponent<TransformComponent>().Value;
                 var direction = request.Destination - transform.position;
                 
@@ -46,7 +46,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                 
                 if (hasAgentComponent)
                 {
-                    var destination = request.Destination - direction.normalized * 0.25f;
+                    var destination = request.Destination - direction.normalized * 0.1f;
                     agentComponent.Value.enabled = true;
                     agentComponent.Value.SetDestination(destination);
                 }

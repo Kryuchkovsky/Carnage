@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1509950239197392162}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 50, z: 0}
   m_LocalScale: {x: 35, y: 35, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -139,7 +139,7 @@ MonoBehaviour:
   _collider: {fileID: 2211857052448072605}
   _rigidbody: {fileID: 6617082677966315236}
   _navMeshAgent: {fileID: 6278904384947501881}
-  _navMeshObstacle: {fileID: -5137279605775806654}
+  _navMeshObstacle: {fileID: 0}
   _linkedCollider: {fileID: 7906179249570702267}
   _markerSprite: {fileID: 2028462850241952748}
   _corpseExistenceTime: 3
@@ -155,7 +155,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8139585502292299976}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 12
   m_Acceleration: 12
   avoidancePriority: 50
@@ -178,7 +178,7 @@ NavMeshObstacle:
   m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 0.25, y: 1.5, z: 0.25}
+  m_Extents: {x: 0.4, y: 1.5, z: 0.4}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1

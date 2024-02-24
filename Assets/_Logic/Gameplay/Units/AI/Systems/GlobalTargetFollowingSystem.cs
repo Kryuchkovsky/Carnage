@@ -75,7 +75,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     Priority = priority
                 });
 
-                if (_dictionary[teamId].Entity.IsNullOrDisposed() || _dictionary[teamId].Priority < priority)
+                if (_dictionary[teamId].Entity.IsNullOrDisposed() || priority < _dictionary[teamId].Priority)
                 {
                     _dictionary[teamId].Entity = entity;
                     _dictionary[teamId].Position = position;

@@ -29,8 +29,8 @@ namespace _Logic.Gameplay
             
             _systemsGroup.AddSystem(new TeamDataSettingRequestsProcessingSystem());
 
-            _systemsGroup.AddSystem(new AttackTargetValidationSystem());
             _systemsGroup.AddSystem(new AttackTargetSearchSystem());
+            _systemsGroup.AddSystem(new AttackTargetValidationSystem());
             _systemsGroup.AddSystem(new AttackTargetFollowingSystem());
             _systemsGroup.AddSystem(new GlobalTargetFollowingSystem());
             _systemsGroup.AddSystem(new UnitSightHandlingSystem());

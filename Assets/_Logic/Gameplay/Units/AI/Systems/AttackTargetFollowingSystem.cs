@@ -18,6 +18,8 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 .With<AIComponent>()
                 .ForEach((Entity entity, ref NavMeshAgentComponent navMeshAgentComponent, ref AttackTargetComponent targetComponent) =>
                 {
+                    if (targetComponent.TargetEntity.IsNullOrDisposed()) return;
+                    
                     if (navMeshAgentComponent.Value.enabled)
                     {
                         navMeshAgentComponent.Value.isStopped = targetComponent.IsInAttackRadius;
@@ -28,8 +30,6 @@ namespace _Logic.Gameplay.Units.AI.Systems
                         }
                     }
                     
-                    if (targetComponent.TargetEntity.IsNullOrDisposed()) return;
-
                     var targetTransform = targetComponent.TargetEntity.GetComponent<TransformComponent>().Value;
                     var destinationComponent = entity.GetComponent<DestinationComponent>(out var hasDestinationComponent);
                     
