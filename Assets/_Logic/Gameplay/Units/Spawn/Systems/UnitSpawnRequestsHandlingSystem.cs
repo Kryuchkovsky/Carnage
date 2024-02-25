@@ -17,12 +17,14 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
         private Request<UnitSpawnRequest> _unitSpawnRequest;
         private Event<UnitSpawnEvent> _unitSpawnEvent;
         private CreatureCatalog _creatureCatalog;
+        private Transform _unitContainer;
 
         public override void OnAwake()
         {
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
             _creatureCatalog = ConfigsManager.GetConfig<CreatureCatalog>();
+            _unitContainer = new GameObject("UnitContainer").transform;
         }
 
         public override void OnUpdate(float deltaTime)
@@ -30,7 +32,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
             foreach (var request in _unitSpawnRequest.Consume())
             {
                 var data = _creatureCatalog.GetUnitData(request.UnitId);
-                var creature = Object.Instantiate(_creatureCatalog.CreatureProvider, request.Position, Quaternion.identity);
+                var creature = Object.Instantiate(_creatureCatalog.CreatureProvider, request.Position, Quaternion.identity, _unitContainer);
                 var model = Object.Instantiate(data.Model);
                 creature.SetModel(model);
                 creature.Entity.SetComponent(new AttackComponent

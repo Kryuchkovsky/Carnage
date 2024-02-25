@@ -6,22 +6,26 @@ namespace _Logic.Extensions.HealthBar
 {
 	public class HealthBarView : MonoBehaviour
 	{
-		[SerializeField] private Canvas _canvas;
 		[SerializeField] private AnimationCurve _fillValueChangeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 		[SerializeField] private Image _damageImage;
 		[SerializeField] private Image _healingImage;
 		[SerializeField] private Image _currentHpImage;
-		[SerializeField] private float _offset = 1f;
+		[SerializeField] private float _baseOffset = 1f;
 		[SerializeField] private float _activityChangeDuration = 0.3f;
 		[SerializeField] private float _valueChangeDuration = 0.3f;
-		
+
 		private Camera _camera;
 		private Sequence _openingSequence;
 		private Sequence _closingSequence;
 		private Tweener _fillValueChangeTweener;
 		private float _currentFillValue;
 		private float _targetFillValue;
+		private float _hidingDelay;
+		private float _timeBeforeHiding;
+		private float _additionalOffset;
 		private bool _isInitiated;
+		private bool _hasTemporaryShowing;
+		private Transform _target;
 
 		protected void Awake()
 		{
@@ -38,14 +42,6 @@ namespace _Logic.Extensions.HealthBar
 			_fillValueChangeTweener.Pause();
 		}
 
-		private void LateUpdate()
-		{
-			if (_isInitiated)
-			{
-				transform.rotation = _camera.transform.rotation;
-			}
-		}
-
 		private void OnDestroy()
 		{
 			_openingSequence?.Kill();
@@ -53,43 +49,67 @@ namespace _Logic.Extensions.HealthBar
 			_fillValueChangeTweener?.Kill();
 		}
 
-		public HealthBarView Initiate(Camera camera, HealthBarColorData data, Transform parent, float heightOffset)
+		public HealthBarView Initiate(Camera camera, HealthBarColorData data, Transform target, float heightOffset, float hidingDelay)
 		{
+			_additionalOffset = heightOffset;
 			_camera = camera;
-			_canvas.worldCamera = _camera;
+			_target = target;
 			_damageImage.color = data.DamageColor;
 			_healingImage.color = data.HealingColor;
 			_currentHpImage.color = data.BaseColor;
-
-			transform.parent = parent;
-            var targetPosition = Vector3.zero;
-            targetPosition.y = heightOffset + _offset;
-            transform.localPosition = targetPosition;
-            SetFillValue(1, true);
-
-            _isInitiated = true;
+			_hidingDelay = hidingDelay;
+			_hasTemporaryShowing = hidingDelay > 0;
+			SetFillValue(1, true);
+			_isInitiated = true;
 
             return this;
         }
 
+		public void Update()
+		{
+			if (!_isInitiated) return;
+
+			if (_hasTemporaryShowing)
+			{
+				if (_timeBeforeHiding > 0)
+				{
+					_timeBeforeHiding -= Time.deltaTime;
+				}
+				
+				SetActivity(_timeBeforeHiding > 0, true);
+			}
+			
+			if ((_hasTemporaryShowing && _timeBeforeHiding > 0) || !_hasTemporaryShowing)
+			{
+				transform.position = _camera.WorldToScreenPoint(_target.position + Vector3.up * (_baseOffset + _additionalOffset));
+			}
+		}
+
 		public HealthBarView SetActivity(bool isActive, bool isImmediate = false)
 		{
-			_closingSequence.Kill();
-			_openingSequence.Kill();
-			
 			if (isImmediate)
 			{
+				_closingSequence.Kill();
+				_openingSequence.Kill();
 				gameObject.SetActive(isActive);
 				transform.localScale = isActive ? Vector3.one : Vector3.zero;
 			}
 			else if (isActive)
 			{
+				_closingSequence.Kill();
+
+				if (_openingSequence != null && _openingSequence.IsPlaying()) return this;
+				
 				_openingSequence = DOTween.Sequence()
 					.AppendCallback(() => gameObject.SetActive(true))
 					.Append(transform.DOScale(1, _activityChangeDuration).SetEase(Ease.OutBack));
 			}
 			else
 			{
+				_openingSequence.Kill();
+
+				if (_closingSequence != null && _closingSequence.IsPlaying()) return this;
+				
 				_closingSequence = DOTween.Sequence()
 					.Append(transform.DOScale(0, _activityChangeDuration).SetEase(Ease.InBack))
 					.AppendCallback(() => gameObject.SetActive(false));
@@ -100,6 +120,11 @@ namespace _Logic.Extensions.HealthBar
 
 		public HealthBarView SetFillValue(float value, bool isImmediate = false)
 		{
+			if (_hasTemporaryShowing)
+			{
+				_timeBeforeHiding = _hidingDelay;
+			}
+			
 			if (!gameObject.activeInHierarchy) return this;
 			
 			_targetFillValue = value;

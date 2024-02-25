@@ -4,13 +4,14 @@ using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Health.Systems
 {
     public sealed class HealthBarAddingSystem : QuerySystem
     {
         private readonly float _additionalOffsetY = 1;
-        
+
         protected override void Configure()
         {
             CreateQuery()

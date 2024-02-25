@@ -42,7 +42,12 @@ namespace _Logic.Extensions.Patterns
         
             _objects = new Stack<T>(_capacity);
             _storage = new GameObject(typeof(T) + "Pool").transform;
-            _storage.parent = poolParent;
+
+            if (poolParent)
+            {
+                _storage.parent = poolParent; 
+            }
+
             Object.DontDestroyOnLoad(_storage);
 
             if (autoFilling)
@@ -70,7 +75,7 @@ namespace _Logic.Extensions.Patterns
 
         private T CreateObject()
         {
-            var obj = Object.Instantiate(Prefab);
+            var obj = Object.Instantiate(Prefab, _storage);
             CreationAction?.Invoke(obj);
             return obj;
         }

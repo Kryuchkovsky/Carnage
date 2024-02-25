@@ -24,6 +24,8 @@ namespace _Logic.Extensions.VFXManager
             
             foreach (var effectType in (EffectType[])Enum.GetValues(typeof(EffectType)))
             {
+                if (!_effectsCatalog.HasData(effectType)) continue;
+                
                 var effect = _effectsCatalog.GetData(effectType);
                 
                 _effectsPools.Add(

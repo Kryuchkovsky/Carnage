@@ -19,6 +19,8 @@ namespace _Logic.Extensions.Configs
             _dataDictionary = _dataList.ToDictionary(k => k.Type, v => v);
         }
 
+        public bool HasData(TEnumType type) => _dataDictionary.ContainsKey(type);
+        
         public TData GetData(TEnumType type) => _dataDictionary[type];
         
         [ContextMenu("FindAllDataObjects")]
