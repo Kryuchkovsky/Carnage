@@ -5,17 +5,7 @@ namespace _Logic.Extensions.Popup
 {
     public class TextPopup : BasePopup
     {
-        [SerializeField] private Canvas _canvas;
-        
         private Camera _camera;
-        
-        private void LateUpdate()
-        {
-            if (_isInitiated)
-            {
-                transform.rotation = _camera.transform.rotation;
-            }
-        }
         
         public void Setup(Camera camera, Color color, string value, float scale, TweenCallback callback = null)
         {
@@ -32,7 +22,6 @@ namespace _Logic.Extensions.Popup
         private void Setup(Camera camera, Color color, float scale, TweenCallback callback = null)
         {
             _camera = camera;
-            _canvas.worldCamera = _camera;
             transform.localScale = Vector3.zero;
             _text.color = color;
             var targetPositionY = transform.position.y + _duration * _velocity;

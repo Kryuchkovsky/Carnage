@@ -2367,12 +2367,6 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 33001259}
-    - target: {fileID: 1156331967318048264, guid: acdc82ef40ad07d4a9c063207b045649,
-        type: 3}
-      propertyPath: _textPopup
-      value: 
-      objectReference: {fileID: 8601770602915532675, guid: e723ccfda852fb3498daa4ba70f46853,
-        type: 3}
     - target: {fileID: 4701017528398699300, guid: acdc82ef40ad07d4a9c063207b045649,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2427,11 +2421,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PopupsService
-      objectReference: {fileID: 0}
-    - target: {fileID: 4977705945928606761, guid: acdc82ef40ad07d4a9c063207b045649,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -18,5 +19,10 @@ namespace _Logic.Extensions.Popup
         
         protected Sequence _animationSequence;
         protected bool _isInitiated;
+
+        public virtual void Update()
+        {
+            if (!_isInitiated) return;
+        }
     }
 }

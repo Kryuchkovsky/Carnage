@@ -21,7 +21,12 @@ namespace _Logic.Extensions.HealthBar
             _camera ??= Camera.main;
             _settings = ConfigsManager.GetConfig<HealthBarSettings>();
             _healthBarsPool = new(_settings.HealthBar, 16, true, _canvas.transform,
-                returnAction: v => v.Reset());
+                takeAction: v => _healthBarViews.Add(v),
+                returnAction: v =>
+                {
+                    v.Reset();
+                    _healthBarViews.Remove(v);
+                });
             _healthBarViews = new HashSet<HealthBarView>(1024);
         }
 
@@ -38,14 +43,9 @@ namespace _Logic.Extensions.HealthBar
             var healthBar = _healthBarsPool.Take();
             var data = isAlly ? _settings.AlliedHealthBarColorData : _settings.EnemyTeamHealthBarColorData;
             healthBar.Initiate(_camera, data, target, offsetY, _settings.HidingDelay);
-            _healthBarViews.Add(healthBar);
             return healthBar;
         }
 
-        public void RemoveHealthBar(HealthBarView healthBarView)
-        {
-            _healthBarViews.Remove(healthBarView);
-            _healthBarsPool.Return(healthBarView);
-        }
+        public void RemoveHealthBar(HealthBarView healthBarView) => _healthBarsPool.Return(healthBarView);
     }
 }
