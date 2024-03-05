@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _GameLogic.Extensions.Patterns;
+using UnityEditor;
 using UnityEngine;
 
 namespace _Logic.Extensions.Configs
@@ -32,8 +33,23 @@ namespace _Logic.Extensions.Configs
                 {
                     var expandedConfig = (IExpandedConfig)config;
                     expandedConfig.FindAllDataObjects();
+                    expandedConfig.UpdateDataTypes();
                 }
             }
+        }
+        public static void GenerateDataEnumTypes()
+        {
+            foreach (var config in Instance._configs)
+            {
+                if (config is IExpandedConfig)
+                {
+                    var expandedConfig = (IExpandedConfig)config;
+                    expandedConfig.GenerateDataEnumTypes();
+                    expandedConfig.UpdateDataTypes();
+                }
+            }
+            
+            AssetDatabase.Refresh();
         }
         
         public static T GetConfig<T>() where T : ScriptableObject => Instance._configDictionary[typeof(T)] as T;

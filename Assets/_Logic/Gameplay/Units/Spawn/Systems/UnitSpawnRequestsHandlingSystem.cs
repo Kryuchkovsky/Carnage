@@ -1,11 +1,15 @@
 ﻿using _Logic.Core;
+using _Logic.Core.Components;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI.Components;
+using _Logic.Gameplay.Units.Attack;
 using _Logic.Gameplay.Units.Attack.Components;
-using _Logic.Gameplay.Units.Creatures;
 using _Logic.Gameplay.Units.Experience.Components;
+using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Health.Components;
+using _Logic.Gameplay.Units.Movement;
 using _Logic.Gameplay.Units.Movement.Components;
+using _Logic.Gameplay.Units.Spawn.Components;
 using _Logic.Gameplay.Units.Team;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -16,14 +20,14 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
     {
         private Request<UnitSpawnRequest> _unitSpawnRequest;
         private Event<UnitSpawnEvent> _unitSpawnEvent;
-        private CreatureCatalog _creatureCatalog;
+        private UnitsCatalog _unitCatalog;
         private Transform _unitContainer;
 
         public override void OnAwake()
         {
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
-            _creatureCatalog = ConfigsManager.GetConfig<CreatureCatalog>();
+            _unitCatalog = ConfigsManager.GetConfig<UnitsCatalog>();
             _unitContainer = new GameObject("UnitContainer").transform;
         }
 
@@ -31,54 +35,88 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
         {
             foreach (var request in _unitSpawnRequest.Consume())
             {
-                var data = _creatureCatalog.GetUnitData(request.UnitId);
-                var creature = Object.Instantiate(_creatureCatalog.CreatureProvider, request.Position, Quaternion.identity, _unitContainer);
+                var data = _unitCatalog.GetData((int)request.UnitType);
+                var unit = Object.Instantiate(_unitCatalog.UnitProvider, request.Position, Quaternion.identity, _unitContainer);
                 var model = Object.Instantiate(data.Model);
-                creature.SetModel(model);
-                creature.Entity.SetComponent(new AttackComponent
+                unit.SetModel(model);
+
+                if (data.TryGetData<AttackStats>(out var attackStats))
                 {
-                    BacisData = data.AttackData,
-                    CurrentData = data.AttackData,
-                });
-                creature.Entity.SetComponent(new HealthComponent
+                    unit.Entity.SetComponent(new AttackComponent
+                    {
+                        Stats = attackStats
+                    });
+                    
+                    if (attackStats.ProjectileData)
+                    {
+                        unit.Entity.AddComponent<RangeAttackComponent>();
+                    }
+                    else
+                    {
+                        unit.Entity.AddComponent<MeleeAttackComponent>();
+                    }
+                }
+                
+                if (data.TryGetData<HealthStats>(out var healthStats))
                 {
-                    BasicData = data.HealthData,
-                    CurrentData = data.HealthData,
-                    Value = data.HealthData.MaxValue
-                });
-                creature.Entity.SetComponent(new MovementComponent
+                    unit.Entity.SetComponent(new HealthComponent
+                    {
+                        Stats = healthStats,
+                        Value = healthStats.MaxHealth.CurrentValue
+                    });
+                }
+
+                var hasMovementData = data.TryGetData<MovementStats>(out var movementData);
+                var agentComponent = unit.Entity.GetComponent<NavMeshAgentComponent>(out var hasAgentComponent);
+                var obstacleComponent = unit.Entity.GetComponent<NavMeshObstacleComponent>(out var hasObstacleComponent);
+                
+                if (hasMovementData)
                 {
-                    BacisData = data.MovementData,
-                    CurrentData = data.MovementData
-                });
-                creature.Entity.SetComponent(new ExperienceComponent
+                    unit.Entity.SetComponent(new MovementComponent
+                    {
+                        Stats = movementData
+                    });
+                }
+
+                agentComponent.Value.enabled = hasMovementData;
+                obstacleComponent.Value.enabled = !hasMovementData;
+
+                if (data.TryGetData<SpawnAbilityData>(out var spawnAbilityData))
+                {
+                    unit.Entity.SetComponent(new SpawnAbilityComponent
+                    {
+                        Data = spawnAbilityData
+                    });
+                    unit.Entity.AddComponent<TimerComponent>();
+                }
+
+                unit.Entity.SetComponent(new ExperienceComponent
                 {
                     Level = 1
                 });
 
                 World.GetRequest<TeamDataSettingRequest>().Publish(new TeamDataSettingRequest
                 {
-                    Entity = creature.Entity,
+                    Entity = unit.Entity,
                     TeamId = request.TeamId
                 });
 
-                if (data.AttackData.ProjectileData)
+                if (request.IsPrioritizedTarget)
                 {
-                    creature.Entity.AddComponent<RangeAttackComponent>();
+                    unit.Entity.SetComponent(new PriorityComponent
+                    {
+                        Value = request.Priority
+                    });
                 }
-                else
-                {
-                    creature.Entity.AddComponent<MeleeAttackComponent>();
-                }
-
+                
                 if (request.HasAI)
                 {
-                    creature.Entity.AddComponent<AIComponent>();
+                    unit.Entity.AddComponent<AIComponent>();
                 }
 
                 _unitSpawnEvent.NextFrame(new UnitSpawnEvent
                 {
-                    UnitProvider = creature,
+                    UnitProvider = unit,
                     Data = request
                 });
             }

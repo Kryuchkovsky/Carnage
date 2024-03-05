@@ -20,7 +20,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     {
                         AttackerEntity = entity,
                         ReceiverEntity = attackTargetComponent.TargetEntity,
-                        Damage = attackComponent.CurrentData.Damage
+                        Damage = attackComponent.Stats.Damage.CurrentValue
                     });
 
                     // if (attackTargetComponent.TargetEntity.TryGetComponentValue<RigidbodyComponent>(out var enemyRigidbodyComponent))

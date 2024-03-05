@@ -16,7 +16,7 @@ namespace _Logic.Core
             
             var colliderComponent1 = entity1.GetComponent<ColliderComponent>();
             var colliderComponent2 = entity2.GetComponent<ColliderComponent>();
-            distance = ExtensionMethods.GetDistanceBetweenClosestPointsOfColliders(colliderComponent1.Value, colliderComponent2.Value);
+            distance = ExtraMethods.GetDistanceBetweenClosestPointsOfColliders(colliderComponent1.Value, colliderComponent2.Value);
             return true;
         }
     }

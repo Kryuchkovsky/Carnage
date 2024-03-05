@@ -1,21 +1,11 @@
-using System.Collections.Generic;
-using System.Linq;
 using _Logic.Extensions.Configs;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units
 {
-    public abstract class UnitsCatalog<T> : Config where T : UnitModel
+    [CreateAssetMenu(menuName = "Create UnitsCatalog", fileName = "UnitsCatalog", order = 0)]
+    public class UnitsCatalog : FunctionalConfig<UnitType, UnitDataCollection>
     {
-        [SerializeField] private List<BasicUnitData<T>> _unitData;
-
-        private Dictionary<string, BasicUnitData<T>> _unitDataDictionary;
-        
-        public override void Initialize()
-        {
-            _unitDataDictionary = _unitData.ToDictionary(p => p.Id, p => p);
-        }
-
-        public BasicUnitData<T> GetUnitData(string id) => _unitDataDictionary[id];
+        [field: SerializeField] public UnitProvider UnitProvider { get; private set; }
     }
 }

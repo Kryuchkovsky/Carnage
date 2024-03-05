@@ -9,8 +9,7 @@ namespace _Logic.Gameplay.Units.Attack.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct AttackComponent : IComponent
     {
-        public AttackData BacisData;
-        public AttackData CurrentData;
+        public AttackStats Stats;
         public float AttacksPerSecond;
         public float AttackTime;
         public float AttackTimePercentage;

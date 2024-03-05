@@ -27,21 +27,6 @@ namespace _Logic.Extensions.HealthBar
 		private bool _hasTemporaryShowing;
 		private Transform _target;
 
-		protected void Awake()
-		{
-			_fillValueChangeTweener = DOVirtual
-				.Float(_currentFillValue, _targetFillValue, _valueChangeDuration, t =>
-				{
-					_currentFillValue = t;
-					_currentHpImage.fillAmount = _targetFillValue > _currentFillValue ? _currentFillValue : _targetFillValue;
-					_damageImage.fillAmount = _targetFillValue < _currentFillValue ? _currentFillValue : _targetFillValue;
-				})
-				.SetEase(_fillValueChangeCurve)
-				.SetAutoKill(false)
-				.SetRecyclable(true);
-			_fillValueChangeTweener.Pause();
-		}
-
 		private void OnDestroy()
 		{
 			_openingSequence?.Kill();
@@ -59,10 +44,21 @@ namespace _Logic.Extensions.HealthBar
 			_currentHpImage.color = data.BaseColor;
 			_hidingDelay = hidingDelay;
 			_hasTemporaryShowing = hidingDelay > 0;
-			SetFillValue(1, true);
+			_fillValueChangeTweener = DOVirtual
+				.Float(_currentFillValue, _targetFillValue, _valueChangeDuration, t =>
+				{
+					_currentFillValue = t;
+					_currentHpImage.fillAmount = _targetFillValue > _currentFillValue ? _currentFillValue : _targetFillValue;
+					_damageImage.fillAmount = _targetFillValue < _currentFillValue ? _currentFillValue : _targetFillValue;
+				})
+				.SetEase(_fillValueChangeCurve)
+				.SetAutoKill(false)
+				.SetRecyclable(true)
+				.Pause();
 			_isInitiated = true;
+			SetFillValue(1, true);
 
-            return this;
+			return this;
         }
 
 		public void Update()
@@ -124,16 +120,14 @@ namespace _Logic.Extensions.HealthBar
 			{
 				_timeBeforeHiding = _hidingDelay;
 			}
-			
-			if (!gameObject.activeInHierarchy) return this;
+			else if (!gameObject.activeInHierarchy) return this;
 			
 			_targetFillValue = value;
 			_healingImage.fillAmount = _targetFillValue;
 			_currentFillValue = isImmediate ? value : _currentFillValue;
-
+			
 			var duration = isImmediate ? _valueChangeDuration : 0.1f;
-			_fillValueChangeTweener.ChangeValues(_currentFillValue, _targetFillValue, duration);
-			_fillValueChangeTweener.Play();
+			_fillValueChangeTweener.ChangeValues(_currentFillValue, _targetFillValue, duration).Play();
 
 			return this;
 		}

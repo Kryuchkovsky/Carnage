@@ -18,12 +18,12 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 {
                     if (attackComponent.AttackTimePercentage < 1 || !attackTargetComponent.IsInAttackRadius) return;
                     
-                    var damage = attackComponent.CurrentData.Damage;
+                    var damage = attackComponent.Stats.Damage;
                     var targetEntity = attackTargetComponent.TargetEntity;
                     
                     World.GetRequest<HomingProjectileCreationRequest>().Publish(new HomingProjectileCreationRequest
                     {
-                        Data = attackComponent.CurrentData.ProjectileData,
+                        Data = attackComponent.Stats.ProjectileData,
                         Target = targetEntity.GetComponent<TransformComponent>().Value,
                         InitialPosition = unitComponent.Value.Model.AttackPoint.position,
                         Callback = p =>
@@ -41,7 +41,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                                 {
                                     AttackerEntity = entity,
                                     ReceiverEntity = targetEntity,
-                                    Damage = damage
+                                    Damage = damage.CurrentValue
                                 });
                             }
                         }

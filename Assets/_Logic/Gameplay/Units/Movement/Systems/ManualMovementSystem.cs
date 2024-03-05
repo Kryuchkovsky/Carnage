@@ -31,7 +31,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                     if (destinationData.Value == transformComponent.Value.position) return;
                     
                     var direction = (destinationData.Value - transformComponent.Value.position).normalized;
-                    var step = direction * movementComponent.CurrentData.MovementSpeed * deltaTime;
+                    var step = direction * movementComponent.Stats.MovementSpeed.CurrentValue * deltaTime;
                     transformComponent.Value.Translate(step, Space.World);
                     transformComponent.Value.rotation = Quaternion.LookRotation(direction);
                 });

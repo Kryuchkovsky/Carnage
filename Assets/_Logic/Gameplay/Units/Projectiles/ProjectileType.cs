@@ -1,7 +1,4 @@
-namespace _Logic.Gameplay.Units.Projectiles
+public enum ProjectileType
 {
-    public enum ProjectileType
-    {
-        Fireball
-    }
+    Fireball = 0,
 }

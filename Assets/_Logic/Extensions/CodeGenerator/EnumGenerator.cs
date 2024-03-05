@@ -1,46 +1,39 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using _GameLogic.Extensions;
 using UnityEditor;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace _Logic.Extensions.CodeGenerator
 {
     public static class EnumGenerator
     {
-        public static void GenerateAll<T>(string enumCreatePath, string targetEnumName) where T : Object
+        public static void GenerateEnumValues<TObject, TEnumType>() where TObject : Object where TEnumType : Enum
         {
-            var guids = AssetDatabase.FindAssets("t:" + typeof(T).Name);
-            var enumsToBeAdded = new string[guids.Length];
+            var enumFilePath = ExtraMethods.GetScriptPath<TEnumType>(true);
+            var enumName = typeof(TEnumType).Name;
+            var objName = typeof(TObject).Name;
+            var objectGuids = AssetDatabase.FindAssets("t:" + objName);
+            var enumsToBeAdded = new string[objectGuids.Length];
 
-            for (var i = 0; i < guids.Length; i++)
+            for (var i = 0; i < objectGuids.Length; i++)
             {
-                var path = AssetDatabase.GUIDToAssetPath(guids[i]);
+                var path = AssetDatabase.GUIDToAssetPath(objectGuids[i]);
                 var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
                 enumsToBeAdded[i] = asset.name;
             }
-
-            Generate(enumCreatePath, targetEnumName, enumsToBeAdded);
-        }
-
-        private static void Generate(string enumCreationPath, string targetEnumName, IReadOnlyList<string> enumsToBeAdded)
-        {
-            if (!Directory.Exists(enumCreationPath))
-            {
-                Directory.CreateDirectory(enumCreationPath);
-            }
-
-            var filePathAndName = $"{enumCreationPath}{targetEnumName}.cs";
-            var oldEnums = GetCurrentEnums(filePathAndName);
+            
+            var oldEnums = GetCurrentEnums(enumFilePath);
             var oldEnumsExist = oldEnums != null && oldEnums.Values.Count > 0;
             var highestValue = oldEnumsExist ? oldEnums.Values.Max() + 1 : 0;
 
-            using (var streamWriter = new StreamWriter(filePathAndName))
+            using (var streamWriter = new StreamWriter(enumFilePath))
             {
-                streamWriter.WriteLine("public enum " + targetEnumName + "\r\n" + "{");
-                //streamWriter.WriteLine("{");
+                streamWriter.WriteLine("public enum " + enumName + "\r\n" + "{");
 
-                for (var index = 0; index < enumsToBeAdded.Count; index++)
+                for (var index = 0; index < enumsToBeAdded.Length; index++)
                 {
                     var enumString = enumsToBeAdded[index];
 

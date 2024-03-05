@@ -10,8 +10,7 @@ namespace _Logic.Gameplay.Units.Health.Components
     [Serializable]
     public struct HealthComponent : IComponent
     {
-        public HealthData BasicData;
-        public HealthData CurrentData;
+        public HealthStats Stats;
         public float Percentage;
         public float Value;
     }

@@ -5,6 +5,7 @@ using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace _Logic.Gameplay.Units.AI.Systems
 {
@@ -17,15 +18,15 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 .ForEach((Entity entity, ref AttackComponent attackComponent, ref AttackTargetComponent attackTargetComponent) =>
                 {
                     var aiSettings = ConfigsManager.GetConfig<AISettings>();
-                    var followingRange = attackComponent.CurrentData.Range * aiSettings.TargetSearchRangeToAttackRangeRatio;
+                    var followingRange = attackComponent.Stats.Range.CurrentValue * aiSettings.TargetSearchRangeToAttackRangeRatio;
                     var distanceIsGotten = EcsExtensions.TryGetDistanceBetweenClosestPointsOfEntitiesColliders(
                         entity, attackTargetComponent.TargetEntity, out var distance);
-
+                    
                     if (distanceIsGotten && 
                         ((entity.Has<AIComponent>() && distance < followingRange) || 
-                        (!entity.Has<AIComponent>() && distance < attackComponent.CurrentData.Range)))
+                        (!entity.Has<AIComponent>() && distance < attackComponent.Stats.Range.CurrentValue)))
                     {
-                        attackTargetComponent.IsInAttackRadius = distance < attackComponent.CurrentData.Range;
+                        attackTargetComponent.IsInAttackRadius = distance < attackComponent.Stats.Range.CurrentValue;
                     }
                     else
                     {

@@ -10,8 +10,6 @@ namespace _Logic.Gameplay.Units.Movement.Components
     [Serializable]
     public struct MovementComponent : IComponent
     {
-        public MovementData BacisData;
-        public MovementData CurrentData;
-        public bool CanMove;
+        public MovementStats Stats;
     }
 }

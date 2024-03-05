@@ -12,7 +12,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 .With<AttackComponent>()
                 .ForEach((Entity entity, ref AttackComponent attackComponent) =>
                 {
-                    attackComponent.AttacksPerSecond = attackComponent.CurrentData.Speed * 0.01f / attackComponent.CurrentData.BasicAttackTime;
+                    attackComponent.AttacksPerSecond = attackComponent.Stats.Speed.CurrentValue * 0.01f / attackComponent.Stats.BasicAttackTime.CurrentValue;
                     attackComponent.AttackTime = 1 / attackComponent.AttacksPerSecond;
                     attackComponent.RemainingAttackTime = Mathf.Lerp(0, attackComponent.AttackTime, 1 - attackComponent.AttackTimePercentage);
 

@@ -21,7 +21,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     if (attackComponent.AttackTimePercentage < 1) return;
                     
                     var collisions = Physics.OverlapSphereNonAlloc(
-                        transformComponent.Value.position, attackComponent.CurrentData.Range, _colliders, 1 << teamDataComponent.EnemiesLayer);
+                        transformComponent.Value.position, attackComponent.Stats.Range.CurrentValue, _colliders, 1 << teamDataComponent.EnemiesLayer);
 
                     var isAttacking = false;
                     
@@ -42,7 +42,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                             {
                                 AttackerEntity = entity,
                                 ReceiverEntity = provider.Entity,
-                                Damage = attackComponent.CurrentData.Damage
+                                Damage = attackComponent.Stats.Damage.CurrentValue
                             });
 
                             var rigidbodyComponent = provider.Entity.GetComponent<RigidbodyComponent>(out var hasRigidbodyComponent);

@@ -2,7 +2,6 @@
 using _Logic.Gameplay.Camera.Systems;
 using _Logic.Gameplay.Units.AI.Systems;
 using _Logic.Gameplay.Units.Attack.Systems;
-using _Logic.Gameplay.Units.Buildings.Systems;
 using _Logic.Gameplay.Units.Health.Systems;
 using _Logic.Gameplay.Units.Movement.Systems;
 using _Logic.Gameplay.Units.Projectiles.Systems;
@@ -22,8 +21,9 @@ namespace _Logic.Gameplay
             _systemsGroup = World.CreateSystemsGroup();
             _systemsGroup.AddSystem(new TimerProcessingSystem());
             
-            _systemsGroup.AddSystem(new BarrackSpawnHandlingSystem());
+            _systemsGroup.AddSystem(new SpawnAbilityHandlingSystem());
 
+            _systemsGroup.AddSystem(new UnitBuilderHandlingSystem());
             _systemsGroup.AddSystem(new HeroPresenceControllingSystem());
             _systemsGroup.AddSystem(new UnitSpawnRequestsHandlingSystem());
             

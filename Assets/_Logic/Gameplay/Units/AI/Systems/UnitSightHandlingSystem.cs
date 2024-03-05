@@ -1,8 +1,7 @@
 using _Logic.Core.Components;
 using _Logic.Gameplay.Units.Attack.Components;
-using _Logic.Gameplay.Units.Creatures.Components;
+using _Logic.Gameplay.Units.Components;
 using Scellecs.Morpeh;
-using UnityEngine;
 
 namespace _Logic.Gameplay.Units.AI.Systems
 {
@@ -11,16 +10,15 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<CreatureComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<TransformComponent>()
-                .ForEach((Entity entity, ref AttackTargetComponent targetComponent, ref TransformComponent transformComponent) =>
+                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<TransformComponent>()
+                .ForEach((Entity entity, ref UnitComponent unitComponent,  ref AttackTargetComponent targetComponent, ref TransformComponent transformComponent) =>
                 {
                     if (targetComponent.TargetEntity.IsNullOrDisposed() || 
                         !targetComponent.TargetEntity.Has<TransformComponent>() || 
                         !targetComponent.IsInAttackRadius) return;
 
-                    var targetTransform = targetComponent.TargetEntity.GetComponent<TransformComponent>().Value;
-                    var direction = (transformComponent.Value.position - targetTransform.position).normalized;
-                    transformComponent.Value.rotation = Quaternion.LookRotation(-direction);
+                    var sightPosition = targetComponent.TargetEntity.GetComponent<TransformComponent>().Value.position;
+                    unitComponent.Value.Model.LookAtPoint(sightPosition);
                 });
         }
     }

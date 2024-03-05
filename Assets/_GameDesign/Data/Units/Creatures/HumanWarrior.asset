@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e6ad3af94546e2b3488a43658adce0, type: 3}
+  m_Name: HumanWarrior
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 4
+  _attackData:
+    Has: 1
+    Data:
+      <Damage>k__BackingField:
+        <BaseValue>k__BackingField: 10
+      <BasicAttackTime>k__BackingField:
+        <BaseValue>k__BackingField: 1.7
+      <Range>k__BackingField:
+        <BaseValue>k__BackingField: 2.5
+      <Speed>k__BackingField:
+        <BaseValue>k__BackingField: 100
+      <ProjectileData>k__BackingField: {fileID: 0}
+  _healthData:
+    Has: 1
+    Data:
+      <MaxHealth>k__BackingField:
+        <BaseValue>k__BackingField: 100
+      <RegenerationRate>k__BackingField:
+        <BaseValue>k__BackingField: 1
+      <CorpseExistenceTime>k__BackingField:
+        <BaseValue>k__BackingField: 3
+  _movementData:
+    Has: 1
+    Data:
+      <MovementSpeed>k__BackingField:
+        <BaseValue>k__BackingField: 10
+      <RotationSpeed>k__BackingField:
+        <BaseValue>k__BackingField: 360
+  _spawnAbilityData:
+    Has: 0
+    Data:
+      SpawnSpeedMultiplier: 0
+      <Units>k__BackingField: 
+  <Model>k__BackingField: {fileID: 6793499299369025809, guid: 075d77a6e2bcc4f4692499d8d7842dd2,
+    type: 3}
+  <SpawnTime>k__BackingField: 3

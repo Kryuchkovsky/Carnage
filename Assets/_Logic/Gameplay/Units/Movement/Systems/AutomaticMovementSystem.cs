@@ -23,16 +23,16 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                         entity.RemoveComponent<DestinationComponent>();
                     }
 
-                    agent.speed = movementComponent.CurrentData.MovementSpeed;
+                    agent.speed = movementComponent.Stats.MovementSpeed.CurrentValue;
                     var speed = agent.velocity.magnitude / agent.speed;
                     unitComponent.Value.OnMove(speed);
-                    agent.enabled = !isCompleted;
+                    //agent.enabled = !isCompleted;
 
                     ref var obstacleComponent = ref entity.GetComponent<NavMeshObstacleComponent>(out var hasObstacleComponent);
                     
                     if (hasObstacleComponent)
                     {
-                        obstacleComponent.Value.enabled = isCompleted;
+                        //obstacleComponent.Value.enabled = isCompleted;
                     }
                 });
         }

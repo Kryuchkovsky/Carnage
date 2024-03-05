@@ -33,7 +33,7 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                 if (!_projectilePools.ContainsKey(request.Data.Type))
                 {
                     _projectilePools.Add(request.Data.Type, new ObjectPool<ProjectileProvider>(
-                        _projectilesCatalog.GetData(request.Data.Type).Provider));
+                        _projectilesCatalog.GetData((int)request.Data.Type).Provider));
                 }
 
                 var projectile = _projectilePools[request.Data.Type].Take();

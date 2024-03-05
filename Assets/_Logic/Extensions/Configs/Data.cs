@@ -6,5 +6,9 @@ namespace _Logic.Extensions.Configs
     public abstract class Data<TEnumKey> : ScriptableObject where TEnumKey : Enum
     {
         [field: SerializeField] public TEnumKey Type { get; private set; }
+
+        public virtual void Initialize()
+        {
+        }
     }
 }

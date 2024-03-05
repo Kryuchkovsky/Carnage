@@ -15,9 +15,9 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
             _playerUnitsFilter = World.Filter.With<UnitComponent>().Without<AIComponent>();
             World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest
             {
+                UnitType = UnitType.HumanWarrior,
                 Position = Vector3.zero,
                 TeamId = 0,
-                UnitId = "king",
                 HasAI = false
             });
         }

@@ -4,6 +4,7 @@ using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Health.Components;
 using JetBrains.Annotations;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -11,21 +12,19 @@ using UnityEngine.AI;
 
 namespace _Logic.Gameplay.Units
 {
-    public abstract class UnitProvider : GameObjectProvider<UnitComponent>
+    public class UnitProvider : GameObjectProvider<UnitComponent>
     {
-        [SerializeField, CanBeNull] protected Collider _collider;
         [SerializeField, CanBeNull] protected Rigidbody _rigidbody;
         [SerializeField, CanBeNull] protected NavMeshAgent _navMeshAgent;
         [SerializeField, CanBeNull] protected NavMeshObstacle _navMeshObstacle;
         
         [SerializeField] private LinkedCollider _linkedCollider;
         [SerializeField] private SpriteRenderer _markerSprite;
-        [SerializeField, Range(0, 60)] private float _corpseExistenceTime = 3;
         
         [SerializeField, Range(0, 100)] private int _priority;
         [SerializeField] private bool _isPrioritizedTarget;
         
-        [field: SerializeField, CanBeNull] public UnitModel Model { get; protected set; }
+        [field: SerializeField] public UnitModel Model { get; protected set; }
         
         protected override void Initialize()
         {
@@ -44,6 +43,11 @@ namespace _Logic.Gameplay.Units
                 {
                     Value = Model.Bounds
                 });
+                
+                Entity.SetComponent(new ColliderComponent
+                {
+                    Value = Model.Collider
+                });
             }
             
             if (_isPrioritizedTarget)
@@ -51,14 +55,6 @@ namespace _Logic.Gameplay.Units
                 Entity.SetComponent(new PriorityComponent
                 {
                     Value = _priority
-                });
-            }
-
-            if (_collider)
-            {
-                Entity.SetComponent(new ColliderComponent
-                {
-                    Value = _collider
                 });
             }
             
@@ -87,7 +83,7 @@ namespace _Logic.Gameplay.Units
             }
         }
 
-        public virtual void SetModel(UnitModel model)
+        public void SetModel(UnitModel model)
         {
             if (Model)
             {
@@ -103,32 +99,58 @@ namespace _Logic.Gameplay.Units
             {
                 Value = model.Bounds
             });
+
+            Entity.SetComponent(new ColliderComponent
+            {
+                Value = model.Collider
+            });
+            
+            Entity.SetComponent(new ColliderComponent
+            {
+                Value = model.Collider
+            });
+            
+            if (_navMeshAgent)
+            {
+                _navMeshAgent.agentTypeID = model.NavMeshAgentTypeId;
+                _navMeshAgent.height = model.Bounds.size.y;
+                _navMeshAgent.radius = model.Bounds.extents.x;
+            }
+
+            if (_navMeshObstacle)
+            {
+                _navMeshObstacle.shape = model.NavMeshObstacleShape;
+                _navMeshObstacle.height = model.Bounds.size.y;
+                _navMeshObstacle.radius = model.Bounds.extents.x;
+                _navMeshObstacle.size = model.Bounds.size;
+                _navMeshObstacle.center = model.Bounds.center - transform.position;
+            }
         }
 
-        public virtual void SetTeamData(Color color, int teamLayer)
+        public void SetTeamData(Color color, int teamLayer)
         {
             _linkedCollider?.Initiate(Entity, teamLayer);
             _markerSprite.color = color;
         }
 
-        public virtual void OnAttack()
+        public void OnAttack()
         {
             Model?.PlayAttackAnimation();
         }
 
-        public virtual void OnMove(float speed)
+        public void OnMove(float speed)
         {
             Model?.SetMovementSpeed(speed);
         }
 
-        public virtual void OnDamage()
+        public void OnDamage()
         {
             Model?.PlayHitAnimation();
         }
 
-        public virtual void OnDie()
+        public void OnDie()
         {
-            gameObject.layer = 7;
+            gameObject.layer = LayerMask.NameToLayer("Corpse");
             Model?.PlayDeathAnimation();
             
             if (_navMeshAgent)
@@ -140,20 +162,22 @@ namespace _Logic.Gameplay.Units
             {
                 _navMeshObstacle.enabled = false;
             }
-            
-            Destroy(gameObject, _corpseExistenceTime);
+
+            var healthComponent = Entity.GetComponent<HealthComponent>(out var hasHealthComponent);
+            var destroyDelay = hasHealthComponent ? healthComponent.Stats.CorpseExistenceTime.CurrentValue : 0;
+            Destroy(gameObject, destroyDelay);
         }
         
         private void OnDrawGizmosSelected()
         {
             if (!Entity.IsNullOrDisposed() && Entity.Has<AttackComponent>())
             {
-                var data = Entity.GetComponent<AttackComponent>().CurrentData;
+                var attackStats = Entity.GetComponent<AttackComponent>().Stats;
                 
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, data.Range);
+                Gizmos.DrawWireSphere(transform.position, attackStats.Range.CurrentValue);
 
-                var searchRange = data.Range * ConfigsManager.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
+                var searchRange = attackStats.Range.CurrentValue * ConfigsManager.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, searchRange);
             } 

@@ -22,11 +22,11 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 {
                     var aiSettings = ConfigsManager.GetConfig<AISettings>();
                     var position = transformComponent.Value.position;
-                    var searchRange  = attackComponent.CurrentData.Range * aiSettings.TargetSearchRangeToAttackRangeRatio;
+                    var searchRange  = attackComponent.Stats.Range.CurrentValue * aiSettings.TargetSearchRangeToAttackRangeRatio;
                     var collisions = Physics.OverlapSphereNonAlloc(position, searchRange, _colliders, 1 << teamDataComponent.EnemiesLayer);
                     var minDistance = float.MaxValue;
                     Entity targetEntity = null;
-
+                    
                     for (int i = 0; i < collisions; i++)
                     {
                         if (_colliders[i].TryGetComponent(out LinkedCollider collider) &&

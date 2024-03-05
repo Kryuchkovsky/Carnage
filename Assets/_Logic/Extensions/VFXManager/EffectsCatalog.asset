@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d9bc23a1b6147a0af8b0c9a90bae651, type: 3}
   m_Name: EffectsCatalog
   m_EditorClassIdentifier: 
-  <Effects>k__BackingField:
+  _dataList:
   - {fileID: 11400000, guid: f2dee1ea2a16c4a4db976f3058d805e5, type: 2}

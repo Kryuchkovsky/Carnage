@@ -25,7 +25,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
 
                 ref var healthComponent = ref request.Entity.GetComponent<HealthComponent>();
                 healthComponent.Value += request.Change;
-                healthComponent.Percentage = healthComponent.Value / healthComponent.CurrentData.MaxValue;
+                healthComponent.Percentage = healthComponent.Value / healthComponent.Stats.MaxHealth.CurrentValue;
                 
                 var unitComponent = request.Entity.GetComponent<UnitComponent>(out var hasUnitComponent);
                 
