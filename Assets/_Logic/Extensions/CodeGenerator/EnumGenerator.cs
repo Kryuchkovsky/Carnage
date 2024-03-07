@@ -27,12 +27,13 @@ namespace _Logic.Extensions.CodeGenerator
             
             var oldEnums = GetCurrentEnums(enumFilePath);
             var oldEnumsExist = oldEnums != null && oldEnums.Values.Count > 0;
-            var highestValue = oldEnumsExist ? oldEnums.Values.Max() + 1 : 0;
+            var highestValue = oldEnumsExist ? oldEnums.Values.Last() + 1 : 0;
 
             using (var streamWriter = new StreamWriter(enumFilePath))
             {
                 streamWriter.WriteLine("public enum " + enumName + "\r\n" + "{");
-
+                var newEnumValues = 0;
+                
                 for (var index = 0; index < enumsToBeAdded.Length; index++)
                 {
                     var enumString = enumsToBeAdded[index];
@@ -43,8 +44,9 @@ namespace _Logic.Extensions.CodeGenerator
                     }
                     else
                     {
-                        var newEnumNumber = highestValue + index;
+                        var newEnumNumber = highestValue + newEnumValues;
                         streamWriter.WriteLine("    " + enumString + " = " + newEnumNumber + ",");
+                        newEnumValues++;
                     }
                 }
 
@@ -65,12 +67,13 @@ namespace _Logic.Extensions.CodeGenerator
             {
                 if (!line.Contains("=")) continue;
 
-                var enumName = line.Split('=')[0].Trim();
+                var enumValue = line.Split('=')[0].Trim();
                 var enumNumber = line.Split('=')[1].Trim().TrimEnd(',');
-                enums.Add(enumName, int.Parse(enumNumber));
+                enums.Add(enumValue, int.Parse(enumNumber));
             }
 
-            return enums;
+            var sortedDictionary = enums.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+            return sortedDictionary;
         }
     }
 }

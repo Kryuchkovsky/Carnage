@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 6352918867683848281}
   - component: {fileID: 4584233108307569853}
   m_Layer: 0
-  m_Name: OrcishWarrior
+  m_Name: OrcishBerserk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -488,11 +488,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Renderer: {fileID: 1508409053169616092}
   <Collider>k__BackingField: {fileID: 6503584430073781433}
-  <AttackPoint>k__BackingField: {fileID: 0}
+  <AttackPoint>k__BackingField: {fileID: 6599701842105918109}
   <HitEffectType>k__BackingField: 0
   <NavMeshObstacleShape>k__BackingField: 0
   <NavMeshAgentTypeId>k__BackingField: 0
   _animator: {fileID: 6352918867683848281}
+  <WeaponType>k__BackingField: 1
 --- !u!1 &7118143543964194965
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,7 +878,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &9189475897510823936
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
             _playerUnitsFilter = World.Filter.With<UnitComponent>().Without<AIComponent>();
             World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest
             {
-                UnitType = UnitType.HumanWarrior,
+                UnitType = UnitType.HumanMage,
                 Position = Vector3.zero,
                 TeamId = 0,
                 HasAI = false

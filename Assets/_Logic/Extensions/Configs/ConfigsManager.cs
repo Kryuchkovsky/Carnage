@@ -37,6 +37,7 @@ namespace _Logic.Extensions.Configs
                 }
             }
         }
+        
         public static void GenerateDataEnumTypes()
         {
             foreach (var config in Instance._configs)

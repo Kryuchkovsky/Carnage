@@ -45,7 +45,7 @@ MonoBehaviour:
     Has: 1
     Data:
       SpawnSpeedMultiplier: 1
-      <Units>k__BackingField: 04000000
+      <Units>k__BackingField: 060000000400000005000000
   <Model>k__BackingField: {fileID: 1724193667419907362, guid: e51309b05333491449769be52af59562,
     type: 3}
   <SpawnTime>k__BackingField: 3

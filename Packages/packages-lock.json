@@ -24,11 +24,11 @@
       "hash": "027147a64ba55253a3745b06374707aba4af299b"
     },
     "com.scellecs.morpeh": {
-      "version": "https://github.com/scellecs/morpeh.git#stage-2023.1",
+      "version": "https://github.com/scellecs/morpeh.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "6dd1b103a9a8f3652c96a4f4e82b54b65b07bebe"
+      "hash": "2eb519ce4a4c3d0cc3096e92d0db1166aa69d88a"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",

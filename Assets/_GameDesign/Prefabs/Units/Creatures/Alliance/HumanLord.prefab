@@ -911,6 +911,7 @@ MonoBehaviour:
   <NavMeshObstacleShape>k__BackingField: 0
   <NavMeshAgentTypeId>k__BackingField: 0
   _animator: {fileID: 4781103851340548713}
+  <WeaponType>k__BackingField: 1
 --- !u!1001 &1378267992924963323
 PrefabInstance:
   m_ObjectHideFlags: 0
