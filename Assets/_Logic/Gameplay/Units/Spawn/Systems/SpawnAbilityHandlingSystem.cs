@@ -18,7 +18,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 {
                     if (timerComponent.Value <= 0)
                     {
-                        for (int i = 0; i < 100; i++)
+                        for (int i = 0; i < 20; i++)
                         {
                             var allUnitTypes = spawnAbilityComponent.Data.Units;
                             var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];

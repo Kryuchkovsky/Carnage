@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e6ad3af94546e2b3488a43658adce0, type: 3}
   m_Name: OrcishHunter
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 0
+  <Type>k__BackingField: 7
   _attackData:
     Has: 1
     Data:
@@ -21,10 +21,10 @@ MonoBehaviour:
       <BasicAttackTime>k__BackingField:
         <BaseValue>k__BackingField: 1.7
       <Range>k__BackingField:
-        <BaseValue>k__BackingField: 4
+        <BaseValue>k__BackingField: 15
       <Speed>k__BackingField:
         <BaseValue>k__BackingField: 100
-      <ProjectileData>k__BackingField: {fileID: 11400000, guid: 83148e97aecf1924ab60310578cb0866,
+      <ProjectileData>k__BackingField: {fileID: 11400000, guid: aab7631e73fec034a9b9620385924304,
         type: 2}
   _healthData:
     Has: 1

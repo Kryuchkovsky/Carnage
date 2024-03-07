@@ -20,12 +20,20 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     
                     var damage = attackComponent.Stats.Damage;
                     var targetEntity = attackTargetComponent.TargetEntity;
+                    var offset = Vector3.zero;
+                    var boundsComponent = attackTargetComponent.TargetEntity.GetComponent<BoundsComponent>(out var hasBoundsComponent);
+
+                    if (hasBoundsComponent)
+                    {
+                        offset += Vector3.up * boundsComponent.Value.extents.y;
+                    }
                     
                     World.GetRequest<HomingProjectileCreationRequest>().Publish(new HomingProjectileCreationRequest
                     {
                         Data = attackComponent.Stats.ProjectileData,
                         Target = targetEntity.GetComponent<TransformComponent>().Value,
                         InitialPosition = unitComponent.Value.Model.AttackPoint.position,
+                        Offset = offset,
                         Callback = p =>
                         {
                             if (!targetEntity.IsNullOrDisposed())

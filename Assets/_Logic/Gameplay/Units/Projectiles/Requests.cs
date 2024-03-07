@@ -17,6 +17,7 @@ namespace _Logic.Gameplay.Units.Projectiles
         public ProjectileData Data;
         public Transform Target;
         public Vector3 InitialPosition;
+        public Vector3 Offset;
         public Action<ProjectileProvider> Callback;
     }
 }

@@ -44,11 +44,12 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                 });
                 projectile.Entity.SetComponent(new FollowingTransformComponent
                 {
-                    Value = request.Target
+                    Transform = request.Target,
+                    Offset = request.Offset
                 });
                 projectile.Entity.SetComponent(new DestinationComponent
                 {
-                    Value = request.Target.position
+                    Value = request.Target.position + request.Offset
                 });
                 projectile.FlightEnded += request.Callback;
                 projectile.FlightEnded += _projectilePools[request.Data.Type].Return;

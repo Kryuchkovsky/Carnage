@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cddbb814494a4510951349f69bd0bfec, type: 3}
-  m_Name: Fireball
+  m_Name: Arrow
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 0
-  <Provider>k__BackingField: {fileID: 321956882559183147, guid: 9608301fe55d72a4ab1845f2851fc7e2,
+  <Type>k__BackingField: 1
+  <Provider>k__BackingField: {fileID: 321956882559183147, guid: 8d8d3eeb51911f84c9835393faef1da8,
     type: 3}
-  <Speed>k__BackingField: 20
-  <FlightRangeToHeightRatio>k__BackingField: 0
+  <Speed>k__BackingField: 30
+  <FlightRangeToHeightRatio>k__BackingField: 0.5

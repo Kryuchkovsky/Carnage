@@ -11,6 +11,7 @@ namespace _Logic.Core.Components
     [Serializable]
     public struct FollowingTransformComponent : IComponent
     {
-        public Transform Value;
+        public Transform Transform;
+        public Vector3 Offset;
     }
 }

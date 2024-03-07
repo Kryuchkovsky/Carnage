@@ -16,20 +16,19 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                 {
                     ref var followingTransformComponent = ref entity.GetComponent<FollowingTransformComponent>(out var hasTransformComponent);
                     
-                    if (hasTransformComponent)
+                    if (hasTransformComponent && followingTransformComponent.Transform)
                     {
-                        destinationComponent.Value = followingTransformComponent.Value.position;
+                        destinationComponent.Value = followingTransformComponent.Transform.position + followingTransformComponent.Offset;
                     }
 
-                    var projectilePosition = projectileComponent.Value.transform.position;
+                    var projectilePosition = transformComponent.Value.position;
                     var direction = destinationComponent.Value - projectilePosition;
-                    var distance = direction.magnitude;
-                    var destination = destinationComponent.Value + Vector3.up * distance * projectileDataComponent.Value.FlightRangeToHeightRatio;
+                    var distanceWithoutHeight = new Vector3(direction.x, 0, direction.z).magnitude;
+                    var destination = destinationComponent.Value + Vector3.up * distanceWithoutHeight * projectileDataComponent.Value.FlightRangeToHeightRatio;
                     var delta = (destination - projectilePosition).normalized * projectileDataComponent.Value.Speed * deltaTime;
-                    
-                    transformComponent.Value.rotation = Quaternion.LookRotation(direction);
+                    transformComponent.Value.rotation = Quaternion.LookRotation(delta);
 
-                    if (delta.magnitude >= distance)
+                    if (delta.magnitude >= direction.magnitude)
                     {
                         entity.RemoveComponent<DestinationComponent>();
                         projectileComponent.Value.OnFlightEnded();
