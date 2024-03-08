@@ -56,14 +56,14 @@ namespace _Logic.Gameplay.Units
             data = hasData ? (T)gottenData.GetCopy() : default;
             return hasData;
         }
-    }
-
-    [Serializable]
-    public class UnitData<T> where T : IUnitStats
-    {
-        public bool Has;
         
-        [ConditionalField(nameof(Has), true)]
-        public T Data;
+        [Serializable]
+        private class UnitData<T> where T : IUnitStats
+        {
+            public bool Has;
+        
+            [ConditionalField(nameof(Has), true)]
+            public T Data;
+        }
     }
 }

@@ -36,10 +36,10 @@ namespace _Logic.Gameplay
             _systemsGroup.AddSystem(new UnitSightHandlingSystem());
 
             _systemsGroup.AddSystem(new AttackCooldownTimeProcessingSystem());
-            _systemsGroup.AddSystem(new MeleeAttackHandlingSystem());
-            _systemsGroup.AddSystem(new RangeAttackHandlingSystem());
+            _systemsGroup.AddSystem(new AttackLaunchSystem());
             _systemsGroup.AddSystem(new HomingProjectileCreationRequestsHandlingSystem());
             _systemsGroup.AddSystem(new ProjectileFlightProcessingSystem());
+            _systemsGroup.AddSystem(new AttackAnimationCompletionEventsProcessingSystem());
             _systemsGroup.AddSystem(new DamageRequestsProcessingSystem());
 
             _systemsGroup.AddSystem(new HealthBarAddingSystem());

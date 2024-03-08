@@ -14,7 +14,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<MeleeAttackComponent>().With<TeamDataComponent>().With<TransformComponent>()
+                .With<UnitComponent>().With<AttackComponent>().With<TeamDataComponent>().With<TransformComponent>()
                 .ForEach((Entity entity, ref UnitComponent unitComponent, ref AttackComponent attackComponent, 
                     ref TeamDataComponent teamDataComponent, ref TransformComponent transformComponent) =>
                 {

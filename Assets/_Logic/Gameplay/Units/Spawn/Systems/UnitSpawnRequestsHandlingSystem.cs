@@ -46,15 +46,6 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     {
                         Stats = attackStats
                     });
-                    
-                    if (attackStats.ProjectileData)
-                    {
-                        unit.Entity.AddComponent<RangeAttackComponent>();
-                    }
-                    else
-                    {
-                        unit.Entity.AddComponent<MeleeAttackComponent>();
-                    }
                 }
                 
                 if (data.TryGetData<HealthStats>(out var healthStats))

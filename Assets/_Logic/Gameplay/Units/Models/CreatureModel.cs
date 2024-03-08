@@ -1,4 +1,6 @@
-﻿using _Logic.Gameplay.Units.Attack;
+﻿using System;
+using System.Collections.Generic;
+using _Logic.Gameplay.Units.Attack;
 using DG.Tweening;
 using UnityEngine;
 
@@ -8,7 +10,9 @@ namespace _Logic.Gameplay.Units.Models
     {
         [SerializeField] private Animator _animator;
 
+        private AttackStateMachineBehavior[] _attackStateMachineBehaviors;
         private Sequence _jumpSequence;
+        private Action _attackAnimationCallback;
 
         private readonly int _attackTriggerHash = Animator.StringToHash("Attack");
         private readonly int _weaponTypeIntegerHash = Animator.StringToHash("WeaponType_int");
@@ -20,6 +24,13 @@ namespace _Logic.Gameplay.Units.Models
 
         private void Awake()
         {
+            _attackStateMachineBehaviors = _animator.GetBehaviours<AttackStateMachineBehavior>();
+
+            foreach (var behavior in _attackStateMachineBehaviors)
+            {
+                behavior.AttackCompleted += InvokeAttackAnimationCallback;
+            }
+            
             _jumpSequence = DOTween.Sequence()
                 .Append(transform.DOLocalJump(Vector3.up, 1, 1, 0.25f))
                 .Append(transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.OutQuad))
@@ -29,10 +40,18 @@ namespace _Logic.Gameplay.Units.Models
             _animator.SetInteger(_weaponTypeIntegerHash, (int)WeaponType);
         }
 
-        public override void PlayAttackAnimation()
+        private void OnDestroy()
         {
-            base.PlayAttackAnimation();
+            foreach (var behavior in _attackStateMachineBehaviors)
+            {
+                behavior.AttackCompleted -= InvokeAttackAnimationCallback;
+            }
+        }
+
+        public override void PlayAttackAnimation(Action callback)
+        {
             _animator.SetTrigger(_attackTriggerHash);
+            _attackAnimationCallback = callback;
         }
 
         public override void PlayHitAnimation()
@@ -63,6 +82,14 @@ namespace _Logic.Gameplay.Units.Models
             base.LookAtPoint(point);
             var direction = (point - transform.position).normalized;
             transform.rotation = Quaternion.LookRotation(direction);
+        }
+
+        private void InvokeAttackAnimationCallback()
+        {
+            if (_attackAnimationCallback == null) return;
+            
+            _attackAnimationCallback.Invoke();
+            _attackAnimationCallback = null;
         }
     }
 }

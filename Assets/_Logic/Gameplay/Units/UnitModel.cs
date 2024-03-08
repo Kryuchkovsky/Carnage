@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace _Logic.Gameplay.Units
@@ -27,8 +28,9 @@ namespace _Logic.Gameplay.Units
             }
         }
 
-        public virtual void PlayAttackAnimation()
+        public virtual void PlayAttackAnimation(Action callback = null)
         {
+            callback?.Invoke();
         }
         
         public virtual void PlayHitAnimation()

@@ -1,4 +1,5 @@
-﻿using _Logic.Core;
+﻿using System;
+using _Logic.Core;
 using _Logic.Core.Components;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI;
@@ -133,9 +134,9 @@ namespace _Logic.Gameplay.Units
             _markerSprite.color = color;
         }
 
-        public void OnAttack()
+        public void OnAttack(Action callback = null)
         {
-            Model?.PlayAttackAnimation();
+            Model?.PlayAttackAnimation(callback);
         }
 
         public void OnMove(float speed)
