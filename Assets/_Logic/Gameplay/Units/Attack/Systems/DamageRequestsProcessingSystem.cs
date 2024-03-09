@@ -1,5 +1,4 @@
-﻿using System;
-using _Logic.Core;
+﻿using _Logic.Core;
 using _Logic.Extensions.VFXManager;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health;

@@ -40,5 +40,7 @@ namespace _Logic.Core
                 });
             }
         }
+
+        protected override bool IsNotEntityProvider => false;
     }
 }

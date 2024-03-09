@@ -2,6 +2,7 @@
 using _Logic.Gameplay.Camera.Systems;
 using _Logic.Gameplay.Units.AI.Systems;
 using _Logic.Gameplay.Units.Attack.Systems;
+using _Logic.Gameplay.Units.Experience.Systems;
 using _Logic.Gameplay.Units.Health.Systems;
 using _Logic.Gameplay.Units.Movement.Systems;
 using _Logic.Gameplay.Units.Projectiles.Systems;
@@ -41,6 +42,9 @@ namespace _Logic.Gameplay
             _systemsGroup.AddSystem(new ProjectileFlightProcessingSystem());
             _systemsGroup.AddSystem(new AttackAnimationCompletionEventsProcessingSystem());
             _systemsGroup.AddSystem(new DamageRequestsProcessingSystem());
+
+            _systemsGroup.AddSystem(new ExperienceAmountChangeRequestProcessingSystem());
+            _systemsGroup.AddSystem(new LevelChangeRequestProcessingSystem());
 
             _systemsGroup.AddSystem(new HealthBarAddingSystem());
             _systemsGroup.AddSystem(new HealthChangeRequestsProcessingSystem());

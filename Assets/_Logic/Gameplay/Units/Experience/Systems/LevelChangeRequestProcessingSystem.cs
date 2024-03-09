@@ -1,5 +1,6 @@
 ﻿using _Logic.Core;
 using _Logic.Extensions.Configs;
+using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Experience.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;

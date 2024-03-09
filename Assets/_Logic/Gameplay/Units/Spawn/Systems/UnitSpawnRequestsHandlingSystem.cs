@@ -4,7 +4,7 @@ using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack;
 using _Logic.Gameplay.Units.Attack.Components;
-using _Logic.Gameplay.Units.Experience.Components;
+using _Logic.Gameplay.Units.Experience;
 using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement;
@@ -19,6 +19,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
     public sealed class UnitSpawnRequestsHandlingSystem : AbstractSystem
     {
         private Request<UnitSpawnRequest> _unitSpawnRequest;
+        private Request<LevelChangeRequest> _levelChangeRequest;
         private Event<UnitSpawnEvent> _unitSpawnEvent;
         private UnitsCatalog _unitCatalog;
         private Transform _unitContainer;
@@ -26,6 +27,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
         public override void OnAwake()
         {
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
+            _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
             _unitCatalog = ConfigsManager.GetConfig<UnitsCatalog>();
             _unitContainer = new GameObject("UnitContainer").transform;
@@ -81,9 +83,10 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     unit.Entity.AddComponent<TimerComponent>();
                 }
 
-                unit.Entity.SetComponent(new ExperienceComponent
+                _levelChangeRequest.Publish(new LevelChangeRequest
                 {
-                    Level = 1
+                    Entity = unit.Entity,
+                    Change = 1
                 });
 
                 World.GetRequest<TeamDataSettingRequest>().Publish(new TeamDataSettingRequest

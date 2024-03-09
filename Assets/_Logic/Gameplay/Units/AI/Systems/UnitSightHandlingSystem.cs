@@ -2,6 +2,7 @@ using _Logic.Core.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace _Logic.Gameplay.Units.AI.Systems
 {
@@ -10,14 +11,22 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<TransformComponent>()
-                .ForEach((Entity entity, ref UnitComponent unitComponent,  ref AttackTargetComponent targetComponent, ref TransformComponent transformComponent) =>
+                .With<UnitComponent>().With<AttackComponent>().With<TransformComponent>()
+                .ForEach((Entity entity, ref UnitComponent unitComponent, ref TransformComponent transformComponent) =>
                 {
-                    if (targetComponent.TargetEntity.IsNullOrDisposed() || 
-                        !targetComponent.TargetEntity.Has<TransformComponent>() || 
-                        !targetComponent.IsInAttackRadius) return;
-
-                    var sightPosition = targetComponent.TargetEntity.GetComponent<TransformComponent>().Value.position;
+                    Vector3 sightPosition;
+                    ref var targetComponent = ref entity.GetComponent<AttackTargetComponent>(out var hasTargetComponent);
+                    
+                    if (hasTargetComponent && !targetComponent.TargetEntity.IsNullOrDisposed() &&
+                        targetComponent.TargetEntity.Has<TransformComponent>() && targetComponent.IsInAttackRadius)
+                    {
+                        sightPosition = targetComponent.TargetEntity.GetComponent<TransformComponent>().Value.position;
+                    }
+                    else
+                    {
+                        sightPosition = transformComponent.Value.position + transformComponent.Value.forward;
+                    }
+                    
                     unitComponent.Value.Model.LookAtPoint(sightPosition);
                 });
         }

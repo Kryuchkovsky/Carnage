@@ -24,7 +24,7 @@ MonoBehaviour:
         <BaseValue>k__BackingField: 10
       <Speed>k__BackingField:
         <BaseValue>k__BackingField: 100
-      <ProjectileData>k__BackingField: {fileID: 11400000, guid: 83148e97aecf1924ab60310578cb0866,
+      <ProjectileData>k__BackingField: {fileID: 11400000, guid: 2f0b025036209454bb7a47cb0f1837e4,
         type: 2}
   _healthData:
     Has: 1
