@@ -1,10 +1,11 @@
 ﻿using System;
+using _Logic.Gameplay.Units.Stats;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Movement
 {
     [Serializable]
-    public class MovementStats : IUnitStats
+    public class MovementStats : IStatGroup
     {
         [field: SerializeField] public Stat MovementSpeed { get; private set; } = new(10);
         [field: SerializeField] public Stat RotationSpeed { get; private set; } = new(360);
@@ -19,6 +20,14 @@ namespace _Logic.Gameplay.Units.Movement
             RotationSpeed = new Stat(rotationSpeed);
         }
 
-        public IUnitStats GetCopy() => new MovementStats(MovementSpeed.BaseValue, RotationSpeed.BaseValue);
+        public StatGroupType Type => StatGroupType.MovementStats;
+
+        public void Update(float delta)
+        {
+            MovementSpeed.UpdateModifiers(delta);
+            RotationSpeed.UpdateModifiers(delta);
+        }
+
+        public IStatGroup GetCopy() => new MovementStats(MovementSpeed.BaseValue, RotationSpeed.BaseValue);
     }
 }

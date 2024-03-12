@@ -9,7 +9,7 @@ namespace _Logic.Gameplay.Camera.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class GameCameraTargetGroupHandlingSystem : AbstractSystem
+    public sealed class GameCameraTargetGroupHandlingSystem : AbstractUpdateSystem
     {
         private FilterBuilder _gameCameraFilter;
         

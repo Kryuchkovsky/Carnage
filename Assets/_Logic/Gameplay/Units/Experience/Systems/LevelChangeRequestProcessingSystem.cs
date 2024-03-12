@@ -11,7 +11,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class LevelChangeRequestProcessingSystem : AbstractSystem
+    public sealed class LevelChangeRequestProcessingSystem : AbstractUpdateSystem
     {
         private Request<LevelChangeRequest> _request;
         private ExperienceSettings _experienceSettings;
@@ -19,7 +19,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         public override void OnAwake()
         {
             _request = World.GetRequest<LevelChangeRequest>();
-            _experienceSettings = ConfigsManager.GetConfig<ExperienceSettings>();
+            _experienceSettings = ConfigManager.GetConfig<ExperienceSettings>();
         }
 
         public override void OnUpdate(float deltaTime)

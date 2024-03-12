@@ -149,7 +149,7 @@ namespace _Logic.Gameplay.Units
             Model?.PlayHitAnimation();
         }
 
-        public void OnDie()
+        public void OnDie(float delay = 0)
         {
             gameObject.layer = LayerMask.NameToLayer("Corpse");
             Model?.PlayDeathAnimation();
@@ -163,10 +163,8 @@ namespace _Logic.Gameplay.Units
             {
                 _navMeshObstacle.enabled = false;
             }
-
-            var healthComponent = Entity.GetComponent<HealthComponent>(out var hasHealthComponent);
-            var destroyDelay = hasHealthComponent ? healthComponent.Stats.CorpseExistenceTime.CurrentValue : 0;
-            Destroy(gameObject, destroyDelay);
+            
+            Destroy(gameObject, delay);
         }
         
         private void OnDrawGizmosSelected()
@@ -178,7 +176,7 @@ namespace _Logic.Gameplay.Units
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, attackStats.Range.CurrentValue);
 
-                var searchRange = attackStats.Range.CurrentValue * ConfigsManager.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
+                var searchRange = attackStats.Range.CurrentValue * ConfigManager.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, searchRange);
             } 

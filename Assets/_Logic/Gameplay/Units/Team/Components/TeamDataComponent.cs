@@ -12,6 +12,7 @@ namespace _Logic.Gameplay.Units.Team.Components
     public struct TeamDataComponent : IComponent
     {
         public Color Color;
+        public int AlliesLayer;
         public int EnemiesLayer;
         public int Id;
     }

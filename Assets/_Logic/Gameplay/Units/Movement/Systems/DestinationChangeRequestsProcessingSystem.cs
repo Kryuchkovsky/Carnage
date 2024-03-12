@@ -4,7 +4,7 @@ using Scellecs.Morpeh;
 
 namespace _Logic.Gameplay.Units.Movement.Systems
 {
-    public sealed class DestinationChangeRequestsProcessingSystem : AbstractSystem
+    public sealed class DestinationChangeRequestsProcessingSystem : AbstractUpdateSystem
     {
         private Request<DestinationChangeRequest> _request;
         

@@ -3,12 +3,13 @@ using _Logic.Extensions.HealthBar;
 using _Logic.Extensions.Popup;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
+using _Logic.Gameplay.Units.Stats;
 using Scellecs.Morpeh;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Health.Systems
 {
-    public sealed class HealthChangeRequestsProcessingSystem : AbstractSystem
+    public sealed class HealthChangeRequestsProcessingSystem : AbstractUpdateSystem
     {
         private Request<HealthChangeRequest> _healthBaraAddingRequest;
         
@@ -24,8 +25,8 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 if (request.Entity.IsNullOrDisposed() || !request.Entity.Has<HealthComponent>()) return;
 
                 ref var healthComponent = ref request.Entity.GetComponent<HealthComponent>();
-                healthComponent.Value += request.Change;
-                healthComponent.Percentage = healthComponent.Value / healthComponent.Stats.MaxHealth.CurrentValue;
+                healthComponent.Stats.CurrentHealth.AddModifier(new StatModifier(StatModifierOperationType.Addition, request.Change));
+                healthComponent.Percentage = healthComponent.Stats.CurrentHealth.CurrentValue / healthComponent.Stats.MaxHealth.CurrentValue;
                 
                 var unitComponent = request.Entity.GetComponent<UnitComponent>(out var hasUnitComponent);
                 
@@ -37,7 +38,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
                     {
                         healthBarComponent.Value.SetFillValue(healthComponent.Percentage);
                         
-                        if (healthComponent.Value <= 0)
+                        if ( healthComponent.Stats.CurrentHealth.CurrentValue <= 0)
                         {
                             HealthBarsService.Instance.RemoveHealthBar(healthBarComponent.Value);
                         }
@@ -47,7 +48,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
                     var popupText = request.Change >= 0 ? $"+{request.Change}" : $"{request.Change}";
                     PopupsService.Instance.CreateWorldTextPopup(unitComponent.Value.transform, popupText, popupColor);
                     
-                    if (healthComponent.Value <= 0)
+                    if ( healthComponent.Stats.CurrentHealth.CurrentValue <= 0)
                     {
                         unitComponent.Value.OnDie();
                         request.Entity.Dispose();

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Spawn.Systems
 {
-    public sealed class HeroPresenceControllingSystem : AbstractSystem
+    public sealed class HeroPresenceControllingSystem : AbstractUpdateSystem
     {
         private FilterBuilder _playerUnitsFilter;
         private Request<UnitSpawnRequest> _request;
@@ -26,7 +26,9 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     UnitType = UnitType.HumanMage,
                     Position = Vector3.zero,
                     TeamId = 0,
-                    HasAI = false
+                    HasAI = false,
+                    IsPrioritizedTarget = true,
+                    Priority = 100
                 });
             }
         }

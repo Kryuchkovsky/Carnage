@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _GameLogic.Extensions
 {
@@ -76,5 +77,7 @@ namespace _GameLogic.Extensions
 
             return path;
         }
+
+        public static Vector3 GetRandomDirectionXZ() => new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f)).normalized;
     }
 }

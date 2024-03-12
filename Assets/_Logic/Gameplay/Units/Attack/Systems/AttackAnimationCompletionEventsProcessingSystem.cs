@@ -2,23 +2,26 @@
 using _Logic.Core.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Effects.Requests;
 using _Logic.Gameplay.Units.Projectiles;
 using Scellecs.Morpeh;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Attack.Systems
 {
-    public sealed class AttackAnimationCompletionEventsProcessingSystem : AbstractSystem
+    public sealed class AttackAnimationCompletionEventsProcessingSystem : AbstractUpdateSystem
     {
         private Event<AttackAnimationCompletionEvent> _event;
         private Request<DamageRequest> _damageRequest;
         private Request<HomingProjectileCreationRequest> _projectileCreationRequest;
+        private Request<ImpactCreationRequest> _impactCreationRequest;
 
         public override void OnAwake()
         {
             _event = World.GetEvent<AttackAnimationCompletionEvent>();
             _damageRequest = World.GetRequest<DamageRequest>();
             _projectileCreationRequest = World.GetRequest<HomingProjectileCreationRequest>();
+            _impactCreationRequest = World.GetRequest<ImpactCreationRequest>();
         }
 
         public override void OnUpdate(float deltaTime)

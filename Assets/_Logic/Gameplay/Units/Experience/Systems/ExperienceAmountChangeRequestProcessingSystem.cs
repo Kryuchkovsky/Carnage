@@ -9,7 +9,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class ExperienceAmountChangeRequestProcessingSystem : AbstractSystem
+    public sealed class ExperienceAmountChangeRequestProcessingSystem : AbstractUpdateSystem
     {
         private Request<ExperienceAmountChangeRequest> _experienceAmountChangeRequest;
         private Request<LevelChangeRequest> _levelChangeRequest;
@@ -19,7 +19,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         {
             _experienceAmountChangeRequest = World.GetRequest<ExperienceAmountChangeRequest>();
             _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
-            _experienceSettings = ConfigsManager.GetConfig<ExperienceSettings>();
+            _experienceSettings = ConfigManager.GetConfig<ExperienceSettings>();
         }
 
         public override void OnUpdate(float deltaTime)

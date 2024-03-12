@@ -19,7 +19,7 @@ namespace _Logic.Extensions.HealthBar
         {
             base.Init();
             _camera ??= Camera.main;
-            _settings = ConfigsManager.GetConfig<HealthBarSettings>();
+            _settings = ConfigManager.GetConfig<HealthBarSettings>();
             _healthBarsPool = new(_settings.HealthBar, 16, true, _canvas.transform,
                 takeAction: v => _healthBarViews.Add(v),
                 returnAction: v =>

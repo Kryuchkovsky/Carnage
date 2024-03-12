@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units.AI.Systems
 {
-    public sealed class GlobalTargetFollowingSystem : AbstractSystem
+    public sealed class GlobalTargetFollowingSystem : AbstractUpdateSystem
     {
         private Dictionary<int, PriorityTargetData> _dictionary;
         private FilterBuilder _prioritizedTargetsFilter;

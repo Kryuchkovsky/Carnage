@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using _Logic.Core;
 using _Logic.Core.Components;
@@ -13,7 +12,7 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class HomingProjectileCreationRequestsHandlingSystem : AbstractSystem
+    public sealed class HomingProjectileCreationRequestsHandlingSystem : AbstractUpdateSystem
     {
         private Dictionary<ProjectileType, ObjectPool<ProjectileProvider>> _projectilePools;
         private Request<HomingProjectileCreationRequest> _request;
@@ -23,13 +22,15 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
         {
             _projectilePools = new Dictionary<ProjectileType, ObjectPool<ProjectileProvider>>();
             _request = World.GetRequest<HomingProjectileCreationRequest>();
-            _projectilesCatalog = ConfigsManager.GetConfig<ProjectilesCatalog>();
+            _projectilesCatalog = ConfigManager.GetConfig<ProjectilesCatalog>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
             foreach (var request in _request.Consume())
             {
+                if (request.Target == null) continue;
+                
                 if (!_projectilePools.ContainsKey(request.Data.Type))
                 {
                     _projectilePools.Add(request.Data.Type, new ObjectPool<ProjectileProvider>(

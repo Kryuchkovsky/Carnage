@@ -1,26 +1,34 @@
 ﻿using System;
+using _Logic.Gameplay.Units.Stats;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Health
 {
     [Serializable]
-    public class HealthStats : IUnitStats
+    public class HealthStats : IStatGroup
     {
         [field: SerializeField] public Stat MaxHealth { get; private set; } = new(100);
+        [field: SerializeField] public Stat CurrentHealth { get; private set; } = new(100);
         [field: SerializeField] public Stat RegenerationRate { get; private set; } = new(1);
-        [field: SerializeField] public Stat CorpseExistenceTime { get; private set; } = new(3);
 
         public HealthStats()
         {
         }
 
-        public HealthStats(float maxHealth, float regenerationRate, float corpseExistenceTime)
+        public HealthStats(float maxHealth, float regenerationRate)
         {
             MaxHealth = new Stat(maxHealth);
             RegenerationRate = new Stat(regenerationRate);
-            CorpseExistenceTime = new Stat(corpseExistenceTime);
         }
 
-        public IUnitStats GetCopy() => new HealthStats(MaxHealth.BaseValue, RegenerationRate.BaseValue, CorpseExistenceTime.BaseValue);
+        public StatGroupType Type => StatGroupType.HealthStats;
+
+        public void Update(float delta)
+        {
+            MaxHealth.UpdateModifiers(delta);
+            RegenerationRate.UpdateModifiers(delta);
+        }
+
+        public IStatGroup GetCopy() => new HealthStats(MaxHealth.BaseValue, RegenerationRate.BaseValue);
     }
 }

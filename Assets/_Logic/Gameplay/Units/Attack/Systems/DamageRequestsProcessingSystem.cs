@@ -6,7 +6,7 @@ using Scellecs.Morpeh;
 
 namespace _Logic.Gameplay.Units.Attack.Systems
 {
-    public sealed class DamageRequestsProcessingSystem : AbstractSystem
+    public sealed class DamageRequestsProcessingSystem : AbstractUpdateSystem
     {
         private Request<DamageRequest> _damageRequest;
         private Request<HealthChangeRequest> _healthChangeRequest;
@@ -37,7 +37,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 var receivingUnit = request.ReceiverEntity.GetComponent<UnitComponent>().Value;
                 var receiverPosition = receivingUnit.transform.position;
                 var effectPosition = receiverPosition + (attackingUnit.transform.position - receiverPosition).normalized * _effectIndent;
-                EffectsService.Instance.CreateEffect(receivingUnit.Model.HitEffectType, effectPosition);
+                EffectsService.Instance.CreateEffect(receivingUnit.Model.HitVFXType, effectPosition);
             }
         }
     }

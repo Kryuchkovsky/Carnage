@@ -5,7 +5,9 @@ using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Attack;
 using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Movement;
+using _Logic.Gameplay.Units.Spawn;
 using _Logic.Gameplay.Units.Spawn.Components;
+using _Logic.Gameplay.Units.Stats;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units
@@ -13,7 +15,7 @@ namespace _Logic.Gameplay.Units
     [CreateAssetMenu(menuName = "Create UnitDataCollection", fileName = "UnitDataCollection")]
     public class UnitDataCollection : Data<UnitType>
     {
-        private Dictionary<Type, IUnitStats> _dataCatalog;
+        private Dictionary<Type, IStatGroup> _dataCatalog;
 
         [SerializeField] private UnitData<AttackStats> _attackData;
         [SerializeField] private UnitData<HealthStats> _healthData;
@@ -27,7 +29,7 @@ namespace _Logic.Gameplay.Units
         {
             base.Initialize();
             
-            _dataCatalog = new Dictionary<Type, IUnitStats>();
+            _dataCatalog = new Dictionary<Type, IStatGroup>();
 
             if (_attackData.Has)
             {
@@ -50,7 +52,7 @@ namespace _Logic.Gameplay.Units
             }
         }
 
-        public bool TryGetData<T>(out T data) where T : IUnitStats
+        public bool TryGetData<T>(out T data) where T : IStatGroup
         {
             var hasData = _dataCatalog.TryGetValue(typeof(T), out var gottenData);
             data = hasData ? (T)gottenData.GetCopy() : default;
@@ -58,7 +60,7 @@ namespace _Logic.Gameplay.Units
         }
         
         [Serializable]
-        private class UnitData<T> where T : IUnitStats
+        private class UnitData<T> where T : IStatGroup
         {
             public bool Has;
         

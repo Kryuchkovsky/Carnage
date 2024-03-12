@@ -12,17 +12,17 @@ namespace _Logic.Extensions.VFXManager
         [SerializeField, Range(0, 1024)] private int _initialPoolsCapacity;
         [SerializeField] private bool _autoFillingIsEnabled;
         
-        private Dictionary<EffectType, ObjectPool<Effect>> _effectsPools;
+        private Dictionary<VFXType, ObjectPool<Effect>> _effectsPools;
         private EffectsCatalog _effectsCatalog;
 
         protected override void Init()
         {
             base.Init();
             
-            _effectsPools = new Dictionary<EffectType, ObjectPool<Effect>>();
-            _effectsCatalog = ConfigsManager.GetConfig<EffectsCatalog>();
+            _effectsPools = new Dictionary<VFXType, ObjectPool<Effect>>();
+            _effectsCatalog = ConfigManager.GetConfig<EffectsCatalog>();
             
-            foreach (var effectType in (EffectType[])Enum.GetValues(typeof(EffectType)))
+            foreach (var effectType in (VFXType[])Enum.GetValues(typeof(VFXType)))
             {
                 if (!_effectsCatalog.HasData((int)effectType)) continue;
                 
@@ -47,7 +47,7 @@ namespace _Logic.Extensions.VFXManager
             }
         }
 
-        public void CreateEffect(EffectType type, Vector3 position, Quaternion rotation = new())
+        public void CreateEffect(VFXType type, Vector3 position, Quaternion rotation = new())
         {
             var effect = _effectsPools[type].Take();
             effect.transform.position = position;

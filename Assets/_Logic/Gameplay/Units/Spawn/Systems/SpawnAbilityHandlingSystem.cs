@@ -18,23 +18,20 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 {
                     if (timerComponent.Value <= 0)
                     {
-                        for (int i = 0; i < 20; i++)
-                        {
-                            var allUnitTypes = spawnAbilityComponent.Data.Units;
-                            var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];
+                        var allUnitTypes = spawnAbilityComponent.Data.Units;
+                        var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];
                             
-                            World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest
-                            {
-                                UnitType = unitType,
-                                Position = unitComponent.Value.transform.position,
-                                TeamId = teamDataComponent.Id,
-                                HasAI = true
-                            });
-                            entity.SetComponent(new TimerComponent
-                            {
-                                Value = 300
-                            });
-                        }
+                        World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest
+                        {
+                            UnitType = unitType,
+                            Position = unitComponent.Value.transform.position,
+                            TeamId = teamDataComponent.Id,
+                            HasAI = true
+                        });
+                        entity.SetComponent(new TimerComponent
+                        {
+                            Value = spawnAbilityComponent.Data.SpawnInterval.CurrentValue
+                        });
                     }
                 });
         }

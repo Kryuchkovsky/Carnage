@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Team.Systems
 {
-    public class TeamDataSettingRequestsProcessingSystem : AbstractSystem
+    public class TeamDataSettingRequestsProcessingSystem : AbstractUpdateSystem
     {
         private Request<TeamDataSettingRequest> _request;
         private readonly int _maxTeamNumber = 2;
@@ -20,19 +20,27 @@ namespace _Logic.Gameplay.Units.Team.Systems
         {
             foreach (var request in _request.Consume())
             {
+                var alliesLayer = 0;
                 var enemiesLayer = 0;
                 
                 for (int j = 0; j < _maxTeamNumber; j++)
                 {
-                    if (j == request.TeamId) continue;
-
                     var layer = LayerMask.NameToLayer($"Team{j}");
-                    enemiesLayer |= layer;
+                    
+                    if (j == request.TeamId)
+                    {
+                        alliesLayer |= layer;
+                    }
+                    else
+                    {
+                        enemiesLayer |= layer;
+                    }
                 }
 
                 var teamDataComponent = new TeamDataComponent
                 {
                     Color = request.TeamId == 0 ? Color.blue : Color.red,
+                    AlliesLayer = alliesLayer,
                     EnemiesLayer = enemiesLayer,
                     Id = request.TeamId
                 };

@@ -9,7 +9,7 @@ namespace _Logic.Gameplay.Units
         [field: SerializeField] private Renderer Renderer;
         [field: SerializeField] public Collider Collider { get; private set; }
         [field: SerializeField] public Transform AttackPoint { get; private set; }
-        [field: SerializeField] public EffectType HitEffectType { get; private set; }
+        [field: SerializeField] public VFXType HitVFXType { get; private set; }
         [field: SerializeField] public NavMeshObstacleShape NavMeshObstacleShape { get; private set; } = NavMeshObstacleShape.Capsule;
         [field: SerializeField] public int NavMeshAgentTypeId { get; private set; }
         

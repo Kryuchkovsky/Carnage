@@ -1,4 +1,5 @@
-﻿using _Logic.Core;
+﻿using System.Collections.Generic;
+using _Logic.Core;
 using _Logic.Core.Components;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI.Components;
@@ -10,13 +11,15 @@ using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement;
 using _Logic.Gameplay.Units.Movement.Components;
 using _Logic.Gameplay.Units.Spawn.Components;
+using _Logic.Gameplay.Units.Stats;
+using _Logic.Gameplay.Units.Stats.Components;
 using _Logic.Gameplay.Units.Team;
 using Scellecs.Morpeh;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Spawn.Systems
 {
-    public sealed class UnitSpawnRequestsHandlingSystem : AbstractSystem
+    public sealed class UnitSpawnRequestsHandlingSystem : AbstractUpdateSystem
     {
         private Request<UnitSpawnRequest> _unitSpawnRequest;
         private Request<LevelChangeRequest> _levelChangeRequest;
@@ -29,7 +32,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
             _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
-            _unitCatalog = ConfigsManager.GetConfig<UnitsCatalog>();
+            _unitCatalog = ConfigManager.GetConfig<UnitsCatalog>();
             _unitContainer = new GameObject("UnitContainer").transform;
         }
 
@@ -42,8 +45,18 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 var model = Object.Instantiate(data.Model);
                 unit.SetModel(model);
 
+                var stats = new Dictionary<StatType, Stat>();
+                unit.Entity.SetComponent(new StatsComponent
+                {
+                    Value = stats
+                });
+                
                 if (data.TryGetData<AttackStats>(out var attackStats))
                 {
+                    stats.Add(StatType.AttackTime, attackStats.AttackTime);
+                    stats.Add(StatType.AttackDamage, attackStats.Damage);
+                    stats.Add(StatType.AttackRange, attackStats.Range);
+                    stats.Add(StatType.AttackSpeed, attackStats.Speed);
                     unit.Entity.SetComponent(new AttackComponent
                     {
                         Stats = attackStats
@@ -52,10 +65,12 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 
                 if (data.TryGetData<HealthStats>(out var healthStats))
                 {
+                    stats.Add(StatType.HealthRegenerationRate, healthStats.RegenerationRate);
+                    stats.Add(StatType.MaxHeath, healthStats.MaxHealth);
+                    stats.Add(StatType.CurrentHealth, healthStats.CurrentHealth);
                     unit.Entity.SetComponent(new HealthComponent
                     {
                         Stats = healthStats,
-                        Value = healthStats.MaxHealth.CurrentValue
                     });
                 }
 
@@ -65,17 +80,27 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 
                 if (hasMovementData)
                 {
+                    stats.Add(StatType.MovementSpeed, movementData.MovementSpeed);
+                    stats.Add(StatType.RotationSpeed, movementData.RotationSpeed);
                     unit.Entity.SetComponent(new MovementComponent
                     {
                         Stats = movementData
                     });
                 }
 
-                agentComponent.Value.enabled = hasMovementData;
-                obstacleComponent.Value.enabled = !hasMovementData;
+                if (hasAgentComponent)
+                {
+                    agentComponent.Value.enabled = hasMovementData;
+                }
+
+                if (hasObstacleComponent)
+                {
+                    obstacleComponent.Value.enabled = !hasMovementData;
+                }
 
                 if (data.TryGetData<SpawnAbilityData>(out var spawnAbilityData))
                 {
+                    stats.Add(StatType.AbilityCooldownSpeed, spawnAbilityData.SpawnInterval);
                     unit.Entity.SetComponent(new SpawnAbilityComponent
                     {
                         Data = spawnAbilityData

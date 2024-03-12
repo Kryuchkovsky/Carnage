@@ -10,7 +10,7 @@ namespace _Logic.Extensions.Configs.Editor
         {
             try
             {
-                ConfigsManager.FillConfigs();
+                ConfigManager.FillConfigs();
             }
             catch (Exception e)
             {
@@ -24,7 +24,7 @@ namespace _Logic.Extensions.Configs.Editor
         {
             try
             {
-                ConfigsManager.GenerateDataEnumTypes();
+                ConfigManager.GenerateDataEnumTypes();
             }
             catch (Exception e)
             {
