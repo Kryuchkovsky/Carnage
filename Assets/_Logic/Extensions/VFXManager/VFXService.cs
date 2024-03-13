@@ -13,20 +13,20 @@ namespace _Logic.Extensions.VFXManager
         [SerializeField] private bool _autoFillingIsEnabled;
         
         private Dictionary<VFXType, ObjectPool<Effect>> _effectsPools;
-        private EffectsCatalog _effectsCatalog;
+        private VFXCatalog _vfxCatalog;
 
         protected override void Init()
         {
             base.Init();
             
             _effectsPools = new Dictionary<VFXType, ObjectPool<Effect>>();
-            _effectsCatalog = ConfigManager.GetConfig<EffectsCatalog>();
+            _vfxCatalog = ConfigManager.GetConfig<VFXCatalog>();
             
             foreach (var effectType in (VFXType[])Enum.GetValues(typeof(VFXType)))
             {
-                if (!_effectsCatalog.HasData((int)effectType)) continue;
+                if (!_vfxCatalog.HasData((int)effectType)) continue;
                 
-                var effect = _effectsCatalog.GetData((int)effectType);
+                var effect = _vfxCatalog.GetData((int)effectType);
                 
                 _effectsPools.Add(
                     effectType, 
