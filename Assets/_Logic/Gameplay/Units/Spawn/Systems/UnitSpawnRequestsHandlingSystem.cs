@@ -5,9 +5,13 @@ using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack;
 using _Logic.Gameplay.Units.Attack.Components;
+using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Experience;
+using _Logic.Gameplay.Units.Experience.Components;
+using _Logic.Gameplay.Units.Experience.Requests;
 using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Health.Components;
+using _Logic.Gameplay.Units.Health.Events;
 using _Logic.Gameplay.Units.Movement;
 using _Logic.Gameplay.Units.Movement.Components;
 using _Logic.Gameplay.Units.Spawn.Components;
@@ -23,7 +27,9 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
     {
         private Request<UnitSpawnRequest> _unitSpawnRequest;
         private Request<LevelChangeRequest> _levelChangeRequest;
+        private Request<TeamDataSettingRequest> _teamDataSettingRequest;
         private Event<UnitSpawnEvent> _unitSpawnEvent;
+        private Event<UnitDeathEvent> _unitDeathEvent;
         private UnitsCatalog _unitCatalog;
         private Transform _unitContainer;
 
@@ -31,7 +37,9 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
         {
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
             _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
+            _teamDataSettingRequest = World.GetRequest<TeamDataSettingRequest>();
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
+            _unitDeathEvent = World.GetEvent<UnitDeathEvent>();
             _unitCatalog = ConfigManager.GetConfig<UnitsCatalog>();
             _unitContainer = new GameObject("UnitContainer").transform;
         }
@@ -112,13 +120,13 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 {
                     Entity = unit.Entity,
                     Change = 1
-                });
+                }, true);
 
-                World.GetRequest<TeamDataSettingRequest>().Publish(new TeamDataSettingRequest
+                _teamDataSettingRequest.Publish(new TeamDataSettingRequest
                 {
                     Entity = unit.Entity,
                     TeamId = request.TeamId
-                });
+                }, true);
 
                 if (request.IsPrioritizedTarget)
                 {
@@ -132,12 +140,28 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 {
                     unit.Entity.AddComponent<AIComponent>();
                 }
+                else
+                {
+                    unit.Entity.SetComponent(new ExperienceBarComponent
+                    {
+                        Value = PlayerExperienceBar.Instance
+                    });
+                }
 
                 _unitSpawnEvent.NextFrame(new UnitSpawnEvent
                 {
-                    UnitProvider = unit,
-                    Data = request
+                    Entity = unit.Entity
                 });
+            }
+
+            foreach (var deathEvent in _unitDeathEvent.publishedChanges)
+            {
+                if (deathEvent.CorpseEntity.IsNullOrDisposed() || !deathEvent.CorpseEntity.Has<UnitComponent>()) continue;
+
+                ref var unitComponent = ref deathEvent.CorpseEntity.GetComponent<UnitComponent>();
+                
+                unitComponent.Value.OnDie();
+                deathEvent.CorpseEntity.Dispose();
             }
         }
     }

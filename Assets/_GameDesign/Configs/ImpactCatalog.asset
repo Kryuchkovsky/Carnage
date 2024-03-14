@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 395d444a4ad4449a873db85ec4907f84, type: 3}
-  m_Name: BloodExplosion
+  m_Script: {fileID: 11500000, guid: c850cc8bdc694073bde1df0a1d382b9a, type: 3}
+  m_Name: ImpactCatalog
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 2
-  <Effect>k__BackingField: {fileID: 8186480582374025290, guid: 50d42fb1a5d9a524d89c7b614a304171,
-    type: 3}
+  _dataList: []

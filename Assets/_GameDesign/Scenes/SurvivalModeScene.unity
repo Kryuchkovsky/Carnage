@@ -1128,6 +1128,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb4ff9cc756c18b489b98654ff347995, type: 2}
   - {fileID: 11400000, guid: 0d8090b101b610a4790db61d70841fa8, type: 2}
   - {fileID: 11400000, guid: bd6dd81cb4b60ee47be615bd6e5ba4f5, type: 2}
+  - {fileID: 11400000, guid: 1b5ed6ec3b6cf054c89cd5d645469130, type: 2}
+  - {fileID: 11400000, guid: a10c16d7f3404cd4b9db8a3c03128631, type: 2}
 --- !u!4 &1501100652
 Transform:
   m_ObjectHideFlags: 0
@@ -1514,7 +1516,7 @@ PrefabInstance:
     - target: {fileID: 9014770097076440882, guid: e1abc4bef70590b4bb90623a5f9a1b4e,
         type: 3}
       propertyPath: m_Name
-      value: EffectsService
+      value: VFXService
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

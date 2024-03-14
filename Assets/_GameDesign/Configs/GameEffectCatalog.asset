@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f6de57ce3c049faa3c27973c749e686, type: 3}
-  m_Name: FireExplosion
+  m_Script: {fileID: 11500000, guid: 6e43349e8e9842aca72d990ab1fa8e04, type: 3}
+  m_Name: GameEffectCatalog
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 0
-  _impactActions:
-  - {fileID: 11400000, guid: bad2281ba2e0db149b96f5e2b8c8207d, type: 2}
-  _alliesIncluded: 0
-  _enemiesIncluded: 1
-  _radius: 5
+  _dataList: []

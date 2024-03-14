@@ -1,8 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,10 +21,31 @@ namespace _Logic.Extensions.Attributes.Editor
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var conditionalAttribute = (ConditionalFieldAttribute)attribute;
-            var path = property.propertyPath.Contains(".") 
-                ? Regex.Replace(property.propertyPath, "[.].*$", $".{conditionalAttribute.FieldName}")
-                : conditionalAttribute.FieldName;
+            var path = conditionalAttribute.FieldName;
+            var hasDots = property.propertyPath.Contains(".");
+
+            if (hasDots)
+            {
+                var index = property.propertyPath.LastIndexOf(".", StringComparison.Ordinal);
+                path = property.propertyPath.Substring(0, index) + "." + conditionalAttribute.FieldName;
+            }
+            
             var comparedField = property.serializedObject.FindProperty(path);
+
+            if (comparedField == null)
+            {
+                var fixedFieldName = $"<{conditionalAttribute.FieldName}>k__BackingField";
+                path = fixedFieldName;
+
+                if (hasDots)
+                {
+                    var index = property.propertyPath.LastIndexOf(".", StringComparison.Ordinal);
+                    path = $"{property.propertyPath.Substring(0, index)}.{fixedFieldName}";
+                }
+                
+                comparedField = property.serializedObject.FindProperty(path);
+            }
+            
             var comparedFieldValue = comparedField.boxedValue;
 
             CheckFieldValues(conditionalAttribute, comparedFieldValue);

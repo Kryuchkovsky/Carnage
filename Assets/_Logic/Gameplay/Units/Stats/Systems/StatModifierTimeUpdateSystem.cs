@@ -1,8 +1,4 @@
 ﻿using _Logic.Core;
-using _Logic.Gameplay.Units.Attack.Components;
-using _Logic.Gameplay.Units.Health.Components;
-using _Logic.Gameplay.Units.Movement.Components;
-using _Logic.Gameplay.Units.Spawn.Components;
 using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;

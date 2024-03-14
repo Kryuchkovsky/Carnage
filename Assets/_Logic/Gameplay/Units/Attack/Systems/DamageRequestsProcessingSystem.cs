@@ -29,7 +29,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 
                 _healthChangeRequest.Publish(new HealthChangeRequest
                 {
-                    Entity = request.ReceiverEntity,
+                    TargetEntity = request.ReceiverEntity,
+                    SenderEntity = request.AttackerEntity,
                     Change = -request.Damage
                 });
                 
@@ -37,7 +38,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 var receivingUnit = request.ReceiverEntity.GetComponent<UnitComponent>().Value;
                 var receiverPosition = receivingUnit.transform.position;
                 var effectPosition = receiverPosition + (attackingUnit.transform.position - receiverPosition).normalized * _effectIndent;
-                EffectsService.Instance.CreateEffect(receivingUnit.Model.HitVFXType, effectPosition);
+                VFXService.Instance.CreateEffect(receivingUnit.Model.HitVFXType, effectPosition);
             }
         }
     }

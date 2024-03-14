@@ -39,8 +39,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 {
                     UpdatePositionsOfPrioritizedTargets();
                 }
-
-                var position = entity.GetComponent<TransformComponent>().Value.position;
+                
                 var teamId = entity.GetComponent<TeamDataComponent>().Id;
                 var pair = _dictionary.Where(p => p.Key != teamId)
                     .Select(p => (KeyValuePair<int, PriorityTargetData>?) p)
@@ -49,12 +48,11 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 if (pair != null)
                 {
                     var enemyTeamId = pair.Value.Key;
-                    var destination = _dictionary[enemyTeamId].Position + (position - _dictionary[enemyTeamId].Position).normalized;
-
-                    World.GetRequest<DestinationChangeRequest>().Publish(new DestinationChangeRequest
+                    var targetEntity = _dictionary[enemyTeamId].Entity;
+                    
+                    entity.SetComponent(new AttackTargetComponent
                     {
-                        Entity = entity,
-                        Destination = destination
+                        TargetEntity = targetEntity
                     });
                 }
             }
@@ -65,20 +63,20 @@ namespace _Logic.Gameplay.Units.AI.Systems
             foreach (var entity in _prioritizedTargetsFilter.Build())
             {
                 var teamId = entity.GetComponent<TeamDataComponent>().Id;
+                var transform = entity.GetComponent<TransformComponent>().Value;
                 var priority = entity.GetComponent<PriorityComponent>().Value;
-                var position = entity.GetComponent<TransformComponent>().Value.position;
 
                 _dictionary.TryAdd(teamId, new PriorityTargetData
                 {
                     Entity = entity,
-                    Position = position,
+                    Transform = transform,
                     Priority = priority
                 });
 
                 if (_dictionary[teamId].Entity.IsNullOrDisposed() || priority < _dictionary[teamId].Priority)
                 {
                     _dictionary[teamId].Entity = entity;
-                    _dictionary[teamId].Position = position;
+                    _dictionary[teamId].Transform = transform;
                     _dictionary[teamId].Priority = priority;
                 }
             }
@@ -89,7 +87,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         private class PriorityTargetData
         {
             public Entity Entity;
-            public Vector3 Position;
+            public Transform Transform;
             public int Priority;
         }
     }

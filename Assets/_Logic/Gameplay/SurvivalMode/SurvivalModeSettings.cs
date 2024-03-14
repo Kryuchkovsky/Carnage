@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Logic.Extensions.Configs;
+using _Logic.Gameplay.Units.Effects;
 using UnityEngine;
 
 namespace _Logic.Gameplay.SurvivalMode
@@ -8,6 +9,7 @@ namespace _Logic.Gameplay.SurvivalMode
     public class SurvivalModeSettings : Config
     {
         [field: SerializeField] public List<UnitType> Units { get; private set; }
+        [field: SerializeField] public EffectType PlayerEnhancmentEffectType { get; private set; }
         [field: SerializeField] public float EnemySpawnInterval { get; private set; } = 5;
     }
 }

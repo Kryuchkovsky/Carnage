@@ -6,9 +6,9 @@ using UnityEngine;
 namespace _Logic.Gameplay.Units.Effects
 {
     [Serializable]
-    public struct StatChange
+    public struct EffectAffection
     {
-        [field: SerializeField] public StatType Type { get; private set; }
+        [field: SerializeField] public StatType StatType { get; private set; }
         [field: SerializeField] public StatModifierOperationType OperationType { get; private set; }
         [field: SerializeField] public float Value { get; private set; }
     }

@@ -10,7 +10,10 @@ namespace _Logic.Gameplay.Units.Experience.Components
     public struct ExperienceComponent : IComponent
     {
         public int Level;
-        public float CurrentExperienceAmount;
-        public float ExperienceAmountForNextLevel;
+        public float TotalExperienceAmount;
+        public float CurrentLevelCost;
+        public float NextLevelCost;
+        public float LevelUpCost;
+        public float Progress;
     }
 }

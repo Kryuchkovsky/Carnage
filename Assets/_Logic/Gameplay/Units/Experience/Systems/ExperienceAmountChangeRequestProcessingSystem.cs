@@ -1,8 +1,10 @@
 using _Logic.Core;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Experience.Components;
+using _Logic.Gameplay.Units.Experience.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Experience.Systems
 {
@@ -26,20 +28,36 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         {
             foreach (var request in _experienceAmountChangeRequest.Consume())
             {
-                if (request.ReceivingEntity.Has<ExperienceComponent>())
-                {
-                    ref var experienceComponent = ref request.ReceivingEntity.GetComponent<ExperienceComponent>();
-                    experienceComponent.CurrentExperienceAmount += request.Change;
-                    var newLevel = _experienceSettings.GetLevelByExperienceAmount(experienceComponent.CurrentExperienceAmount);
-                    var levelChange = newLevel - experienceComponent.Level;
+                if (request.ReceivingEntity.IsNullOrDisposed() || !request.ReceivingEntity.Has<ExperienceComponent>()) continue;
+                
+                ref var expComponent = ref request.ReceivingEntity.GetComponent<ExperienceComponent>();
+                expComponent.TotalExperienceAmount += request.Change;
+                expComponent.Progress = (expComponent.TotalExperienceAmount - expComponent.CurrentLevelCost) / expComponent.LevelUpCost;
+                var newLevelCost = expComponent.NextLevelCost;
+                var levelChange = 0;
 
-                    if (levelChange != 0)
+                while (expComponent.TotalExperienceAmount > newLevelCost)
+                {
+                    levelChange += 1;
+                    newLevelCost += _experienceSettings.CalculateLevelCost(expComponent.Level + levelChange);
+                }
+
+                if (levelChange != 0)
+                {
+                    _levelChangeRequest.Publish(new LevelChangeRequest
                     {
-                        _levelChangeRequest.Publish(new LevelChangeRequest
-                        {
-                            Entity = request.ReceivingEntity,
-                            Change = levelChange
-                        });
+                        Entity = request.ReceivingEntity,
+                        Change = levelChange
+                    });
+                }
+                else
+                {
+                    ref var expBarComponent = ref request.ReceivingEntity.GetComponent<ExperienceBarComponent>(out var hasExperienceBarComponent);
+                
+                    if (hasExperienceBarComponent)
+                    {
+                        expBarComponent.Value.SetLevel(expComponent.Level);
+                        expBarComponent.Value.SetExperienceBarFilling(expComponent.Progress);
                     }
                 }
             }

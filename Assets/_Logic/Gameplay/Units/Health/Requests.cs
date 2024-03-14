@@ -4,7 +4,8 @@ namespace _Logic.Gameplay.Units.Health
 {
     public struct HealthChangeRequest : IRequestData
     {
-        public Entity Entity;
+        public Entity TargetEntity;
+        public Entity SenderEntity;
         public float Change;
     }
 }

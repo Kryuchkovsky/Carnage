@@ -6,7 +6,7 @@ namespace _Logic.Extensions.VFXManager
     /// <summary>
     ///   <para>Stop Action must be Callback, otherwise effect won't return to pool.</para>
     /// </summary>
-    public class Effect : MonoBehaviour
+    public class VFX : MonoBehaviour
     {
         public event Action Played;
 

@@ -12,5 +12,6 @@ namespace _Logic.Gameplay.Units.Health.Components
     {
         public HealthStats Stats;
         public float Percentage;
+        public bool IsDead;
     }
 }

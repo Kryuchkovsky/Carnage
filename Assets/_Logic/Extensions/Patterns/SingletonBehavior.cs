@@ -34,7 +34,7 @@ namespace _GameLogic.Extensions.Patterns
 
                     if (!_instance._isInitiated)
                     {
-                        _instance.Init();
+                        _instance.Initiate();
                     }
                 }
 
@@ -54,7 +54,7 @@ namespace _GameLogic.Extensions.Patterns
             
             if (!_isInitiated)
             {
-                Init();
+                Initiate();
             }
 
             if (_dontDestroyOnLoad)
@@ -71,7 +71,7 @@ namespace _GameLogic.Extensions.Patterns
             }
         }
 
-        protected virtual void Init()
+        protected virtual void Initiate()
         {
             _isInitiated = true;
         }

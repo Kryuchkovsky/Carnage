@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace _Logic.Extensions.VFXManager
 {
-    [CreateAssetMenu(menuName = "Effects/Create EffectsCatalog", fileName = "EffectsCatalog", order = 0)]
-    public class EffectsCatalog : FunctionalConfig<VFXType, EffectData>
+    [CreateAssetMenu(menuName = "VFX/Create VFXCatalog", fileName = "VFXCatalog", order = 0)]
+    public class VFXCatalog : FunctionalConfig<VFXType, VFXData>
     {
     }
 }

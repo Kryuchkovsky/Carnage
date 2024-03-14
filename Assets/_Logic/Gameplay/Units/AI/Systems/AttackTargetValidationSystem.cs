@@ -5,7 +5,6 @@ using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using Scellecs.Morpeh;
-using UnityEngine;
 
 namespace _Logic.Gameplay.Units.AI.Systems
 {
@@ -23,7 +22,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                         entity, attackTargetComponent.TargetEntity, out var distance);
                     
                     if (distanceIsGotten && 
-                        ((entity.Has<AIComponent>() && distance < followingRange) || 
+                        ((entity.Has<AIComponent>() && (distance < followingRange || attackTargetComponent.TargetEntity.Has<PriorityComponent>())) || 
                         (!entity.Has<AIComponent>() && distance < attackComponent.Stats.Range.CurrentValue)))
                     {
                         attackTargetComponent.IsInAttackRadius = distance < attackComponent.Stats.Range.CurrentValue;

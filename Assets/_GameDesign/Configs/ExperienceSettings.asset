@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ExperienceSettings
   m_EditorClassIdentifier: 
   _baseExperienceReward: 100
-  _experienceMultiplier: 0.13
+  _experienceTransitionFactor: 0.13
   _baseLevelCost: 300
   _baseRaisedToPower: 1.5

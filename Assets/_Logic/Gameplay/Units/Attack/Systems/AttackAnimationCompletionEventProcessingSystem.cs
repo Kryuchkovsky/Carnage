@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Attack.Systems
 {
-    public sealed class AttackAnimationCompletionEventsProcessingSystem : AbstractUpdateSystem
+    public sealed class AttackAnimationCompletionEventProcessingSystem : AbstractUpdateSystem
     {
         private Event<AttackAnimationCompletionEvent> _event;
         private Request<DamageRequest> _damageRequest;

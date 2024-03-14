@@ -6,6 +6,7 @@ namespace _Logic.Gameplay.Units.Stats.Requests
     public struct StatChangeRequest : IRequestData
     {
         public Entity Entity;
-        public StatChange Change;
+        public StatType Type;
+        public StatModifier Modifier;
     }
 }

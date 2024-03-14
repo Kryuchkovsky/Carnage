@@ -9,7 +9,7 @@ namespace _Logic.Gameplay.Units.Stats.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public class StatModifierAdditionRequestProcessingSystem : AbstractUpdateSystem
+    public class StatChangeRequestProcessingSystem : AbstractUpdateSystem
     {
         private Request<StatChangeRequest> _request;
         
@@ -23,15 +23,10 @@ namespace _Logic.Gameplay.Units.Stats.Systems
             foreach (var request in _request.Consume())
             {
                 var stats = request.Entity.GetComponent<StatsComponent>(out var hasStatsComponent).Value;
-                var statType = request.Change.Type;
 
-                if (hasStatsComponent && stats.TryGetValue(statType, out var stat))
+                if (hasStatsComponent && stats.TryGetValue(request.Type, out var stat))
                 {
-                    var statModifier = request.Change.IsPersist
-                        ? new StatModifier(request.Change.OperationType, request.Change.Value)
-                        : new StatModifier(request.Change.OperationType, request.Change.Value, request.Change.Duration);
-                    
-                    stat.AddModifier(statModifier);
+                    stat.AddModifier(request.Modifier);
                 }
             }
         }

@@ -7,19 +7,19 @@ using UnityEngine;
 
 namespace _Logic.Extensions.VFXManager
 {
-    public class EffectsService : SingletonBehavior<EffectsService>
+    public class VFXService : SingletonBehavior<VFXService>
     {
         [SerializeField, Range(0, 1024)] private int _initialPoolsCapacity;
         [SerializeField] private bool _autoFillingIsEnabled;
         
-        private Dictionary<VFXType, ObjectPool<Effect>> _effectsPools;
+        private Dictionary<VFXType, ObjectPool<VFX>> _vfxPools;
         private VFXCatalog _vfxCatalog;
 
-        protected override void Init()
+        protected override void Initiate()
         {
-            base.Init();
+            base.Initiate();
             
-            _effectsPools = new Dictionary<VFXType, ObjectPool<Effect>>();
+            _vfxPools = new Dictionary<VFXType, ObjectPool<VFX>>();
             _vfxCatalog = ConfigManager.GetConfig<VFXCatalog>();
             
             foreach (var effectType in (VFXType[])Enum.GetValues(typeof(VFXType)))
@@ -28,12 +28,12 @@ namespace _Logic.Extensions.VFXManager
                 
                 var effect = _vfxCatalog.GetData((int)effectType);
                 
-                _effectsPools.Add(
+                _vfxPools.Add(
                     effectType, 
-                    new ObjectPool<Effect>(effect.Effect, _initialPoolsCapacity, _autoFillingIsEnabled, transform,
+                    new ObjectPool<VFX>(effect.VFX, _initialPoolsCapacity, _autoFillingIsEnabled, transform,
                         e =>
                         {
-                            e.Played += () => _effectsPools[effectType].Return(e);
+                            e.Played += () => _vfxPools[effectType].Return(e);
                         },
                         e =>
                         {
@@ -49,7 +49,7 @@ namespace _Logic.Extensions.VFXManager
 
         public void CreateEffect(VFXType type, Vector3 position, Quaternion rotation = new())
         {
-            var effect = _effectsPools[type].Take();
+            var effect = _vfxPools[type].Take();
             effect.transform.position = position;
             effect.transform.rotation = rotation;
             effect.ParticleSystem.Play();

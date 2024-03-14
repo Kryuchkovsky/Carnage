@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5065416648303143979}
   - component: {fileID: 3740394952710382516}
   m_Layer: 0
-  m_Name: EffectsService
+  m_Name: VFXService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

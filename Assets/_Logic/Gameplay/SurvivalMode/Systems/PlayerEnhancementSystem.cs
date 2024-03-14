@@ -33,7 +33,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
             foreach (var spawnEvent in _unitSpawnEvent.publishedChanges) 
             {
                 if (spawnEvent.Entity.Has<AIComponent>() || !spawnEvent.Entity.Has<TransformComponent>()) continue;
-
+                
                 _effectAttachmentRequest.Publish(new EffectAttachmentRequest
                 {
                     TargetEntity = spawnEvent.Entity,

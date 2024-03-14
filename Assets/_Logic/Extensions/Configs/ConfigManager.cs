@@ -12,9 +12,9 @@ namespace _Logic.Extensions.Configs
 
         private Dictionary<Type, Config> _configDictionary;
 
-        protected override void Init()
+        protected override void Initiate()
         {
-            base.Init();
+            base.Initiate();
 
             _configDictionary = new Dictionary<Type, Config>();
             
@@ -36,6 +36,8 @@ namespace _Logic.Extensions.Configs
                     expandedConfig.UpdateDataTypes();
                 }
             }
+            
+            AssetDatabase.Refresh();
         }
         
         public static void GenerateDataEnumTypes()

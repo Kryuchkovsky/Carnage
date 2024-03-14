@@ -1,12 +1,11 @@
 ﻿using _Logic.Core;
 using _Logic.Extensions.Configs;
-using _Logic.Gameplay.Units.Effects;
 using _Logic.Gameplay.Units.Effects.Requests;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace _Logic.Gameplay.Units.Impacts.Systems
+namespace _Logic.Gameplay.Units.Effects.Systems
 {
     public class AreaImpactCreationRequestsProcessingSystem : AbstractUpdateSystem
     {
@@ -41,35 +40,35 @@ namespace _Logic.Gameplay.Units.Impacts.Systems
                         {
                             var layer = _colliders[i].gameObject.layer;
                             
-                            foreach (var action in data.EffectForAll)
+                            foreach (var effectType in data.EffectForAll)
                             {
                                 _impactActionAttachmentRequest.Publish(new EffectAttachmentRequest
                                 {
                                     TargetEntity = linkedCollider.Entity,
-                                    Action = action
+                                    EffectType = effectType
                                 });
                             }
 
                             if ((teamDataComponent.AlliesLayer & layer) == layer)
                             {
-                                foreach (var action in data.EffectForAllies)
+                                foreach (var effectType in data.EffectForAllies)
                                 {
                                     _impactActionAttachmentRequest.Publish(new EffectAttachmentRequest
                                     {
                                         TargetEntity = linkedCollider.Entity,
-                                        Action = action
+                                        EffectType = effectType
                                     });
                                 }
                             }
                             
                             if ((teamDataComponent.EnemiesLayer & layer) == layer)
                             {
-                                foreach (var action in data.EffectsForEnemies)
+                                foreach (var effectType in data.EffectsForEnemies)
                                 {
                                     _impactActionAttachmentRequest.Publish(new EffectAttachmentRequest
                                     {
                                         TargetEntity = linkedCollider.Entity,
-                                        Action = action
+                                        EffectType = effectType
                                     });
                                 }
                             }

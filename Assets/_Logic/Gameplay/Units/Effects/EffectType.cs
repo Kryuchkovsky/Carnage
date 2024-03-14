@@ -1,8 +1,4 @@
-﻿namespace _Logic.Gameplay.Units.Effects.Actions
+public enum EffectType
 {
-    public enum EffectType
-    {
-        PeriodicHealthChange,
-        
-    }
+    SurvivalModePlayerEnhancement = 0,
 }
