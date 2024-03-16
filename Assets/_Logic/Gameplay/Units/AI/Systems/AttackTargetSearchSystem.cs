@@ -20,7 +20,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 .Without<AttackTargetComponent>()
                 .ForEach((Entity entity, ref AttackComponent attackComponent, ref TeamDataComponent teamDataComponent, ref TransformComponent transformComponent) =>
                 {
-                    var aiSettings = ConfigManager.GetConfig<AISettings>();
+                    var aiSettings = ConfigManager.Instance.GetConfig<AISettings>();
                     var position = transformComponent.Value.position;
                     var searchRange  = attackComponent.Stats.Range.CurrentValue * aiSettings.TargetSearchRangeToAttackRangeRatio;
                     var collisions = Physics.OverlapSphereNonAlloc(position, searchRange, _colliders, 1 << teamDataComponent.EnemiesLayer);

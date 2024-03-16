@@ -23,9 +23,9 @@ namespace _Logic.Gameplay.Units.Experience
 	        _fillValueChangeTweener?.Kill();
         }
 
-        protected override void Initiate()
+        protected override void Initialize()
         {
-	        base.Initiate();
+	        base.Initialize();
 	        _fillValueChangeTweener = DOVirtual
 		        .Float(_currentFillValue, _targetFillValue, _valueChangeDuration, t =>
 		        {

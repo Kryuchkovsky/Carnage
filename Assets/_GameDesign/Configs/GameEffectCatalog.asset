@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e43349e8e9842aca72d990ab1fa8e04, type: 3}
   m_Name: GameEffectCatalog
   m_EditorClassIdentifier: 
-  _dataList: []
+  _dataList:
+  - {fileID: 11400000, guid: 06a4b88569309d24688b4f52377fd328, type: 2}

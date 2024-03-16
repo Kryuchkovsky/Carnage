@@ -25,7 +25,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         {
             _survivalModeFilter = World.Filter.With<SurvivalModeComponent>().With<TimerComponent>();
             _playerFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().Without<AIComponent>();
-            _settings = ConfigManager.GetConfig<SurvivalModeSettings>();
+            _settings = ConfigManager.Instance.GetConfig<SurvivalModeSettings>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -40,7 +40,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
 
                 var position = playerEntity.GetComponent<TransformComponent>().Value.position;
                 position += ExtraMethods.GetRandomDirectionXZ() * 50;
-                var allUnitTypes = _settings.Units;
+                var allUnitTypes = _settings.Enemies;
                 var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];
 
                 World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest

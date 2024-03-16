@@ -15,11 +15,11 @@ namespace _Logic.Extensions.HealthBar
         private HashSet<HealthBarView> _healthBarViews;
         private HealthBarSettings _settings;
 
-        protected override void Initiate()
+        protected override void Initialize()
         {
-            base.Initiate();
+            base.Initialize();
             _camera ??= Camera.main;
-            _settings = ConfigManager.GetConfig<HealthBarSettings>();
+            _settings = ConfigManager.Instance.GetConfig<HealthBarSettings>();
             _healthBarsPool = new(_settings.HealthBar, 16, true, _canvas.transform,
                 takeAction: v => _healthBarViews.Add(v),
                 returnAction: v =>

@@ -12,9 +12,9 @@ namespace _Logic.Extensions.Configs
 
         private Dictionary<Type, Config> _configDictionary;
 
-        protected override void Initiate()
+        protected override void Initialize()
         {
-            base.Initiate();
+            base.Initialize();
 
             _configDictionary = new Dictionary<Type, Config>();
             
@@ -34,6 +34,7 @@ namespace _Logic.Extensions.Configs
                     var expandedConfig = (IExpandedConfig)config;
                     expandedConfig.FindAllDataObjects();
                     expandedConfig.UpdateDataTypes();
+                    EditorUtility.SetDirty(config);
                 }
             }
             
@@ -49,12 +50,13 @@ namespace _Logic.Extensions.Configs
                     var expandedConfig = (IExpandedConfig)config;
                     expandedConfig.GenerateDataEnumTypes();
                     expandedConfig.UpdateDataTypes();
+                    EditorUtility.SetDirty(config);
                 }
             }
             
             AssetDatabase.Refresh();
         }
         
-        public static T GetConfig<T>() where T : ScriptableObject => Instance._configDictionary[typeof(T)] as T;
+        public T GetConfig<T>() where T : ScriptableObject => Instance._configDictionary[typeof(T)] as T;
     }
 }

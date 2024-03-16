@@ -24,8 +24,8 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         {
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
             _effectAttachmentRequest = World.GetRequest<EffectAttachmentRequest>();
-            _gameEffectCatalog = ConfigManager.GetConfig<GameEffectCatalog>();
-            _survivalModeSettings = ConfigManager.GetConfig<SurvivalModeSettings>();
+            _gameEffectCatalog = ConfigManager.Instance.GetConfig<GameEffectCatalog>();
+            _survivalModeSettings = ConfigManager.Instance.GetConfig<SurvivalModeSettings>();
         }
 
         public override void OnUpdate(float deltaTime)

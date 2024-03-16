@@ -9,7 +9,7 @@ namespace _GameLogic.Extensions.Patterns
 
         private static T _instance;
 
-        private bool _isInitiated;
+        public bool IsInitiated { get; private set; }
 
         public static bool Instantiated
         {
@@ -32,9 +32,9 @@ namespace _GameLogic.Extensions.Patterns
                 {
                     _instance = FindObjectOfType<T>();
 
-                    if (!_instance._isInitiated)
+                    if (!_instance.IsInitiated)
                     {
-                        _instance.Initiate();
+                        _instance.Initialize();
                     }
                 }
 
@@ -52,9 +52,9 @@ namespace _GameLogic.Extensions.Patterns
 
             _instance = this as T;
             
-            if (!_isInitiated)
+            if (!IsInitiated)
             {
-                Initiate();
+                Initialize();
             }
 
             if (_dontDestroyOnLoad)
@@ -71,9 +71,9 @@ namespace _GameLogic.Extensions.Patterns
             }
         }
 
-        protected virtual void Initiate()
+        protected virtual void Initialize()
         {
-            _isInitiated = true;
+            IsInitiated = true;
         }
     }
 }

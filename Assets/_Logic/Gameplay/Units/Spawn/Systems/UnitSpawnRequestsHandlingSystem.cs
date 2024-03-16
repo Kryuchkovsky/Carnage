@@ -40,7 +40,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
             _teamDataSettingRequest = World.GetRequest<TeamDataSettingRequest>();
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
             _unitDeathEvent = World.GetEvent<UnitDeathEvent>();
-            _unitCatalog = ConfigManager.GetConfig<UnitsCatalog>();
+            _unitCatalog = ConfigManager.Instance.GetConfig<UnitsCatalog>();
             _unitContainer = new GameObject("UnitContainer").transform;
         }
 

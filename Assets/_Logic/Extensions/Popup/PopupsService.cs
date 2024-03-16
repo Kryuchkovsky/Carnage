@@ -16,9 +16,9 @@ namespace _Logic.Extensions.Popup
         private ObjectPool<TextPopup> _textPopupsPool;
         private HashSet<BasePopup> _activePopups;
         
-        protected override void Initiate()
+        protected override void Initialize()
         {
-            base.Initiate();
+            base.Initialize();
             _camera ??= Camera.main;
             _textPopupsPool = new(_textPopup, 16, true, _canvas.transform,
                 takeAction: p => _activePopups.Add(p),

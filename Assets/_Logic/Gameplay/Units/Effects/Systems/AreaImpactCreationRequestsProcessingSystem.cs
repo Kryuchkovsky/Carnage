@@ -19,7 +19,7 @@ namespace _Logic.Gameplay.Units.Effects.Systems
         {
             _areaImpactCreationRequest = World.GetRequest<ImpactCreationRequest>();
             _impactActionAttachmentRequest = World.GetRequest<EffectAttachmentRequest>();
-            _impactCatalog = ConfigManager.GetConfig<ImpactCatalog>();
+            _impactCatalog = ConfigManager.Instance.GetConfig<ImpactCatalog>();
         }
 
         public override void OnUpdate(float deltaTime)

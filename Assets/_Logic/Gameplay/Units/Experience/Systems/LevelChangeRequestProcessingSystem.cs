@@ -21,7 +21,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         {
             _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
             _experienceAmountChangeRequest = World.GetRequest<ExperienceAmountChangeRequest>();
-            _experienceSettings = ConfigManager.GetConfig<ExperienceSettings>();
+            _experienceSettings = ConfigManager.Instance.GetConfig<ExperienceSettings>();
         }
 
         public override void OnUpdate(float deltaTime)

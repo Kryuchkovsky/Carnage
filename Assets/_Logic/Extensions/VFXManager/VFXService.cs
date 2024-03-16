@@ -15,12 +15,12 @@ namespace _Logic.Extensions.VFXManager
         private Dictionary<VFXType, ObjectPool<VFX>> _vfxPools;
         private VFXCatalog _vfxCatalog;
 
-        protected override void Initiate()
+        protected override void Initialize()
         {
-            base.Initiate();
+            base.Initialize();
             
             _vfxPools = new Dictionary<VFXType, ObjectPool<VFX>>();
-            _vfxCatalog = ConfigManager.GetConfig<VFXCatalog>();
+            _vfxCatalog = ConfigManager.Instance.GetConfig<VFXCatalog>();
             
             foreach (var effectType in (VFXType[])Enum.GetValues(typeof(VFXType)))
             {

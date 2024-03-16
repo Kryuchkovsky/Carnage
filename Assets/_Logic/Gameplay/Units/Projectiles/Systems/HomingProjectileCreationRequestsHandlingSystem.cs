@@ -22,7 +22,7 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
         {
             _projectilePools = new Dictionary<ProjectileType, ObjectPool<ProjectileProvider>>();
             _request = World.GetRequest<HomingProjectileCreationRequest>();
-            _projectilesCatalog = ConfigManager.GetConfig<ProjectilesCatalog>();
+            _projectilesCatalog = ConfigManager.Instance.GetConfig<ProjectilesCatalog>();
         }
 
         public override void OnUpdate(float deltaTime)

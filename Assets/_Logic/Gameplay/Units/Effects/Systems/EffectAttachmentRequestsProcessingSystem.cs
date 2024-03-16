@@ -17,7 +17,7 @@ namespace _Logic.Gameplay.Units.Effects.Systems
         {
             _effectAttachmentRequest = World.GetRequest<EffectAttachmentRequest>();
             _statChangeRequest = World.GetRequest<StatChangeRequest>();
-            _gameEffectCatalog = ConfigManager.GetConfig<GameEffectCatalog>();
+            _gameEffectCatalog = ConfigManager.Instance.GetConfig<GameEffectCatalog>();
         }
 
         public override void OnUpdate(float deltaTime)

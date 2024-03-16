@@ -176,7 +176,7 @@ namespace _Logic.Gameplay.Units
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, attackStats.Range.CurrentValue);
 
-                var searchRange = attackStats.Range.CurrentValue * ConfigManager.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
+                var searchRange = attackStats.Range.CurrentValue * ConfigManager.Instance.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, searchRange);
             } 

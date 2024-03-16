@@ -16,7 +16,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>()
                 .ForEach((Entity entity, ref AttackComponent attackComponent, ref AttackTargetComponent attackTargetComponent) =>
                 {
-                    var aiSettings = ConfigManager.GetConfig<AISettings>();
+                    var aiSettings = ConfigManager.Instance.GetConfig<AISettings>();
                     var followingRange = attackComponent.Stats.Range.CurrentValue * aiSettings.TargetSearchRangeToAttackRangeRatio;
                     var distanceIsGotten = EcsExtensions.TryGetDistanceBetweenClosestPointsOfEntitiesColliders(
                         entity, attackTargetComponent.TargetEntity, out var distance);
