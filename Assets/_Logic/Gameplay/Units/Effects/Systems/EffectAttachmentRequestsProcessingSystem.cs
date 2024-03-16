@@ -24,6 +24,8 @@ namespace _Logic.Gameplay.Units.Effects.Systems
         {
             foreach (var request in _effectAttachmentRequest.Consume())
             {
+                if (request.TargetEntity.IsNullOrDisposed()) continue;
+                
                 var effect = _gameEffectCatalog.GetData((int)request.EffectType);
 
                 foreach (var change in effect.Changes)

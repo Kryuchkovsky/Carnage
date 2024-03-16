@@ -22,11 +22,20 @@ namespace _Logic.Gameplay.Units.Stats.Systems
         {
             foreach (var request in _request.Consume())
             {
-                var stats = request.Entity.GetComponent<StatsComponent>(out var hasStatsComponent).Value;
+                if (request.Entity.IsNullOrDisposed()) continue;
+                
+                var statsComponent = request.Entity.GetComponent<StatsComponent>(out var hasStatsComponent);
 
-                if (hasStatsComponent && stats.TryGetValue(request.Type, out var stat))
+                if (hasStatsComponent && statsComponent.Value.TryGetValue(request.Type, out var stat))
                 {
                     stat.AddModifier(request.Modifier);
+                    
+                    var statsPanelComponent = request.Entity.GetComponent<StatsPanelComponent>(out var hasStatsPanelComponent);
+                    
+                    if (hasStatsPanelComponent)
+                    {
+                        statsPanelComponent.Value.SetStat(request.Type, stat.CurrentValue);
+                    }
                 }
             }
         }

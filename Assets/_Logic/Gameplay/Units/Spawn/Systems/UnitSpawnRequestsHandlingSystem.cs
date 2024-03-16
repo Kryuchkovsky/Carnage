@@ -146,6 +146,12 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     {
                         Value = PlayerExperienceBar.Instance
                     });
+                    unit.Entity.SetComponent(new StatsPanelComponent
+                    {
+                        Value = StatsPanel.Instance
+                    });
+
+                    StatsPanel.Instance.Initiate(stats);
                 }
 
                 _unitSpawnEvent.NextFrame(new UnitSpawnEvent

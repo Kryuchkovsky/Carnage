@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TriInspector;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Stats
@@ -7,45 +8,28 @@ namespace _Logic.Gameplay.Units.Stats
     [Serializable]
     public class Stat
     {
-        private readonly List<StatModifier> _modifiers;
-
         [field: SerializeField] public float BaseValue { get; private set; }
         
-        public float CurrentValue { get; set; }
+        public List<StatModifier> Modifiers { get; private set; }
+
+        [field: SerializeField] public float CurrentValue { get; private set; }
 
         public Stat(float baseValue)
         {
             BaseValue = baseValue;
-            _modifiers = new List<StatModifier>();
+            Modifiers = new List<StatModifier>();
             CurrentValue = baseValue;
         }
 
         public void AddModifier(StatModifier modifier)
         {
-            _modifiers.Add(modifier);
+            Modifiers.Add(modifier);
             RecalculateStatValue();
-        }
-
-        public void UpdateModifiers(float delta)
-        {
-            for (int i = 0; i < _modifiers.Count;)
-            {
-                _modifiers[i].UpdateTime(delta);
-
-                if (_modifiers[i].TimeBeforeRemoving <= 0)
-                {
-                    RemoveModifier(i);
-                }
-                else
-                {
-                    i++;
-                }
-            }
         }
 
         public void RemoveModifier(int index)
         {
-            _modifiers.RemoveAt(index);
+            Modifiers.RemoveAt(index);
             RecalculateStatValue();
         }
 
@@ -53,7 +37,7 @@ namespace _Logic.Gameplay.Units.Stats
         {
             CurrentValue = BaseValue;
             
-            foreach (var modifier in _modifiers)
+            foreach (var modifier in Modifiers)
             {
                 switch (modifier.OperationType)
                 {

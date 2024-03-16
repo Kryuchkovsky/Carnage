@@ -22,12 +22,6 @@ namespace _Logic.Gameplay.Units.Movement
 
         public StatGroupType Type => StatGroupType.MovementStats;
 
-        public void Update(float delta)
-        {
-            MovementSpeed.UpdateModifiers(delta);
-            RotationSpeed.UpdateModifiers(delta);
-        }
-
         public IStatGroup GetCopy() => new MovementStats(MovementSpeed.BaseValue, RotationSpeed.BaseValue);
     }
 }

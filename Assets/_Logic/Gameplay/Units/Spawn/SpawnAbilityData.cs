@@ -11,12 +11,7 @@ namespace _Logic.Gameplay.Units.Spawn
         [field: SerializeField] public Stat SpawnInterval { get; private set; }
         
         public StatGroupType Type => StatGroupType.SpawnStats;
-
-        public void Update(float delta)
-        {
-            SpawnInterval.UpdateModifiers(delta);
-        }
-
+        
         public IStatGroup GetCopy() =>
             new SpawnAbilityData
             {

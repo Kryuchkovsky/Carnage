@@ -12,12 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 199620dc137ac524eba071a5c6007ca1, type: 3}
   m_Name: UnitsCatalog
   m_EditorClassIdentifier: 
-  _dataList:
-  - {fileID: 11400000, guid: 596496ba31d91b1488d86aae70bff11b, type: 2}
-  - {fileID: 11400000, guid: 876c2d020dff0a2459694253bcce6901, type: 2}
-  - {fileID: 11400000, guid: b45a24812554eb34399f07d8a8a695c8, type: 2}
-  - {fileID: 11400000, guid: 7c06bc5912fab16459cd8c1e067750ca, type: 2}
-  - {fileID: 11400000, guid: 94dd1d1199669ee45a3c32ba97d2e4cc, type: 2}
-  - {fileID: 11400000, guid: 0892dc92fd5c3f74ca6c9e07d2c0d62f, type: 2}
+  _dataList: []
   <UnitProvider>k__BackingField: {fileID: 3917242633204558852, guid: 63d46729be2d8234da42548890143071,
     type: 3}

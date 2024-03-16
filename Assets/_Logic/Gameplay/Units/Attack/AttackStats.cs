@@ -30,14 +30,6 @@ namespace _Logic.Gameplay.Units.Attack
 
         public StatGroupType Type => StatGroupType.AttackStats;
 
-        public void Update(float delta)
-        {
-            AttackTime.UpdateModifiers(delta);
-            Damage.UpdateModifiers(delta);
-            Range.UpdateModifiers(delta);
-            Speed.UpdateModifiers(delta);
-        }
-
         public IStatGroup GetCopy() => new AttackStats(Damage.BaseValue, AttackTime.BaseValue, Range.BaseValue, Speed.BaseValue, ProjectileData);
     }
 }

@@ -23,12 +23,6 @@ namespace _Logic.Gameplay.Units.Health
 
         public StatGroupType Type => StatGroupType.HealthStats;
 
-        public void Update(float delta)
-        {
-            MaxHealth.UpdateModifiers(delta);
-            RegenerationRate.UpdateModifiers(delta);
-        }
-
         public IStatGroup GetCopy() => new HealthStats(MaxHealth.BaseValue, RegenerationRate.BaseValue);
     }
 }

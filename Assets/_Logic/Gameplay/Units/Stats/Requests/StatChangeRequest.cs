@@ -1,5 +1,4 @@
-﻿using _Logic.Gameplay.Units.Effects;
-using Scellecs.Morpeh;
+﻿using Scellecs.Morpeh;
 
 namespace _Logic.Gameplay.Units.Stats.Requests
 {

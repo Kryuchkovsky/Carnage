@@ -21,9 +21,29 @@ namespace _Logic.Gameplay.Units.Stats.Systems
         {
             foreach (var entity in _statsFilter.Build())
             {
-                foreach (var stat in entity.GetComponent<StatsComponent>().Value.Values)
+                foreach (var stat in entity.GetComponent<StatsComponent>().Value)
                 {
-                    stat.UpdateModifiers(deltaTime);
+                    var statIsChanged = false;
+                    
+                    for (int i = 0; i < stat.Value.Modifiers.Count;)
+                    {
+                        stat.Value.Modifiers[i].UpdateTime(deltaTime);
+
+                        if (stat.Value.Modifiers[i].TimeBeforeRemoving <= 0)
+                        {
+                            stat.Value.RemoveModifier(i);
+                            statIsChanged = true;
+                        }
+                        else
+                        {
+                            i++;
+                        }
+                    }
+                    
+                    if (statIsChanged && entity.Has<StatsPanelComponent>())
+                    {
+                        entity.GetComponent<StatsPanelComponent>().Value.SetStat(stat.Key, stat.Value.CurrentValue);
+                    }
                 }
             }
         }

@@ -16,10 +16,10 @@ MonoBehaviour:
   _attackData:
     Has: 1
     Data:
+      <AttackTime>k__BackingField:
+        <BaseValue>k__BackingField: 1.7
       <Damage>k__BackingField:
         <BaseValue>k__BackingField: 10
-      <BasicAttackTime>k__BackingField:
-        <BaseValue>k__BackingField: 1.7
       <Range>k__BackingField:
         <BaseValue>k__BackingField: 10
       <Speed>k__BackingField:
@@ -31,10 +31,10 @@ MonoBehaviour:
     Data:
       <MaxHealth>k__BackingField:
         <BaseValue>k__BackingField: 100
+      <CurrentHealth>k__BackingField:
+        <BaseValue>k__BackingField: 100
       <RegenerationRate>k__BackingField:
         <BaseValue>k__BackingField: 1
-      <CorpseExistenceTime>k__BackingField:
-        <BaseValue>k__BackingField: 3
   _movementData:
     Has: 1
     Data:
@@ -45,8 +45,9 @@ MonoBehaviour:
   _spawnAbilityData:
     Has: 0
     Data:
-      SpawnSpeedMultiplier: 0
       <Units>k__BackingField: 
+      <SpawnInterval>k__BackingField:
+        <BaseValue>k__BackingField: 0
   <Model>k__BackingField: {fileID: 6793499299369025809, guid: be870cc544f0da447bfb1cbdb852200a,
     type: 3}
   <SpawnTime>k__BackingField: 3
