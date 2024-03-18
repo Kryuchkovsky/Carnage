@@ -13,7 +13,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class PlayerEnhancementSystem : AbstractUpdateSystem
+    public sealed class SurvivalModeEnhancementSystem : AbstractUpdateSystem
     {
         private Event<UnitSpawnEvent> _unitSpawnEvent;
         private Request<EffectAttachmentRequest> _effectAttachmentRequest;

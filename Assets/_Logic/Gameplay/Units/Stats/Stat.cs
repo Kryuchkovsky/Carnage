@@ -24,16 +24,38 @@ namespace _Logic.Gameplay.Units.Stats
         public void AddModifier(StatModifier modifier)
         {
             Modifiers.Add(modifier);
-            RecalculateStatValue();
+            
+            switch (modifier.OperationType)
+            {
+                case StatModifierOperationType.Addition:
+                    CurrentValue += modifier.ModifierValue;
+                    break;
+                case StatModifierOperationType.Multiplication:
+                    CurrentValue += BaseValue * modifier.ModifierValue;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public void RemoveModifier(int index)
         {
+            switch (Modifiers[index].OperationType)
+            {
+                case StatModifierOperationType.Addition:
+                    CurrentValue -= Modifiers[index].ModifierValue;
+                    break;
+                case StatModifierOperationType.Multiplication:
+                    CurrentValue -= BaseValue * Modifiers[index].ModifierValue;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             Modifiers.RemoveAt(index);
-            RecalculateStatValue();
         }
 
-        private void RecalculateStatValue()
+        public void RecalculateStatValue()
         {
             CurrentValue = BaseValue;
             

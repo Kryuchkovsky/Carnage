@@ -16,3 +16,20 @@ MonoBehaviour:
   <Enemies>k__BackingField: 070000000800000009000000
   <PlayerEnhancmentEffectType>k__BackingField: 0
   <EnemySpawnInterval>k__BackingField: 5
+  <PossibleAffectionsWhenLevelUp>k__BackingField:
+  - <StatType>k__BackingField: 0
+    <OperationType>k__BackingField: 0
+    <Value>k__BackingField: 5
+  - <StatType>k__BackingField: 2
+    <OperationType>k__BackingField: 0
+    <Value>k__BackingField: 10
+  - <StatType>k__BackingField: 5
+    <OperationType>k__BackingField: 0
+    <Value>k__BackingField: 20
+  - <StatType>k__BackingField: 7
+    <OperationType>k__BackingField: 0
+    <Value>k__BackingField: 1
+  - <StatType>k__BackingField: 4
+    <OperationType>k__BackingField: 0
+    <Value>k__BackingField: 5
+  <RewardsNumberWhenLevelUp>k__BackingField: 4

@@ -24,8 +24,8 @@ namespace _Logic.Gameplay.Units.Stats.Systems
             {
                 if (request.Entity.IsNullOrDisposed()) continue;
                 
-                var statsComponent = request.Entity.GetComponent<StatsComponent>(out var hasStatsComponent);
-
+                ref var statsComponent = ref request.Entity.GetComponent<StatsComponent>(out var hasStatsComponent);
+                
                 if (hasStatsComponent && statsComponent.Value.TryGetValue(request.Type, out var stat))
                 {
                     stat.AddModifier(request.Modifier);

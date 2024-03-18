@@ -27,16 +27,19 @@ namespace _Logic.Gameplay.Units.Stats.Systems
                     
                     for (int i = 0; i < stat.Value.Modifiers.Count;)
                     {
-                        stat.Value.Modifiers[i].UpdateTime(deltaTime);
-
-                        if (stat.Value.Modifiers[i].TimeBeforeRemoving <= 0)
+                        if (stat.Value.Modifiers[i].IsPersist)
                         {
-                            stat.Value.RemoveModifier(i);
-                            statIsChanged = true;
+                            i++;
                         }
                         else
                         {
-                            i++;
+                            stat.Value.Modifiers[i].UpdateTime(deltaTime);
+                            
+                            if (stat.Value.Modifiers[i].TimeBeforeRemoving <= 0)
+                            {
+                                stat.Value.RemoveModifier(i);
+                                statIsChanged = true;
+                            }
                         }
                     }
                     

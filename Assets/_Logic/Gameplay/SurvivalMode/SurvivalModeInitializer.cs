@@ -27,7 +27,7 @@ namespace _Logic.Gameplay.SurvivalMode
 
             _systemsGroup.AddInitializer(new SurvivalModeInitializationSystem());
             _systemsGroup.AddSystem(new EnemiesSpawnRequestSendingSystem());
-            _systemsGroup.AddSystem(new PlayerEnhancementSystem());
+            _systemsGroup.AddSystem(new SurvivalModeEnhancementSystem());
             
             _systemsGroup.AddSystem(new SpawnAbilityHandlingSystem());
             
@@ -55,6 +55,7 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new ExperienceAccrualForMurdersSystem());
             _systemsGroup.AddSystem(new ExperienceAmountChangeRequestProcessingSystem());
             _systemsGroup.AddSystem(new LevelChangeRequestProcessingSystem());
+            _systemsGroup.AddSystem(new LeveledUpUnitEnhancementSystem());
 
             _systemsGroup.AddSystem(new HealthBarAddingSystem());
             _systemsGroup.AddSystem(new HealthChangeRequestsProcessingSystem());

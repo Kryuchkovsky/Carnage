@@ -1,6 +1,7 @@
 ﻿using _Logic.Core;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Experience.Components;
+using _Logic.Gameplay.Units.Experience.Events;
 using _Logic.Gameplay.Units.Experience.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -15,12 +16,14 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     {
         private Request<LevelChangeRequest> _levelChangeRequest;
         private Request<ExperienceAmountChangeRequest> _experienceAmountChangeRequest;
+        private Event<LevelChangeEvent> _levelChangeEvent;
         private ExperienceSettings _experienceSettings;
         
         public override void OnAwake()
         {
             _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
             _experienceAmountChangeRequest = World.GetRequest<ExperienceAmountChangeRequest>();
+            _levelChangeEvent = World.GetEvent<LevelChangeEvent>();
             _experienceSettings = ConfigManager.Instance.GetConfig<ExperienceSettings>();
         }
 
@@ -38,13 +41,21 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                 }
                 else
                 {
-                    var level = Mathf.Clamp(request.Change, 1, int.MaxValue);
+                    var newLevel = Mathf.Clamp(request.Change, 1, int.MaxValue);
+                    
                     expComponent = new ExperienceComponent
                     {
-                        Level = level
+                        Level = newLevel
                     };
                     request.Entity.SetComponent(expComponent);
                 }
+                
+                _levelChangeEvent.NextFrame(new LevelChangeEvent
+                {
+                    Entity = request.Entity,
+                    NewLevel = expComponent.Level,
+                    Change = request.Change
+                });
 
                 var levelCost = _experienceSettings.CalculateLevelCost(expComponent.Level);
                 var currentExperienceAmount = levelCost > expComponent.TotalExperienceAmount
