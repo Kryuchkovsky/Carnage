@@ -1,4 +1,5 @@
 public enum EffectType
 {
-    SurvivalModePlayerEnhancement = 0,
+    None = 0,
+    SurvivalModePlayerEnhancement = 1,
 }

@@ -45,11 +45,11 @@ namespace _Logic.Extensions.Configs
 
             AssetDatabase.Refresh();
         }
-        
+
         [ContextMenu("GenerateDataEnumTypes")]
-        public void GenerateDataEnumTypes()
+        public void GenerateDataEnumTypes(bool useOldValues = true)
         {
-            EnumGenerator.GenerateEnumValues<TData, TEnumType>();
+            EnumGenerator.GenerateEnumValues<TData, TEnumType>(useOldValues);
         }
 
         public void UpdateDataTypes()

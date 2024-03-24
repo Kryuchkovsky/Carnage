@@ -9,7 +9,6 @@ namespace _Logic.Gameplay.Units.Projectiles
     public class ProjectileData : Data<ProjectileType>
     {
         [field: SerializeField] public ProjectileProvider Provider { get; private set; }
-        [field: SerializeField, CanBeNull] public Impact Impact { get; private set; }
         [field: SerializeField] public float Speed { get; private set; } = 20;
         [field: SerializeField, Range(0, 1)] public float FlightRangeToHeightRatio { get; private set; }
     }

@@ -9,10 +9,9 @@ namespace _Logic.Gameplay.Units.Stats
     public class Stat
     {
         [field: SerializeField] public float BaseValue { get; private set; }
-        
-        public List<StatModifier> Modifiers { get; private set; }
-
         [field: SerializeField] public float CurrentValue { get; private set; }
+
+        public List<StatModifier> Modifiers { get; private set; }
 
         public Stat(float baseValue)
         {

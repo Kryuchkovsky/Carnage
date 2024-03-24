@@ -10,7 +10,7 @@ namespace _Logic.Extensions.CodeGenerator
 {
     public static class EnumGenerator
     {
-        public static void GenerateEnumValues<TObject, TEnumType>() where TObject : Object where TEnumType : Enum
+        public static void GenerateEnumValues<TObject, TEnumType>(bool useOldValues = true) where TObject : Object where TEnumType : Enum
         {
             var enumFilePath = ExtraMethods.GetScriptPath<TEnumType>(true);
             var enumName = typeof(TEnumType).Name;
@@ -27,18 +27,19 @@ namespace _Logic.Extensions.CodeGenerator
             
             var oldEnums = GetCurrentEnums(enumFilePath);
             var oldEnumsExist = oldEnums != null && oldEnums.Values.Count > 0;
-            var highestValue = oldEnumsExist ? oldEnums.Values.Last() + 1 : 0;
+            var highestValue = useOldValues && oldEnumsExist ? oldEnums.Values.Last() + 1 : 1;
 
             using (var streamWriter = new StreamWriter(enumFilePath))
             {
                 streamWriter.WriteLine("public enum " + enumName + "\r\n" + "{");
+                streamWriter.WriteLine("    " + "None" + " = 0,");
                 var newEnumValues = 0;
                 
                 for (var index = 0; index < enumsToBeAdded.Length; index++)
                 {
                     var enumString = enumsToBeAdded[index];
 
-                    if (oldEnumsExist && oldEnums.TryGetValue(enumString, out var oldEnumNumber))
+                    if (useOldValues && oldEnumsExist && oldEnums.TryGetValue(enumString, out var oldEnumNumber))
                     {
                         streamWriter.WriteLine("    " + enumString + " = " + oldEnumNumber + ",");
                     }

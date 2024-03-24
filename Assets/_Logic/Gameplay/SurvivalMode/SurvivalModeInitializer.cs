@@ -47,10 +47,14 @@ namespace _Logic.Gameplay.SurvivalMode
 
             _systemsGroup.AddSystem(new AttackCooldownTimeProcessingSystem());
             _systemsGroup.AddSystem(new AttackLaunchSystem());
-            _systemsGroup.AddSystem(new HomingProjectileCreationRequestsHandlingSystem());
+            _systemsGroup.AddSystem(new AttackFragmentationSystem());
+            _systemsGroup.AddSystem(new AttackReboundingSystem());
+            _systemsGroup.AddSystem(new AttackSplittingSystem());
+            _systemsGroup.AddSystem(new AttackAnimationCompletionReactionSystem());
+            _systemsGroup.AddSystem(new AttackHealthChangeHandlingSystem());
+            
+            _systemsGroup.AddSystem(new ProjectileCreationRequestProcessingSystem());
             _systemsGroup.AddSystem(new ProjectileFlightProcessingSystem());
-            _systemsGroup.AddSystem(new AttackAnimationCompletionEventProcessingSystem());
-            _systemsGroup.AddSystem(new DamageRequestsProcessingSystem());
 
             _systemsGroup.AddSystem(new ExperienceAccrualForMurdersSystem());
             _systemsGroup.AddSystem(new ExperienceAmountChangeRequestProcessingSystem());
@@ -58,6 +62,7 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new LeveledUpUnitEnhancementSystem());
 
             _systemsGroup.AddSystem(new HealthBarAddingSystem());
+            _systemsGroup.AddSystem(new HealthRegenerationSystem());
             _systemsGroup.AddSystem(new HealthChangeRequestsProcessingSystem());
 
             _systemsGroup.AddSystem(new PlayerUnitDestinationSystem());

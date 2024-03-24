@@ -3,6 +3,7 @@ using _Logic.Core.Components;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Stats.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<TeamDataComponent>().With<TransformComponent>()
+                .With<UnitComponent>().With<StatsComponent>().With<AttackComponent>().With<TeamDataComponent>().With<TransformComponent>()
                 .Without<AttackTargetComponent>()
                 .ForEach((Entity entity, ref AttackComponent attackComponent, ref TeamDataComponent teamDataComponent, ref TransformComponent transformComponent) =>
                 {

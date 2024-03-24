@@ -4,7 +4,7 @@ using UnityEngine;
 namespace _Logic.Gameplay.Units.Effects
 {
     [CreateAssetMenu(menuName = "Effects/Create GameEffectCatalog", fileName = "GameEffectCatalog", order = 0)]
-    public class GameEffectCatalog : FunctionalConfig<EffectType, Effect>
+    public class GameEffectCatalog : FunctionalConfig<EffectType, EffectData>
     {
     }
 }

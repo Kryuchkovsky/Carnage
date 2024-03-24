@@ -12,40 +12,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e6ad3af94546e2b3488a43658adce0, type: 3}
   m_Name: OrcishWarrior
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 9
+  <Type>k__BackingField: 10
   _attackData:
     Has: 1
     Data:
+      <AttackTime>k__BackingField:
+        <BaseValue>k__BackingField: 1.7
+        <CurrentValue>k__BackingField: 1.7
+      <AdditionalTargets>k__BackingField:
+        <BaseValue>k__BackingField: 0
+        <CurrentValue>k__BackingField: 0
       <Damage>k__BackingField:
         <BaseValue>k__BackingField: 10
-      <BasicAttackTime>k__BackingField:
-        <BaseValue>k__BackingField: 1.7
+        <CurrentValue>k__BackingField: 10
       <Range>k__BackingField:
         <BaseValue>k__BackingField: 2.5
+        <CurrentValue>k__BackingField: 1.5
       <Speed>k__BackingField:
         <BaseValue>k__BackingField: 100
-      <ProjectileData>k__BackingField: {fileID: 0}
+        <CurrentValue>k__BackingField: 100
+      <ProjectileType>k__BackingField: 0
+      <HealthChangeType>k__BackingField: 0
   _healthData:
     Has: 1
     Data:
       <MaxHealth>k__BackingField:
         <BaseValue>k__BackingField: 100
+        <CurrentValue>k__BackingField: 100
       <RegenerationRate>k__BackingField:
         <BaseValue>k__BackingField: 1
-      <CorpseExistenceTime>k__BackingField:
-        <BaseValue>k__BackingField: 3
+        <CurrentValue>k__BackingField: 1
   _movementData:
     Has: 1
     Data:
       <MovementSpeed>k__BackingField:
         <BaseValue>k__BackingField: 10
+        <CurrentValue>k__BackingField: 10
       <RotationSpeed>k__BackingField:
         <BaseValue>k__BackingField: 360
+        <CurrentValue>k__BackingField: 360
   _spawnAbilityData:
     Has: 0
     Data:
-      SpawnSpeedMultiplier: 0
       <Units>k__BackingField: 
+      <SpawnInterval>k__BackingField:
+        <BaseValue>k__BackingField: 0
+        <CurrentValue>k__BackingField: 0
   <Model>k__BackingField: {fileID: 4584233108307569853, guid: c28b377cf31c73942be92458f80957bd,
     type: 3}
   <SpawnTime>k__BackingField: 3

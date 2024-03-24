@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d6273ee25c65024dba11c6aa2b7342a, type: 3}
   m_Name: SurvivalModePlayerEnhancement
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 0
+  <Type>k__BackingField: 1
   <Changes>k__BackingField:
   - <StatType>k__BackingField: 0
     <OperationType>k__BackingField: 0
@@ -23,7 +23,15 @@ MonoBehaviour:
   - <StatType>k__BackingField: 6
     <OperationType>k__BackingField: 0
     <Value>k__BackingField: 250
-  <DamageType>k__BackingField: 0
+  - <StatType>k__BackingField: 6
+    <OperationType>k__BackingField: 0
+    <Value>k__BackingField: 250
+  <IsChangingHealth>k__BackingField: 0
+  <HealthChangeData>k__BackingField:
+    Type: 0
+    Value: 0
+  <HealthChangeOperationType>k__BackingField: 0
+  <HealthChangeInterval>k__BackingField: 0
   <IsPersist>k__BackingField: 1
   <Duration>k__BackingField: 0
   <VFXType>k__BackingField: 0

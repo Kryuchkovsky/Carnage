@@ -1,5 +1,6 @@
 ﻿using _Logic.Core.Components;
 using _Logic.Gameplay.Units.Attack.Components;
+using _Logic.Gameplay.Units.Attack.Events;
 using _Logic.Gameplay.Units.Components;
 using Scellecs.Morpeh;
 

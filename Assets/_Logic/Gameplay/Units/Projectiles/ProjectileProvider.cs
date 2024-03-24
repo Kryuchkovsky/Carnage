@@ -1,4 +1,3 @@
-using System;
 using _Logic.Core;
 using _Logic.Gameplay.Units.Projectiles.Components;
 using Scellecs.Morpeh;
@@ -7,8 +6,6 @@ namespace _Logic.Gameplay.Units.Projectiles
 {
     public class ProjectileProvider : GameObjectProvider<ProjectileComponent>
     {
-        public event Action<ProjectileProvider> FlightEnded;
-        
         protected override void Initialize()
         {
             base.Initialize();
@@ -16,12 +13,6 @@ namespace _Logic.Gameplay.Units.Projectiles
             {
                 Value = this
             });
-        }
-
-        public void OnFlightEnded()
-        {
-            FlightEnded?.Invoke(this);
-            FlightEnded = null;
         }
     }
 }

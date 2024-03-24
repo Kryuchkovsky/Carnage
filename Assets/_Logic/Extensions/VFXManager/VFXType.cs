@@ -1,4 +1,5 @@
 public enum VFXType
 {
-    BloodExplosion = 0,
+    None = 0,
+    BloodExplosion = 1,
 }

@@ -75,10 +75,11 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 {
                     stats.Add(StatType.HealthRegenerationRate, healthStats.RegenerationRate);
                     stats.Add(StatType.MaxHeath, healthStats.MaxHealth);
-                    stats.Add(StatType.CurrentHealth, healthStats.CurrentHealth);
                     unit.Entity.SetComponent(new HealthComponent
                     {
+                        PeriodicHealthChanges = new List<HealthChangeProcess>(),
                         Stats = healthStats,
+                        Percentage = 1
                     });
                 }
 

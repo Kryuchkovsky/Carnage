@@ -38,12 +38,12 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
                             if (angle > 60) return;
                             
-                            World.GetRequest<DamageRequest>().Publish(new DamageRequest
-                            {
-                                AttackerEntity = entity,
-                                ReceiverEntity = provider.Entity,
-                                Damage = attackComponent.Stats.Damage.CurrentValue
-                            });
+                            // World.GetRequest<AttackCompletionRequest>().Publish(new AttackCompletionRequest
+                            // {
+                            //     AttackerEntity = entity,
+                            //     ReceiverEntity = provider.Entity,
+                            //     Damage = attackComponent.Stats.Damage.CurrentValue
+                            // });
 
                             var rigidbodyComponent = provider.Entity.GetComponent<RigidbodyComponent>(out var hasRigidbodyComponent);
                             

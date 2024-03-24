@@ -32,5 +32,19 @@ namespace _Logic.Extensions.Configs.Editor
                 throw;
             }
         }
+        
+        [MenuItem("Tools/Regenerate enum types")]
+        public static void RegenerateEnumDataTypes()
+        {
+            try
+            {
+                ConfigManager.GenerateDataEnumTypes(false);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The configs manager doesn't exist!");
+                throw;
+            }
+        }
     }
 }

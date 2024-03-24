@@ -9,9 +9,8 @@ namespace _Logic.Core.Components
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     [Serializable]
-    public struct FollowingTransformComponent : IComponent
+    public struct TargetComponent : IComponent
     {
-        public Transform Transform;
-        public Vector3 Offset;
+        public Entity Entity;
     }
 }

@@ -8,7 +8,6 @@ namespace _Logic.Gameplay.Units.Health
     public class HealthStats : IStatGroup
     {
         [field: SerializeField] public Stat MaxHealth { get; private set; } = new(100);
-        [field: SerializeField] public Stat CurrentHealth { get; private set; } = new(100);
         [field: SerializeField] public Stat RegenerationRate { get; private set; } = new(1);
 
         public HealthStats()

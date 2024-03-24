@@ -6,7 +6,6 @@ using _Logic.Gameplay.Units.Attack;
 using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Movement;
 using _Logic.Gameplay.Units.Spawn;
-using _Logic.Gameplay.Units.Spawn.Components;
 using _Logic.Gameplay.Units.Stats;
 using UnityEngine;
 

@@ -1,6 +1,7 @@
 public enum ProjectileType
 {
+    None = 0,
     Arrow = 1,
-    BallLightning = 3,
-    Fireball = 0,
+    BallLightning = 2,
+    Fireball = 3,
 }

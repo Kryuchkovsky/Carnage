@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -9,6 +10,7 @@ namespace _Logic.Gameplay.Units.Attack.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct AttackComponent : IComponent
     {
+        public List<EffectType> EffectTypes;
         public AttackStats Stats;
         public float AttacksPerSecond;
         public float AttackTime;

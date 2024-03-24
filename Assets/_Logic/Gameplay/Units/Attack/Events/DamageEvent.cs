@@ -1,12 +1,7 @@
 ﻿using Scellecs.Morpeh;
 
-namespace _Logic.Gameplay.Units.Attack
+namespace _Logic.Gameplay.Units.Attack.Events
 {
-    public struct AttackAnimationCompletionEvent : IEventData
-    {
-        public Entity Entity;
-    }
-    
     public struct DamageEvent : IEventData
     {
         public Entity ReceiverEntity;

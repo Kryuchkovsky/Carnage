@@ -41,14 +41,14 @@ namespace _Logic.Extensions.Configs
             AssetDatabase.Refresh();
         }
         
-        public static void GenerateDataEnumTypes()
+        public static void GenerateDataEnumTypes(bool useOldValues = true)
         {
             foreach (var config in Instance._configs)
             {
                 if (config is IExpandedConfig)
                 {
                     var expandedConfig = (IExpandedConfig)config;
-                    expandedConfig.GenerateDataEnumTypes();
+                    expandedConfig.GenerateDataEnumTypes(useOldValues);
                     expandedConfig.UpdateDataTypes();
                     EditorUtility.SetDirty(config);
                 }

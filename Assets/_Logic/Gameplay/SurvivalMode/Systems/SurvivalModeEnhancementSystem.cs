@@ -1,7 +1,8 @@
 ﻿using _Logic.Core;
-using _Logic.Core.Components;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI.Components;
+using _Logic.Gameplay.Units.Attack.Components;
+using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Effects;
 using _Logic.Gameplay.Units.Effects.Requests;
 using _Logic.Gameplay.Units.Spawn;
@@ -32,13 +33,18 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         {
             foreach (var spawnEvent in _unitSpawnEvent.publishedChanges) 
             {
-                if (spawnEvent.Entity.Has<AIComponent>() || !spawnEvent.Entity.Has<TransformComponent>()) continue;
+                if (spawnEvent.Entity.Has<AIComponent>() || !spawnEvent.Entity.Has<UnitComponent>()) continue;
                 
                 _effectAttachmentRequest.Publish(new EffectAttachmentRequest
                 {
                     TargetEntity = spawnEvent.Entity,
                     EffectType = _survivalModeSettings.PlayerEnhancmentEffectType
                 }, true);
+                
+                spawnEvent.Entity.SetComponent(new SplitAttackComponent
+                {
+                    AdditionalTargets = 3
+                });
             }
         }
     }

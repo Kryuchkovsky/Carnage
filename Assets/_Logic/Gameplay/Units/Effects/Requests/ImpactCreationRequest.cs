@@ -1,4 +1,5 @@
-﻿using Scellecs.Morpeh;
+﻿using System;
+using Scellecs.Morpeh;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Effects.Requests
@@ -8,5 +9,6 @@ namespace _Logic.Gameplay.Units.Effects.Requests
         public Entity InvokerEntity;
         public ImpactType Type;
         public Vector3 Position;
+        public Action Callback;
     }
 }
