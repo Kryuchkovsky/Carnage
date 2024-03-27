@@ -26,16 +26,9 @@ namespace _Logic.Gameplay.Units.Stats.Systems
                 
                 ref var statsComponent = ref request.Entity.GetComponent<StatsComponent>(out var hasStatsComponent);
                 
-                if (hasStatsComponent && statsComponent.Value.TryGetValue(request.Type, out var stat))
+                if (hasStatsComponent)
                 {
-                    stat.AddModifier(request.Modifier);
-                    
-                    var statsPanelComponent = request.Entity.GetComponent<StatsPanelComponent>(out var hasStatsPanelComponent);
-                    
-                    if (hasStatsPanelComponent)
-                    {
-                        statsPanelComponent.Value.SetStat(request.Type, stat.CurrentValue);
-                    }
+                    statsComponent.Value.AddModifier(request.Type, request.Modifier);
                 }
             }
         }

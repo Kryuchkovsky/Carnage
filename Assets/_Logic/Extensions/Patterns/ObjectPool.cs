@@ -7,9 +7,9 @@ namespace _Logic.Extensions.Patterns
 {
     public class ObjectPool<T> where T : Component
     {
-        public event Action<T> CreationAction;
-        public event Action<T> TakeAction;
-        public event Action<T> ReturnAction;
+        private Action<T> _creationAction;
+        private Action<T> _takeAction;
+        private Action<T> _returnAction;
     
         private readonly Stack<T> _objects;
         private readonly int _capacity;
@@ -27,17 +27,17 @@ namespace _Logic.Extensions.Patterns
 
             if (creationAction != null)
             {
-                CreationAction += creationAction;
+                _creationAction += creationAction;
             }
 
             if (takeAction != null)
             {
-                TakeAction += takeAction;
+                _takeAction += takeAction;
             }
         
             if (returnAction != null)
             {
-                ReturnAction += returnAction;
+                _returnAction += returnAction;
             }
         
             _objects = new Stack<T>(_capacity);
@@ -59,28 +59,28 @@ namespace _Logic.Extensions.Patterns
         public T Take()
         {
             var obj = _objects.Count == 0 ? CreateObject() : _objects.Pop();
-            TakeAction?.Invoke(obj);
+            _takeAction?.Invoke(obj);
             obj.gameObject.SetActive(true);
             return obj;
         }
 
-        public void Return(T obj)
+        public void Return(T obj, bool disabling = true)
         {
             _objects.Push(obj);
-            obj.gameObject.SetActive(false);
+            obj.gameObject.SetActive(!disabling);
             obj.transform.SetParent(_storage);
             obj.transform.localPosition = Vector3.zero;
-            ReturnAction?.Invoke(obj);
+            _returnAction?.Invoke(obj);
         }
 
         private T CreateObject()
         {
             var obj = Object.Instantiate(Prefab, _storage);
-            CreationAction?.Invoke(obj);
+            _creationAction?.Invoke(obj);
             return obj;
         }
 
-        protected void FillPool()
+        private void FillPool()
         {
             while (_totalCount < _capacity)
             {

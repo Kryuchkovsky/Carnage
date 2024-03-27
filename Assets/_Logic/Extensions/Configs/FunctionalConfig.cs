@@ -18,11 +18,11 @@ namespace _Logic.Extensions.Configs
         public override void Initialize()
         {
             _dataDictionary = new Dictionary<int, TData>();
-            
-            foreach (var data in _dataList)
+
+            for (int i = 0; i < _dataList.Count; i++)
             {
-                _dataDictionary.TryAdd(Convert.ToInt32(data.Type), data);
-                data.Initialize();
+                _dataDictionary.TryAdd(Convert.ToInt32(_dataList[i].Type), _dataList[i]);
+                _dataList[i].Initialize(i);
             }
         }
 

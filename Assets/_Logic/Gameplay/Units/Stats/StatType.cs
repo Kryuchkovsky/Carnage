@@ -8,9 +8,7 @@
         AttackTime,
         HealthRegenerationRate,
         MaxHeath,
-        CurrentHealth,
         MovementSpeed,
-        RotationSpeed,
-        AbilityCooldownSpeed
+        RotationSpeed
     }
 }

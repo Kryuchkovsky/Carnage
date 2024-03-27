@@ -39,6 +39,7 @@ namespace _Logic.Extensions.Configs
             }
             
             AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
         }
         
         public static void GenerateDataEnumTypes(bool useOldValues = true)
@@ -55,6 +56,7 @@ namespace _Logic.Extensions.Configs
             }
             
             AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
         }
         
         public T GetConfig<T>() where T : ScriptableObject => Instance._configDictionary[typeof(T)] as T;

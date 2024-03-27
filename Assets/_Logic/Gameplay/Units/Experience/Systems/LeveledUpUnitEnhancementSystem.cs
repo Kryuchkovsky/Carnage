@@ -52,7 +52,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                     var affection = _survivalModeSettings.PossibleAffectionsWhenLevelUp[i];
                     var currentProbability = (float)(rewardsNumber - selections.Count) / (_survivalModeSettings.PossibleAffectionsWhenLevelUp.Count - i);
 
-                    if (statsComponent.Value.ContainsKey(affection.StatType) && randomValue <= currentProbability)
+                    if (statsComponent.Value.HasStat(affection.StatType) && randomValue <= currentProbability)
                     {
                         var sign = affection.OperationType == StatModifierOperationType.Multiplication ? "%" : "";
                         var selection = new Selection($"Change {affection.StatType} to {affection.Value}{sign}", () =>

@@ -13,51 +13,18 @@ MonoBehaviour:
   m_Name: OrcishWarrior
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 10
-  _attackData:
-    Has: 1
-    Data:
-      <AttackTime>k__BackingField:
-        <BaseValue>k__BackingField: 1.7
-        <CurrentValue>k__BackingField: 1.7
-      <AdditionalTargets>k__BackingField:
-        <BaseValue>k__BackingField: 0
-        <CurrentValue>k__BackingField: 0
-      <Damage>k__BackingField:
-        <BaseValue>k__BackingField: 10
-        <CurrentValue>k__BackingField: 10
-      <Range>k__BackingField:
-        <BaseValue>k__BackingField: 2.5
-        <CurrentValue>k__BackingField: 1.5
-      <Speed>k__BackingField:
-        <BaseValue>k__BackingField: 100
-        <CurrentValue>k__BackingField: 100
-      <ProjectileType>k__BackingField: 0
-      <HealthChangeType>k__BackingField: 0
-  _healthData:
-    Has: 1
-    Data:
-      <MaxHealth>k__BackingField:
-        <BaseValue>k__BackingField: 100
-        <CurrentValue>k__BackingField: 100
-      <RegenerationRate>k__BackingField:
-        <BaseValue>k__BackingField: 1
-        <CurrentValue>k__BackingField: 1
-  _movementData:
-    Has: 1
-    Data:
-      <MovementSpeed>k__BackingField:
-        <BaseValue>k__BackingField: 10
-        <CurrentValue>k__BackingField: 10
-      <RotationSpeed>k__BackingField:
-        <BaseValue>k__BackingField: 360
-        <CurrentValue>k__BackingField: 360
-  _spawnAbilityData:
-    Has: 0
-    Data:
-      <Units>k__BackingField: 
-      <SpawnInterval>k__BackingField:
-        <BaseValue>k__BackingField: 0
-        <CurrentValue>k__BackingField: 0
+  _hasAttack: 1
+  _attackDamage: 10
+  _attackRange: 1.5
+  _attackSpeed: 100
+  _attackTime: 2
+  <ProjectileType>k__BackingField: 0
+  _hasHealth: 1
+  _healthRegenerationRate: 0
+  _maxHeath: 50
+  _hasMovement: 1
+  _movementSpeed: 10
+  _rotationSpeed: 0
   <Model>k__BackingField: {fileID: 4584233108307569853, guid: c28b377cf31c73942be92458f80957bd,
     type: 3}
   <SpawnTime>k__BackingField: 3

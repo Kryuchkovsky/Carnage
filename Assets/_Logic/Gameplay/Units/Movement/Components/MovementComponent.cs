@@ -10,6 +10,5 @@ namespace _Logic.Gameplay.Units.Movement.Components
     [Serializable]
     public struct MovementComponent : IComponent
     {
-        public MovementStats Stats;
     }
 }

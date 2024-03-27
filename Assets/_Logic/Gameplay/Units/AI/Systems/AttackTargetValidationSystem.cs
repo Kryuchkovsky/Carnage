@@ -4,6 +4,9 @@ using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Health.Components;
+using _Logic.Gameplay.Units.Stats;
+using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
 
 namespace _Logic.Gameplay.Units.AI.Systems
@@ -13,19 +16,21 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>()
-                .ForEach((Entity entity, ref AttackComponent attackComponent, ref AttackTargetComponent attackTargetComponent) =>
+                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<StatsComponent>().With<AliveComponent>()
+                .ForEach((Entity entity, ref AttackComponent attackComponent, ref AttackTargetComponent attackTargetComponent, ref StatsComponent statsComponent) =>
                 {
                     var aiSettings = ConfigManager.Instance.GetConfig<AISettings>();
-                    var followingRange = attackComponent.Stats.Range.CurrentValue * aiSettings.TargetSearchRangeToAttackRangeRatio;
+                    statsComponent.Value.TryGetCurrentValue(StatType.AttackRange, out var range);
+                    
+                    var followingRange = range * aiSettings.TargetSearchRangeToAttackRangeRatio;
                     var distanceIsGotten = EcsExtensions.TryGetDistanceBetweenClosestPointsOfEntitiesColliders(
                         entity, attackTargetComponent.TargetEntity, out var distance);
                     
-                    if (distanceIsGotten && 
+                    if (attackTargetComponent.TargetEntity.Has<AliveComponent>() && distanceIsGotten && 
                         ((entity.Has<AIComponent>() && (distance < followingRange || attackTargetComponent.TargetEntity.Has<PriorityComponent>())) || 
-                        (!entity.Has<AIComponent>() && distance < attackComponent.Stats.Range.CurrentValue)))
+                         (!entity.Has<AIComponent>() && distance < range)))
                     {
-                        attackTargetComponent.IsInAttackRadius = distance < attackComponent.Stats.Range.CurrentValue;
+                        attackTargetComponent.IsInAttackRadius = distance < range;
                     }
                     else
                     {

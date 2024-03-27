@@ -2,6 +2,7 @@ using _Logic.Core.Components;
 using _Logic.Gameplay.Input.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -17,7 +18,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<TransformComponent>().With<MovementComponent>()
+                .With<UnitComponent>().With<TransformComponent>().With<MovementComponent>().With<AliveComponent>()
                 .Without<AIComponent>()
                 .ForEach((Entity entity, ref TransformComponent transformComponent) =>
                 {

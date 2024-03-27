@@ -1,5 +1,6 @@
 ﻿using _Logic.Core;
 using _Logic.Gameplay.Units.Health.Components;
+using _Logic.Gameplay.Units.Health.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -17,7 +18,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
         
         public override void OnAwake()
         {
-            _healthFilter = World.Filter.With<HealthComponent>();
+            _healthFilter = World.Filter.With<HealthComponent>().With<PeriodicHealthChangesComponent>().With<AliveComponent>();
             _healthChangeRequest = World.GetRequest<HealthChangeRequest>();
         }
 
@@ -26,12 +27,11 @@ namespace _Logic.Gameplay.Units.Health.Systems
             foreach (var entity in _healthFilter.Build())
             {
                 ref var healthComponent = ref entity.GetComponent<HealthComponent>();
-                
-                if (healthComponent.IsDead) continue;
+                ref var periodicHealthChangesComponent = ref entity.GetComponent<PeriodicHealthChangesComponent>();
 
-                for (int i = 0; i < healthComponent.PeriodicHealthChanges.Count;)
+                for (int i = 0; i < periodicHealthChangesComponent.Value.Count;)
                 {
-                    var change = healthComponent.PeriodicHealthChanges[i];
+                    var change = periodicHealthChangesComponent.Value[i];
 
                     change.LastChangeTime += deltaTime;
 
@@ -57,7 +57,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
 
                     if (change.ExistingTime >= change.Duration)
                     {
-                        healthComponent.PeriodicHealthChanges.RemoveAt(i);
+                        periodicHealthChangesComponent.Value.RemoveAt(i);
                     }
                     else
                     {

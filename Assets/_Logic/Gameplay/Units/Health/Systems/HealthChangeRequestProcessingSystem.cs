@@ -1,10 +1,12 @@
 ﻿using System;
 using _Logic.Core;
-using _Logic.Extensions.HealthBar;
 using _Logic.Extensions.Popup;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Health.Events;
+using _Logic.Gameplay.Units.Health.Requests;
+using _Logic.Gameplay.Units.Stats;
+using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -14,7 +16,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class HealthChangeRequestsProcessingSystem : AbstractUpdateSystem
+    public sealed class HealthChangeRequestProcessingSystem : AbstractUpdateSystem
     {
         private Request<HealthChangeRequest> _healthChangeRequest;
         private Event<UnitDeathEvent> _unitDeathEvent;
@@ -29,14 +31,16 @@ namespace _Logic.Gameplay.Units.Health.Systems
         {
             foreach (var request in _healthChangeRequest.Consume())
             {
-                if (request.TargetEntity.IsNullOrDisposed() || !request.TargetEntity.Has<UnitComponent>() || !request.TargetEntity.Has<HealthComponent>()) continue;
+                if (request.TargetEntity.IsNullOrDisposed() || !request.TargetEntity.Has<UnitComponent>() || 
+                    !request.TargetEntity.Has<HealthComponent>() || !request.TargetEntity.Has<AliveComponent>() || 
+                    !request.TargetEntity.Has<StatsComponent>()) continue;
 
                 ref var unitComponent = ref request.TargetEntity.GetComponent<UnitComponent>();
                 ref var healthComponent = ref request.TargetEntity.GetComponent<HealthComponent>();
-                
-                if (healthComponent.IsDead) continue;
-                
-                var health = healthComponent.Stats.MaxHealth.CurrentValue * healthComponent.Percentage;
+                ref var statsComponent = ref request.TargetEntity.GetComponent<StatsComponent>();
+
+                statsComponent.Value.TryGetCurrentValue(StatType.MaxHeath, out var maxHealth);
+                var health = maxHealth * healthComponent.Percentage;
 
                 switch (request.Data.Type)
                 {
@@ -53,8 +57,8 @@ namespace _Logic.Gameplay.Units.Health.Systems
                         throw new ArgumentOutOfRangeException();
                 }
 
-                health = Mathf.Clamp(health, 0, healthComponent.Stats.MaxHealth.CurrentValue);
-                var percentage = health / healthComponent.Stats.MaxHealth.CurrentValue;
+                health = Mathf.Clamp(health, 0, maxHealth);
+                var percentage = health / maxHealth;
 
                 healthComponent.CurrentHealth = health;
                 healthComponent.Percentage = percentage;
@@ -64,11 +68,6 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 if (hasHealthBarComponent)
                 {
                     healthBarComponent.Value.SetFillValue(healthComponent.Percentage);
-                        
-                    if (healthComponent.CurrentHealth <= 0)
-                    {
-                        HealthBarsService.Instance.RemoveHealthBar(healthBarComponent.Value);
-                    }
                 }
 
                 if (request.CreatePopup)
@@ -104,7 +103,8 @@ namespace _Logic.Gameplay.Units.Health.Systems
                         CorpseEntity = request.TargetEntity,
                         MurdererEntity = request.SenderEntity
                     });
-                    healthComponent.IsDead = true;
+                    request.TargetEntity.RemoveComponent<AliveComponent>();
+                    unitComponent.Value.OnDie();
                 }
                 else
                 {

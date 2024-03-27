@@ -1,9 +1,11 @@
 ﻿using _Logic.Core.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement.Components;
+using _Logic.Gameplay.Units.Stats;
+using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
-
 
 namespace _Logic.Gameplay.Units.Movement.Systems
 {
@@ -12,8 +14,8 @@ namespace _Logic.Gameplay.Units.Movement.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<MovementComponent>().With<NavMeshAgentComponent>().With<AIComponent>()
-                .ForEach((Entity entity, ref UnitComponent unitComponent, ref MovementComponent movementComponent, ref NavMeshAgentComponent navMeshAgentComponent) =>
+                .With<UnitComponent>().With<MovementComponent>().With<StatsComponent>().With<NavMeshAgentComponent>().With<AIComponent>().With<AliveComponent>()
+                .ForEach((Entity entity, ref UnitComponent unitComponent, ref MovementComponent movementComponent, ref StatsComponent statsComponent, ref NavMeshAgentComponent navMeshAgentComponent) =>
                 {
                     var agent = navMeshAgentComponent.Value;
                     var isCompleted = !agent.hasPath || agent.isStopped;
@@ -23,16 +25,19 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                         entity.RemoveComponent<DestinationComponent>();
                     }
 
-                    agent.speed = movementComponent.Stats.MovementSpeed.CurrentValue;
-                    var speed = agent.velocity.magnitude / agent.speed;
-                    unitComponent.Value.OnMove(speed);
-                    //agent.enabled = !isCompleted;
-
-                    ref var obstacleComponent = ref entity.GetComponent<NavMeshObstacleComponent>(out var hasObstacleComponent);
-                    
-                    if (hasObstacleComponent)
+                    if (statsComponent.Value.TryGetCurrentValue(StatType.MovementSpeed, out var speed))
                     {
-                        //obstacleComponent.Value.enabled = isCompleted;
+                        agent.speed = speed;
+                        var normalizedSpeed = agent.velocity.magnitude / speed;
+                        unitComponent.Value.OnMove(normalizedSpeed);
+                        //agent.enabled = !isCompleted;
+
+                        ref var obstacleComponent = ref entity.GetComponent<NavMeshObstacleComponent>(out var hasObstacleComponent);
+                    
+                        if (hasObstacleComponent)
+                        {
+                            //obstacleComponent.Value.enabled = isCompleted;
+                        }
                     }
                 });
         }

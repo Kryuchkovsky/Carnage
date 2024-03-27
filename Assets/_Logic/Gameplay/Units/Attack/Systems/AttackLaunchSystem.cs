@@ -1,7 +1,7 @@
-﻿using _Logic.Core.Components;
-using _Logic.Gameplay.Units.Attack.Components;
+﻿using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Attack.Events;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Health.Components;
 using Scellecs.Morpeh;
 
 namespace _Logic.Gameplay.Units.Attack.Systems
@@ -19,7 +19,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>()
+                .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<AliveComponent>()
                 .ForEach((Entity entity, ref UnitComponent unitComponent, ref AttackComponent attackComponent, 
                     ref AttackTargetComponent attackTargetComponent) =>
                 {
@@ -28,7 +28,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     var receiverEntity = attackTargetComponent.TargetEntity;
                     
                     attackComponent.AttackTimePercentage = 0;
-                    unitComponent.Value.OnAttack(() =>
+                    unitComponent.Value.OnAttack(attackComponent.AttacksPerSecond, () =>
                     {
                         if (entity.IsNullOrDisposed() && receiverEntity.IsNullOrDisposed()) return;
                         

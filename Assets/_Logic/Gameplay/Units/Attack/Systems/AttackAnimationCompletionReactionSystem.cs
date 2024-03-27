@@ -2,8 +2,12 @@
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Attack.Events;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Health;
+using _Logic.Gameplay.Units.Health.Requests;
 using _Logic.Gameplay.Units.Projectiles.Events;
 using _Logic.Gameplay.Units.Projectiles.Requests;
+using _Logic.Gameplay.Units.Stats;
+using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -19,6 +23,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
         private Event<AttackEndEvent> _attackEndEvent;
         private Event<ProjectileFlightEndEvent> _projectileFlightEndEvent;
         private Request<ProjectileCreationRequest> _projectileCreationRequest;
+        private Request<HealthChangeRequest> _healthChangeRequest;
 
         public override void OnAwake()
         {
@@ -27,6 +32,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
             _attackEndEvent = World.GetEvent<AttackEndEvent>();
             _projectileFlightEndEvent = World.GetEvent<ProjectileFlightEndEvent>();
             _projectileCreationRequest = World.GetRequest<ProjectileCreationRequest>();
+            _healthChangeRequest = World.GetRequest<HealthChangeRequest>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -39,8 +45,9 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 ref var unitComponent = ref entity.GetComponent<UnitComponent>(out var hasUnitComponent);
                 ref var attackComponent = ref entity.GetComponent<AttackComponent>(out var hasAttackComponent);
                 ref var attackTargetComponent = ref entity.GetComponent<AttackTargetComponent>(out var hasAttackTargetComponent);
+                ref var statsComponent = ref entity.GetComponent<StatsComponent>(out var hasStatsComponent);
 
-                if (!hasUnitComponent || !hasAttackComponent || !hasAttackTargetComponent || attackTargetComponent.TargetEntity.IsNullOrDisposed()) continue;
+                if (!hasUnitComponent || !hasAttackComponent || !hasAttackTargetComponent || !hasStatsComponent || attackTargetComponent.TargetEntity.IsNullOrDisposed()) continue;
 
                 var targetEntity = attackTargetComponent.TargetEntity;
                 
@@ -49,9 +56,24 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     AttackingEntity = entity,
                     AttackedEntity = targetEntity
                 });
-
-                if (attackComponent.Stats.ProjectileType == ProjectileType.None)
+                
+                if (attackComponent.ProjectileType == ProjectileType.None)
                 {
+                    statsComponent.Value.TryGetCurrentValue(StatType.AttackDamage, out var damage);
+                    
+                    var healthChangeData = new HealthChangeData
+                    {
+                        Type = attackComponent.AttackHealthChangeType,
+                        Value = damage
+                    };
+                    var healthChangeRequest = new HealthChangeRequest
+                    {
+                        TargetEntity = targetEntity,
+                        SenderEntity = entity,
+                        Data = healthChangeData
+                    };
+                    _healthChangeRequest.Publish(healthChangeRequest);
+                    
                     _attackEndEvent.NextFrame(new AttackEndEvent
                     {
                         AttackingEntity = entity,
@@ -64,7 +86,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     {
                         OwnerEntity = entity,
                         TargetEntity = targetEntity,
-                        Type = attackComponent.Stats.ProjectileType,
+                        Type = attackComponent.ProjectileType,
                         InitialPosition = unitComponent.Value.Model.AttackPoint.position,
                     }, true);
                 }
@@ -72,13 +94,35 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
             foreach (var endEvent in _projectileFlightEndEvent.publishedChanges)
             {
-                if (endEvent.OwnerEntity.IsNullOrDisposed() || !endEvent.OwnerEntity.Has<UnitComponent>() || !endEvent.OwnerEntity.Has<AttackComponent>()) continue;
+                if (endEvent.OwnerEntity.IsNullOrDisposed() || !endEvent.OwnerEntity.Has<AttackComponent>() || !endEvent.OwnerEntity.Has<StatsComponent>()) continue;
                 
-                _attackEndEvent.NextFrame(new AttackEndEvent
+                ref var attackComponent = ref endEvent.OwnerEntity.GetComponent<AttackComponent>();
+                ref var statsComponent = ref endEvent.OwnerEntity.GetComponent<StatsComponent>();
+                
+                statsComponent.Value.TryGetCurrentValue(StatType.AttackDamage, out var damage);
+                
+                var healthChangeData = new HealthChangeData
                 {
-                    AttackingEntity = endEvent.OwnerEntity,
-                    AttackedEntity = endEvent.TargetEntity
-                });
+                    Type = attackComponent.AttackHealthChangeType,
+                    Value = damage
+                };
+                var healthChangeRequest = new HealthChangeRequest
+                {
+                    TargetEntity = endEvent.TargetEntity,
+                    SenderEntity = endEvent.OwnerEntity,
+                    Data = healthChangeData,
+                    CreatePopup = true
+                };
+                _healthChangeRequest.Publish(healthChangeRequest);
+
+                if (endEvent.OwnerEntity.Has<UnitComponent>())
+                {
+                    _attackEndEvent.NextFrame(new AttackEndEvent
+                    {
+                        AttackingEntity = endEvent.OwnerEntity,
+                        AttackedEntity = endEvent.TargetEntity
+                    });
+                }
             }
         }
     }

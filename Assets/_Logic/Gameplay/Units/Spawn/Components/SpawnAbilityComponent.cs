@@ -1,4 +1,5 @@
-﻿using Scellecs.Morpeh;
+﻿using System.Collections.Generic;
+using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
 namespace _Logic.Gameplay.Units.Spawn.Components
@@ -9,6 +10,7 @@ namespace _Logic.Gameplay.Units.Spawn.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct SpawnAbilityComponent : IComponent
     {
-        public SpawnAbilityData Data;
+        public List<UnitType> UnitTypes;
+        public int Interval;
     }
 }

@@ -15,14 +15,12 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     public sealed class LevelChangeRequestProcessingSystem : AbstractUpdateSystem
     {
         private Request<LevelChangeRequest> _levelChangeRequest;
-        private Request<ExperienceAmountChangeRequest> _experienceAmountChangeRequest;
         private Event<LevelChangeEvent> _levelChangeEvent;
         private ExperienceSettings _experienceSettings;
         
         public override void OnAwake()
         {
             _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
-            _experienceAmountChangeRequest = World.GetRequest<ExperienceAmountChangeRequest>();
             _levelChangeEvent = World.GetEvent<LevelChangeEvent>();
             _experienceSettings = ConfigManager.Instance.GetConfig<ExperienceSettings>();
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -11,6 +10,6 @@ namespace _Logic.Gameplay.Units.Stats.Components
     [Serializable]
     public struct StatsComponent : IComponent
     {
-        public Dictionary<StatType, Stat> Value;
+        public StatStorage Value;
     }
 }

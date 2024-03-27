@@ -1,4 +1,7 @@
 ﻿using _Logic.Gameplay.Units.Attack.Components;
+using _Logic.Gameplay.Units.Health.Components;
+using _Logic.Gameplay.Units.Stats;
+using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -9,10 +12,12 @@ namespace _Logic.Gameplay.Units.Attack.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<AttackComponent>()
-                .ForEach((Entity entity, ref AttackComponent attackComponent) =>
+                .With<AttackComponent>().With<StatsComponent>().With<AliveComponent>()
+                .ForEach((Entity entity, ref AttackComponent attackComponent, ref StatsComponent statsComponent) =>
                 {
-                    attackComponent.AttacksPerSecond = attackComponent.Stats.Speed.CurrentValue * 0.01f / attackComponent.Stats.AttackTime.CurrentValue;
+                    statsComponent.Value.TryGetCurrentValue(StatType.AttackSpeed, out var attackSpeed);
+                    statsComponent.Value.TryGetCurrentValue(StatType.AttackTime, out var attackTime);
+                    attackComponent.AttacksPerSecond = attackSpeed * 0.01f / attackTime;
                     attackComponent.AttackTime = 1 / attackComponent.AttacksPerSecond;
                     attackComponent.RemainingAttackTime = Mathf.Lerp(0, attackComponent.AttackTime, 1 - attackComponent.AttackTimePercentage);
 

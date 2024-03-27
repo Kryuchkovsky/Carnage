@@ -6,6 +6,7 @@ using _Logic.Gameplay.SurvivalMode.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Spawn;
+using _Logic.Gameplay.Units.Spawn.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -19,12 +20,16 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
     {
         private FilterBuilder _survivalModeFilter;
         private FilterBuilder _playerFilter;
+        private FilterBuilder _unitCounterFilter;
+        private Request<UnitSpawnRequest> _unitSpawnRequest;
         private SurvivalModeSettings _settings;
 
         public override void OnAwake()
         {
             _survivalModeFilter = World.Filter.With<SurvivalModeComponent>().With<TimerComponent>();
             _playerFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().Without<AIComponent>();
+            _unitCounterFilter = World.Filter.With<UnitCounterComponent>();
+            _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
             _settings = ConfigManager.Instance.GetConfig<SurvivalModeSettings>();
         }
 
@@ -35,15 +40,17 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
                 if (entity.GetComponent<TimerComponent>().Value > 0) continue;
 
                 var playerEntity = _playerFilter.Build().FirstOrDefault();
+                var unitCounterEntity = _unitCounterFilter.Build().FirstOrDefault();
 
-                if (playerEntity.IsNullOrDisposed()) return;
+                if (playerEntity.IsNullOrDisposed() || unitCounterEntity.IsNullOrDisposed() || 
+                    (unitCounterEntity.GetComponent<UnitCounterComponent>().TeamUnitNumbers.TryGetValue(1, out var number) && number >= _settings.MaxEnemiesNumber)) continue;
 
                 var position = playerEntity.GetComponent<TransformComponent>().Value.position;
                 position += ExtraMethods.GetRandomDirectionXZ() * 50;
                 var allUnitTypes = _settings.Enemies;
                 var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];
 
-                World.GetRequest<UnitSpawnRequest>().Publish(new UnitSpawnRequest
+                _unitSpawnRequest.Publish(new UnitSpawnRequest
                 {
                     UnitType = unitType,
                     Position = position,

@@ -36,8 +36,10 @@ namespace _Logic.Gameplay.SurvivalMode
             
             _systemsGroup.AddSystem(new TeamDataSettingRequestsProcessingSystem());
 
+            _systemsGroup.AddSystem(new StatDependentComponentsSetRequestProcessingSystem());
+            _systemsGroup.AddSystem(new StatsPanelProvidingSystem());
             _systemsGroup.AddSystem(new StatChangeRequestProcessingSystem());
-            _systemsGroup.AddSystem(new StatModifierTimeUpdateSystem());
+            _systemsGroup.AddSystem(new StatUpdateSystem());
             
             _systemsGroup.AddSystem(new AttackTargetSearchSystem());
             _systemsGroup.AddSystem(new AttackTargetValidationSystem());
@@ -51,7 +53,6 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new AttackReboundingSystem());
             _systemsGroup.AddSystem(new AttackSplittingSystem());
             _systemsGroup.AddSystem(new AttackAnimationCompletionReactionSystem());
-            _systemsGroup.AddSystem(new AttackHealthChangeHandlingSystem());
             
             _systemsGroup.AddSystem(new ProjectileCreationRequestProcessingSystem());
             _systemsGroup.AddSystem(new ProjectileFlightProcessingSystem());
@@ -61,9 +62,11 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new LevelChangeRequestProcessingSystem());
             _systemsGroup.AddSystem(new LeveledUpUnitEnhancementSystem());
 
-            _systemsGroup.AddSystem(new HealthBarAddingSystem());
+            _systemsGroup.AddSystem(new HealthBarProvidingSystem());
             _systemsGroup.AddSystem(new HealthRegenerationSystem());
-            _systemsGroup.AddSystem(new HealthChangeRequestsProcessingSystem());
+            _systemsGroup.AddSystem(new PeriodicHealthChangesHandlingSystem());
+            _systemsGroup.AddSystem(new HealthChangeRequestProcessingSystem());
+            _systemsGroup.AddSystem(new HealthChangeProcessAdditionRequestProcessingSystem());
 
             _systemsGroup.AddSystem(new PlayerUnitDestinationSystem());
             _systemsGroup.AddSystem(new ManualMovementSystem());

@@ -1,7 +1,7 @@
 ﻿using System;
 using Scellecs.Morpeh;
 
-namespace _Logic.Gameplay.Units.Health
+namespace _Logic.Gameplay.Units.Health.Requests
 {
     [Serializable]
     public struct HealthChangeRequest : IRequestData

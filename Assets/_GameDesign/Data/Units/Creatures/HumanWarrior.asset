@@ -13,39 +13,18 @@ MonoBehaviour:
   m_Name: HumanWarrior
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 4
-  _attackData:
-    Has: 1
-    Data:
-      <Damage>k__BackingField:
-        <BaseValue>k__BackingField: 10
-      <BasicAttackTime>k__BackingField:
-        <BaseValue>k__BackingField: 1.7
-      <Range>k__BackingField:
-        <BaseValue>k__BackingField: 2.5
-      <Speed>k__BackingField:
-        <BaseValue>k__BackingField: 100
-      <ProjectileData>k__BackingField: {fileID: 0}
-  _healthData:
-    Has: 1
-    Data:
-      <MaxHealth>k__BackingField:
-        <BaseValue>k__BackingField: 100
-      <RegenerationRate>k__BackingField:
-        <BaseValue>k__BackingField: 1
-      <CorpseExistenceTime>k__BackingField:
-        <BaseValue>k__BackingField: 3
-  _movementData:
-    Has: 1
-    Data:
-      <MovementSpeed>k__BackingField:
-        <BaseValue>k__BackingField: 10
-      <RotationSpeed>k__BackingField:
-        <BaseValue>k__BackingField: 360
-  _spawnAbilityData:
-    Has: 0
-    Data:
-      SpawnSpeedMultiplier: 0
-      <Units>k__BackingField: 
+  _hasAttack: 1
+  _attackDamage: 10
+  _attackRange: 1.5
+  _attackSpeed: 100
+  _attackTime: 2
+  <ProjectileType>k__BackingField: 0
+  _hasHealth: 1
+  _healthRegenerationRate: 0
+  _maxHeath: 50
+  _hasMovement: 1
+  _movementSpeed: 10
+  _rotationSpeed: 0
   <Model>k__BackingField: {fileID: 6793499299369025809, guid: 075d77a6e2bcc4f4692499d8d7842dd2,
     type: 3}
   <SpawnTime>k__BackingField: 3

@@ -3,7 +3,6 @@ using _Logic.Core;
 using _Logic.Core.Components;
 using _Logic.Extensions.Configs;
 using _Logic.Extensions.Patterns;
-using _Logic.Gameplay.Units.Effects.Components;
 using _Logic.Gameplay.Units.Projectiles.Components;
 using _Logic.Gameplay.Units.Projectiles.Events;
 using _Logic.Gameplay.Units.Projectiles.Requests;

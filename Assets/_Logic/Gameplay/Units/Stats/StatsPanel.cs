@@ -9,22 +9,32 @@ namespace _Logic.Gameplay.Units.Stats
         [SerializeField] private StatView _statViewPrefab;
         
         private Dictionary<StatType, StatView> _views = new();
+        private Dictionary<StatType, Stat> _stats = new();
 
         public void Initiate(Dictionary<StatType, Stat> stats)
         {
-            foreach (var stat in stats)
+            _stats = stats;
+            Update();
+        }
+
+        public void Update()
+        {
+            if (_stats != null)
             {
-                SetStat(stat.Key, stat.Value.CurrentValue);
-            }
+                foreach (var stat in _stats)
+                {
+                    SetStat(stat.Key, stat.Value.CurrentValue);
+                }
             
-            foreach (var view in _views)
-            {
-                if (stats.ContainsKey(view.Key)) continue;
+                foreach (var view in _views)
+                {
+                    if (_stats.ContainsKey(view.Key)) continue;
                 
-                RemoveStat(view.Key);
+                    RemoveStat(view.Key);
+                }
             }
         }
-        
+
         public void SetStat(StatType type, float value)
         {
             if (_views.ContainsKey(type))

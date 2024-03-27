@@ -20,15 +20,18 @@ MonoBehaviour:
   - <StatType>k__BackingField: 5
     <OperationType>k__BackingField: 0
     <Value>k__BackingField: 250
-  - <StatType>k__BackingField: 6
+  - <StatType>k__BackingField: 1
     <OperationType>k__BackingField: 0
     <Value>k__BackingField: 250
   - <StatType>k__BackingField: 6
     <OperationType>k__BackingField: 0
-    <Value>k__BackingField: 250
+    <Value>k__BackingField: 4
+  - <StatType>k__BackingField: 4
+    <OperationType>k__BackingField: 0
+    <Value>k__BackingField: 10
   <IsChangingHealth>k__BackingField: 0
   <HealthChangeData>k__BackingField:
-    Type: 0
+    Type: 2
     Value: 0
   <HealthChangeOperationType>k__BackingField: 0
   <HealthChangeInterval>k__BackingField: 0

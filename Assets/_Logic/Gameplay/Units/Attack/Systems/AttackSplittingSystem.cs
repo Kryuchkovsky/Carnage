@@ -5,6 +5,8 @@ using _Logic.Gameplay.Units.Attack.Events;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Effects.Components;
 using _Logic.Gameplay.Units.Projectiles.Requests;
+using _Logic.Gameplay.Units.Stats;
+using _Logic.Gameplay.Units.Stats.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -36,9 +38,11 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 ref var unitComponent = ref attackStartEvent.AttackingEntity.GetComponent<UnitComponent>(out var hasUnitComponent);
                 ref var splitComponent = ref attackStartEvent.AttackingEntity.GetComponent<SplitAttackComponent>(out var hasSplitComponent);
                 ref var attackComponent = ref attackStartEvent.AttackingEntity.GetComponent<AttackComponent>(out var hasAttackComponent);
+                ref var statsComponent = ref attackStartEvent.AttackingEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
                 ref var teamDataComponent = ref attackStartEvent.AttackingEntity.GetComponent<TeamDataComponent>(out var hasTeamDataComponent);
 
-                if (!hasUnitComponent && !hasSplitComponent || !hasAttackComponent || !hasTeamDataComponent || splitComponent.AdditionalTargets <= 0) continue;
+                if (!hasUnitComponent && !hasSplitComponent || !hasAttackComponent || !hasStatsComponent || 
+                    !statsComponent.Value.TryGetCurrentValue(StatType.AttackRange, out var range)|| !hasTeamDataComponent || splitComponent.AdditionalTargets <= 0) continue;
                 
                 var ownerEntity = attackStartEvent.AttackingEntity;
                 ref var effectComponent = ref attackStartEvent.AttackingEntity.GetComponent<EffectComponent>(out var hasEffectComponent);
@@ -55,12 +59,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 var position = unitComponent.Value.transform.position;
                 var projectilePosition = unitComponent.Value.Model.AttackPoint.position;
                 var mask = 1 << teamDataComponent.EnemiesLayer;
-                var colliderNumber = Physics.OverlapSphereNonAlloc(
-                    position, 
-                    attackComponent.Stats.Range.CurrentValue * 2, 
-                    _colliders, 
-                    mask);
-
+                var colliderNumber = Physics.OverlapSphereNonAlloc(position, range, _colliders, mask);
                 var numberOfFoundedTargets = 0;
                 
                 for (int i = 0; i < colliderNumber && numberOfFoundedTargets < splitComponent.AdditionalTargets; i++)
@@ -68,7 +67,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     if (_colliders[i].TryGetComponent<LinkedCollider>(out var linkedCollider) && !linkedCollider.Entity.IsNullOrDisposed() && 
                         linkedCollider.Entity != ownerEntity && linkedCollider.Entity != attackStartEvent.AttackedEntity)
                     {
-                        if (attackComponent.Stats.ProjectileType == ProjectileType.None)
+                        if (attackComponent.ProjectileType == ProjectileType.None)
                         {
                             //todo: create health change event
                         }
@@ -78,7 +77,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                             {
                                 OwnerEntity = ownerEntity,
                                 TargetEntity = linkedCollider.Entity,
-                                Type = attackComponent.Stats.ProjectileType,
+                                Type = attackComponent.ProjectileType,
                                 InitialPosition = projectilePosition
                             });
                         }

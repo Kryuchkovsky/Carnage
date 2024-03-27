@@ -12,11 +12,14 @@ namespace _Logic.Gameplay.Units
         [field: SerializeField] public VFXType HitVFXType { get; private set; }
         [field: SerializeField] public NavMeshObstacleShape NavMeshObstacleShape { get; private set; } = NavMeshObstacleShape.Capsule;
         [field: SerializeField] public int NavMeshAgentTypeId { get; private set; }
-        
-        public Bounds Bounds => Renderer.bounds;
 
-        private void Awake()
+        public Bounds Bounds => Renderer.bounds;
+        public int Id { get; private set; }
+
+        public void Initialize(int id)
         {
+            Id = id;
+            
             if (!Renderer)
             {
                 Renderer = GetComponentInChildren<Renderer>();
@@ -28,7 +31,7 @@ namespace _Logic.Gameplay.Units
             }
         }
 
-        public virtual void PlayAttackAnimation(Action callback = null)
+        public virtual void PlayAttackAnimation(float attackSpeed = 1, Action callback = null)
         {
             callback?.Invoke();
         }
@@ -46,6 +49,10 @@ namespace _Logic.Gameplay.Units
         }
 
         public virtual void LookAtPoint(Vector3 point)
+        {
+        }   
+        
+        public virtual void Reset()
         {
         }
     }

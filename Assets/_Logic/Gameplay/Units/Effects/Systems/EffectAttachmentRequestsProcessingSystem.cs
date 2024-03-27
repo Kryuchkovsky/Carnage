@@ -3,6 +3,7 @@ using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Effects.Requests;
 using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Health.Components;
+using _Logic.Gameplay.Units.Health.Requests;
 using _Logic.Gameplay.Units.Stats;
 using _Logic.Gameplay.Units.Stats.Requests;
 using Scellecs.Morpeh;
@@ -13,12 +14,14 @@ namespace _Logic.Gameplay.Units.Effects.Systems
     {
         private Request<EffectAttachmentRequest> _effectAttachmentRequest;
         private Request<StatChangeRequest> _statChangeRequest;
+        private Request<HealthChangeProcessAdditionRequest> _healthChangeProcessAdditionRequest;
         private GameEffectCatalog _gameEffectCatalog;
 
         public override void OnAwake()
         {
             _effectAttachmentRequest = World.GetRequest<EffectAttachmentRequest>();
             _statChangeRequest = World.GetRequest<StatChangeRequest>();
+            _healthChangeProcessAdditionRequest = World.GetRequest<HealthChangeProcessAdditionRequest>();
             _gameEffectCatalog = ConfigManager.Instance.GetConfig<GameEffectCatalog>();
         }
 
@@ -32,14 +35,17 @@ namespace _Logic.Gameplay.Units.Effects.Systems
 
                 if (effect.IsChangingHealth && request.TargetEntity.Has<HealthComponent>())
                 {
-                    var healthChange = new HealthChangeProcess(
+                    var healthChangeProcess = new HealthChangeProcess(
                         effect.HealthChangeData, 
                         effect.HealthChangeOperationType, 
                         effect.Duration,
                         effect.HealthChangeInterval);
                     
-                    ref var healthComponent = ref request.TargetEntity.GetComponent<HealthComponent>();
-                    healthComponent.PeriodicHealthChanges.Add(healthChange);
+                    _healthChangeProcessAdditionRequest.Publish(new HealthChangeProcessAdditionRequest
+                    {
+                        TargetEntity = request.TargetEntity,
+                        Process = healthChangeProcess
+                    });
                 }
 
                 foreach (var change in effect.Changes)

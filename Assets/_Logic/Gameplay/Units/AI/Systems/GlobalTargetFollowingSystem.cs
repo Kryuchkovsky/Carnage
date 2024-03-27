@@ -6,7 +6,6 @@ using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
-using _Logic.Gameplay.Units.Movement;
 using _Logic.Gameplay.Units.Movement.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
@@ -24,7 +23,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         public override void OnAwake()
         {
             _dictionary = new Dictionary<int, PriorityTargetData>();
-            _prioritizedTargetsFilter = World.Filter.With<UnitComponent>().With<HealthComponent>().With<PriorityComponent>().With<TeamDataComponent>();
+            _prioritizedTargetsFilter = World.Filter.With<UnitComponent>().With<HealthComponent>().With<AliveComponent>().With<PriorityComponent>().With<TeamDataComponent>();
             _unitsFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().With<AttackComponent>().With<MovementComponent>().With<AIComponent>()
                 .Without<AttackTargetComponent>().Without<DestinationComponent>();
         }

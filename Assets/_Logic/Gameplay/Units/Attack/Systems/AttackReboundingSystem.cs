@@ -4,6 +4,8 @@ using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Attack.Events;
 using _Logic.Gameplay.Units.Effects.Components;
 using _Logic.Gameplay.Units.Projectiles.Requests;
+using _Logic.Gameplay.Units.Stats;
+using _Logic.Gameplay.Units.Stats.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -36,9 +38,11 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 
                 ref var reboundComponent = ref commitmentEvent.AttackingEntity.GetComponent<ReboundAttackComponent>(out var hasReboundComponent);
                 ref var attackComponent = ref commitmentEvent.AttackingEntity.GetComponent<AttackComponent>(out var hasAttackComponent);
+                ref var statsComponent = ref commitmentEvent.AttackingEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
                 ref var teamDataComponent = ref commitmentEvent.AttackingEntity.GetComponent<TeamDataComponent>(out var hasTeamDataComponent);
                 
-                if (!hasReboundComponent || !hasAttackComponent || !hasTeamDataComponent) continue;
+                if (!hasReboundComponent || !hasAttackComponent || !hasStatsComponent || 
+                    statsComponent.Value.TryGetCurrentValue(StatType.AttackRange, out var range) || !hasTeamDataComponent) continue;
                 
                 if (commitmentEvent.AttackingEntity.Has<EffectComponent>())
                 {
@@ -56,12 +60,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 ref var attackedUnitTransform = ref commitmentEvent.AttackedEntity.GetComponent<TransformComponent>();
                 var attackedUnitPosition = attackedUnitTransform.Value.position;
                 var mask = 1 << teamDataComponent.EnemiesLayer;
-                var colliderNumber = Physics.OverlapSphereNonAlloc(
-                    attackedUnitPosition, 
-                    attackComponent.Stats.Range.CurrentValue * 2, 
-                    _colliders, 
-                    mask);
-
+                var colliderNumber = Physics.OverlapSphereNonAlloc(attackedUnitPosition, range, _colliders, mask);
                 var targetWasFound = false;
                 
                 for (int i = 0; i < colliderNumber; i++)
@@ -84,7 +83,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                             });
                         }
                         
-                        if (attackComponent.Stats.ProjectileType == ProjectileType.None)
+                        if (attackComponent.ProjectileType == ProjectileType.None)
                         {
                             //todo: create health change event
                         }
@@ -94,7 +93,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                             {
                                 OwnerEntity = ownerEntity,
                                 TargetEntity = linkedCollider.Entity,
-                                Type = attackComponent.Stats.ProjectileType,
+                                Type = attackComponent.ProjectileType,
                                 InitialPosition = attackedUnitPosition
                             });
                         }

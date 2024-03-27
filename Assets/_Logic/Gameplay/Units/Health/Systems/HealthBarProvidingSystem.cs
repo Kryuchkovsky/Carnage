@@ -4,18 +4,17 @@ using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
-using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Health.Systems
 {
-    public sealed class HealthBarAddingSystem : QuerySystem
+    public sealed class HealthBarProvidingSystem : QuerySystem
     {
         private readonly float _additionalOffsetY = 1;
 
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<BoundsComponent>().With<HealthComponent>().With<TeamDataComponent>()
+                .With<UnitComponent>().With<BoundsComponent>().With<HealthComponent>().With<TeamDataComponent>().With<AliveComponent>()
                 .Without<HealthBarComponent>()
                 .ForEach((Entity entity, ref UnitComponent unitComponent, ref BoundsComponent boundsComponent) =>
                 {
@@ -27,6 +26,14 @@ namespace _Logic.Gameplay.Units.Health.Systems
                     {
                         Value = healthBar
                     });
+                });
+            
+            CreateQuery()
+                .With<UnitComponent>().With<BoundsComponent>().With<HealthComponent>().With<TeamDataComponent>().With<HealthBarComponent>()
+                .Without<AliveComponent>()
+                .ForEach((Entity entity, ref UnitComponent unitComponent, ref HealthBarComponent healthBarComponent) =>
+                {
+                    HealthBarsService.Instance.RemoveHealthBar(healthBarComponent.Value);
                 });
         }
     }

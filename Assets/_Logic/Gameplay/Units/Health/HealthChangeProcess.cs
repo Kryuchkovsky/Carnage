@@ -14,7 +14,6 @@ namespace _Logic.Gameplay.Units.Health
         public float LastChangeTime;
         public bool IsPersist;
 
-
         public HealthChangeProcess(HealthChangeData data, StatModifierOperationType operationType, float duration, float interval)
         {
             Data = data;

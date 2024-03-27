@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TriInspector;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Stats
@@ -12,6 +11,8 @@ namespace _Logic.Gameplay.Units.Stats
         [field: SerializeField] public float CurrentValue { get; private set; }
 
         public List<StatModifier> Modifiers { get; private set; }
+        
+        public bool IsChangedInLastUpdate { get; private set; }
 
         public Stat(float baseValue)
         {
@@ -23,7 +24,7 @@ namespace _Logic.Gameplay.Units.Stats
         public void AddModifier(StatModifier modifier)
         {
             Modifiers.Add(modifier);
-            
+
             switch (modifier.OperationType)
             {
                 case StatModifierOperationType.Addition:
@@ -35,6 +36,8 @@ namespace _Logic.Gameplay.Units.Stats
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            IsChangedInLastUpdate = true;
         }
 
         public void RemoveModifier(int index)
@@ -52,12 +55,41 @@ namespace _Logic.Gameplay.Units.Stats
             }
 
             Modifiers.RemoveAt(index);
+            IsChangedInLastUpdate = true;
         }
 
-        public void RecalculateStatValue()
+        public void Update(float deltaTime)
+        {
+            IsChangedInLastUpdate = false;
+            
+            for (int i = 0; i < Modifiers.Count;)
+            {
+                if (Modifiers[i].IsPersist)
+                {
+                    i++;
+                }
+                else
+                {
+                    Modifiers[i].UpdateTime(deltaTime);
+                            
+                    if (Modifiers[i].TimeBeforeRemoving <= 0)
+                    {
+                        RemoveModifier(i);
+                    }
+                }
+            }
+        }
+
+        public void Reset()
+        {
+            Modifiers.Clear();
+            RecalculateStatValue();
+        }
+
+        private void RecalculateStatValue()
         {
             CurrentValue = BaseValue;
-            
+
             foreach (var modifier in Modifiers)
             {
                 switch (modifier.OperationType)

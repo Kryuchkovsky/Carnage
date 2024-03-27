@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c850cc8bdc694073bde1df0a1d382b9a, type: 3}
   m_Name: ImpactCatalog
   m_EditorClassIdentifier: 
-  _dataList: []
+  _dataList:
+  - {fileID: 11400000, guid: 4669701a41d66c24c87b8fba58731611, type: 2}

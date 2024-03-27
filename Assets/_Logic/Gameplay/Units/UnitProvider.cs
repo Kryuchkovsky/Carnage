@@ -5,7 +5,8 @@ using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
-using _Logic.Gameplay.Units.Health.Components;
+using _Logic.Gameplay.Units.Stats;
+using _Logic.Gameplay.Units.Stats.Components;
 using JetBrains.Annotations;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -88,7 +89,7 @@ namespace _Logic.Gameplay.Units
         {
             if (Model)
             {
-                Destroy(Model);
+                Destroy(Model.gameObject);
             }
 
             Model = model;
@@ -134,9 +135,9 @@ namespace _Logic.Gameplay.Units
             _markerSprite.color = color;
         }
 
-        public void OnAttack(Action callback = null)
+        public void OnAttack(float attackSpeed = 1, Action callback = null)
         {
-            Model?.PlayAttackAnimation(callback);
+            Model?.PlayAttackAnimation(attackSpeed, callback);
         }
 
         public void OnMove(float speed)
@@ -164,21 +165,24 @@ namespace _Logic.Gameplay.Units
                 _navMeshObstacle.enabled = false;
             }
             
-            Destroy(gameObject, delay);
+            //Destroy(gameObject, delay);
         }
         
         private void OnDrawGizmosSelected()
         {
-            if (!Entity.IsNullOrDisposed() && Entity.Has<AttackComponent>())
+            if (!Entity.IsNullOrDisposed() && Entity.Has<AttackComponent>() && Entity.Has<StatsComponent>())
             {
-                var attackStats = Entity.GetComponent<AttackComponent>().Stats;
-                
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, attackStats.Range.CurrentValue);
+                var stats = Entity.GetComponent<StatsComponent>().Value;
 
-                var searchRange = attackStats.Range.CurrentValue * ConfigManager.Instance.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
-                Gizmos.color = Color.blue;
-                Gizmos.DrawWireSphere(transform.position, searchRange);
+                if (stats.TryGetCurrentValue(StatType.AttackRange, out var attackRange))
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireSphere(transform.position, attackRange);
+
+                    var searchRange = attackRange * ConfigManager.Instance.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawWireSphere(transform.position, searchRange);
+                }
             } 
         }
     }

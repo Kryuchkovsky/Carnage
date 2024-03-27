@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using _Logic.Gameplay.Units.Attack;
 using DG.Tweening;
 using UnityEngine;
@@ -15,6 +14,7 @@ namespace _Logic.Gameplay.Units.Models
         private Action _attackAnimationCallback;
 
         private readonly int _attackTriggerHash = Animator.StringToHash("Attack");
+        private readonly int _attackSpeedFloatHash = Animator.StringToHash("AttackSpeed");
         private readonly int _weaponTypeIntegerHash = Animator.StringToHash("WeaponType_int");
         private readonly int _hitTriggerHash = Animator.StringToHash("Hit");
         private readonly int _movementSpeedFloatHash = Animator.StringToHash("Speed_f");
@@ -48,8 +48,9 @@ namespace _Logic.Gameplay.Units.Models
             }
         }
 
-        public override void PlayAttackAnimation(Action callback)
+        public override void PlayAttackAnimation(float attackSpeed = 1, Action callback = null)
         {
+            _animator.SetFloat(_attackSpeedFloatHash, attackSpeed);
             _animator.SetTrigger(_attackTriggerHash);
             _attackAnimationCallback = callback;
         }
@@ -82,6 +83,13 @@ namespace _Logic.Gameplay.Units.Models
             base.LookAtPoint(point);
             var direction = (point - transform.position).normalized;
             transform.rotation = Quaternion.LookRotation(direction);
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            _animator.SetBool(_deathBooleanHash, false);
+            transform.rotation = Quaternion.identity;
         }
 
         private void InvokeAttackAnimationCallback()
