@@ -16,8 +16,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class PlayerUnitDestinationSystem : QuerySystem
     {
-        [Inject]
-        private InputService _inputService;
+        [Inject] private InputService _inputService;
         
         protected override void Configure()
         {

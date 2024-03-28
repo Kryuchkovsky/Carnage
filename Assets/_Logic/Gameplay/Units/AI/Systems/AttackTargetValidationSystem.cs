@@ -14,8 +14,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
 {
     public sealed class AttackTargetValidationSystem : QuerySystem
     {
-        [Inject]
-        private AISettings _aiSettings;
+        [Inject] private AISettings _aiSettings;
 
         protected override void Configure()
         {

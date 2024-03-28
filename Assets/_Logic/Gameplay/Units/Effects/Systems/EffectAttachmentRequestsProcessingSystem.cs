@@ -17,8 +17,7 @@ namespace _Logic.Gameplay.Units.Effects.Systems
         private Request<StatChangeRequest> _statChangeRequest;
         private Request<HealthChangeProcessAdditionRequest> _healthChangeProcessAdditionRequest;
         
-        [Inject]
-        private GameEffectCatalog _gameEffectCatalog;
+        [Inject] private GameEffectCatalog _gameEffectCatalog;
 
         public override void OnAwake()
         {

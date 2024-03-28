@@ -18,8 +18,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         private Event<UnitSpawnEvent> _unitSpawnEvent;
         private Request<EffectAttachmentRequest> _effectAttachmentRequest;
         
-        [Inject]
-        private SurvivalModeSettings _survivalModeSettings;
+        [Inject] private SurvivalModeSettings _survivalModeSettings;
         
         public override void OnAwake()
         {

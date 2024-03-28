@@ -10,24 +10,59 @@ namespace _Logic.Gameplay.Units
     [CreateAssetMenu(menuName = "Create UnitData", fileName = "UnitData")]
     public class UnitData : Data<UnitType>
     {
+        #region Attack
+
         [SerializeField] private bool _hasAttack = true;
-        [SerializeField, ConditionalField(nameof(_hasAttack), true)] private float _attackDamage = 10;
-        [SerializeField, ConditionalField(nameof(_hasAttack), true)] private float _attackRange = 1.5f;
-        [SerializeField, ConditionalField(nameof(_hasAttack), true)] private float _attackSpeed = 100;
-        [SerializeField, ConditionalField(nameof(_hasAttack), true)] private float _attackTime = 2;
         
-        [field: SerializeField, ConditionalField(nameof(_hasAttack), true)] public ProjectileType ProjectileType { get; private set; }
-        [field: SerializeField, ConditionalField(nameof(_hasAttack), true)] public HealthChangeType AttackHealthChangeType { get; private set; }
+        [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
+        private float _attackDamage = 10;
+        
+        [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
+        private float _attackRange = 1.5f;
+        
+        [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
+        private float _attackSpeed = 100;
+        
+        [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
+        private float _attackTime = 2;
+        
+        [field: SerializeField, ConditionalField(nameof(_hasAttack), true)] 
+        public ProjectileType ProjectileType { get; private set; }
+        
+        [field: SerializeField, ConditionalField(nameof(_hasAttack), true)] 
+        public HealthChangeType AttackHealthChangeType { get; private set; }
+
+        #endregion
+
+        #region Health
 
         [SerializeField] private bool _hasHealth = true;
-        [SerializeField, ConditionalField(nameof(_hasHealth), true)] private float _healthRegenerationRate;
-        [SerializeField, ConditionalField(nameof(_hasHealth), true)] private float _maxHeath = 50;
+        
+        [SerializeField, ConditionalField(nameof(_hasHealth), true)] 
+        private float _healthRegenerationRate;
+        
+        [SerializeField, ConditionalField(nameof(_hasHealth), true)] 
+        private float _maxHeath = 50;
+        
+        [field: SerializeField, ConditionalField(nameof(_hasHealth), true)] 
+        public VFXType DamageVFXType { get; private set; }
 
+        #endregion
+
+        #region Movement
+        
         [SerializeField] private bool _hasMovement = true;
-        [SerializeField, ConditionalField(nameof(_hasMovement), true)] private float _movementSpeed = 10;
-        [SerializeField, ConditionalField(nameof(_hasMovement), true)] private float _rotationSpeed;
+        
+        [SerializeField, ConditionalField(nameof(_hasMovement), true)] 
+        private float _movementSpeed = 10;
+        
+        [SerializeField, ConditionalField(nameof(_hasMovement), true)] 
+        private float _rotationSpeed;
+
+        #endregion
 
         [field: SerializeField] public UnitModel Model { get; private set; }
+        
         [field: SerializeField, Min(0)] public float SpawnTime { get; private set; } = 3f;
         
         public Dictionary<StatType, float> Stats { get; private set; } = new ();

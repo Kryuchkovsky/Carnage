@@ -22,8 +22,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         private Event<LevelChangeEvent> _levelChangeEvent;
         private Request<StatChangeRequest> _statChangeRequest;
 
-        [Inject]
-        private SurvivalModeSettings _survivalModeSettings;
+        [Inject] private SurvivalModeSettings _survivalModeSettings;
 
         public override void OnAwake()
         {

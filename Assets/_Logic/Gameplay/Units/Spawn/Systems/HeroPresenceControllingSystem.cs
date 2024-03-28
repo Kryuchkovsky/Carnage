@@ -14,8 +14,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
         private FilterBuilder _playerUnitsFilter;
         private Request<UnitSpawnRequest> _unitSpawnRequest;
         
-        [Inject]
-        private SurvivalModeSettings _survivalModeSettings;
+        [Inject] private SurvivalModeSettings _survivalModeSettings;
 
         public override void OnAwake()
         {

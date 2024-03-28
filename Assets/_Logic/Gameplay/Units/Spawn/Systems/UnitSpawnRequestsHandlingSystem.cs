@@ -32,8 +32,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
         private Filter _unitCounterFilter;
         private Transform _unitContainer;
         
-        [Inject]
-        private UnitsCatalog _unitCatalog;
+        [Inject] private UnitsCatalog _unitCatalog;
 
         public override void OnAwake()
         {

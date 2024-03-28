@@ -21,8 +21,7 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
         private Request<ProjectileCreationRequest> _projectileCreationRequest;
         private Event<ProjectileFlightEndEvent> _projectileFlightEndEvent;
         
-        [Inject]
-        private ProjectilesCatalog _projectilesCatalog;
+        [Inject] private ProjectilesCatalog _projectilesCatalog;
 
         public override void OnAwake()
         {

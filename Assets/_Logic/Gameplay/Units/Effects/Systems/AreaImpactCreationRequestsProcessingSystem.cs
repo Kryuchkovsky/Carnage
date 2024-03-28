@@ -14,8 +14,7 @@ namespace _Logic.Gameplay.Units.Effects.Systems
         private Request<EffectAttachmentRequest> _impactActionAttachmentRequest;
         private LayerMask _defaultLayerMask = LayerMask.GetMask("Team0", "Team1");
 
-        [Inject]
-        private ImpactCatalog _impactCatalog;
+        [Inject] private ImpactCatalog _impactCatalog;
 
         public override void OnAwake()
         {

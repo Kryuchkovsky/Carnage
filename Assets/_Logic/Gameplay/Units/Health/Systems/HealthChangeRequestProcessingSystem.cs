@@ -1,6 +1,7 @@
 ﻿using System;
 using _Logic.Core;
 using _Logic.Extensions.Popup;
+using _Logic.Extensions.VFXManager;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Health.Events;
@@ -22,8 +23,8 @@ namespace _Logic.Gameplay.Units.Health.Systems
         private Request<HealthChangeRequest> _healthChangeRequest;
         private Event<UnitDeathEvent> _unitDeathEvent;
 
-        [Inject]
-        private PopupsService _popupsService;
+        [Inject] private PopupsService _popupsService;
+        [Inject] private VFXService _vfxService;
         
         public override void OnAwake()
         {
@@ -36,10 +37,11 @@ namespace _Logic.Gameplay.Units.Health.Systems
             foreach (var request in _healthChangeRequest.Consume())
             {
                 if (request.TargetEntity.IsNullOrDisposed() || !request.TargetEntity.Has<UnitComponent>() || 
-                    !request.TargetEntity.Has<HealthComponent>() || !request.TargetEntity.Has<AliveComponent>() || 
-                    !request.TargetEntity.Has<StatsComponent>()) continue;
+                    !request.TargetEntity.Has<UnitDataComponent>() || !request.TargetEntity.Has<HealthComponent>() || 
+                    !request.TargetEntity.Has<AliveComponent>() || !request.TargetEntity.Has<StatsComponent>()) continue;
 
                 ref var unitComponent = ref request.TargetEntity.GetComponent<UnitComponent>();
+                ref var unitDataComponent = ref request.TargetEntity.GetComponent<UnitDataComponent>();
                 ref var healthComponent = ref request.TargetEntity.GetComponent<HealthComponent>();
                 ref var statsComponent = ref request.TargetEntity.GetComponent<StatsComponent>();
 
@@ -50,9 +52,11 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 {
                     case HealthChangeType.PhysicDamage:
                         health -= request.Data.Value;
+                        _vfxService.CreateEffect(unitDataComponent.Value.DamageVFXType, unitComponent.Value.transform.position);
                         break;
                     case HealthChangeType.MagicDamage:
                         health -= request.Data.Value;
+                        _vfxService.CreateEffect(unitDataComponent.Value.DamageVFXType, unitComponent.Value.transform.position);
                         break;
                     case HealthChangeType.Healing:
                         health += request.Data.Value;

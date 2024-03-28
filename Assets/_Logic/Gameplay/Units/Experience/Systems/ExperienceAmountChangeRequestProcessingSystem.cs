@@ -15,8 +15,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         private Request<ExperienceAmountChangeRequest> _experienceAmountChangeRequest;
         private Request<LevelChangeRequest> _levelChangeRequest;
         
-        [Inject]
-        private ExperienceSettings _experienceSettings;
+        [Inject] private ExperienceSettings _experienceSettings;
         
         public override void OnAwake()
         {

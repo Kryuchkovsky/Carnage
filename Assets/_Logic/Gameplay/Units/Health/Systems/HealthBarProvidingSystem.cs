@@ -10,8 +10,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
 {
     public sealed class HealthBarProvidingSystem : QuerySystem
     {
-        [Inject]
-        private HealthBarsService _healthBarsService;
+        [Inject] private HealthBarsService _healthBarsService;
         
         private readonly float _additionalOffsetY = 1;
 

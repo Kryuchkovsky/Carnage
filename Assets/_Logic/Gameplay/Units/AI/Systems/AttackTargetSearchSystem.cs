@@ -17,8 +17,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
     {
         private readonly Collider[] _colliders = new Collider[10];
 
-        [Inject]
-        private AISettings _aiSettings;
+        [Inject] private AISettings _aiSettings;
         
         protected override void Configure()
         {

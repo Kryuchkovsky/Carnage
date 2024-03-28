@@ -17,8 +17,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         private Request<ExperienceAmountChangeRequest> _experienceAmountChangeRequest;
         private Event<UnitDeathEvent> _unitDeathEvent;
         
-        [Inject]
-        private ExperienceSettings _experienceSettings;
+        [Inject] private ExperienceSettings _experienceSettings;
         
         public override void OnAwake()
         {
