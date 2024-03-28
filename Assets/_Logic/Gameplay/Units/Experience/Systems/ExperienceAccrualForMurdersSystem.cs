@@ -28,17 +28,17 @@ namespace _Logic.Gameplay.Units.Experience.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var evt in _unitDeathEvent.publishedChanges)
+            foreach (var @event in _unitDeathEvent.publishedChanges)
             {
-                if (evt.CorpseEntity.IsNullOrDisposed() || evt.MurdererEntity.IsNullOrDisposed()) continue;
+                if (@event.CorpseEntity.IsNullOrDisposed() || @event.MurdererEntity.IsNullOrDisposed()) continue;
 
-                var experienceComponent = evt.CorpseEntity.GetComponent<ExperienceComponent>(out var hasExperienceComponent);
+                var experienceComponent = @event.CorpseEntity.GetComponent<ExperienceComponent>(out var hasExperienceComponent);
                 var unitExperience = hasExperienceComponent ? experienceComponent.TotalExperienceAmount : 0;
                 var experience = _experienceSettings.CalculateExperienceRewardForMurder(unitExperience);
                 
                 _experienceAmountChangeRequest.Publish(new ExperienceAmountChangeRequest
                 {
-                    ReceivingEntity = evt.MurdererEntity,
+                    ReceivingEntity = @event.MurdererEntity,
                     Change = experience
                 });
             }

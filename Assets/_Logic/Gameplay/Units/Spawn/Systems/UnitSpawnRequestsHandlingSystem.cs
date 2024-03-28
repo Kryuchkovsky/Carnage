@@ -166,9 +166,9 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 }
             }
 
-            foreach (var evt in _unitDeathEvent.publishedChanges)
+            foreach (var @event in _unitDeathEvent.publishedChanges)
             {
-                var entity = evt.CorpseEntity;
+                var entity = @event.CorpseEntity;
                 
                 if (entity.IsNullOrDisposed() || !entity.Has<UnitComponent>() || !entity.Has<UnitDataComponent>() || !entity.Has<TeamDataComponent>()) continue;
 

@@ -74,10 +74,10 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                 }
             }
             
-            foreach (var evt in _projectileFlightEndEvent.publishedChanges)
+            foreach (var @event in _projectileFlightEndEvent.publishedChanges)
             {
-                ref var projectileComponent = ref evt.ProjectileEntity.GetComponent<ProjectileComponent>();
-                ref var projectileDataComponent = ref evt.ProjectileEntity.GetComponent<ProjectileDataComponent>();
+                ref var projectileComponent = ref @event.ProjectileEntity.GetComponent<ProjectileComponent>();
+                ref var projectileDataComponent = ref @event.ProjectileEntity.GetComponent<ProjectileDataComponent>();
                 _projectilePools[projectileDataComponent.Value.Type].Return(projectileComponent.Value);
             }
         }

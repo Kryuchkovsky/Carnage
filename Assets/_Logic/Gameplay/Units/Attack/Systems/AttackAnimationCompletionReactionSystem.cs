@@ -37,11 +37,11 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var evt in _attackAnimationCompletionEvent.publishedChanges)
+            foreach (var @event in _attackAnimationCompletionEvent.publishedChanges)
             {
-                if (evt.Entity.IsNullOrDisposed()) continue;
+                if (@event.Entity.IsNullOrDisposed()) continue;
 
-                var entity = evt.Entity;
+                var entity = @event.Entity;
                 ref var unit = ref entity.GetComponent<UnitComponent>(out var hasUnit);
                 ref var attack = ref entity.GetComponent<AttackComponent>(out var hasAttack);
                 ref var attackTarget = ref entity.GetComponent<AttackTargetComponent>(out var hasAttackTarget);
@@ -92,12 +92,12 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 }
             }
 
-            foreach (var evt in _projectileFlightEndEvent.publishedChanges)
+            foreach (var @event in _projectileFlightEndEvent.publishedChanges)
             {
-                if (evt.OwnerEntity.IsNullOrDisposed() || !evt.OwnerEntity.Has<AttackComponent>() || !evt.OwnerEntity.Has<StatsComponent>()) continue;
+                if (@event.OwnerEntity.IsNullOrDisposed() || !@event.OwnerEntity.Has<AttackComponent>() || !@event.OwnerEntity.Has<StatsComponent>()) continue;
                 
-                ref var attackComponent = ref evt.OwnerEntity.GetComponent<AttackComponent>();
-                ref var statsComponent = ref evt.OwnerEntity.GetComponent<StatsComponent>();
+                ref var attackComponent = ref @event.OwnerEntity.GetComponent<AttackComponent>();
+                ref var statsComponent = ref @event.OwnerEntity.GetComponent<StatsComponent>();
                 
                 var damage = statsComponent.Value.GetCurrentValue(StatType.AttackDamage);
                 
@@ -108,19 +108,19 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 };
                 var healthChangeRequest = new HealthChangeRequest
                 {
-                    TargetEntity = evt.TargetEntity,
-                    SenderEntity = evt.OwnerEntity,
+                    TargetEntity = @event.TargetEntity,
+                    SenderEntity = @event.OwnerEntity,
                     Data = healthChangeData,
                     CreatePopup = true
                 };
                 _healthChangeRequest.Publish(healthChangeRequest);
 
-                if (evt.OwnerEntity.Has<UnitComponent>())
+                if (@event.OwnerEntity.Has<UnitComponent>())
                 {
                     _attackEndEvent.NextFrame(new AttackEndEvent
                     {
-                        AttackingEntity = evt.OwnerEntity,
-                        AttackedEntity = evt.TargetEntity
+                        AttackingEntity = @event.OwnerEntity,
+                        AttackedEntity = @event.TargetEntity
                     });
                 }
             }

@@ -29,17 +29,17 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var evt in _unitSpawnEvent.publishedChanges) 
+            foreach (var @event in _unitSpawnEvent.publishedChanges) 
             {
-                if (evt.Entity.Has<AIComponent>() || !evt.Entity.Has<UnitComponent>()) continue;
+                if (@event.Entity.Has<AIComponent>() || !@event.Entity.Has<UnitComponent>()) continue;
                 
                 _effectAttachmentRequest.Publish(new EffectAttachmentRequest
                 {
-                    TargetEntity = evt.Entity,
+                    TargetEntity = @event.Entity,
                     EffectType = _survivalModeSettings.PlayerEnhancmentEffectType
                 }, true);
                 
-                evt.Entity.SetComponent(new SplitAttackComponent
+                @event.Entity.SetComponent(new SplitAttackComponent
                 {
                     AdditionalTargets = 3
                 });
