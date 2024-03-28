@@ -1,10 +1,9 @@
 using _Logic.Core;
-using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Experience.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Experience.Systems
 {
@@ -15,13 +14,14 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     {
         private Request<ExperienceAmountChangeRequest> _experienceAmountChangeRequest;
         private Request<LevelChangeRequest> _levelChangeRequest;
+        
+        [Inject]
         private ExperienceSettings _experienceSettings;
         
         public override void OnAwake()
         {
             _experienceAmountChangeRequest = World.GetRequest<ExperienceAmountChangeRequest>();
             _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
-            _experienceSettings = ConfigManager.Instance.GetConfig<ExperienceSettings>();
         }
 
         public override void OnUpdate(float deltaTime)

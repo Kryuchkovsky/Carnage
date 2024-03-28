@@ -37,19 +37,19 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var completionEvent in _attackAnimationCompletionEvent.publishedChanges)
+            foreach (var evt in _attackAnimationCompletionEvent.publishedChanges)
             {
-                if (completionEvent.Entity.IsNullOrDisposed()) continue;
+                if (evt.Entity.IsNullOrDisposed()) continue;
 
-                var entity = completionEvent.Entity;
-                ref var unitComponent = ref entity.GetComponent<UnitComponent>(out var hasUnitComponent);
-                ref var attackComponent = ref entity.GetComponent<AttackComponent>(out var hasAttackComponent);
-                ref var attackTargetComponent = ref entity.GetComponent<AttackTargetComponent>(out var hasAttackTargetComponent);
-                ref var statsComponent = ref entity.GetComponent<StatsComponent>(out var hasStatsComponent);
+                var entity = evt.Entity;
+                ref var unit = ref entity.GetComponent<UnitComponent>(out var hasUnit);
+                ref var attack = ref entity.GetComponent<AttackComponent>(out var hasAttack);
+                ref var attackTarget = ref entity.GetComponent<AttackTargetComponent>(out var hasAttackTarget);
+                ref var stats = ref entity.GetComponent<StatsComponent>(out var hasStats);
 
-                if (!hasUnitComponent || !hasAttackComponent || !hasAttackTargetComponent || !hasStatsComponent || attackTargetComponent.TargetEntity.IsNullOrDisposed()) continue;
+                if (!hasUnit || !hasAttack || !hasAttackTarget || !hasStats || attackTarget.TargetEntity.IsNullOrDisposed()) continue;
 
-                var targetEntity = attackTargetComponent.TargetEntity;
+                var targetEntity = attackTarget.TargetEntity;
                 
                 _attackStartEvent.NextFrame(new AttackStartEvent
                 {
@@ -57,13 +57,13 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     AttackedEntity = targetEntity
                 });
                 
-                if (attackComponent.ProjectileType == ProjectileType.None)
+                if (attack.ProjectileType == ProjectileType.None)
                 {
-                    statsComponent.Value.TryGetCurrentValue(StatType.AttackDamage, out var damage);
+                    var damage = stats.Value.GetCurrentValue(StatType.AttackDamage);
                     
                     var healthChangeData = new HealthChangeData
                     {
-                        Type = attackComponent.AttackHealthChangeType,
+                        Type = attack.AttackHealthChangeType,
                         Value = damage
                     };
                     var healthChangeRequest = new HealthChangeRequest
@@ -72,8 +72,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                         SenderEntity = entity,
                         Data = healthChangeData
                     };
-                    _healthChangeRequest.Publish(healthChangeRequest);
                     
+                    _healthChangeRequest.Publish(healthChangeRequest);
                     _attackEndEvent.NextFrame(new AttackEndEvent
                     {
                         AttackingEntity = entity,
@@ -86,20 +86,20 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     {
                         OwnerEntity = entity,
                         TargetEntity = targetEntity,
-                        Type = attackComponent.ProjectileType,
-                        InitialPosition = unitComponent.Value.Model.AttackPoint.position,
+                        Type = attack.ProjectileType,
+                        InitialPosition = unit.Value.Model.AttackPoint.position,
                     }, true);
                 }
             }
 
-            foreach (var endEvent in _projectileFlightEndEvent.publishedChanges)
+            foreach (var evt in _projectileFlightEndEvent.publishedChanges)
             {
-                if (endEvent.OwnerEntity.IsNullOrDisposed() || !endEvent.OwnerEntity.Has<AttackComponent>() || !endEvent.OwnerEntity.Has<StatsComponent>()) continue;
+                if (evt.OwnerEntity.IsNullOrDisposed() || !evt.OwnerEntity.Has<AttackComponent>() || !evt.OwnerEntity.Has<StatsComponent>()) continue;
                 
-                ref var attackComponent = ref endEvent.OwnerEntity.GetComponent<AttackComponent>();
-                ref var statsComponent = ref endEvent.OwnerEntity.GetComponent<StatsComponent>();
+                ref var attackComponent = ref evt.OwnerEntity.GetComponent<AttackComponent>();
+                ref var statsComponent = ref evt.OwnerEntity.GetComponent<StatsComponent>();
                 
-                statsComponent.Value.TryGetCurrentValue(StatType.AttackDamage, out var damage);
+                var damage = statsComponent.Value.GetCurrentValue(StatType.AttackDamage);
                 
                 var healthChangeData = new HealthChangeData
                 {
@@ -108,19 +108,19 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 };
                 var healthChangeRequest = new HealthChangeRequest
                 {
-                    TargetEntity = endEvent.TargetEntity,
-                    SenderEntity = endEvent.OwnerEntity,
+                    TargetEntity = evt.TargetEntity,
+                    SenderEntity = evt.OwnerEntity,
                     Data = healthChangeData,
                     CreatePopup = true
                 };
                 _healthChangeRequest.Publish(healthChangeRequest);
 
-                if (endEvent.OwnerEntity.Has<UnitComponent>())
+                if (evt.OwnerEntity.Has<UnitComponent>())
                 {
                     _attackEndEvent.NextFrame(new AttackEndEvent
                     {
-                        AttackingEntity = endEvent.OwnerEntity,
-                        AttackedEntity = endEvent.TargetEntity
+                        AttackingEntity = evt.OwnerEntity,
+                        AttackedEntity = evt.TargetEntity
                     });
                 }
             }

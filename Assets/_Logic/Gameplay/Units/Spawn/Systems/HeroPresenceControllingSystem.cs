@@ -5,6 +5,7 @@ using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Spawn.Systems
 {
@@ -12,13 +13,14 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
     {
         private FilterBuilder _playerUnitsFilter;
         private Request<UnitSpawnRequest> _unitSpawnRequest;
+        
+        [Inject]
         private SurvivalModeSettings _survivalModeSettings;
 
         public override void OnAwake()
         {
             _playerUnitsFilter = World.Filter.With<UnitComponent>().Without<AIComponent>();
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
-            _survivalModeSettings = ConfigManager.Instance.GetConfig<SurvivalModeSettings>();
         }
 
         public override void OnUpdate(float deltaTime)

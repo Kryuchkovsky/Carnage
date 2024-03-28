@@ -16,19 +16,9 @@ namespace _Logic.Gameplay.Units.Stats
 
         public bool HasStat(StatType statType) => Stats.ContainsKey(statType);
         
-        public bool TryGetCurrentValue(StatType statType, out float value)
-        {
-            var result = Stats.TryGetValue(statType, out var stat);
-            value = result ? stat.CurrentValue : 0;
-            return result;
-        }
+        public float GetCurrentValue(StatType statType) => Stats.TryGetValue(statType, out var stat) ? stat.CurrentValue : 0;
 
-        public bool TryGetBaseValue(StatType statType, out float value)
-        {
-            var result = Stats.TryGetValue(statType, out var stat);
-            value = result ? stat.BaseValue : 0;
-            return result;
-        }
+        public float GetBaseValue(StatType statType) => Stats.TryGetValue(statType, out var stat) ? stat.BaseValue : 0;
 
         public void AddModifier(StatType statType, StatModifier statModifier)
         {

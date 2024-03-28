@@ -30,32 +30,32 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var commitmentEvent in _attackEndEvent.publishedChanges)
+            foreach (var evt in _attackEndEvent.publishedChanges)
             {
-                if (commitmentEvent.AttackingEntity.IsNullOrDisposed() || commitmentEvent.AttackedEntity.IsNullOrDisposed() ) continue;
+                if (evt.AttackingEntity.IsNullOrDisposed() || evt.AttackedEntity.IsNullOrDisposed() ) continue;
                 
-                ref var fragmentationAttackComponent = ref commitmentEvent.AttackingEntity.GetComponent<FragmentationAttackComponent>(out var hasFragmentationAttackComponent);
-                ref var attackComponent = ref commitmentEvent.AttackingEntity.GetComponent<AttackComponent>(out var hasAttackComponent);
-                ref var statsComponent = ref commitmentEvent.AttackingEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
-                ref var teamDataComponent = ref commitmentEvent.AttackingEntity.GetComponent<TeamDataComponent>(out var hasTeamDataComponent);
+                ref var fragmentationAttackComponent = ref evt.AttackingEntity.GetComponent<FragmentationAttackComponent>(out var hasFragmentationAttackComponent);
+                ref var attackComponent = ref evt.AttackingEntity.GetComponent<AttackComponent>(out var hasAttackComponent);
+                ref var statsComponent = ref evt.AttackingEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
+                ref var teamDataComponent = ref evt.AttackingEntity.GetComponent<TeamDataComponent>(out var hasTeamDataComponent);
 
-                if (!hasFragmentationAttackComponent || !hasAttackComponent || 
-                    !hasStatsComponent || !statsComponent.Value.TryGetCurrentValue(StatType.AttackRange, out var range) || 
+                if (!hasFragmentationAttackComponent || !hasAttackComponent || !hasStatsComponent || 
                     !hasTeamDataComponent || fragmentationAttackComponent.Fragments <= 0) continue;
-                
-                var ownerEntity = commitmentEvent.AttackingEntity;
-                ref var effectComponent = ref commitmentEvent.AttackingEntity.GetComponent<EffectComponent>(out var hasEffectComponent);
+
+                var range = statsComponent.Value.GetCurrentValue(StatType.AttackRange);
+                var ownerEntity = evt.AttackingEntity;
+                ref var effectComponent = ref evt.AttackingEntity.GetComponent<EffectComponent>(out var hasEffectComponent);
                 
                 if (hasEffectComponent)
                 {
-                    ref var ownerComponent = ref commitmentEvent.AttackingEntity.GetComponent<OwnerComponent>(out var hasOwnerComponent);
+                    ref var ownerComponent = ref evt.AttackingEntity.GetComponent<OwnerComponent>(out var hasOwnerComponent);
                     
                     if (!effectComponent.ModifiersAreInfluencing || !hasOwnerComponent || ownerComponent.Entity.IsNullOrDisposed()) continue;
                     
                     ownerEntity = ownerComponent.Entity;
                 }
                 
-                ref var attackedUnitTransform = ref commitmentEvent.AttackedEntity.GetComponent<TransformComponent>();
+                ref var attackedUnitTransform = ref evt.AttackedEntity.GetComponent<TransformComponent>();
                 var attackedUnitPosition = attackedUnitTransform.Value.position;
                 var mask = 1 << teamDataComponent.EnemiesLayer;
                 var colliderNumber = Physics.OverlapSphereNonAlloc(attackedUnitPosition, range, _colliders, mask);
@@ -65,7 +65,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 for (int i = 0; i < colliderNumber && numberOfFoundedTargets < fragmentationAttackComponent.Fragments; i++)
                 {
                     if (_colliders[i].TryGetComponent<LinkedCollider>(out var linkedCollider) && !linkedCollider.Entity.IsNullOrDisposed() && 
-                        linkedCollider.Entity != ownerEntity && linkedCollider.Entity != commitmentEvent.AttackedEntity)
+                        linkedCollider.Entity != ownerEntity && linkedCollider.Entity != evt.AttackedEntity)
                     {
                         if (attackComponent.ProjectileType == ProjectileType.None)
                         {

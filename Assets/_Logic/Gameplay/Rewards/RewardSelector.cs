@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using _GameLogic.Extensions.Patterns;
 using UnityEngine;
 
-namespace _Logic.Gameplay.RewardSelector
+namespace _Logic.Gameplay.Rewards
 {
-    public class RewardSelectorView : SingletonBehavior<RewardSelectorView>
+    public class RewardSelector : SingletonBehavior<RewardSelector>
     {
         public event Action<Selection> RewardSelected;
         

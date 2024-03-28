@@ -15,7 +15,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
         {
             CreateQuery()
                 .With<UnitComponent>().With<MovementComponent>().With<StatsComponent>().With<NavMeshAgentComponent>().With<AIComponent>().With<AliveComponent>()
-                .ForEach((Entity entity, ref UnitComponent unitComponent, ref MovementComponent movementComponent, ref StatsComponent statsComponent, ref NavMeshAgentComponent navMeshAgentComponent) =>
+                .ForEach((Entity entity, ref UnitComponent unitComponent, ref StatsComponent statsComponent, ref NavMeshAgentComponent navMeshAgentComponent) =>
                 {
                     var agent = navMeshAgentComponent.Value;
                     var isCompleted = !agent.hasPath || agent.isStopped;
@@ -25,19 +25,17 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                         entity.RemoveComponent<DestinationComponent>();
                     }
 
-                    if (statsComponent.Value.TryGetCurrentValue(StatType.MovementSpeed, out var speed))
-                    {
-                        agent.speed = speed;
-                        var normalizedSpeed = agent.velocity.magnitude / speed;
-                        unitComponent.Value.OnMove(normalizedSpeed);
-                        //agent.enabled = !isCompleted;
+                    var speed = statsComponent.Value.GetCurrentValue(StatType.MovementSpeed);
+                    agent.speed = speed;
+                    var normalizedSpeed = agent.velocity.magnitude / speed;
+                    unitComponent.Value.OnMove(normalizedSpeed);
+                    //agent.enabled = !isCompleted;
 
-                        ref var obstacleComponent = ref entity.GetComponent<NavMeshObstacleComponent>(out var hasObstacleComponent);
+                    ref var obstacleComponent = ref entity.GetComponent<NavMeshObstacleComponent>(out var hasObstacleComponent);
                     
-                        if (hasObstacleComponent)
-                        {
-                            //obstacleComponent.Value.enabled = isCompleted;
-                        }
+                    if (hasObstacleComponent)
+                    {
+                        //obstacleComponent.Value.enabled = isCompleted;
                     }
                 });
         }

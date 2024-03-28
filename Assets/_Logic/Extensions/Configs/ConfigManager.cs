@@ -8,9 +8,8 @@ namespace _Logic.Extensions.Configs
 {
     public class ConfigManager : SingletonBehavior<ConfigManager>
     {
-        [SerializeField] private List<Config> _configs;
-
         private Dictionary<Type, Config> _configDictionary;
+        [SerializeField] private List<Config> _configs;
 
         protected override void Initialize()
         {

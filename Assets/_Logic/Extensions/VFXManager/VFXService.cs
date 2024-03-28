@@ -1,49 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using _GameLogic.Extensions.Patterns;
 using _Logic.Extensions.Configs;
 using _Logic.Extensions.Patterns;
 using UnityEngine;
 
 namespace _Logic.Extensions.VFXManager
 {
-    public class VFXService : SingletonBehavior<VFXService>
+    public class VFXService
     {
-        [SerializeField, Range(0, 1024)] private int _initialPoolsCapacity;
-        [SerializeField] private bool _autoFillingIsEnabled;
-        
-        private Dictionary<VFXType, ObjectPool<VFX>> _vfxPools;
+        private Dictionary<VFXType, ObjectPool<VFX>> _vfxPools = new();
         private VFXCatalog _vfxCatalog;
-
-        protected override void Initialize()
+        
+        public VFXService(VFXCatalog vfxCatalog)
         {
-            base.Initialize();
-            
-            _vfxPools = new Dictionary<VFXType, ObjectPool<VFX>>();
-            _vfxCatalog = ConfigManager.Instance.GetConfig<VFXCatalog>();
-            
+            _vfxCatalog = vfxCatalog;
+
             foreach (var effectType in (VFXType[])Enum.GetValues(typeof(VFXType)))
             {
                 if (!_vfxCatalog.HasData((int)effectType)) continue;
-                
+
                 var effect = _vfxCatalog.GetData((int)effectType);
-                
+
                 _vfxPools.Add(
-                    effectType, 
-                    new ObjectPool<VFX>(effect.VFX, _initialPoolsCapacity, _autoFillingIsEnabled, transform,
-                        e =>
+                    effectType,
+                    new ObjectPool<VFX>(
+                        prefab: effect.VFX,
+                        capacity: 32,
+                        takeAction: e =>
                         {
-                            e.Played += () => _vfxPools[effectType].Return(e);
-                        },
-                        e =>
-                        {
-                            e.transform.parent = transform;
+                            e.Played += OnPlayed;
                             e.ParticleSystem.Play();
                         },
-                        e =>
+                        returnAction: e =>
                         {
+                            e.Played -= OnPlayed;
                             e.ParticleSystem.Stop();
                         }));
+
+                void OnPlayed(VFX vfx) => _vfxPools[effectType].Return(vfx);
             }
         }
 

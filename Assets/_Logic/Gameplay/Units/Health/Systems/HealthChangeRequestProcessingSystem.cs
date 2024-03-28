@@ -10,6 +10,7 @@ using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Health.Systems
 {
@@ -20,6 +21,9 @@ namespace _Logic.Gameplay.Units.Health.Systems
     {
         private Request<HealthChangeRequest> _healthChangeRequest;
         private Event<UnitDeathEvent> _unitDeathEvent;
+
+        [Inject]
+        private PopupsService _popupsService;
         
         public override void OnAwake()
         {
@@ -39,7 +43,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 ref var healthComponent = ref request.TargetEntity.GetComponent<HealthComponent>();
                 ref var statsComponent = ref request.TargetEntity.GetComponent<StatsComponent>();
 
-                statsComponent.Value.TryGetCurrentValue(StatType.MaxHeath, out var maxHealth);
+                var maxHealth = statsComponent.Value.GetCurrentValue(StatType.MaxHeath);
                 var health = maxHealth * healthComponent.Percentage;
 
                 switch (request.Data.Type)
@@ -93,7 +97,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
                             throw new ArgumentOutOfRangeException();
                     }
                     
-                    PopupsService.Instance.CreateWorldTextPopup(unitComponent.Value.transform, popupText, popupColor); 
+                    _popupsService.CreateWorldTextPopup(unitComponent.Value.transform, popupText, popupColor); 
                 }
                     
                 if (healthComponent.CurrentHealth <= 0)

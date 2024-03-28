@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _Logic.Gameplay.RewardSelector
+namespace _Logic.Gameplay.Rewards
 {
     public class Selection
     {

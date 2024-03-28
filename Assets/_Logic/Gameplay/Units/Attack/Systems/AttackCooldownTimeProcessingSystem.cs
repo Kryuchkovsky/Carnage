@@ -15,8 +15,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 .With<AttackComponent>().With<StatsComponent>().With<AliveComponent>()
                 .ForEach((Entity entity, ref AttackComponent attackComponent, ref StatsComponent statsComponent) =>
                 {
-                    statsComponent.Value.TryGetCurrentValue(StatType.AttackSpeed, out var attackSpeed);
-                    statsComponent.Value.TryGetCurrentValue(StatType.AttackTime, out var attackTime);
+                    var attackSpeed = statsComponent.Value.GetCurrentValue(StatType.AttackSpeed);
+                    var attackTime = statsComponent.Value.GetCurrentValue(StatType.AttackTime);
                     attackComponent.AttacksPerSecond = attackSpeed * 0.01f / attackTime;
                     attackComponent.AttackTime = 1 / attackComponent.AttacksPerSecond;
                     attackComponent.RemainingAttackTime = Mathf.Lerp(0, attackComponent.AttackTime, 1 - attackComponent.AttackTimePercentage);

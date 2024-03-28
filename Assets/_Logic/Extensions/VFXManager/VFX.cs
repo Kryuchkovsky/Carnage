@@ -8,13 +8,13 @@ namespace _Logic.Extensions.VFXManager
     /// </summary>
     public class VFX : MonoBehaviour
     {
-        public event Action Played;
+        public event Action<VFX> Played;
 
         [field: SerializeField] public ParticleSystem ParticleSystem { get; private set; }
         
         private void OnParticleSystemStopped()
         {
-            Played?.Invoke();
+            Played?.Invoke(this);
         }
     }
 }

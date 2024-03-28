@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using _Logic.Core;
 using _Logic.Core.Components;
-using _Logic.Extensions.Configs;
 using _Logic.Extensions.Patterns;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Experience.Requests;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Health.Events;
@@ -16,6 +16,7 @@ using _Logic.Gameplay.Units.Team;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Spawn.Systems
 {
@@ -29,8 +30,10 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
         private Event<UnitSpawnEvent> _unitSpawnEvent;
         private Event<UnitDeathEvent> _unitDeathEvent;
         private Filter _unitCounterFilter;
-        private UnitsCatalog _unitCatalog;
         private Transform _unitContainer;
+        
+        [Inject]
+        private UnitsCatalog _unitCatalog;
 
         public override void OnAwake()
         {
@@ -41,7 +44,6 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
             _statDependentComponentsSetRequest = World.GetRequest<StatDependentComponentsSetRequest>();
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
             _unitDeathEvent = World.GetEvent<UnitDeathEvent>();
-            _unitCatalog = ConfigManager.Instance.GetConfig<UnitsCatalog>();
             _unitContainer = new GameObject("UnitContainer").transform;
 
             var entity = World.CreateEntity();
@@ -106,6 +108,11 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     });
                 }
 
+                if (unit.Entity.Has<ExperienceComponent>())
+                {
+                    unit.Entity.RemoveComponent<ExperienceComponent>();
+                }
+                
                 _levelChangeRequest.Publish(new LevelChangeRequest
                 {
                     Entity = entity,
@@ -159,9 +166,9 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 }
             }
 
-            foreach (var deathEvent in _unitDeathEvent.publishedChanges)
+            foreach (var evt in _unitDeathEvent.publishedChanges)
             {
-                var entity = deathEvent.CorpseEntity;
+                var entity = evt.CorpseEntity;
                 
                 if (entity.IsNullOrDisposed() || !entity.Has<UnitComponent>() || !entity.Has<UnitDataComponent>() || !entity.Has<TeamDataComponent>()) continue;
 

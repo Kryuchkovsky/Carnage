@@ -23,16 +23,16 @@ namespace _Logic.Gameplay.Camera.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var spawnEvent in _unitSpawnEvent.publishedChanges) 
+            foreach (var evt in _unitSpawnEvent.publishedChanges) 
             {
-                if (spawnEvent.Entity.Has<AIComponent>() || !spawnEvent.Entity.Has<TransformComponent>()) continue;
+                if (evt.Entity.Has<AIComponent>() || !evt.Entity.Has<TransformComponent>()) continue;
 
-                var transform = spawnEvent.Entity.GetComponent<TransformComponent>().Value;
+                var transformComponent = evt.Entity.GetComponent<TransformComponent>();
                 
                 foreach (var entity in _gameCameraFilter.Build())
                 {
                     ref var gameCameraComponent = ref entity.GetComponent<GameCameraComponent>();
-                    gameCameraComponent.Value.TargetGroup.AddMember(transform, 1, 1);
+                    gameCameraComponent.Value.TargetGroup.AddMember(transformComponent.Value, 1, 1);
                 }
             }
         }

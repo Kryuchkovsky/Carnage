@@ -8,21 +8,23 @@ using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Stats;
 using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.AI.Systems
 {
     public sealed class AttackTargetValidationSystem : QuerySystem
     {
+        [Inject]
+        private AISettings _aiSettings;
+
         protected override void Configure()
         {
             CreateQuery()
                 .With<UnitComponent>().With<AttackComponent>().With<AttackTargetComponent>().With<StatsComponent>().With<AliveComponent>()
-                .ForEach((Entity entity, ref AttackComponent attackComponent, ref AttackTargetComponent attackTargetComponent, ref StatsComponent statsComponent) =>
+                .ForEach((Entity entity, ref AttackTargetComponent attackTargetComponent, ref StatsComponent statsComponent) =>
                 {
-                    var aiSettings = ConfigManager.Instance.GetConfig<AISettings>();
-                    statsComponent.Value.TryGetCurrentValue(StatType.AttackRange, out var range);
-                    
-                    var followingRange = range * aiSettings.TargetSearchRangeToAttackRangeRatio;
+                    var range = statsComponent.Value.GetCurrentValue(StatType.AttackRange);
+                    var followingRange = range * _aiSettings.TargetSearchRangeToAttackRangeRatio;
                     var distanceIsGotten = EcsExtensions.TryGetDistanceBetweenClosestPointsOfEntitiesColliders(
                         entity, attackTargetComponent.TargetEntity, out var distance);
                     

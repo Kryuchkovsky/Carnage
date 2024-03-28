@@ -31,25 +31,25 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var attackStartEvent in _attackCommitmentEvent.publishedChanges)
+            foreach (var evt in _attackCommitmentEvent.publishedChanges)
             {
-                if (attackStartEvent.AttackingEntity.IsNullOrDisposed() || attackStartEvent.AttackedEntity.IsNullOrDisposed()) continue;
+                if (evt.AttackingEntity.IsNullOrDisposed() || evt.AttackedEntity.IsNullOrDisposed()) continue;
 
-                ref var unitComponent = ref attackStartEvent.AttackingEntity.GetComponent<UnitComponent>(out var hasUnitComponent);
-                ref var splitComponent = ref attackStartEvent.AttackingEntity.GetComponent<SplitAttackComponent>(out var hasSplitComponent);
-                ref var attackComponent = ref attackStartEvent.AttackingEntity.GetComponent<AttackComponent>(out var hasAttackComponent);
-                ref var statsComponent = ref attackStartEvent.AttackingEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
-                ref var teamDataComponent = ref attackStartEvent.AttackingEntity.GetComponent<TeamDataComponent>(out var hasTeamDataComponent);
+                ref var unitComponent = ref evt.AttackingEntity.GetComponent<UnitComponent>(out var hasUnitComponent);
+                ref var splitComponent = ref evt.AttackingEntity.GetComponent<SplitAttackComponent>(out var hasSplitComponent);
+                ref var attackComponent = ref evt.AttackingEntity.GetComponent<AttackComponent>(out var hasAttackComponent);
+                ref var statsComponent = ref evt.AttackingEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
+                ref var teamDataComponent = ref evt.AttackingEntity.GetComponent<TeamDataComponent>(out var hasTeamDataComponent);
 
-                if (!hasUnitComponent && !hasSplitComponent || !hasAttackComponent || !hasStatsComponent || 
-                    !statsComponent.Value.TryGetCurrentValue(StatType.AttackRange, out var range)|| !hasTeamDataComponent || splitComponent.AdditionalTargets <= 0) continue;
-                
-                var ownerEntity = attackStartEvent.AttackingEntity;
-                ref var effectComponent = ref attackStartEvent.AttackingEntity.GetComponent<EffectComponent>(out var hasEffectComponent);
+                if (!hasUnitComponent && !hasSplitComponent || !hasAttackComponent || !hasStatsComponent || !hasTeamDataComponent || splitComponent.AdditionalTargets <= 0) continue;
+
+                var range = statsComponent.Value.GetCurrentValue(StatType.AttackRange);
+                var ownerEntity = evt.AttackingEntity;
+                ref var effectComponent = ref evt.AttackingEntity.GetComponent<EffectComponent>(out var hasEffectComponent);
                 
                 if (hasEffectComponent)
                 {
-                    ref var ownerComponent = ref attackStartEvent.AttackingEntity.GetComponent<OwnerComponent>(out var hasOwnerComponent);
+                    ref var ownerComponent = ref evt.AttackingEntity.GetComponent<OwnerComponent>(out var hasOwnerComponent);
                     
                     if (!effectComponent.ModifiersAreInfluencing || !hasOwnerComponent || ownerComponent.Entity.IsNullOrDisposed()) continue;
                     
@@ -65,7 +65,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 for (int i = 0; i < colliderNumber && numberOfFoundedTargets < splitComponent.AdditionalTargets; i++)
                 {
                     if (_colliders[i].TryGetComponent<LinkedCollider>(out var linkedCollider) && !linkedCollider.Entity.IsNullOrDisposed() && 
-                        linkedCollider.Entity != ownerEntity && linkedCollider.Entity != attackStartEvent.AttackedEntity)
+                        linkedCollider.Entity != ownerEntity && linkedCollider.Entity != evt.AttackedEntity)
                     {
                         if (attackComponent.ProjectileType == ProjectileType.None)
                         {

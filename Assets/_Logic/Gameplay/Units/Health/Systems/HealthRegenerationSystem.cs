@@ -31,8 +31,9 @@ namespace _Logic.Gameplay.Units.Health.Systems
                     ref var healthComponent = ref entity.GetComponent<HealthComponent>();
                     ref var statsComponent = ref entity.GetComponent<StatsComponent>();
 
-                    statsComponent.Value.TryGetCurrentValue(StatType.MaxHeath, out var maxHealth);
-                    statsComponent.Value.TryGetCurrentValue(StatType.HealthRegenerationRate, out var regenerationRate);
+                    var maxHealth = statsComponent.Value.GetCurrentValue(StatType.MaxHeath);
+                    var regenerationRate = statsComponent.Value.GetCurrentValue(StatType.HealthRegenerationRate);
+                    
                     var health = maxHealth * healthComponent.Percentage; 
                     health += regenerationRate * _interval;
                     health = Mathf.Clamp(health, 0, maxHealth);

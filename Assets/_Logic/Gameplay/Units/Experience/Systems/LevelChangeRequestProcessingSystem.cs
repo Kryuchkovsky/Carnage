@@ -1,11 +1,11 @@
 ﻿using _Logic.Core;
-using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Experience.Events;
 using _Logic.Gameplay.Units.Experience.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Experience.Systems
 {
@@ -16,13 +16,14 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     {
         private Request<LevelChangeRequest> _levelChangeRequest;
         private Event<LevelChangeEvent> _levelChangeEvent;
+        
+        [Inject]
         private ExperienceSettings _experienceSettings;
         
         public override void OnAwake()
         {
             _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
             _levelChangeEvent = World.GetEvent<LevelChangeEvent>();
-            _experienceSettings = ConfigManager.Instance.GetConfig<ExperienceSettings>();
         }
 
         public override void OnUpdate(float deltaTime)

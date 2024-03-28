@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using _Logic.Core;
 using _Logic.Core.Components;
-using _Logic.Extensions.Configs;
 using _Logic.Extensions.Patterns;
 using _Logic.Gameplay.Units.Projectiles.Components;
 using _Logic.Gameplay.Units.Projectiles.Events;
@@ -9,6 +8,7 @@ using _Logic.Gameplay.Units.Projectiles.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Projectiles.Systems
 {
@@ -20,6 +20,8 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
         private Dictionary<ProjectileType, ObjectPool<ProjectileProvider>> _projectilePools;
         private Request<ProjectileCreationRequest> _projectileCreationRequest;
         private Event<ProjectileFlightEndEvent> _projectileFlightEndEvent;
+        
+        [Inject]
         private ProjectilesCatalog _projectilesCatalog;
 
         public override void OnAwake()
@@ -27,7 +29,6 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
             _projectilePools = new Dictionary<ProjectileType, ObjectPool<ProjectileProvider>>();
             _projectileCreationRequest = World.GetRequest<ProjectileCreationRequest>();
             _projectileFlightEndEvent = World.GetEvent<ProjectileFlightEndEvent>();
-            _projectilesCatalog = ConfigManager.Instance.GetConfig<ProjectilesCatalog>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -73,10 +74,10 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                 }
             }
             
-            foreach (var endEvent in _projectileFlightEndEvent.publishedChanges)
+            foreach (var evt in _projectileFlightEndEvent.publishedChanges)
             {
-                ref var projectileComponent = ref endEvent.ProjectileEntity.GetComponent<ProjectileComponent>();
-                ref var projectileDataComponent = ref endEvent.ProjectileEntity.GetComponent<ProjectileDataComponent>();
+                ref var projectileComponent = ref evt.ProjectileEntity.GetComponent<ProjectileComponent>();
+                ref var projectileDataComponent = ref evt.ProjectileEntity.GetComponent<ProjectileDataComponent>();
                 _projectilePools[projectileDataComponent.Value.Type].Return(projectileComponent.Value);
             }
         }

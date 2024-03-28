@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
-namespace _GameLogic.Core
+namespace _Logic.Core
 {
     public abstract class EcsBootstrapper : MonoBehaviour
     {
+        [SerializeField] private LifetimeScope _lifetimeScope;
         [SerializeField] private int _order;
         
         private HashSet<Initializer> _initializers;
@@ -30,7 +33,7 @@ namespace _GameLogic.Core
             _cleanupSystems = new HashSet<CleanupSystem>();
             _systemsGroup = World.CreateSystemsGroup();
             
-            RegisterSystems();
+            RegisterSystems(_lifetimeScope.Container);
             isRegistered = true;
             
             World.AddSystemsGroup(_order, _systemsGroup);
@@ -41,9 +44,9 @@ namespace _GameLogic.Core
             World.RemoveSystemsGroup(_systemsGroup);
         }
         
-        protected abstract void RegisterSystems();
+        protected abstract void RegisterSystems(IObjectResolver resolver);
 
-        public EcsBootstrapper AddInitializer<T>() where T : IInitializer, new()
+        public EcsBootstrapper AddInitializer<T>() where T : class, IInitializer, new()
         {
             if (Application.isPlaying && !isRegistered)
             {
@@ -51,6 +54,7 @@ namespace _GameLogic.Core
             }
             
             var instance = new T() as Initializer;
+            _lifetimeScope.Container.Inject(instance);
 
             if (!_initializers.Contains(instance))
             {
@@ -73,6 +77,7 @@ namespace _GameLogic.Core
             }
             
             var instance = new T();
+            _lifetimeScope.Container.Inject(instance);
 
             if (instance is UpdateSystem updateSystem && !_updateSystems.Contains(updateSystem))
             {

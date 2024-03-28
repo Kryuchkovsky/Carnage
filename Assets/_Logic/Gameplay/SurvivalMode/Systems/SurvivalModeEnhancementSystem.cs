@@ -1,13 +1,12 @@
 ﻿using _Logic.Core;
-using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
-using _Logic.Gameplay.Units.Effects;
 using _Logic.Gameplay.Units.Effects.Requests;
 using _Logic.Gameplay.Units.Spawn;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using VContainer;
 
 namespace _Logic.Gameplay.SurvivalMode.Systems
 {
@@ -18,30 +17,29 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
     {
         private Event<UnitSpawnEvent> _unitSpawnEvent;
         private Request<EffectAttachmentRequest> _effectAttachmentRequest;
-        private GameEffectCatalog _gameEffectCatalog;
+        
+        [Inject]
         private SurvivalModeSettings _survivalModeSettings;
         
         public override void OnAwake()
         {
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
             _effectAttachmentRequest = World.GetRequest<EffectAttachmentRequest>();
-            _gameEffectCatalog = ConfigManager.Instance.GetConfig<GameEffectCatalog>();
-            _survivalModeSettings = ConfigManager.Instance.GetConfig<SurvivalModeSettings>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var spawnEvent in _unitSpawnEvent.publishedChanges) 
+            foreach (var evt in _unitSpawnEvent.publishedChanges) 
             {
-                if (spawnEvent.Entity.Has<AIComponent>() || !spawnEvent.Entity.Has<UnitComponent>()) continue;
+                if (evt.Entity.Has<AIComponent>() || !evt.Entity.Has<UnitComponent>()) continue;
                 
                 _effectAttachmentRequest.Publish(new EffectAttachmentRequest
                 {
-                    TargetEntity = spawnEvent.Entity,
+                    TargetEntity = evt.Entity,
                     EffectType = _survivalModeSettings.PlayerEnhancmentEffectType
                 }, true);
                 
-                spawnEvent.Entity.SetComponent(new SplitAttackComponent
+                evt.Entity.SetComponent(new SplitAttackComponent
                 {
                     AdditionalTargets = 3
                 });

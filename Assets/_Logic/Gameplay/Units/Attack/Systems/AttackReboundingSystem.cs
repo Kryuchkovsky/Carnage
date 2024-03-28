@@ -30,23 +30,24 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var commitmentEvent in _attackEndEvent.publishedChanges)
+            foreach (var evt in _attackEndEvent.publishedChanges)
             {
-                if (commitmentEvent.AttackingEntity.IsNullOrDisposed() || commitmentEvent.AttackedEntity.IsNullOrDisposed()) continue;
+                if (evt.AttackingEntity.IsNullOrDisposed() || evt.AttackedEntity.IsNullOrDisposed()) continue;
 
-                var ownerEntity = commitmentEvent.AttackingEntity;
+                var ownerEntity = evt.AttackingEntity;
                 
-                ref var reboundComponent = ref commitmentEvent.AttackingEntity.GetComponent<ReboundAttackComponent>(out var hasReboundComponent);
-                ref var attackComponent = ref commitmentEvent.AttackingEntity.GetComponent<AttackComponent>(out var hasAttackComponent);
-                ref var statsComponent = ref commitmentEvent.AttackingEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
-                ref var teamDataComponent = ref commitmentEvent.AttackingEntity.GetComponent<TeamDataComponent>(out var hasTeamDataComponent);
+                ref var reboundComponent = ref evt.AttackingEntity.GetComponent<ReboundAttackComponent>(out var hasReboundComponent);
+                ref var attackComponent = ref evt.AttackingEntity.GetComponent<AttackComponent>(out var hasAttackComponent);
+                ref var statsComponent = ref evt.AttackingEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
+                ref var teamDataComponent = ref evt.AttackingEntity.GetComponent<TeamDataComponent>(out var hasTeamDataComponent);
                 
-                if (!hasReboundComponent || !hasAttackComponent || !hasStatsComponent || 
-                    statsComponent.Value.TryGetCurrentValue(StatType.AttackRange, out var range) || !hasTeamDataComponent) continue;
+                if (!hasReboundComponent || !hasAttackComponent || !hasStatsComponent || !hasTeamDataComponent) continue;
                 
-                if (commitmentEvent.AttackingEntity.Has<EffectComponent>())
+                var range = statsComponent.Value.GetCurrentValue(StatType.MaxHeath);
+                
+                if (evt.AttackingEntity.Has<EffectComponent>())
                 {
-                    ref var ownerComponent = ref commitmentEvent.AttackingEntity.GetComponent<OwnerComponent>(out var hasOwnerComponent);
+                    ref var ownerComponent = ref evt.AttackingEntity.GetComponent<OwnerComponent>(out var hasOwnerComponent);
                     
                     if (hasOwnerComponent && !ownerComponent.Entity.IsNullOrDisposed() && reboundComponent.Rebounds > 0)
                     {
@@ -57,7 +58,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     reboundComponent.Rebounds--;
                 }
                 
-                ref var attackedUnitTransform = ref commitmentEvent.AttackedEntity.GetComponent<TransformComponent>();
+                ref var attackedUnitTransform = ref evt.AttackedEntity.GetComponent<TransformComponent>();
                 var attackedUnitPosition = attackedUnitTransform.Value.position;
                 var mask = 1 << teamDataComponent.EnemiesLayer;
                 var colliderNumber = Physics.OverlapSphereNonAlloc(attackedUnitPosition, range, _colliders, mask);
@@ -66,11 +67,11 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 for (int i = 0; i < colliderNumber; i++)
                 {
                     if (_colliders[i].TryGetComponent<LinkedCollider>(out var linkedCollider) && !linkedCollider.Entity.IsNullOrDisposed() && 
-                        linkedCollider.Entity != ownerEntity && linkedCollider.Entity != commitmentEvent.AttackedEntity)
+                        linkedCollider.Entity != ownerEntity && linkedCollider.Entity != evt.AttackedEntity)
                     {
                         targetWasFound = true;
                         
-                        if (!commitmentEvent.AttackingEntity.Has<EffectComponent>())
+                        if (!evt.AttackingEntity.Has<EffectComponent>())
                         {
                             ownerEntity = World.CreateEntity();
                             ownerEntity.SetComponent(new EffectComponent());
@@ -79,7 +80,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                             ownerEntity.SetComponent(teamDataComponent);
                             ownerEntity.SetComponent(new OwnerComponent
                             {
-                                Entity = commitmentEvent.AttackingEntity
+                                Entity = evt.AttackingEntity
                             });
                         }
                         
@@ -102,9 +103,9 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     }
                 }
 
-                if (commitmentEvent.AttackingEntity.Has<EffectComponent>() && !targetWasFound)
+                if (evt.AttackingEntity.Has<EffectComponent>() && !targetWasFound)
                 {
-                    commitmentEvent.AttackingEntity.Dispose();
+                    evt.AttackingEntity.Dispose();
                 }
             }
         }

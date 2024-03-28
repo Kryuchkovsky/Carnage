@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using _GameLogic.Extensions.Patterns;
-using _Logic.Extensions.Configs;
 using _Logic.Extensions.Patterns;
 using UnityEngine;
 
 namespace _Logic.Extensions.HealthBar
 {
-    public class HealthBarsService : SingletonBehavior<HealthBarsService>
+    public class HealthBarsService : MonoBehaviour
     {
         [SerializeField] private Camera _camera;
         [SerializeField] private Canvas _canvas;
@@ -15,11 +13,10 @@ namespace _Logic.Extensions.HealthBar
         private HashSet<HealthBarView> _healthBarViews;
         private HealthBarSettings _settings;
 
-        protected override void Initialize()
+        public void Initialize(HealthBarSettings settings)
         {
-            base.Initialize();
             _camera ??= Camera.main;
-            _settings = ConfigManager.Instance.GetConfig<HealthBarSettings>();
+            _settings = settings;
             _healthBarsPool = new(_settings.HealthBar, 16, true, _canvas.transform,
                 takeAction: v => _healthBarViews.Add(v),
                 returnAction: v =>

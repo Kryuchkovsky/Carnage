@@ -1,7 +1,6 @@
 ﻿using _GameLogic.Extensions;
 using _Logic.Core;
 using _Logic.Core.Components;
-using _Logic.Extensions.Configs;
 using _Logic.Gameplay.SurvivalMode.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
@@ -10,6 +9,7 @@ using _Logic.Gameplay.Units.Spawn.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.SurvivalMode.Systems
 {
@@ -22,6 +22,8 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         private FilterBuilder _playerFilter;
         private FilterBuilder _unitCounterFilter;
         private Request<UnitSpawnRequest> _unitSpawnRequest;
+        
+        [Inject] 
         private SurvivalModeSettings _settings;
 
         public override void OnAwake()
@@ -30,7 +32,6 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
             _playerFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().Without<AIComponent>();
             _unitCounterFilter = World.Filter.With<UnitCounterComponent>();
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
-            _settings = ConfigManager.Instance.GetConfig<SurvivalModeSettings>();
         }
 
         public override void OnUpdate(float deltaTime)

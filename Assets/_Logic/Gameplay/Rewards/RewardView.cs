@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Logic.Gameplay.RewardSelector
+namespace _Logic.Gameplay.Rewards
 {
     public class RewardView : MonoBehaviour
     {

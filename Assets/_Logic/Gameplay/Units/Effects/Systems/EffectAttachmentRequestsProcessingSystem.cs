@@ -7,6 +7,7 @@ using _Logic.Gameplay.Units.Health.Requests;
 using _Logic.Gameplay.Units.Stats;
 using _Logic.Gameplay.Units.Stats.Requests;
 using Scellecs.Morpeh;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Effects.Systems
 {
@@ -15,6 +16,8 @@ namespace _Logic.Gameplay.Units.Effects.Systems
         private Request<EffectAttachmentRequest> _effectAttachmentRequest;
         private Request<StatChangeRequest> _statChangeRequest;
         private Request<HealthChangeProcessAdditionRequest> _healthChangeProcessAdditionRequest;
+        
+        [Inject]
         private GameEffectCatalog _gameEffectCatalog;
 
         public override void OnAwake()
@@ -22,7 +25,6 @@ namespace _Logic.Gameplay.Units.Effects.Systems
             _effectAttachmentRequest = World.GetRequest<EffectAttachmentRequest>();
             _statChangeRequest = World.GetRequest<StatChangeRequest>();
             _healthChangeProcessAdditionRequest = World.GetRequest<HealthChangeProcessAdditionRequest>();
-            _gameEffectCatalog = ConfigManager.Instance.GetConfig<GameEffectCatalog>();
         }
 
         public override void OnUpdate(float deltaTime)

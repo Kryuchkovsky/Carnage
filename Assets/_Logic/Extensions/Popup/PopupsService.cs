@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using _GameLogic.Extensions.Patterns;
+﻿using System.Collections.Generic;
 using _Logic.Extensions.Patterns;
 using UnityEngine;
 
 namespace _Logic.Extensions.Popup
 {
-    public class PopupsService : SingletonBehavior<PopupsService>
+    public class PopupsService : MonoBehaviour
     {
         [SerializeField] private Camera _camera;
         [SerializeField] private Canvas _canvas;
@@ -16,9 +14,8 @@ namespace _Logic.Extensions.Popup
         private ObjectPool<TextPopup> _textPopupsPool;
         private HashSet<BasePopup> _activePopups;
         
-        protected override void Initialize()
+        protected void Awake()
         {
-            base.Initialize();
             _camera ??= Camera.main;
             _textPopupsPool = new(_textPopup, 16, true, _canvas.transform,
                 takeAction: p => _activePopups.Add(p),

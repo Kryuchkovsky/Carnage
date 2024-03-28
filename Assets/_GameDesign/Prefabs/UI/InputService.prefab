@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3762773863349725539}
   - component: {fileID: 613320301886452690}
   m_Layer: 5
-  m_Name: InputCatcher
+  m_Name: InputService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,8 +88,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42afbfbe0a695704e8df4871440ad720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializedData:
-    DragStartPosition: {x: 0, y: 0}
-    Direction: {x: 0, y: 0}
-    Delta: {x: 0, y: 0}
-  <Id>k__BackingField: 
+  _dontDestroyOnLoad: 0

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Logic.Core;
-using _Logic.Extensions.Configs;
-using _Logic.Gameplay.RewardSelector;
+using _Logic.Gameplay.Rewards;
 using _Logic.Gameplay.SurvivalMode;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Experience.Events;
@@ -11,6 +10,7 @@ using _Logic.Gameplay.Units.Stats.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Experience.Systems
 {
@@ -21,27 +21,23 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     {
         private Event<LevelChangeEvent> _levelChangeEvent;
         private Request<StatChangeRequest> _statChangeRequest;
-        private ExperienceSettings _experienceSettings;
+
+        [Inject]
         private SurvivalModeSettings _survivalModeSettings;
 
         public override void OnAwake()
         {
             _levelChangeEvent = World.GetEvent<LevelChangeEvent>();
             _statChangeRequest = World.GetRequest<StatChangeRequest>();
-            _experienceSettings = ConfigManager.Instance.GetConfig<ExperienceSettings>();
-            _survivalModeSettings = ConfigManager.Instance.GetConfig<SurvivalModeSettings>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var levelChangeEvent in _levelChangeEvent.publishedChanges)
+            foreach (var evt in _levelChangeEvent.publishedChanges)
             {
-                if (levelChangeEvent.Entity.IsNullOrDisposed() ||
-                    levelChangeEvent.Change <= 0 ||
-                    levelChangeEvent.Entity.Has<AIComponent>() || 
-                    !levelChangeEvent.Entity.Has<StatsComponent>()) continue;
+                if (evt.Entity.IsNullOrDisposed() || evt.Change <= 0 || evt.Entity.Has<AIComponent>() || !evt.Entity.Has<StatsComponent>()) continue;
                 
-                ref var statsComponent = ref levelChangeEvent.Entity.GetComponent<StatsComponent>();
+                ref var statsComponent = ref evt.Entity.GetComponent<StatsComponent>();
                 var selections = new List<Selection>(_survivalModeSettings.RewardsNumberWhenLevelUp);
                 var rewardsNumber = Mathf.Clamp(
                     _survivalModeSettings.RewardsNumberWhenLevelUp, 0, _survivalModeSettings.PossibleAffectionsWhenLevelUp.Count);
@@ -59,7 +55,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                         {
                             _statChangeRequest.Publish(new StatChangeRequest
                             {
-                                Entity = levelChangeEvent.Entity,
+                                Entity = evt.Entity,
                                 Modifier = new StatModifier(affection.OperationType, affection.Value),
                                 Type = affection.StatType
                             }, true);
@@ -69,7 +65,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                 }
                 
                 var selectionGroup = new SelectionGroup(selections);
-                RewardSelectorView.Instance.AddToQueue(selectionGroup);
+                RewardSelector.Instance.AddToQueue(selectionGroup);
             }
         }
     }

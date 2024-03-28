@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace _Logic.Gameplay.RewardSelector
+namespace _Logic.Gameplay.Rewards
 {
     public class SelectionGroup
     {

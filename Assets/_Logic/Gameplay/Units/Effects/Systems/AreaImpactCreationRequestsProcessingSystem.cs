@@ -1,9 +1,9 @@
 ﻿using _Logic.Core;
-using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Effects.Requests;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Effects.Systems
 {
@@ -12,14 +12,15 @@ namespace _Logic.Gameplay.Units.Effects.Systems
         private readonly Collider[] _colliders = new Collider[128];
         private Request<ImpactCreationRequest> _areaImpactCreationRequest;
         private Request<EffectAttachmentRequest> _impactActionAttachmentRequest;
-        private ImpactCatalog _impactCatalog;
         private LayerMask _defaultLayerMask = LayerMask.GetMask("Team0", "Team1");
+
+        [Inject]
+        private ImpactCatalog _impactCatalog;
 
         public override void OnAwake()
         {
             _areaImpactCreationRequest = World.GetRequest<ImpactCreationRequest>();
             _impactActionAttachmentRequest = World.GetRequest<EffectAttachmentRequest>();
-            _impactCatalog = ConfigManager.Instance.GetConfig<ImpactCatalog>();
         }
 
         public override void OnUpdate(float deltaTime)

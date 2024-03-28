@@ -167,23 +167,23 @@ namespace _Logic.Gameplay.Units
             
             //Destroy(gameObject, delay);
         }
-        
+
+#if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
             if (!Entity.IsNullOrDisposed() && Entity.Has<AttackComponent>() && Entity.Has<StatsComponent>())
             {
                 var stats = Entity.GetComponent<StatsComponent>().Value;
+                var attackRange = stats.GetCurrentValue(StatType.AttackRange);
 
-                if (stats.TryGetCurrentValue(StatType.AttackRange, out var attackRange))
-                {
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawWireSphere(transform.position, attackRange);
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(transform.position, attackRange);
 
-                    var searchRange = attackRange * ConfigManager.Instance.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
-                    Gizmos.color = Color.blue;
-                    Gizmos.DrawWireSphere(transform.position, searchRange);
-                }
+                var searchRange = attackRange * ConfigManager.Instance.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(transform.position, searchRange);
             } 
         }
+#endif
     }
 }

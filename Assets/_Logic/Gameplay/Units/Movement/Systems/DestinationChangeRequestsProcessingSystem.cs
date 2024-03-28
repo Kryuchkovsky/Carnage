@@ -17,12 +17,11 @@ namespace _Logic.Gameplay.Units.Movement.Systems
         {
             foreach (var request in _request.Consume())
             {
-                if (request.Entity.IsNullOrDisposed() || 
-                    !request.Entity.Has<TransformComponent>() && 
-                     (request.Destination - request.Entity.GetComponent<TransformComponent>().Value.position).magnitude < 0.1f) continue;
+                if (request.Entity.IsNullOrDisposed() || !request.Entity.Has<TransformComponent>()) continue;
                 
-                var transform = request.Entity.GetComponent<TransformComponent>().Value;
-                var direction = request.Destination - transform.position;
+                var transformComponent = request.Entity.GetComponent<TransformComponent>();
+                var position = transformComponent.Value.position;
+                var direction = request.Destination - position;
                 
                 if (direction.magnitude < 0.1f) continue;
                 

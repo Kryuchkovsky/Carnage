@@ -9,11 +9,11 @@ namespace _Logic.Core.Systems
         {
             CreateQuery()
                 .With<TimerComponent>()
-                .ForEach((Entity entity, ref TimerComponent timer) =>
+                .ForEach((Entity entity, ref TimerComponent timerComponent) =>
                 {
-                    if (timer.Value > 0)
+                    if (timerComponent.Value > 0)
                     {
-                        timer.Value -= deltaTime;
+                        timerComponent.Value -= deltaTime;
                     }
                 });
         }

@@ -9,12 +9,16 @@ using _Logic.Gameplay.Units.Stats.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.AI.Systems
 {
     public sealed class AttackTargetSearchSystem : QuerySystem
     {
         private readonly Collider[] _colliders = new Collider[10];
+
+        [Inject]
+        private AISettings _aiSettings;
         
         protected override void Configure()
         {
@@ -23,10 +27,9 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 .Without<AttackTargetComponent>()
                 .ForEach((Entity entity, ref StatsComponent statsComponent, ref AttackComponent attackComponent, ref TeamDataComponent teamDataComponent, ref TransformComponent transformComponent) =>
                 {
-                    var aiSettings = ConfigManager.Instance.GetConfig<AISettings>();
                     var position = transformComponent.Value.position;
-                    statsComponent.Value.TryGetCurrentValue(StatType.AttackRange, out var range);
-                    var searchRange  = range * aiSettings.TargetSearchRangeToAttackRangeRatio;
+                    var range = statsComponent.Value.GetCurrentValue(StatType.AttackRange);
+                    var searchRange  = range * _aiSettings.TargetSearchRangeToAttackRangeRatio;
                     var collisions = Physics.OverlapSphereNonAlloc(position, searchRange, _colliders, 1 << teamDataComponent.EnemiesLayer);
                     var minDistance = float.MaxValue;
                     Entity targetEntity = null;

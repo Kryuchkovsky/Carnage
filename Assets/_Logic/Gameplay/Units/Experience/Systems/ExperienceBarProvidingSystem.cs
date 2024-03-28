@@ -1,5 +1,4 @@
-﻿using _Logic.Core.Components;
-using _Logic.Gameplay.Units.AI.Components;
+﻿using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Health.Components;
@@ -14,7 +13,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
             CreateQuery()
                 .With<UnitComponent>().With<ExperienceComponent>().With<AliveComponent>()
                 .Without<ExperienceBarComponent>().Without<AIComponent>()
-                .ForEach((Entity entity, ref UnitComponent unitComponent, ref BoundsComponent boundsComponent) =>
+                .ForEach((Entity entity) =>
                 {
                     entity.SetComponent(new ExperienceBarComponent
                     {

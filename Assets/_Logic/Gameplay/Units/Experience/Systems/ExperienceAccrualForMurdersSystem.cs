@@ -5,6 +5,7 @@ using _Logic.Gameplay.Units.Experience.Requests;
 using _Logic.Gameplay.Units.Health.Events;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Experience.Systems
 {
@@ -15,28 +16,29 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     {
         private Request<ExperienceAmountChangeRequest> _experienceAmountChangeRequest;
         private Event<UnitDeathEvent> _unitDeathEvent;
+        
+        [Inject]
         private ExperienceSettings _experienceSettings;
         
         public override void OnAwake()
         {
             _experienceAmountChangeRequest = World.GetRequest<ExperienceAmountChangeRequest>();
             _unitDeathEvent = World.GetEvent<UnitDeathEvent>();
-            _experienceSettings = ConfigManager.Instance.GetConfig<ExperienceSettings>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var deathEvent in _unitDeathEvent.publishedChanges)
+            foreach (var evt in _unitDeathEvent.publishedChanges)
             {
-                if (deathEvent.CorpseEntity.IsNullOrDisposed() || deathEvent.MurdererEntity.IsNullOrDisposed()) continue;
+                if (evt.CorpseEntity.IsNullOrDisposed() || evt.MurdererEntity.IsNullOrDisposed()) continue;
 
-                var experienceComponent = deathEvent.CorpseEntity.GetComponent<ExperienceComponent>(out var hasExperienceComponent);
+                var experienceComponent = evt.CorpseEntity.GetComponent<ExperienceComponent>(out var hasExperienceComponent);
                 var unitExperience = hasExperienceComponent ? experienceComponent.TotalExperienceAmount : 0;
                 var experience = _experienceSettings.CalculateExperienceRewardForMurder(unitExperience);
                 
                 _experienceAmountChangeRequest.Publish(new ExperienceAmountChangeRequest
                 {
-                    ReceivingEntity = deathEvent.MurdererEntity,
+                    ReceivingEntity = evt.MurdererEntity,
                     Change = experience
                 });
             }
