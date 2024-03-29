@@ -12,41 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e6ad3af94546e2b3488a43658adce0, type: 3}
   m_Name: HumanTower
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 1
-  _attackData:
-    Has: 1
-    Data:
-      <Damage>k__BackingField:
-        <BaseValue>k__BackingField: 15
-      <BasicAttackTime>k__BackingField:
-        <BaseValue>k__BackingField: 1.7
-      <Range>k__BackingField:
-        <BaseValue>k__BackingField: 20
-      <Speed>k__BackingField:
-        <BaseValue>k__BackingField: 100
-      <ProjectileData>k__BackingField: {fileID: 11400000, guid: 83148e97aecf1924ab60310578cb0866,
-        type: 2}
-  _healthData:
-    Has: 1
-    Data:
-      <MaxHealth>k__BackingField:
-        <BaseValue>k__BackingField: 500
-      <RegenerationRate>k__BackingField:
-        <BaseValue>k__BackingField: 1
-      <CorpseExistenceTime>k__BackingField:
-        <BaseValue>k__BackingField: 3
-  _movementData:
-    Has: 0
-    Data:
-      <MovementSpeed>k__BackingField:
-        <BaseValue>k__BackingField: 10
-      <RotationSpeed>k__BackingField:
-        <BaseValue>k__BackingField: 360
-  _spawnAbilityData:
-    Has: 0
-    Data:
-      SpawnSpeedMultiplier: 0
-      <Units>k__BackingField: 
+  <Type>k__BackingField: 2
+  <Id>k__BackingField: 1
+  _hasAttack: 1
+  _attackDamage: 10
+  _attackRange: 1.5
+  _attackSpeed: 100
+  _attackTime: 2
+  <ProjectileType>k__BackingField: 0
+  <AttackHealthChangeType>k__BackingField: 0
+  _hasHealth: 1
+  _healthRegenerationRate: 0
+  _maxHeath: 50
+  <DamageVFXType>k__BackingField: 0
+  _hasMovement: 1
+  _movementSpeed: 10
+  _rotationSpeed: 0
   <Model>k__BackingField: {fileID: 721813556714090626, guid: 963b72cd33a3ccf4db4859017b5acb7e,
     type: 3}
   <SpawnTime>k__BackingField: 3

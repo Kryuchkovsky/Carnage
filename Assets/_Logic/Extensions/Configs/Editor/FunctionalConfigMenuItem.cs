@@ -20,7 +20,7 @@ namespace _Logic.Extensions.Configs.Editor
         }
         
         [MenuItem("Tools/Generate enum types")]
-        public static void GenerateEnumDataTypes()
+        public static void GenerateDataEnumTypes()
         {
             try
             {
@@ -34,7 +34,7 @@ namespace _Logic.Extensions.Configs.Editor
         }
         
         [MenuItem("Tools/Regenerate enum types")]
-        public static void RegenerateEnumDataTypes()
+        public static void RegenerateDataEnumTypes()
         {
             try
             {

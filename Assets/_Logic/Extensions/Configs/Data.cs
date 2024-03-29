@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace _Logic.Extensions.Configs
 {
+    [Serializable]
     public abstract class Data<TEnumKey> : ScriptableObject where TEnumKey : Enum
     {
         [field: SerializeField, ReadOnly] public TEnumKey Type { get; private set; }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e6ad3af94546e2b3488a43658adce0, type: 3}
   m_Name: HumanWarrior
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 4
+  <Type>k__BackingField: 7
   <Id>k__BackingField: 6
   _hasAttack: 1
   _attackDamage: 10

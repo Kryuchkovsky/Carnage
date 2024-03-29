@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cddbb814494a4510951349f69bd0bfec, type: 3}
   m_Name: BallLightning
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 3
+  <Type>k__BackingField: 2
+  <Id>k__BackingField: 1
   <Provider>k__BackingField: {fileID: 321956882559183147, guid: 741a13467f710764db8432554c98f457,
     type: 3}
   <Speed>k__BackingField: 20

@@ -34,7 +34,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
             CreateQuery()
                 .With<UnitComponent>().With<BoundsComponent>().With<HealthComponent>().With<TeamDataComponent>().With<HealthBarComponent>()
                 .Without<AliveComponent>()
-                .ForEach((Entity entity, ref UnitComponent unitComponent, ref HealthBarComponent healthBarComponent) =>
+                .ForEach((Entity entity, ref HealthBarComponent healthBarComponent) =>
                 {
                     _healthBarsService.RemoveHealthBar(healthBarComponent.Value);
                 });

@@ -28,7 +28,7 @@ namespace _Logic.Extensions.CodeGenerator
             var oldEnums = GetCurrentEnums(enumFilePath);
             var oldEnumsExist = oldEnums != null && oldEnums.Values.Count > 0;
             var highestValue = useOldValues && oldEnumsExist ? oldEnums.Values.Last() + 1 : 1;
-
+            
             using (var streamWriter = new StreamWriter(enumFilePath))
             {
                 streamWriter.WriteLine("public enum " + enumName + "\r\n" + "{");

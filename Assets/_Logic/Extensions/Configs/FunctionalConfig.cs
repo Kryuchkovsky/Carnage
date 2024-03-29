@@ -43,7 +43,7 @@ namespace _Logic.Extensions.Configs
                 _dataList.Add(asset);
             }
 
-            AssetDatabase.Refresh();
+            EditorUtility.SetDirty(this);
         }
 
         [ContextMenu("GenerateDataEnumTypes")]
@@ -60,7 +60,12 @@ namespace _Logic.Extensions.Configs
                 var enumValue = Enum.Parse<TEnumType>(stringValue);
                 var property = data.GetType().BaseType.GetProperty(nameof(data.Type));
                 property.SetValue(data, enumValue);
+                EditorUtility.SetDirty(data);
+                AssetDatabase.SaveAssetIfDirty(data);
             }
+            
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
         }
     }
 }

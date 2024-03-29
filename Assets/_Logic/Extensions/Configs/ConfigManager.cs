@@ -36,9 +36,9 @@ namespace _Logic.Extensions.Configs
                     EditorUtility.SetDirty(config);
                 }
             }
-            
-            AssetDatabase.Refresh();
+
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
         
         public static void GenerateDataEnumTypes(bool useOldValues = true)
@@ -50,12 +50,10 @@ namespace _Logic.Extensions.Configs
                     var expandedConfig = (IExpandedConfig)config;
                     expandedConfig.GenerateDataEnumTypes(useOldValues);
                     expandedConfig.UpdateDataTypes();
-                    EditorUtility.SetDirty(config);
                 }
             }
             
             AssetDatabase.Refresh();
-            AssetDatabase.SaveAssets();
         }
         
         public T GetConfig<T>() where T : ScriptableObject => Instance._configDictionary[typeof(T)] as T;
