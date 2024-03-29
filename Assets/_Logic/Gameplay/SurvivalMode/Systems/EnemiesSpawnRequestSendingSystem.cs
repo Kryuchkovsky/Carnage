@@ -18,6 +18,8 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class EnemiesSpawnRequestSendingSystem : AbstractUpdateSystem
     {
+        private const int SpawnDistance = 50;
+        
         private FilterBuilder _survivalModeFilter;
         private FilterBuilder _playerFilter;
         private FilterBuilder _unitCounterFilter;
@@ -46,7 +48,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
                     (unitCounterEntity.GetComponent<UnitCounterComponent>().TeamUnitNumbers.TryGetValue(1, out var number) && number >= _settings.MaxEnemiesNumber)) continue;
 
                 var position = playerEntity.GetComponent<TransformComponent>().Value.position;
-                position += ExtraMethods.GetRandomDirectionXZ() * 50;
+                position += ExtraMethods.GetRandomDirectionXZ() * SpawnDistance;
                 var allUnitTypes = _settings.Enemies;
                 var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];
 

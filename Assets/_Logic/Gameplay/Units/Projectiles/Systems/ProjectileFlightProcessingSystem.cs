@@ -20,7 +20,7 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
         {
             CreateQuery()
                 .With<ProjectileComponent>().With<ProjectileDataComponent>().With<TransformComponent>().With<OwnerComponent>()
-                .ForEach((Entity entity, ref ProjectileComponent projectileComponent, ref ProjectileDataComponent projectileDataComponent, ref TransformComponent transformComponent, ref OwnerComponent ownerComponent) =>
+                .ForEach((Entity entity, ref ProjectileDataComponent projectileDataComponent, ref TransformComponent transformComponent, ref OwnerComponent ownerComponent) =>
                 {
                     ref var targetComponent = ref entity.GetComponent<TargetComponent>(out var hasTargetComponent);
                 
@@ -31,7 +31,7 @@ namespace _Logic.Gameplay.Units.Projectiles.Systems
                         if (targetHasTransformComponent)
                         {
                             var targetPosition = targetTransformComponent.Value.position;
-                            var targetBoundsComponent = targetComponent.Entity.GetComponent<BoundsComponent>(out var targetHasBoundsComponent);
+                            ref var targetBoundsComponent = ref targetComponent.Entity.GetComponent<BoundsComponent>(out var targetHasBoundsComponent);
 
                             if (targetHasBoundsComponent)
                             {

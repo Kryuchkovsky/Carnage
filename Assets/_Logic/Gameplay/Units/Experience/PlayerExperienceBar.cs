@@ -47,7 +47,7 @@ namespace _Logic.Gameplay.Units.Experience
 	        _fillValueChangeTweener.ChangeValues(_currentFillValue, _targetFillValue, _valueChangeDuration).Play();
         }
         
-        public void SetLevel(int level) => _levelText.SetText("{0:0}", level);
+        public void SetLevel(int level) => _levelText.SetText("{0:0} lv.", level);
 
         public void Reset()
 		{
