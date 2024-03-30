@@ -3,13 +3,14 @@ using _Logic.Extensions.HealthBar;
 using _Logic.Extensions.Input;
 using _Logic.Extensions.Popup;
 using _Logic.Extensions.VFXManager;
+using _Logic.Gameplay.Items;
+using _Logic.Gameplay.Projectiles;
 using _Logic.Gameplay.Rewards;
 using _Logic.Gameplay.SurvivalMode;
 using _Logic.Gameplay.Units;
 using _Logic.Gameplay.Units.AI;
 using _Logic.Gameplay.Units.Effects;
 using _Logic.Gameplay.Units.Experience;
-using _Logic.Gameplay.Units.Projectiles;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -39,6 +40,7 @@ namespace _Logic.Gameplay
             builder.RegisterInstance(_configManager.GetConfig<ProjectilesCatalog>());
             builder.RegisterInstance(_configManager.GetConfig<SurvivalModeSettings>());
             builder.RegisterInstance(_configManager.GetConfig<UnitsCatalog>());
+            builder.RegisterInstance(_configManager.GetConfig<ItemConfig>());
             
             var vfxConfig = _configManager.GetConfig<VFXCatalog>();
             var vfxService = new VFXService(vfxConfig);

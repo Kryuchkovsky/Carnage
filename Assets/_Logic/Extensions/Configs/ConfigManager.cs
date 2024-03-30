@@ -33,11 +33,9 @@ namespace _Logic.Extensions.Configs
                     var expandedConfig = (IExpandedConfig)config;
                     expandedConfig.FindAllDataObjects();
                     expandedConfig.UpdateDataTypes();
-                    EditorUtility.SetDirty(config);
                 }
             }
-
-            AssetDatabase.SaveAssets();
+            
             AssetDatabase.Refresh();
         }
         

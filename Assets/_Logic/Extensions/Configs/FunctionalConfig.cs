@@ -44,6 +44,7 @@ namespace _Logic.Extensions.Configs
             }
 
             EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
         }
 
         [ContextMenu("GenerateDataEnumTypes")]

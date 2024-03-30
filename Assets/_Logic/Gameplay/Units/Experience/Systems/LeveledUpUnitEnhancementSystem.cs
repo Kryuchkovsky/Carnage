@@ -32,11 +32,11 @@ namespace _Logic.Gameplay.Units.Experience.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var @event in _levelChangeEvent.publishedChanges)
+            foreach (var evt in _levelChangeEvent.publishedChanges)
             {
-                if (@event.Entity.IsNullOrDisposed() || @event.Change <= 0 || @event.Entity.Has<AIComponent>() || !@event.Entity.Has<StatsComponent>()) continue;
+                if (evt.Entity.IsNullOrDisposed() || evt.Change <= 0 || evt.Entity.Has<AIComponent>() || !evt.Entity.Has<StatsComponent>()) continue;
                 
-                ref var statsComponent = ref @event.Entity.GetComponent<StatsComponent>();
+                ref var statsComponent = ref evt.Entity.GetComponent<StatsComponent>();
                 var selections = new List<Selection>(_survivalModeSettings.RewardsNumberWhenLevelUp);
                 var rewardsNumber = Mathf.Clamp(
                     _survivalModeSettings.RewardsNumberWhenLevelUp, 0, _survivalModeSettings.PossibleAffectionsWhenLevelUp.Count);
@@ -54,7 +54,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                         {
                             _statChangeRequest.Publish(new StatChangeRequest
                             {
-                                Entity = @event.Entity,
+                                Entity = evt.Entity,
                                 Modifier = new StatModifier(affection.OperationType, affection.Value),
                                 Type = affection.StatType
                             }, true);

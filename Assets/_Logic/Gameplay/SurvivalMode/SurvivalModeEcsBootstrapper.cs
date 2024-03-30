@@ -2,6 +2,8 @@
 using _Logic.Core;
 using _Logic.Core.Systems;
 using _Logic.Gameplay.Camera.Systems;
+using _Logic.Gameplay.Items.Systems;
+using _Logic.Gameplay.Projectiles.Systems;
 using _Logic.Gameplay.SurvivalMode.Systems;
 using _Logic.Gameplay.Units.AI.Systems;
 using _Logic.Gameplay.Units.Attack.Systems;
@@ -9,7 +11,6 @@ using _Logic.Gameplay.Units.Effects.Systems;
 using _Logic.Gameplay.Units.Experience.Systems;
 using _Logic.Gameplay.Units.Health.Systems;
 using _Logic.Gameplay.Units.Movement.Systems;
-using _Logic.Gameplay.Units.Projectiles.Systems;
 using _Logic.Gameplay.Units.Spawn.Systems;
 using _Logic.Gameplay.Units.Stats.Systems;
 using _Logic.Gameplay.Units.Team.Systems;
@@ -59,9 +60,10 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new AttackAnimationCompletionReactionSystem(), resolver);
             
             _systemsGroup.AddSystem(new ProjectileCreationRequestProcessingSystem(), resolver);
+            _systemsGroup.AddSystem(new ProjectileDestinationUpdateSystem(), resolver);
             _systemsGroup.AddSystem(new ProjectileFlightProcessingSystem(), resolver);
 
-            _systemsGroup.AddSystem(new ExperienceAccrualForMurdersSystem(), resolver);
+            _systemsGroup.AddSystem(new ExperienceDropFromDeadSystem(), resolver);
             _systemsGroup.AddSystem(new ExperienceAmountChangeRequestProcessingSystem(), resolver);
             _systemsGroup.AddSystem(new ExperienceBarProvidingSystem(), resolver);
             _systemsGroup.AddSystem(new LevelChangeRequestProcessingSystem(), resolver);
@@ -72,6 +74,9 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new PeriodicHealthChangesHandlingSystem(), resolver);
             _systemsGroup.AddSystem(new HealthChangeRequestProcessingSystem(), resolver);
             _systemsGroup.AddSystem(new HealthChangeProcessAdditionRequestProcessingSystem(), resolver);
+
+            _systemsGroup.AddSystem(new ExperienceEssenceCreationRequestProcessingSystem(), resolver);
+            _systemsGroup.AddSystem(new ItemCollectionSystem(), resolver);
 
             _systemsGroup.AddSystem(new PlayerUnitDestinationSystem(), resolver);
             _systemsGroup.AddSystem(new ManualMovementSystem(), resolver);

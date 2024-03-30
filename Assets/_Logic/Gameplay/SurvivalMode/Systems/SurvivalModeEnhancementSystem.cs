@@ -1,4 +1,6 @@
 ﻿using _Logic.Core;
+using _Logic.Gameplay.Items;
+using _Logic.Gameplay.Items.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
@@ -19,6 +21,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         private Request<EffectAttachmentRequest> _effectAttachmentRequest;
         
         [Inject] private SurvivalModeSettings _survivalModeSettings;
+        [Inject] private ItemConfig _itemConfig;
         
         public override void OnAwake()
         {
@@ -28,19 +31,24 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var @event in _unitSpawnEvent.publishedChanges) 
+            foreach (var evt in _unitSpawnEvent.publishedChanges) 
             {
-                if (@event.Entity.Has<AIComponent>() || !@event.Entity.Has<UnitComponent>()) continue;
+                if (evt.Entity.Has<AIComponent>() || !evt.Entity.Has<UnitComponent>()) continue;
                 
                 _effectAttachmentRequest.Publish(new EffectAttachmentRequest
                 {
-                    TargetEntity = @event.Entity,
+                    TargetEntity = evt.Entity,
                     EffectType = _survivalModeSettings.PlayerEnhancmentEffectType
                 }, true);
                 
-                @event.Entity.SetComponent(new SplitAttackComponent
+                evt.Entity.SetComponent(new SplitAttackComponent
                 {
                     AdditionalTargets = 3
+                });
+                
+                evt.Entity.SetComponent(new CollectorComponent
+                {
+                    Radius = _itemConfig.CollectionRange
                 });
             }
         }

@@ -1,5 +1,4 @@
 ﻿using _Logic.Core;
-using _Logic.Extensions.Configs;
 using _Logic.Gameplay.SurvivalMode;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
