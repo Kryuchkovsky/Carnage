@@ -101,7 +101,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
                             throw new ArgumentOutOfRangeException();
                     }
                     
-                    _popupsService.CreateWorldTextPopup(unitComponent.Value.transform, popupText, popupColor); 
+                    _popupsService.CreateTextPopup(unitComponent.Value.transform.position, popupText, popupColor); 
                 }
                     
                 if (healthComponent.CurrentHealth <= 0)

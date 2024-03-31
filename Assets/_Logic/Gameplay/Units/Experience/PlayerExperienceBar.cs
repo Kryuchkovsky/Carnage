@@ -10,6 +10,7 @@ namespace _Logic.Gameplay.Units.Experience
     {
 	    [SerializeField] private AnimationCurve _fillValueChangeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
         [SerializeField] private Image _fillingImage;
+        [SerializeField] private TextMeshProUGUI _experienceAmountText;
         [SerializeField] private TextMeshProUGUI _levelText;
         [SerializeField] private float _valueChangeDuration = 0.3f;
 
@@ -37,14 +38,19 @@ namespace _Logic.Gameplay.Units.Experience
 		        .SetRecyclable(true)
 		        .Pause();
 	        _isInitiated = true;
-	        SetExperienceBarFilling(1);
+	        SetFilling(1);
         }
 
-        public void SetExperienceBarFilling(float filling)
+        public void SetFilling(float filling)
         {
 	        _targetFillValue = filling;
 	        _currentFillValue = _currentFillValue > _targetFillValue ? 0 : _currentFillValue;
 	        _fillValueChangeTweener.ChangeValues(_currentFillValue, _targetFillValue, _valueChangeDuration).Play();
+        }
+        
+        public void SetExperienceAmount(float currentValue, float maxValue)
+        {
+	        _experienceAmountText.SetText("{0:0}/{1:0} exp.", currentValue, maxValue);
         }
         
         public void SetLevel(int level) => _levelText.SetText("{0:0} lv.", level);

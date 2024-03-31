@@ -45,12 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed65981eb314b22a8d01d35b616a555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 1
   _camera: {fileID: 0}
   _canvas: {fileID: 7566221125254898978}
-  _textPopup: {fileID: 8601770602915532675, guid: e723ccfda852fb3498daa4ba70f46853,
+  popupPrefab: {fileID: 8601770602915532675, guid: e723ccfda852fb3498daa4ba70f46853,
     type: 3}
-  _popupOffsetY: 3
 --- !u!1 &6555593959561399898
 GameObject:
   m_ObjectHideFlags: 0

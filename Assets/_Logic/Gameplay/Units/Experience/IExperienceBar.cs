@@ -2,7 +2,8 @@
 {
     public interface IExperienceBar
     {
-        public void SetExperienceBarFilling(float filling);
+        public void SetFilling(float filling);
+        public void SetExperienceAmount(float current, float maxValue);
         public void SetLevel(int level);
     }
 }

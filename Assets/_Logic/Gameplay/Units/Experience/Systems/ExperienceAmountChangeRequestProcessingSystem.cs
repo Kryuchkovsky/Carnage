@@ -1,8 +1,11 @@
 using _Logic.Core;
+using _Logic.Core.Components;
+using _Logic.Extensions.Popup;
 using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Experience.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 using VContainer;
 
 namespace _Logic.Gameplay.Units.Experience.Systems
@@ -16,11 +19,17 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         private Request<LevelChangeRequest> _levelChangeRequest;
         
         [Inject] private ExperienceSettings _experienceSettings;
+        [Inject] private PopupsService _popupsService;
+
+        private readonly string _popupFormat = "+ {0:0} exp.";
+        private Color _popupColor = new(0.63f, 0.42f, 0.18f);
+        private int _popupIndex;
         
         public override void OnAwake()
         {
             _experienceAmountChangeRequest = World.GetRequest<ExperienceAmountChangeRequest>();
             _levelChangeRequest = World.GetRequest<LevelChangeRequest>();
+            _popupIndex = _popupsService.RegisterPopupAndGetId(_popupFormat);
         }
 
         public override void OnUpdate(float deltaTime)
@@ -34,6 +43,13 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                 expComponent.Progress = (expComponent.TotalExperienceAmount - expComponent.CurrentLevelCost) / expComponent.LevelUpCost;
                 var newLevelCost = expComponent.NextLevelCost;
                 var levelChange = 0;
+                
+                ref var transformComponent = ref request.ReceivingEntity.GetComponent<TransformComponent>(out var hasTransformComponent);
+
+                if (hasTransformComponent)
+                {
+                    _popupsService.CreateTextPopup(_popupIndex, transformComponent.Value, request.Change, _popupColor);
+                }
 
                 while (expComponent.TotalExperienceAmount > newLevelCost)
                 {
@@ -48,16 +64,6 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                         Entity = request.ReceivingEntity,
                         Change = levelChange
                     });
-                }
-                else
-                {
-                    ref var expBarComponent = ref request.ReceivingEntity.GetComponent<ExperienceBarComponent>(out var hasExperienceBarComponent);
-                
-                    if (hasExperienceBarComponent)
-                    {
-                        expBarComponent.Value.SetLevel(expComponent.Level);
-                        expBarComponent.Value.SetExperienceBarFilling(expComponent.Progress);
-                    }
                 }
             }
         }

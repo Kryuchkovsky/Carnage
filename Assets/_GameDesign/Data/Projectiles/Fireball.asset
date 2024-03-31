@@ -16,5 +16,6 @@ MonoBehaviour:
   <Id>k__BackingField: 2
   <Provider>k__BackingField: {fileID: 321956882559183147, guid: 9608301fe55d72a4ab1845f2851fc7e2,
     type: 3}
-  <Speed>k__BackingField: 20
-  <FlightRangeToHeightRatio>k__BackingField: 0
+  <Parameters>k__BackingField:
+    Speed: 30
+    FlightRangeToHeightRatio: 0

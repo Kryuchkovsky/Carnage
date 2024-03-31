@@ -45,7 +45,6 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                     {
                         Level = newLevel
                     };
-                    request.Entity.SetComponent(expComponent);
                 }
                 
                 _levelChangeEvent.NextFrame(new LevelChangeEvent
@@ -67,13 +66,10 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                 expComponent.NextLevelCost = nextLevelCost;
                 expComponent.LevelUpCost = levelUpCost;
                 expComponent.Progress = (currentExperienceAmount - levelCost) / levelUpCost;
-                
-                ref var expBarComponent = ref request.Entity.GetComponent<ExperienceBarComponent>(out var hasExperienceBarComponent);
-                
-                if (hasExperienceBarComponent)
+
+                if (!hasExpComponent)
                 {
-                    expBarComponent.Value.SetLevel(expComponent.Level);
-                    expBarComponent.Value.SetExperienceBarFilling(expComponent.Progress);
+                    request.Entity.SetComponent(expComponent);
                 }
             }
         }

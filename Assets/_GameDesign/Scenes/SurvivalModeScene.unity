@@ -2145,6 +2145,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExperienceBar
       objectReference: {fileID: 0}
+    - target: {fileID: 5198927566958324144, guid: 67d3bb05358009147a891c52220a5b8f,
+        type: 3}
+      propertyPath: m_text
+      value: 0/0 exp.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

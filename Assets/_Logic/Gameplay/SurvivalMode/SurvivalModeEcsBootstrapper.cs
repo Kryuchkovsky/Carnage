@@ -65,8 +65,9 @@ namespace _Logic.Gameplay.SurvivalMode
 
             _systemsGroup.AddSystem(new ExperienceDropFromDeadSystem(), resolver);
             _systemsGroup.AddSystem(new ExperienceAmountChangeRequestProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new ExperienceBarProvidingSystem(), resolver);
             _systemsGroup.AddSystem(new LevelChangeRequestProcessingSystem(), resolver);
+            _systemsGroup.AddSystem(new ExperienceBarProvidingSystem(), resolver);
+            _systemsGroup.AddSystem(new ExperienceBarUpdateSystem(), resolver);
             _systemsGroup.AddSystem(new LeveledUpUnitEnhancementSystem(), resolver);
 
             _systemsGroup.AddSystem(new HealthBarProvidingSystem(), resolver);
