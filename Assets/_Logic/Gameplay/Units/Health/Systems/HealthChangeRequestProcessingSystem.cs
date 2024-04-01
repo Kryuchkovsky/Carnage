@@ -106,6 +106,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
                     
                 if (healthComponent.CurrentHealth <= 0)
                 {
+                    _vfxService.CreateEffect(unitDataComponent.Value.DeathVFXType, unitComponent.Value.transform.position);
                     _unitDeathEvent.NextFrame(new UnitDeathEvent
                     {
                         CorpseEntity = request.TargetEntity,

@@ -25,6 +25,7 @@ MonoBehaviour:
   _healthRegenerationRate: 0
   _maxHeath: 50
   <DamageVFXType>k__BackingField: 0
+  <DeathVFXType>k__BackingField: 0
   _hasMovement: 1
   _movementSpeed: 10
   _rotationSpeed: 0

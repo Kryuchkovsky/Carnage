@@ -79,5 +79,24 @@ namespace _GameLogic.Extensions
         }
 
         public static Vector3 GetRandomDirectionXZ() => new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f)).normalized;
+        
+        public static Texture2D GetTextureFromCamera(Camera camera, int width = 512, int height = 512)
+        {
+            var renderTexture = new RenderTexture(width, height, 24);
+            camera.targetTexture = renderTexture;
+            camera.Render();
+
+            RenderTexture.active = renderTexture;
+
+            var rect = new Rect(0, 0, width, height);
+            var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            texture.ReadPixels(rect, 0, 0);
+            texture.Apply();
+ 
+            camera.targetTexture = null;
+            RenderTexture.active = null;
+            
+            return texture;
+        }
     }
 }

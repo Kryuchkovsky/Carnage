@@ -46,6 +46,9 @@ namespace _Logic.Gameplay.Units
         
         [field: SerializeField, ConditionalField(nameof(_hasHealth), true)] 
         public VFXType DamageVFXType { get; private set; }
+        
+        [field: SerializeField, ConditionalField(nameof(_hasHealth), true)] 
+        public VFXType DeathVFXType { get; private set; }
 
         #endregion
 
