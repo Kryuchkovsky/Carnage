@@ -293,6 +293,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _duration: 1
-  _velocity: 50
+  _velocity: 100
   <Format>k__BackingField: '{0:0}'
   <Id>k__BackingField: 0

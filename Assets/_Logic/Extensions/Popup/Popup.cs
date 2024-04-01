@@ -31,6 +31,7 @@ namespace _Logic.Extensions.Popup
         private Transform _target;
         private Vector3 _worldPosition;
         private Vector3 _endPosition;
+        private Vector3 _sideOffset;
         private float _time;
 
         [field: SerializeField, HideInInspector]
@@ -38,7 +39,7 @@ namespace _Logic.Extensions.Popup
 
         [field: SerializeField, HideInInspector]
         public int Id { get; set; }
-
+        
         public bool IsCompleted { get; private set; }
 
         public void Initialize(Vector3 position, Camera camera = null)
@@ -52,6 +53,7 @@ namespace _Logic.Extensions.Popup
             }
             
             _endPosition = Vector3.up * _duration * _velocity;
+            _sideOffset = Vector3.right * Random.Range(-1f, 1f) * _duration * _velocity;
             IsCompleted = false;
         }
 
@@ -90,7 +92,7 @@ namespace _Logic.Extensions.Popup
             }
 
             var progress = _time / _duration;
-            var position = _endPosition * _movementCurve.Evaluate(progress);
+            var position = _endPosition * _movementCurve.Evaluate(progress) + _sideOffset * progress;
 
             if (_camera)
             {
