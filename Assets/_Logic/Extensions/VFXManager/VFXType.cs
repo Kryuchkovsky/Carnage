@@ -1,6 +1,8 @@
 public enum VFXType
 {
     None = 0,
-    BloodExplosion = 1,
-    BloodPool = 2,
+    GreenBloodExplosion = 1,
+    GreenBloodPool = 2,
+    RedBloodExplosion = 3,
+    RedBloodPool = 4,
 }

@@ -7,7 +7,7 @@ namespace _Logic.Map
 {
     public class LevelMapRenderer : MonoBehaviour
     {
-        [SerializeField] private Terrain _levelMeshRenderer;
+        [SerializeField] private MeshRenderer _levelMeshRenderer;
         [SerializeField] private Camera _mapCamera;
         [SerializeField] private Camera _markersCamera;
 
@@ -16,10 +16,10 @@ namespace _Logic.Map
             _mapCamera.enabled = false;
         }
 
-        [ContextMenu("BakeLevelMap")]
-        public void BakeLevelMap()
+        [ContextMenu("SetUpCameras")]
+        public void SetUpCameras()
         {
-            var levelBounds = _levelMeshRenderer.terrainData.bounds;
+            var levelBounds = _levelMeshRenderer.bounds;
             var levelPosition = _levelMeshRenderer.transform.position + levelBounds.center;
             var angle = Mathf.Deg2Rad * (_mapCamera.fieldOfView / 2);
             var ctg = 1 / Mathf.Tan(angle);
@@ -36,7 +36,12 @@ namespace _Logic.Map
             
             _mapCamera.transform.rotation = rotation;
             _markersCamera.transform.rotation = rotation;
+        }
 
+        [ContextMenu("BakeLevelMap")]
+        public void BakeLevelMap()
+        {
+            SetUpCameras();
             _mapCamera.enabled = true;
             var mapTexture = ExtraMethods.GetTextureFromCamera(_mapCamera);
             var bytes = mapTexture.EncodeToPNG();

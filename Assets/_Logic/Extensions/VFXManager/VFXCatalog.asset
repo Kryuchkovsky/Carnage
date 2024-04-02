@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: VFXCatalog
   m_EditorClassIdentifier: 
   _dataList:
+  - {fileID: 11400000, guid: c48854b8c5a46224491cff1290fc912a, type: 2}
+  - {fileID: 11400000, guid: b17b241b10eb615449761bc420f00da0, type: 2}
   - {fileID: 11400000, guid: f2dee1ea2a16c4a4db976f3058d805e5, type: 2}
   - {fileID: 11400000, guid: 8c3a1a7f9ae457b44807565aacf04aa1, type: 2}
