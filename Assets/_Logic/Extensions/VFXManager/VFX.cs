@@ -10,10 +10,32 @@ namespace _Logic.Extensions.VFXManager
     {
         public event Action<VFX> Played;
 
+        private bool _isPlayed;
+        
         [field: SerializeField] public ParticleSystem ParticleSystem { get; private set; }
         
+        public void Initialize(float duration)
+        {
+            _isPlayed = false;
+            ParticleSystem.Play();
+        }
+        
+        private void OnDisable()
+        {
+            OnPlayed();
+        }
+
         private void OnParticleSystemStopped()
         {
+            OnPlayed();
+        }
+
+        private void OnPlayed()
+        {
+            if (_isPlayed) return;
+            
+            _isPlayed = true;
+            ParticleSystem.Stop();
             Played?.Invoke(this);
         }
     }

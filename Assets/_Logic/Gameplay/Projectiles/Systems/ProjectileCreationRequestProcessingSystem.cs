@@ -34,7 +34,7 @@ namespace _Logic.Gameplay.Projectiles.Systems
         {
             foreach (var request in _projectileCreationRequest.Consume())
             {
-                if (request.OwnerEntity.IsNullOrDisposed() || request.Type == ProjectileType.None || 
+                if (request.Type == ProjectileType.None || 
                     (request.TargetEntity.IsNullOrDisposed() && request.TargetPosition == Vector3.zero)) continue;
 
                 var type = request.Type;
@@ -53,10 +53,23 @@ namespace _Logic.Gameplay.Projectiles.Systems
                 {
                     Value = type
                 });
-                projectile.Entity.SetComponent(new OwnerComponent
+
+                if (!request.OwnerEntity.IsNullOrDisposed())
                 {
-                    Entity = request.OwnerEntity
-                });
+                    projectile.Entity.SetComponent(new OwnerComponent
+                    {
+                        Entity = request.OwnerEntity
+                    });
+                }
+
+                if (request.IsOriginal && !projectile.Entity.Has<OriginComponent>())
+                {
+                    projectile.Entity.AddComponent<OriginComponent>();
+                }
+                else if (!request.IsOriginal && projectile.Entity.Has<OriginComponent>())
+                {
+                    projectile.Entity.RemoveComponent<OriginComponent>();
+                }
                 
                 if (request.TargetEntity.IsNullOrDisposed())
                 {

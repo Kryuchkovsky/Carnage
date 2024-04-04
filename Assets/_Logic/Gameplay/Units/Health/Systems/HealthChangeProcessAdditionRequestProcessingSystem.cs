@@ -5,6 +5,7 @@ using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Health.Requests;
 using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
+using Scellecs.Morpeh.Collections;
 using Unity.IL2CPP.CompilerServices;
 
 namespace _Logic.Gameplay.Units.Health.Systems
@@ -37,10 +38,8 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 }
                 else
                 {
-                    var processes = new List<HealthChangeProcess>
-                    {
-                        request.Process
-                    };
+                    var processes = new FastList<HealthChangeProcess>();
+                    processes.Add(request.Process);
                     
                     request.TargetEntity.SetComponent(new PeriodicHealthChangesComponent
                     {

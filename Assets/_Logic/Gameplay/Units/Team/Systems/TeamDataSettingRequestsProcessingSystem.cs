@@ -37,7 +37,7 @@ namespace _Logic.Gameplay.Units.Team.Systems
                     }
                 }
 
-                var teamDataComponent = new TeamDataComponent
+                var teamDataComponent = new TeamComponent
                 {
                     Color = request.TeamId == 0 ? Color.blue : Color.red,
                     AlliesLayer = alliesLayer,

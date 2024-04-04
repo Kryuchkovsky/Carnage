@@ -116,14 +116,14 @@ namespace _Logic.Gameplay.Units
             {
                 _navMeshAgent.agentTypeID = model.NavMeshAgentTypeId;
                 _navMeshAgent.height = model.Bounds.size.y;
-                _navMeshAgent.radius = model.Bounds.extents.x;
+                _navMeshAgent.radius = model.Bounds.extents.z;
             }
 
             if (_navMeshObstacle)
             {
                 _navMeshObstacle.shape = model.NavMeshObstacleShape;
                 _navMeshObstacle.height = model.Bounds.size.y;
-                _navMeshObstacle.radius = model.Bounds.extents.x;
+                _navMeshObstacle.radius = model.Bounds.extents.z;
                 _navMeshObstacle.size = model.Bounds.size;
                 _navMeshObstacle.center = model.Bounds.center - transform.position;
             }
@@ -164,8 +164,6 @@ namespace _Logic.Gameplay.Units
             {
                 _navMeshObstacle.enabled = false;
             }
-            
-            //Destroy(gameObject, delay);
         }
 
 #if UNITY_EDITOR

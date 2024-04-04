@@ -1,6 +1,5 @@
 ﻿using _Logic.Core;
 using _Logic.Core.Components;
-using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
@@ -22,9 +21,9 @@ namespace _Logic.Gameplay.Units.AI.Systems
         protected override void Configure()
         {
             CreateQuery()
-                .With<UnitComponent>().With<StatsComponent>().With<AttackComponent>().With<TeamDataComponent>().With<TransformComponent>().With<AliveComponent>()
+                .With<UnitComponent>().With<StatsComponent>().With<AttackComponent>().With<TeamComponent>().With<TransformComponent>().With<AliveComponent>()
                 .Without<AttackTargetComponent>()
-                .ForEach((Entity entity, ref StatsComponent statsComponent, ref AttackComponent attackComponent, ref TeamDataComponent teamDataComponent, ref TransformComponent transformComponent) =>
+                .ForEach((Entity entity, ref StatsComponent statsComponent, ref AttackComponent attackComponent, ref TeamComponent teamDataComponent, ref TransformComponent transformComponent) =>
                 {
                     var position = transformComponent.Value.position;
                     var range = statsComponent.Value.GetCurrentValue(StatType.AttackRange);
@@ -37,7 +36,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     {
                         if (_colliders[i].TryGetComponent(out LinkedCollider collider) &&
                             !collider.Entity.IsNullOrDisposed() &&
-                            collider.Entity.GetComponent<TeamDataComponent>().Id != teamDataComponent.Id)
+                            collider.Entity.GetComponent<TeamComponent>().Id != teamDataComponent.Id)
                         {
                             if (EcsExtensions.TryGetDistanceBetweenClosestPointsOfEntitiesColliders(entity, collider.Entity, out var distance) && 
                                 distance < searchRange && distance < minDistance)

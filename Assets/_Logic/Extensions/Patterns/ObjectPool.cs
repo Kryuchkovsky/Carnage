@@ -68,7 +68,12 @@ namespace _Logic.Extensions.Patterns
         {
             _objects.Push(obj);
             obj.gameObject.SetActive(!disabling);
-            obj.transform.SetParent(_storage);
+
+            if (obj.transform.parent.gameObject.activeInHierarchy)
+            {
+                obj.transform.SetParent(_storage);
+            }
+
             obj.transform.localPosition = Vector3.zero;
             _returnAction?.Invoke(obj);
         }

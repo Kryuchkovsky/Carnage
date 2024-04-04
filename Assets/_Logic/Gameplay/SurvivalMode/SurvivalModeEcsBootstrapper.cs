@@ -2,12 +2,12 @@
 using _Logic.Core;
 using _Logic.Core.Systems;
 using _Logic.Gameplay.Camera.Systems;
+using _Logic.Gameplay.Effects.Systems;
 using _Logic.Gameplay.Items.Systems;
 using _Logic.Gameplay.Projectiles.Systems;
 using _Logic.Gameplay.SurvivalMode.Systems;
 using _Logic.Gameplay.Units.AI.Systems;
 using _Logic.Gameplay.Units.Attack.Systems;
-using _Logic.Gameplay.Units.Effects.Systems;
 using _Logic.Gameplay.Units.Experience.Systems;
 using _Logic.Gameplay.Units.Health.Systems;
 using _Logic.Gameplay.Units.Movement.Systems;
@@ -36,7 +36,8 @@ namespace _Logic.Gameplay.SurvivalMode
             
             _systemsGroup.AddSystem(new SpawnAbilityHandlingSystem(), resolver);
             
-            _systemsGroup.AddSystem(new AreaImpactCreationRequestsProcessingSystem(), resolver);
+            _systemsGroup.AddSystem(new ImpactCreationRequestsProcessingSystem(), resolver);
+            _systemsGroup.AddSystem(new ImpactHandlingSystem(), resolver);
             _systemsGroup.AddSystem(new EffectAttachmentRequestsProcessingSystem(), resolver);
             
             _systemsGroup.AddSystem(new TeamDataSettingRequestsProcessingSystem(), resolver);
@@ -53,12 +54,15 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new UnitSightHandlingSystem(), resolver);
 
             _systemsGroup.AddSystem(new AttackCooldownTimeProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackLaunchSystem(), resolver);
+            _systemsGroup.AddSystem(new AttackAnimationLaunchSystem(), resolver);
+            _systemsGroup.AddSystem(new AttackAnimationCompletionSystem(), resolver);
+            _systemsGroup.AddSystem(new AttackRequestProcessingSystem(), resolver);
+            _systemsGroup.AddSystem(new AttackDamageCausingSystem(), resolver);
+            
             _systemsGroup.AddSystem(new AttackFragmentationSystem(), resolver);
             _systemsGroup.AddSystem(new AttackReboundingSystem(), resolver);
             _systemsGroup.AddSystem(new AttackSplittingSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackAnimationCompletionReactionSystem(), resolver);
-            
+
             _systemsGroup.AddSystem(new ProjectileCreationRequestProcessingSystem(), resolver);
             _systemsGroup.AddSystem(new ProjectileDestinationUpdateSystem(), resolver);
             _systemsGroup.AddSystem(new ProjectileFlightProcessingSystem(), resolver);
@@ -73,6 +77,7 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new HealthBarProvidingSystem(), resolver);
             _systemsGroup.AddSystem(new HealthRegenerationSystem(), resolver);
             _systemsGroup.AddSystem(new PeriodicHealthChangesHandlingSystem(), resolver);
+            _systemsGroup.AddSystem(new PeriodicHealthChangesResetSystem(), resolver);
             _systemsGroup.AddSystem(new HealthChangeRequestProcessingSystem(), resolver);
             _systemsGroup.AddSystem(new HealthChangeProcessAdditionRequestProcessingSystem(), resolver);
 

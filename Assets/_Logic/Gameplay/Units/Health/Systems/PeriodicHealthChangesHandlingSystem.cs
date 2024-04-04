@@ -2,6 +2,7 @@
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Health.Requests;
 using Scellecs.Morpeh;
+using Scellecs.Morpeh.Collections;
 using Unity.IL2CPP.CompilerServices;
 
 namespace _Logic.Gameplay.Units.Health.Systems
@@ -26,36 +27,37 @@ namespace _Logic.Gameplay.Units.Health.Systems
         {
             foreach (var entity in _healthFilter.Build())
             {
-                ref var healthComponent = ref entity.GetComponent<HealthComponent>();
                 ref var periodicHealthChangesComponent = ref entity.GetComponent<PeriodicHealthChangesComponent>();
-
-                for (int i = 0; i < periodicHealthChangesComponent.Value.Count;)
+                
+                for (int i = 0; i < periodicHealthChangesComponent.Value.length;)
                 {
-                    var change = periodicHealthChangesComponent.Value[i];
-
+                    ref var change = ref periodicHealthChangesComponent.Value.data[i];
                     change.LastChangeTime += deltaTime;
-
+                    
                     if (change.LastChangeTime >= change.Interval)
                     {
                         change.LastChangeTime -= change.Interval;
-                        
+                        var time = change.Interval == 0 ? 1 : change.Duration / change.Interval;
+
+                        var changeData = new HealthChangeData
+                        {
+                            Type = change.Data.Type,
+                            Value = change.Data.Value / time
+                        };
                         _healthChangeRequest.Publish(new HealthChangeRequest
                         {
                             TargetEntity = entity,
-                            Data = new HealthChangeData
-                            {
-                                Type = change.Data.Type,
-                                Value = change.Data.Value / (change.Duration / change.Interval)
-                            }
+                            Data = changeData,
+                            CreatePopup = true
                         });
                     }
 
                     if (!change.IsPersist)
                     {
-                        change.ExistingTime += _interval;
+                        change.ExistingTime += deltaTime;
                     }
 
-                    if (change.ExistingTime >= change.Duration)
+                    if ((!change.IsPersist && change.ExistingTime >= change.Duration) || change.Interval == 0)
                     {
                         periodicHealthChangesComponent.Value.RemoveAt(i);
                     }

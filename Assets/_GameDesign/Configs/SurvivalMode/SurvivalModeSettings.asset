@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SurvivalModeSettings
   m_EditorClassIdentifier: 
   <Allies>k__BackingField: 06000000
-  <Enemies>k__BackingField: 0a0000000800000009000000
+  <Enemies>k__BackingField: 0a000000
   <PlayerEnhancmentEffectType>k__BackingField: 1
   <MaxEnemiesNumber>k__BackingField: 10
   <EnemySpawnInterval>k__BackingField: 0.25

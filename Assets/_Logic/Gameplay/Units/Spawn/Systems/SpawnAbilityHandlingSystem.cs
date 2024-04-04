@@ -23,12 +23,12 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 .ForEach((Entity entity, ref SpawnAbilityComponent spawnAbilityComponent, ref OwnerComponent ownerComponent, ref TimerComponent timerComponent) =>
                 {
                     if (timerComponent.Value > 0 || ownerComponent.Entity.IsNullOrDisposed() ||
-                        !ownerComponent.Entity.Has<TeamDataComponent>() || !ownerComponent.Entity.Has<TransformComponent>()) return;
+                        !ownerComponent.Entity.Has<TeamComponent>() || !ownerComponent.Entity.Has<TransformComponent>()) return;
 
                     var allUnitTypes = spawnAbilityComponent.UnitTypes;
                     var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];
 
-                    ref var ownerTeamDataComponent = ref ownerComponent.Entity.GetComponent<TeamDataComponent>();
+                    ref var ownerTeamDataComponent = ref ownerComponent.Entity.GetComponent<TeamComponent>();
                     ref var ownerTransformComponent = ref ownerComponent.Entity.GetComponent<TransformComponent>();
                     
                     _unitSpawnRequest.Publish(new UnitSpawnRequest

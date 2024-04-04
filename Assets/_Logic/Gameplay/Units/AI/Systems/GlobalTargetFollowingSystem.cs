@@ -23,7 +23,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         public override void OnAwake()
         {
             _dictionary = new Dictionary<int, PriorityTargetData>();
-            _prioritizedTargetsFilter = World.Filter.With<UnitComponent>().With<HealthComponent>().With<AliveComponent>().With<PriorityComponent>().With<TeamDataComponent>();
+            _prioritizedTargetsFilter = World.Filter.With<UnitComponent>().With<HealthComponent>().With<AliveComponent>().With<PriorityComponent>().With<TeamComponent>();
             _unitsFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().With<AttackComponent>().With<MovementComponent>().With<AIComponent>()
                 .Without<AttackTargetComponent>().Without<DestinationComponent>();
         }
@@ -39,7 +39,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                     UpdatePositionsOfPrioritizedTargets();
                 }
                 
-                var teamId = entity.GetComponent<TeamDataComponent>().Id;
+                var teamId = entity.GetComponent<TeamComponent>().Id;
                 var pair = _dictionary.Where(p => p.Key != teamId)
                     .Select(p => (KeyValuePair<int, PriorityTargetData>?) p)
                     .FirstOrDefault();
@@ -61,7 +61,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         {
             foreach (var entity in _prioritizedTargetsFilter.Build())
             {
-                var teamId = entity.GetComponent<TeamDataComponent>().Id;
+                var teamId = entity.GetComponent<TeamComponent>().Id;
                 var transform = entity.GetComponent<TransformComponent>().Value;
                 var priority = entity.GetComponent<PriorityComponent>().Value;
 

@@ -25,12 +25,10 @@ namespace _Logic.Extensions.VFXManager
                     takeAction: e =>
                     {
                         e.Played += OnPlayed;
-                        e.ParticleSystem.Play();
                     },
                     returnAction: e =>
                     {
                         e.Played -= OnPlayed;
-                        e.ParticleSystem.Stop();
                     });
                 
                 _vfxPools.Add(effectType, pool);
@@ -39,14 +37,20 @@ namespace _Logic.Extensions.VFXManager
             }
         }
 
-        public void CreateEffect(VFXType type, Vector3 position, Quaternion rotation = new())
+        public void CreateEffect(VFXType type, Vector3 position, Quaternion rotation = new(), Transform parent = null)
         {
             if (type == VFXType.None) return;
             
             var effect = _vfxPools[type].Take();
             effect.transform.position = position;
             effect.transform.rotation = rotation;
-            effect.ParticleSystem.Play();
+
+            if (parent)
+            {
+                effect.transform.SetParent(parent);
+            }
+            
+            effect.Initialize(0);
         }
     }
 }

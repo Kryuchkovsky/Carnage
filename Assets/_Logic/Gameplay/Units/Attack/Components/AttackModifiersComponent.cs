@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Scellecs.Morpeh;
+﻿using Scellecs.Morpeh;
+using Scellecs.Morpeh.Collections;
 using Unity.IL2CPP.CompilerServices;
 
 namespace _Logic.Gameplay.Units.Attack.Components
@@ -10,6 +10,6 @@ namespace _Logic.Gameplay.Units.Attack.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct AttackModifiersComponent : IComponent
     {
-        public List<EffectType> EffectTypes;
+        public FastList<EffectType> EffectTypes;
     }
 }

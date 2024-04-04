@@ -488,8 +488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Renderer: {fileID: 1508409053169616092}
   <Collider>k__BackingField: {fileID: 6503584430073781433}
-  <AttackPoint>k__BackingField: {fileID: 6599701842105918109}
-  <HitEffectType>k__BackingField: 0
+  <AttackPoint>k__BackingField: {fileID: 5375671119184071335}
   <NavMeshObstacleShape>k__BackingField: 0
   <NavMeshAgentTypeId>k__BackingField: 0
   _animator: {fileID: 6352918867683848281}

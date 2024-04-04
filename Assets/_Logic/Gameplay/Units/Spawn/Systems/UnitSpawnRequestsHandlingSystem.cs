@@ -126,7 +126,8 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 
                 _statDependentComponentsSetRequest.Publish(new StatDependentComponentsSetRequest
                 {
-                    Entity = unit.Entity
+                    Entity = unit.Entity,
+                    HasReset = true
                 }, true);
 
                 if (request.IsPrioritizedTarget)
@@ -165,15 +166,15 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 }
             }
 
-            foreach (var @event in _unitDeathEvent.publishedChanges)
+            foreach (var ent in _unitDeathEvent.publishedChanges)
             {
-                var entity = @event.CorpseEntity;
+                var entity = ent.CorpseEntity;
                 
-                if (entity.IsNullOrDisposed() || !entity.Has<UnitComponent>() || !entity.Has<UnitDataComponent>() || !entity.Has<TeamDataComponent>()) continue;
+                if (entity.IsNullOrDisposed() || !entity.Has<UnitComponent>() || !entity.Has<UnitDataComponent>() || !entity.Has<TeamComponent>()) continue;
 
                 ref var unitComponent = ref entity.GetComponent<UnitComponent>();
                 ref var unitDataComponent = ref entity.GetComponent<UnitDataComponent>();
-                ref var teamComponent = ref entity.GetComponent<TeamDataComponent>();
+                ref var teamComponent = ref entity.GetComponent<TeamComponent>();
                 unitComponent.Value.gameObject.layer = LayerMask.NameToLayer("Corpse");
                 _objectPools[unitDataComponent.Value.Type].Return(unitComponent.Value, false);
                 

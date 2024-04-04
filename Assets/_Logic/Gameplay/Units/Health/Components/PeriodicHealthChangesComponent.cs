@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Scellecs.Morpeh;
+using Scellecs.Morpeh.Collections;
 using Unity.IL2CPP.CompilerServices;
 
 namespace _Logic.Gameplay.Units.Health.Components
@@ -11,6 +11,6 @@ namespace _Logic.Gameplay.Units.Health.Components
     [Serializable]
     public struct PeriodicHealthChangesComponent : IComponent
     {
-        public List<HealthChangeProcess> Value;
+        public FastList<HealthChangeProcess> Value;
     }
 }

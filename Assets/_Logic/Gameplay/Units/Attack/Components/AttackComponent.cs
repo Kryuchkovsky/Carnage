@@ -16,5 +16,6 @@ namespace _Logic.Gameplay.Units.Attack.Components
         public float AttackTime;
         public float AttackTimePercentage;
         public float RemainingAttackTime;
+        public bool IsOriginal;
     }
 }

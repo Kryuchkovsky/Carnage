@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dataList:
   - {fileID: 11400000, guid: 4669701a41d66c24c87b8fba58731611, type: 2}
+  <ImpactPrefab>k__BackingField: {fileID: 6808710597330275083, guid: 727fab78e777ccf4fad7f4d10e226611,
+    type: 3}

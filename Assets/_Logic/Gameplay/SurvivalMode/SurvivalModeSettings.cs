@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Logic.Extensions.Configs;
-using _Logic.Gameplay.Units.Effects;
+using _Logic.Gameplay.Effects;
 using UnityEngine;
 
 namespace _Logic.Gameplay.SurvivalMode
