@@ -23,4 +23,4 @@ MonoBehaviour:
   <HealthChangeInterval>k__BackingField: 0.25
   <IsPersist>k__BackingField: 0
   <Duration>k__BackingField: 5
-  <VFXType>k__BackingField: 0
+  <VFXType>k__BackingField: 6

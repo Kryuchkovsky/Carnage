@@ -5,6 +5,7 @@ public enum VFXType
     FireBlast = 5,
     GreenBloodExplosion = 1,
     GreenBloodPool = 2,
+    LevelUp = 7,
     RedBloodExplosion = 3,
     RedBloodPool = 4,
 }

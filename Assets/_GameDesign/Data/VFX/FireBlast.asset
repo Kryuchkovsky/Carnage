@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: FireBlast
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 5
-  <Id>k__BackingField: 0
+  <Id>k__BackingField: 1
   <VFX>k__BackingField: {fileID: -7201351285509082667, guid: 52f7522380bb82840806d73334dc7b65,
     type: 3}

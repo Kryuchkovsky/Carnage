@@ -1,4 +1,6 @@
 ﻿using _Logic.Core;
+using _Logic.Core.Components;
+using _Logic.Extensions.VFXManager;
 using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Experience.Events;
 using _Logic.Gameplay.Units.Experience.Requests;
@@ -18,6 +20,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         private Event<LevelChangeEvent> _levelChangeEvent;
         
         [Inject] private ExperienceSettings _experienceSettings;
+        [Inject] private VFXService _vfxService;
         
         public override void OnAwake()
         {
@@ -66,6 +69,13 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                 expComponent.NextLevelCost = nextLevelCost;
                 expComponent.LevelUpCost = levelUpCost;
                 expComponent.Progress = (currentExperienceAmount - levelCost) / levelUpCost;
+
+                ref var transformComponent = ref request.Entity.GetComponent<TransformComponent>(out var hasTransformComponent);
+
+                if (hasTransformComponent)
+                {
+                    _vfxService.CreateEffect(_experienceSettings.LevelUpVFX, transformComponent.Value.position);
+                }
 
                 if (!hasExpComponent)
                 {

@@ -10,25 +10,26 @@ namespace _Logic.Extensions.VFXManager
     {
         public event Action<VFX> Played;
 
+        private Vector3 _defaultRotation;
         private bool _isPlayed;
         
         [field: SerializeField] public ParticleSystem ParticleSystem { get; private set; }
-        
-        public void Initialize(float duration)
+
+        private void Awake()
+        {
+            _defaultRotation = transform.rotation.eulerAngles;
+        }
+
+        public void Initialize(Vector3 position, Quaternion rotation)
         {
             _isPlayed = false;
+            transform.position = position;
+            transform.rotation = Quaternion.LookRotation(Vector3.up, _defaultRotation + rotation.eulerAngles);
             ParticleSystem.Play();
         }
         
-        private void OnDisable()
-        {
-            OnPlayed();
-        }
-
-        private void OnParticleSystemStopped()
-        {
-            OnPlayed();
-        }
+        private void OnDisable() => OnPlayed();
+        private void OnParticleSystemStopped() => OnPlayed();
 
         private void OnPlayed()
         {
