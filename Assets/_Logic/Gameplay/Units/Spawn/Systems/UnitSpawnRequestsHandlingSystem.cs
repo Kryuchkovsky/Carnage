@@ -50,7 +50,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
             {
                 TeamUnitNumbers = new Dictionary<int, int>()
             });
-
+            
             _unitCounterFilter = World.Filter.With<UnitCounterComponent>().Build();
         }
 

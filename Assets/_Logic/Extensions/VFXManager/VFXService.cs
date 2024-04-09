@@ -10,7 +10,6 @@ namespace _Logic.Extensions.VFXManager
         private Dictionary<VFXType, ObjectPool<VFX>> _vfxPools = new();
         private VFXCatalog _vfxCatalog;
         
-        
         public VFXService(VFXCatalog vfxCatalog)
         {
             _vfxCatalog = vfxCatalog;
@@ -38,12 +37,12 @@ namespace _Logic.Extensions.VFXManager
             }
         }
 
-        public void CreateEffect(VFXType type, Vector3 position, Quaternion rotation = new(), Transform parent = null)
+        public void CreateEffect(VFXType type, Vector3 position, Quaternion rotation = new(), Transform parent = null, float duration = -1)
         {
             if (type == VFXType.None) return;
             
             var effect = _vfxPools[type].Take();
-            effect.Initialize(position, rotation);
+            effect.Initialize(position, rotation, duration);
 
             if (parent)
             {

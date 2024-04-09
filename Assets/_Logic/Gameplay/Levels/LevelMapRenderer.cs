@@ -3,13 +3,13 @@ using _GameLogic.Extensions;
 using UnityEditor;
 using UnityEngine;
 
-namespace _Logic.Map
+namespace _Logic.Gameplay.Levels
 {
     public class LevelMapRenderer : MonoBehaviour
     {
         [SerializeField] private MeshRenderer _levelMeshRenderer;
-        [SerializeField] private Camera _mapCamera;
-        [SerializeField] private Camera _markersCamera;
+        [SerializeField] private UnityEngine.Camera _mapCamera;
+        [SerializeField] private UnityEngine.Camera _markersCamera;
 
         private void Awake()
         {

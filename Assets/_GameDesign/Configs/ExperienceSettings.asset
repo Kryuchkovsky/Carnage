@@ -16,3 +16,4 @@ MonoBehaviour:
   _experienceTransitionFactor: 0.13
   _baseLevelCost: 300
   _baseRaisedToPower: 1.5
+  <LevelUpVFX>k__BackingField: 7

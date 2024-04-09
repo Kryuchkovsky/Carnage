@@ -1,6 +1,7 @@
 ﻿using _GameLogic.Extensions;
 using _Logic.Core;
 using _Logic.Core.Components;
+using _Logic.Gameplay.Levels.Components;
 using _Logic.Gameplay.SurvivalMode.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
@@ -22,6 +23,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         
         private FilterBuilder _survivalModeFilter;
         private FilterBuilder _playerFilter;
+        private FilterBuilder _levelFilter;
         private FilterBuilder _unitCounterFilter;
         private Request<UnitSpawnRequest> _unitSpawnRequest;
         
@@ -31,6 +33,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         {
             _survivalModeFilter = World.Filter.With<SurvivalModeComponent>().With<TimerComponent>();
             _playerFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().Without<AIComponent>();
+            _levelFilter = World.Filter.With<LevelComponent>().With<BoundsComponent>();
             _unitCounterFilter = World.Filter.With<UnitCounterComponent>();
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
         }
@@ -41,6 +44,9 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
             {
                 if (entity.GetComponent<TimerComponent>().Value > 0) continue;
 
+                var levelEntity = _levelFilter.Build().FirstOrDefault();
+                var levelBoundsComponent = levelEntity.GetComponent<BoundsComponent>();
+                
                 var playerEntity = _playerFilter.Build().FirstOrDefault();
                 var unitCounterEntity = _unitCounterFilter.Build().FirstOrDefault();
 
@@ -49,6 +55,8 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
 
                 var position = playerEntity.GetComponent<TransformComponent>().Value.position;
                 position += ExtraMethods.GetRandomDirectionXZ() * SpawnDistance;
+                position = levelBoundsComponent.Value.ClosestPoint(position);
+                
                 var allUnitTypes = _settings.Enemies;
                 var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];
 

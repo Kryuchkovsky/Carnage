@@ -70,7 +70,7 @@ namespace _Logic.Gameplay.Effects.Systems
 
                 if (hasTransformComponent)
                 {
-                    _vfxService.CreateEffect(data.VFXType, transformComponent.Value.position, Quaternion.identity, transformComponent.Value);
+                    _vfxService.CreateEffect(data.VFXType, transformComponent.Value.position, Quaternion.identity, transformComponent.Value, data.Duration);
                 }
             }
         }
