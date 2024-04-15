@@ -1,9 +1,5 @@
-﻿using System;
-using _Logic.Core;
-using _Logic.Core.Components;
-using _Logic.Extensions.Configs;
+﻿using _Logic.Core;
 using _Logic.Gameplay.Effects.Components;
-using _Logic.Gameplay.Units.AI;
 using Scellecs.Morpeh;
 using UnityEngine;
 

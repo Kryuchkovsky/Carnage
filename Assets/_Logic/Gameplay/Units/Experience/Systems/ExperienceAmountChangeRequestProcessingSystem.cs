@@ -22,7 +22,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         [Inject] private PopupsService _popupsService;
 
         private readonly string _popupFormat = "+ {0:0} exp.";
-        private Color _popupColor = new(0.63f, 0.42f, 0.18f);
+        private readonly Color _popupColor = new(0.63f, 0.42f, 0.18f);
         private int _popupIndex;
         
         public override void OnAwake()

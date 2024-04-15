@@ -1,5 +1,4 @@
 ﻿using _Logic.Core;
-using _Logic.Core.Components;
 using _Logic.Gameplay.SurvivalMode.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -15,7 +14,6 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         {
             var entity = World.CreateEntity();
             entity.AddComponent<SurvivalModeComponent>();
-            entity.AddComponent<TimerComponent>();
         }
     }
 }

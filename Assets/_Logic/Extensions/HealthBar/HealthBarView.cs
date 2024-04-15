@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,9 +24,10 @@ namespace _Logic.Extensions.HealthBar
 		private float _hidingDelay;
 		private float _timeBeforeHiding;
 		private float _additionalOffset;
-		private bool _isInitiated;
 		private bool _hasTemporaryShowing;
 		private Transform _target;
+		
+		public bool IsInitiated { get; private set; }
 
 		private void OnDestroy()
 		{
@@ -55,7 +57,7 @@ namespace _Logic.Extensions.HealthBar
 				.SetAutoKill(false)
 				.SetRecyclable(true)
 				.Pause();
-			_isInitiated = true;
+			IsInitiated = true;
 			SetFillValue(1, true);
 
 			return this;
@@ -63,8 +65,14 @@ namespace _Logic.Extensions.HealthBar
 
 		public void Update()
 		{
-			if (!_isInitiated) return;
+			if (!IsInitiated) return;
 
+			if (_target == null)
+			{
+				Reset();
+				return;
+			}
+            
 			if (_hasTemporaryShowing)
 			{
 				if (_timeBeforeHiding > 0)
@@ -141,7 +149,7 @@ namespace _Logic.Extensions.HealthBar
 			_fillValueChangeTweener.Kill();
 			_openingSequence.Kill();
 			_closingSequence.Kill();
-			_isInitiated = false;
+			IsInitiated = false;
 
 			return this;
 		}

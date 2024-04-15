@@ -31,9 +31,10 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new TimerProcessingSystem(), resolver);
 
             _systemsGroup.AddInitializer(new SurvivalModeInitializationSystem(), resolver);
+            _systemsGroup.AddInitializer(new HeroSelectionStageHandlingSystem(), resolver);
             _systemsGroup.AddSystem(new EnemiesSpawnRequestSendingSystem(), resolver);
             _systemsGroup.AddSystem(new SurvivalModeEnhancementSystem(), resolver);
-            
+
             _systemsGroup.AddSystem(new SpawnAbilityHandlingSystem(), resolver);
             
             _systemsGroup.AddSystem(new ImpactCreationRequestsProcessingSystem(), resolver);
@@ -90,7 +91,6 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddSystem(new DestinationChangeRequestsProcessingSystem(), resolver);
             
             _systemsGroup.AddSystem(new UnitBuilderHandlingSystem(), resolver);
-            _systemsGroup.AddSystem(new HeroPresenceControllingSystem(), resolver);
             _systemsGroup.AddSystem(new UnitSpawnRequestsHandlingSystem(), resolver);
 
             _systemsGroup.AddSystem(new GameCameraTargetGroupHandlingSystem(), resolver);

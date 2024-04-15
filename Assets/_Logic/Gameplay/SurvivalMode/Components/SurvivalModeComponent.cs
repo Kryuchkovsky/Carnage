@@ -9,5 +9,6 @@ namespace _Logic.Gameplay.SurvivalMode.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct SurvivalModeComponent : IComponent
     {
+        public int HeroId;
     }
 }

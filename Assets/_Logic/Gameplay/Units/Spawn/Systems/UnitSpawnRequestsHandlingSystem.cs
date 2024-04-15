@@ -67,6 +67,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 var unit = _objectPools[request.UnitType].Take();
                 unit.transform.parent = _unitContainer;
                 unit.transform.position = request.Position;
+                unit.transform.rotation = Quaternion.LookRotation(request.LookDirection);
 
                 var entity = unit.Entity;
                 var data = _unitCatalog.GetData((int)request.UnitType);

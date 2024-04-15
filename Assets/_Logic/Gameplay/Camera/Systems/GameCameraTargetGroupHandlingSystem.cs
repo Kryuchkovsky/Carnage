@@ -23,11 +23,11 @@ namespace _Logic.Gameplay.Camera.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var @event in _unitSpawnEvent.publishedChanges) 
+            foreach (var evt in _unitSpawnEvent.publishedChanges) 
             {
-                if (@event.Entity.Has<AIComponent>() || !@event.Entity.Has<TransformComponent>()) continue;
+                if (evt.Entity.Has<AIComponent>() || !evt.Entity.Has<TransformComponent>()) continue;
 
-                var transformComponent = @event.Entity.GetComponent<TransformComponent>();
+                var transformComponent = evt.Entity.GetComponent<TransformComponent>();
                 
                 foreach (var entity in _gameCameraFilter.Build())
                 {

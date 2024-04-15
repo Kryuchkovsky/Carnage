@@ -10,7 +10,7 @@ namespace _Logic.Extensions.HealthBar
         [SerializeField] private Canvas _canvas;
         
         private ObjectPool<HealthBarView> _healthBarsPool;
-        private HashSet<HealthBarView> _healthBarViews;
+        private List<HealthBarView> _healthBarViews;
         private HealthBarSettings _settings;
 
         public void Initialize(HealthBarSettings settings)
@@ -24,14 +24,23 @@ namespace _Logic.Extensions.HealthBar
                     v.Reset();
                     _healthBarViews.Remove(v);
                 });
-            _healthBarViews = new HashSet<HealthBarView>(1024);
+            _healthBarViews = new List<HealthBarView>(1024);
         }
 
         private void LateUpdate()
         {
-            foreach (var view in _healthBarViews)
+            for (int i = 0; i < _healthBarViews.Count;)
             {
-                view.Update();
+                _healthBarViews[i].Update();
+                
+                if (_healthBarViews[i].IsInitiated)
+                {
+                    i++;
+                }
+                else
+                {
+                    RemoveHealthBar(_healthBarViews[i]);
+                }
             }
         }
 

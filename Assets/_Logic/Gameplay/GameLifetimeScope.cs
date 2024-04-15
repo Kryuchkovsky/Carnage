@@ -25,6 +25,8 @@ namespace _Logic.Gameplay
         [SerializeField] private HealthBarsService _healthBarsService;
         [SerializeField] private PopupsService _popupsService;
         [SerializeField] private RewardSelector _rewardSelector;
+        [SerializeField] private MenuUIContainer _menuUIContainer;
+        [SerializeField] private GameplayUIContainer _gameplayUIContainer;
         
         protected override void Configure(IContainerBuilder builder)
         {
@@ -51,6 +53,9 @@ namespace _Logic.Gameplay
             _healthBarsService.Initialize(healthBarSettings);
             builder.RegisterInstance(_healthBarsService);
             builder.RegisterInstance(healthBarSettings);
+
+            builder.RegisterInstance(_menuUIContainer);
+            builder.RegisterInstance(_gameplayUIContainer);
         }
     }
 }

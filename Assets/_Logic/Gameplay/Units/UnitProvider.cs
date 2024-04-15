@@ -150,7 +150,7 @@ namespace _Logic.Gameplay.Units
             Model?.PlayHitAnimation();
         }
 
-        public void OnDie(float delay = 0)
+        public void OnDie()
         {
             gameObject.layer = LayerMask.NameToLayer("Corpse");
             Model?.PlayDeathAnimation();
