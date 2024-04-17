@@ -1,5 +1,4 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,14 +18,15 @@ namespace _Logic.Extensions.HealthBar
 		private Sequence _openingSequence;
 		private Sequence _closingSequence;
 		private Tweener _fillValueChangeTweener;
+		private Transform _target;
+		
 		private float _currentFillValue;
 		private float _targetFillValue;
 		private float _hidingDelay;
 		private float _timeBeforeHiding;
 		private float _additionalOffset;
 		private bool _hasTemporaryShowing;
-		private Transform _target;
-		
+
 		public bool IsInitiated { get; private set; }
 
 		private void OnDestroy()

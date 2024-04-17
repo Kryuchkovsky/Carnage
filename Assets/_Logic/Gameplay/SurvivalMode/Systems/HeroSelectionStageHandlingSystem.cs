@@ -81,7 +81,18 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
             foreach (var modeEntity in _survivalModeFilter.Build())
             {
                 ref var survivalModeComponent = ref modeEntity.GetComponent<SurvivalModeComponent>();
-                survivalModeComponent.HeroId = (survivalModeComponent.HeroId + change) % _settings.Allies.Count;
+                var id = survivalModeComponent.HeroId + change;
+
+                if (id >= _settings.Allies.Count)
+                {
+                    id -= _settings.Allies.Count;
+                }
+                else if (id < 0)
+                {
+                    id = _settings.Allies.Count - 1;
+                }
+                
+                survivalModeComponent.HeroId = id;
 
                 foreach (var unitEntity in _playerUnitFilter.Build())
                 {

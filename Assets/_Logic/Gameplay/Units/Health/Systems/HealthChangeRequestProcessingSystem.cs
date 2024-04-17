@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Logic.Core;
 using _Logic.Extensions.Popup;
 using _Logic.Extensions.VFXManager;
@@ -20,6 +21,8 @@ namespace _Logic.Gameplay.Units.Health.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class HealthChangeRequestProcessingSystem : AbstractUpdateSystem
     {
+        private Dictionary<HealthChangeType, PopupData> _popupDataSet;
+        
         private Request<HealthChangeRequest> _healthChangeRequest;
         private Event<UnitDeathEvent> _unitDeathEvent;
 
@@ -28,6 +31,14 @@ namespace _Logic.Gameplay.Units.Health.Systems
         
         public override void OnAwake()
         {
+            _popupDataSet = new Dictionary<HealthChangeType, PopupData>();
+
+            foreach (var type in (HealthChangeType[])Enum.GetValues(typeof(HealthChangeType)))
+            {
+                var data = GetPopupData(type);
+                _popupDataSet.Add(type, data);
+            }
+            
             _healthChangeRequest = World.GetRequest<HealthChangeRequest>();
             _unitDeathEvent = World.GetEvent<UnitDeathEvent>();
         }
@@ -80,31 +91,11 @@ namespace _Logic.Gameplay.Units.Health.Systems
 
                 if (request.CreatePopup)
                 {
-                    Color popupColor;
-                    string popupText;
-                    
-                    switch (request.Data.Type)
-                    {
-                        case HealthChangeType.PhysicDamage:
-                            popupColor = Color.red;
-                            popupText = $"-{request.Data.Value}";
-                            break;
-                        case HealthChangeType.MagicDamage:
-                            popupColor = Color.blue;
-                            popupText = $"-{request.Data.Value}";
-                            break;
-                        case HealthChangeType.Healing:
-                            popupColor = Color.green;
-                            popupText = $"+{request.Data.Value}";
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    
-                    _popupsService.CreateTextPopup(unitComponent.Value.transform.position, popupText, popupColor); 
+                    var popupData = _popupDataSet[request.Data.Type];
+                    _popupsService.CreateTextPopup(popupData.Id, unitComponent.Value.transform.position, request.Data.Value, popupData.Color); 
                 }
                     
-                if (healthComponent.CurrentHealth <= 0)
+                if (healthComponent.CurrentHealth <= 0.1f)
                 {
                     _vfxService.CreateEffect(unitDataComponent.Value.DeathVFXType, unitComponent.Value.transform.position);
                     _unitDeathEvent.NextFrame(new UnitDeathEvent
@@ -119,6 +110,45 @@ namespace _Logic.Gameplay.Units.Health.Systems
                 {
                     unitComponent.Value.OnDamage();
                 }
+            }
+        }
+
+        private PopupData GetPopupData(HealthChangeType type)
+        {
+            string popupFormat;
+            Color popupColor;
+
+            switch (type)
+            {
+                case HealthChangeType.PhysicDamage:
+                    popupFormat = "-{0:1}";
+                    popupColor = Color.red;
+                    break;
+                case HealthChangeType.MagicDamage:
+                    popupFormat = "-{0:1}";
+                    popupColor = Color.blue;
+                    break;
+                case HealthChangeType.Healing:
+                    popupFormat = "+{0:1}";
+                    popupColor = Color.green;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            var id = _popupsService.RegisterPopupAndGetId(popupFormat);
+            return new PopupData(popupColor, id);
+        }
+        
+        private class PopupData
+        {
+            public readonly Color Color;
+            public readonly int Id;
+
+            public PopupData(Color color, int id)
+            {
+                Color = color;
+                Id = id;
             }
         }
     }

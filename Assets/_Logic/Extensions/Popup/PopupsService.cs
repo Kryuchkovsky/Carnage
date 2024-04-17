@@ -39,7 +39,7 @@ namespace _Logic.Extensions.Popup
             }
         }
 
-        public int RegisterPopupAndGetId(string format = "{0:0}")
+        public int RegisterPopupAndGetId(string format = "{0:1}")
         {
             var prefab = Instantiate(popupPrefab, _canvas.transform);
             prefab.gameObject.SetActive(false);

@@ -20,7 +20,7 @@ MonoBehaviour:
     Type: 1
     Value: 50
   <HealthChangeOperationType>k__BackingField: 0
-  <HealthChangeInterval>k__BackingField: 0.25
+  <HealthChangeInterval>k__BackingField: 0.5
   <IsPersist>k__BackingField: 0
-  <Duration>k__BackingField: 5
+  <Duration>k__BackingField: 3
   <VFXType>k__BackingField: 6

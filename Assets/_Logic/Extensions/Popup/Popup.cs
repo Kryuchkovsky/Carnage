@@ -35,7 +35,7 @@ namespace _Logic.Extensions.Popup
         private float _time;
 
         [field: SerializeField, HideInInspector]
-        public string Format { get; set; } = "{0:0}";
+        public string Format { get; set; } = "{0:1}";
 
         [field: SerializeField, HideInInspector]
         public int Id { get; set; }
