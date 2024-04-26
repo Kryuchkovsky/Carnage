@@ -33,4 +33,5 @@ MonoBehaviour:
   - <StatType>k__BackingField: 4
     <OperationType>k__BackingField: 0
     <Value>k__BackingField: 5
+  <PossibleImpactsWhenLevelUp>k__BackingField: 02000000
   <RewardsNumberWhenLevelUp>k__BackingField: 4

@@ -3,7 +3,6 @@ using _Logic.Gameplay.Effects.Requests;
 using _Logic.Gameplay.Items;
 using _Logic.Gameplay.Items.Components;
 using _Logic.Gameplay.Units.AI.Components;
-using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Spawn;
 using Scellecs.Morpeh;
@@ -40,21 +39,6 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
                     TargetEntity = evt.Entity,
                     EffectType = _survivalModeSettings.PlayerEnhancmentEffectType
                 }, true);
-                
-                // evt.Entity.SetComponent(new SplitAttackComponent
-                // {
-                //     AdditionalTargets = 3
-                // });
-                //
-                // evt.Entity.SetComponent(new ReboundAttackComponent
-                // {
-                //     Rebounds = 1
-                // });
-                // evt.Entity.SetComponent(new FragmentationAttackComponent()
-                // {
-                //     Fragments = 3
-                // });
-                
                 evt.Entity.SetComponent(new CollectorComponent
                 {
                     Radius = _itemConfig.CollectionRange

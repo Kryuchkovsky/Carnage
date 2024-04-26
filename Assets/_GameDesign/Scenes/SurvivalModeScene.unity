@@ -273,7 +273,7 @@ MonoBehaviour:
   _inputService: {fileID: 1323264494}
   _healthBarsService: {fileID: 952406382}
   _popupsService: {fileID: 1830477918}
-  _rewardSelector: {fileID: 6516022502144710881}
+  _selector: {fileID: 6516022502144710881}
   _menuUIContainer: {fileID: 1178833781}
   _gameplayUIContainer: {fileID: 177934563}
 --- !u!1001 &23814108

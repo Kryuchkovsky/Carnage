@@ -22,7 +22,7 @@ namespace _Logic.Core
 
         public abstract World World { get; }
 
-        private bool isRegistered;
+        private bool _isRegistered;
 
         private void OnEnable()
         {
@@ -34,7 +34,7 @@ namespace _Logic.Core
             _systemsGroup = World.CreateSystemsGroup();
             
             RegisterSystems(_lifetimeScope.Container);
-            isRegistered = true;
+            _isRegistered = true;
             
             World.AddSystemsGroup(_order, _systemsGroup);
         }
@@ -48,7 +48,7 @@ namespace _Logic.Core
 
         public EcsBootstrapper AddInitializer<T>() where T : class, IInitializer, new()
         {
-            if (Application.isPlaying && !isRegistered)
+            if (Application.isPlaying && !_isRegistered)
             {
                 RemoveAll();
             }
@@ -61,7 +61,7 @@ namespace _Logic.Core
                 _initializers.Add(instance);
             }
             
-            if (Application.isPlaying && !isRegistered)
+            if (Application.isPlaying && !_isRegistered)
             {
                 AddAll();
             }
@@ -71,7 +71,7 @@ namespace _Logic.Core
 
         public EcsBootstrapper AddSystem<T>() where T : ISystem, new()
         {
-            if (Application.isPlaying && !isRegistered)
+            if (Application.isPlaying && !_isRegistered)
             {
                 RemoveAll();
             }
@@ -100,7 +100,7 @@ namespace _Logic.Core
                 throw new Exception("The system with the same type already has been registered!");
             }
 
-            if (Application.isPlaying && !isRegistered)
+            if (Application.isPlaying && !_isRegistered)
             {
                 AddAll();
             }

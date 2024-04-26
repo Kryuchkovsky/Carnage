@@ -15,6 +15,7 @@ namespace _Logic.Gameplay.SurvivalMode
         [field: SerializeField, Range(0, 10)] public float EnemySpawnInterval { get; private set; } = 5;
         
         [field: SerializeField] public List<EffectAffection> PossibleAffectionsWhenLevelUp { get; private set; }
+        [field: SerializeField] public List<ImpactType> PossibleImpactsWhenLevelUp { get; private set; }
         [field: SerializeField, Range(1, 6)] public int RewardsNumberWhenLevelUp { get; private set; } = 4;
     }
 }

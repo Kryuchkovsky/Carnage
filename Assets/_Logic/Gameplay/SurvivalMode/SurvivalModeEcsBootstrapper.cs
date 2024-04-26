@@ -1,6 +1,7 @@
 ﻿using _GameLogic.Extensions;
 using _Logic.Core;
 using _Logic.Core.Systems;
+using _Logic.Gameplay.Abilities.Systems;
 using _Logic.Gameplay.Camera.Systems;
 using _Logic.Gameplay.Effects.Systems;
 using _Logic.Gameplay.Items.Systems;
@@ -34,6 +35,8 @@ namespace _Logic.Gameplay.SurvivalMode
             _systemsGroup.AddInitializer(new HeroSelectionStageHandlingSystem(), resolver);
             _systemsGroup.AddSystem(new EnemiesSpawnRequestSendingSystem(), resolver);
             _systemsGroup.AddSystem(new SurvivalModeEnhancementSystem(), resolver);
+            
+            _systemsGroup.AddInitializer(new AbilitiesRegistrationSystem(), resolver);
 
             _systemsGroup.AddSystem(new SpawnAbilityHandlingSystem(), resolver);
             

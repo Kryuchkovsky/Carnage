@@ -1,4 +1,5 @@
-﻿using _Logic.Core;
+﻿using System.Collections.Generic;
+using _Logic.Core;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
@@ -40,6 +41,7 @@ namespace _Logic.Gameplay.Units.Stats.Systems
                 {
                     request.Entity.SetComponent(new AttackComponent
                     {
+                        ImpactTypes = new HashSet<ImpactType>(),
                         ProjectileType = data.ProjectileType,
                         AttackHealthChangeType = data.AttackHealthChangeType
                     });

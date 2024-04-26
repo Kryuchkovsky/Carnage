@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using _Logic.Core.Components;
+﻿using _Logic.Core.Components;
 using Cinemachine;
 using Scellecs.Morpeh;
 using UnityEngine;

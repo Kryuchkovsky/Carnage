@@ -1,6 +1,5 @@
 ﻿using _Logic.Core;
 using _Logic.Core.Components;
-using _Logic.Gameplay.Effects;
 using _Logic.Gameplay.Effects.Requests;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Attack.Events;
@@ -8,7 +7,6 @@ using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Health.Requests;
 using _Logic.Gameplay.Units.Stats;
 using _Logic.Gameplay.Units.Stats.Components;
-using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -51,13 +49,13 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 };
                 _healthChangeRequest.Publish(healthChangeRequest);
 
-                if (ent.AttackerEntity.GetComponent<TeamComponent>().Id == 0)
+                foreach (var impactType in attackComponent.ImpactTypes)
                 {
                     World.GetRequest<ImpactCreationRequest>().Publish(new ImpactCreationRequest
                     {
                         Invoker = ent.AttackerEntity,
                         Position = ent.TargetEntity.GetComponent<TransformComponent>().Value.position,
-                        Type = ImpactType.FireBlast
+                        Type = impactType
                     }, true); 
                 }
             }

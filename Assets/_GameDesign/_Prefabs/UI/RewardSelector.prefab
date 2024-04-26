@@ -91,5 +91,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _rewardViewPrefab: {fileID: 8572309441017103599, guid: e59b838fdf4e5e344b0dc9b64d77dc79,
+  _selectionViewPrefab: {fileID: 8572309441017103599, guid: e59b838fdf4e5e344b0dc9b64d77dc79,
     type: 3}

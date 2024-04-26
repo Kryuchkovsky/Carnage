@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Logic.Extensions.Configs;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace _Logic.Gameplay.Effects
         [field: SerializeField, Min(-1)] public float Duration { get; private set; }
         [field: SerializeField] public VFXType VFXType { get; private set; }
         
+        [field: SerializeField] public string Description { get; private set; } = String.Empty;
         
         public float CalculateRadius(float time) => BaseRadius * RadiusCurve.Evaluate(time);
     }

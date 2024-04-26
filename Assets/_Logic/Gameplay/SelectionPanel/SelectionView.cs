@@ -3,20 +3,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Logic.Gameplay.Rewards
+namespace _Logic.Gameplay.SelectionPanel
 {
-    public class RewardView : MonoBehaviour
+    public class SelectionView : MonoBehaviour
     {
-        public event Action<Selection> Selected;
-        private Selection _selection;
+        public event Action<SelectionData> Selected;
+        private SelectionData _selectionData;
 
         [SerializeField] private Button _button;
         [SerializeField] private TextMeshProUGUI _descriptionText;
 
-        public void Initialize(Selection selection)
+        public void Initialize(SelectionData selectionData)
         {
-            _selection = selection;
-            _descriptionText.SetText(_selection.Description);
+            _selectionData = selectionData;
+            _descriptionText.SetText(_selectionData.Description);
         }
 
         private void Awake()
@@ -31,9 +31,9 @@ namespace _Logic.Gameplay.Rewards
 
         private void OnSelected()
         {
-            if (_selection == null) return;
+            if (_selectionData == null) return;
             
-            Selected?.Invoke(_selection);
+            Selected?.Invoke(_selectionData);
         }
     }
 }

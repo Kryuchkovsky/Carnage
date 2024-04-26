@@ -6,7 +6,7 @@ using _Logic.Extensions.VFXManager;
 using _Logic.Gameplay.Effects;
 using _Logic.Gameplay.Items;
 using _Logic.Gameplay.Projectiles;
-using _Logic.Gameplay.Rewards;
+using _Logic.Gameplay.SelectionPanel;
 using _Logic.Gameplay.SurvivalMode;
 using _Logic.Gameplay.Units;
 using _Logic.Gameplay.Units.AI;
@@ -24,7 +24,7 @@ namespace _Logic.Gameplay
         [SerializeField] private InputService _inputService;
         [SerializeField] private HealthBarsService _healthBarsService;
         [SerializeField] private PopupsService _popupsService;
-        [SerializeField] private RewardSelector _rewardSelector;
+        [SerializeField] private Selector _selector;
         [SerializeField] private MenuUIContainer _menuUIContainer;
         [SerializeField] private GameplayUIContainer _gameplayUIContainer;
         
@@ -32,7 +32,7 @@ namespace _Logic.Gameplay
         {
             builder.RegisterInstance(_inputService);
             builder.RegisterInstance(_popupsService);
-            builder.RegisterInstance(_rewardSelector);
+            builder.RegisterInstance(_selector);
             
             builder.RegisterInstance(_configManager);
             builder.RegisterInstance(_configManager.GetConfig<AISettings>());

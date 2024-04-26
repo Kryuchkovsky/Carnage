@@ -3,6 +3,7 @@ using _Logic.Extensions.Attributes;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Stats;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Effects
@@ -12,6 +13,9 @@ namespace _Logic.Gameplay.Effects
     {
         [field: SerializeField, Header("Affections")] 
         public List<EffectAffection> Changes { get; private set; }
+        
+        [field: SerializeField, CanBeNull] 
+        public string Description { get; private set; }
 
         [field: SerializeField, Header("Health")] 
         public bool IsChangingHealth { get; private set; }
@@ -25,7 +29,8 @@ namespace _Logic.Gameplay.Effects
         [field: SerializeField, ConditionalField(nameof(IsChangingHealth), true)] 
         public float HealthChangeInterval { get; private set; }
         
-        [field: SerializeField, Header("Duration")] public bool IsPersist { get; private set; }
+        [field: SerializeField, Header("Duration")] 
+        public bool IsPersist { get; private set; }
         
         [field: SerializeField, ConditionalField(nameof(IsPersist), false)] 
         public float Duration { get; private set; }
