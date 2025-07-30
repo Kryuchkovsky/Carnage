@@ -12,12 +12,12 @@ namespace _Logic.Gameplay.Camera.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class GameCameraTargetGroupHandlingSystem : AbstractUpdateSystem
     {
-        private FilterBuilder _gameCameraFilter;
+        private Filter _gameCameraFilter;
         private Event<UnitSpawnEvent> _unitSpawnEvent;
         
         public override void OnAwake()
         {
-            _gameCameraFilter = World.Filter.With<GameCameraComponent>();
+            _gameCameraFilter = World.Filter.With<GameCameraComponent>().Build();
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
         }
 
@@ -29,7 +29,7 @@ namespace _Logic.Gameplay.Camera.Systems
 
                 var transformComponent = evt.Entity.GetComponent<TransformComponent>();
                 
-                foreach (var entity in _gameCameraFilter.Build())
+                foreach (var entity in _gameCameraFilter)
                 {
                     ref var gameCameraComponent = ref entity.GetComponent<GameCameraComponent>();
                     gameCameraComponent.Value.TargetGroup.AddMember(transformComponent.Value, 1, 1);

@@ -22,7 +22,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     {
         private Event<LevelChangeEvent> _levelChangeEvent;
         private Request<StatChangeRequest> _statChangeRequest;
-        private FilterBuilder _abilitySelectionsFilter;
+        private Filter _abilitySelectionsFilter;
         private readonly int _levelIntervalBetweenAbilitySelection = 3;
 
         [Inject] private Selector _selector;
@@ -32,7 +32,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         {
             _levelChangeEvent = World.GetEvent<LevelChangeEvent>();
             _statChangeRequest = World.GetRequest<StatChangeRequest>();
-            _abilitySelectionsFilter = World.Filter.With<AbilitySelectionsComponent>();
+            _abilitySelectionsFilter = World.Filter.With<AbilitySelectionsComponent>().Build();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -74,7 +74,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                 }
                 else
                 {
-                    var abilitySelectionsEntity = _abilitySelectionsFilter.Build().FirstOrDefault();
+                    var abilitySelectionsEntity = _abilitySelectionsFilter.FirstOrDefault();
                     ref var abilitySelectionsComponent = ref abilitySelectionsEntity.GetComponent<AbilitySelectionsComponent>();
 
                     foreach (var data in abilitySelectionsComponent.Value)

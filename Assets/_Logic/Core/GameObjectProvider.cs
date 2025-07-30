@@ -6,10 +6,17 @@ namespace _Logic.Core
 {
     public abstract class GameObjectProvider<T> : MonoProvider<T> where T : struct, IComponent
     {
+        private Stash<TransformComponent> transformStash;
+        private Stash<ActivityComponent> activityStash;
+
+        protected World World => World.Default;
+        
         protected override void Initialize()
         {
             base.Initialize();
-            Entity.SetComponent(new TransformComponent
+            transformStash = World.GetStash<TransformComponent>();
+            activityStash = World.GetStash<ActivityComponent>();
+            transformStash.Set(Entity, new TransformComponent
             {
                 Value = transform
             });
@@ -19,9 +26,9 @@ namespace _Logic.Core
         {
             base.OnEnable();
 
-            if (!Entity.IsNullOrDisposed())
+            if (!World.IsDisposed(Entity))
             {
-                Entity.SetComponent(new ActivityComponent
+                activityStash.Set(Entity, new ActivityComponent
                 {
                     Value = true
                 });
@@ -32,15 +39,13 @@ namespace _Logic.Core
         {
             base.OnDisable();
             
-            if (!Entity.IsNullOrDisposed())
+            if (!World.IsDisposed(Entity))
             {
-                Entity.SetComponent(new ActivityComponent
+                activityStash.Set(Entity, new ActivityComponent
                 {
                     Value = false
                 });
             }
         }
-
-        protected override bool IsNotEntityProvider => false;
     }
 }

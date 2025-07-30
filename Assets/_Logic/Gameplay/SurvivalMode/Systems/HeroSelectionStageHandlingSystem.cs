@@ -17,9 +17,16 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public class HeroSelectionStageHandlingSystem : AbstractInitializationSystem
     {
-        private FilterBuilder _survivalModeFilter;
-        private FilterBuilder _playerUnitFilter;
-        private FilterBuilder _gameCameraFilter;
+        private Filter _survivalModeFilter;
+        private Filter _playerUnitFilter;
+        private Filter _gameCameraFilter;
+        private Stash<GameCameraComponent> _gameCameraStash;
+        private Stash<UnitComponent> _unitStash;
+        private Stash<TransformComponent> _transformStash;
+        private Stash<TeamComponent> _teamStash;
+        private Stash<PriorityComponent> _priorityStash;
+        private Stash<TimerComponent> _timerStash;
+        private Stash<SurvivalModeComponent> _survivalModeStash;
         private Request<UnitSpawnRequest> _unitSpawnRequest;
 
         [Inject] private MenuUIContainer _menuUIContainer;
@@ -28,19 +35,26 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
 
         public override void OnAwake()
         {
-            _survivalModeFilter = World.Filter.With<SurvivalModeComponent>();
-            _playerUnitFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().With<TeamComponent>().With<PriorityComponent>().Without<AIComponent>();
-            _gameCameraFilter = World.Filter.With<GameCameraComponent>();
+            _survivalModeFilter = World.Filter.With<SurvivalModeComponent>().Build();
+            _playerUnitFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().With<TeamComponent>().With<PriorityComponent>().Without<AIComponent>().Build();
+            _gameCameraFilter = World.Filter.With<GameCameraComponent>().Build();
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
+            _gameCameraStash = World.GetStash<GameCameraComponent>();
+            _unitStash = World.GetStash<UnitComponent>();
+            _transformStash = World.GetStash<TransformComponent>();
+            _teamStash = World.GetStash<TeamComponent>();
+            _priorityStash = World.GetStash<PriorityComponent>();
+            _timerStash = World.GetStash<TimerComponent>();
+            _survivalModeStash = World.GetStash<SurvivalModeComponent>();
             _menuUIContainer.SetActivity(true);
             _gameplayUIContainer.SetActivity(false);
             _menuUIContainer.NextHeroButton.onClick.AddListener(SwitchToNextHero);
             _menuUIContainer.PreviousHeroButton.onClick.AddListener(SwitchToPreviousHero);
             _menuUIContainer.StartButton.onClick.AddListener(StartGame);
 
-            foreach (var entity in _gameCameraFilter.Build())
+            foreach (var entity in _gameCameraFilter)
             {
-                ref var cameraComponent = ref entity.GetComponent<GameCameraComponent>();
+                ref var cameraComponent = ref _gameCameraStash.Get(entity);
                 cameraComponent.Value.SetMenuCamera();
             }
             
@@ -61,14 +75,12 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
 
         private void StartGame()
         {
-            foreach (var entity in _survivalModeFilter.Build())
-            {
-                entity.SetComponent(new TimerComponent());
-            }
+            foreach (var entity in _survivalModeFilter)
+                _timerStash.Set(entity);
             
-            foreach (var entity in _gameCameraFilter.Build())
+            foreach (var entity in _gameCameraFilter)
             {
-                ref var cameraComponent = ref entity.GetComponent<GameCameraComponent>();
+                ref var cameraComponent = ref _gameCameraStash.Get(entity);
                 cameraComponent.Value.SetFightCamera();
             }
             
@@ -78,9 +90,9 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
 
         private void ChangeUnitTypes(int change)
         {
-            foreach (var modeEntity in _survivalModeFilter.Build())
+            foreach (var modeEntity in _survivalModeFilter)
             {
-                ref var survivalModeComponent = ref modeEntity.GetComponent<SurvivalModeComponent>();
+                ref var survivalModeComponent = ref _survivalModeStash.Get(modeEntity);
                 var id = survivalModeComponent.HeroId + change;
 
                 if (id >= _settings.Allies.Count)
@@ -94,14 +106,14 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
                 
                 survivalModeComponent.HeroId = id;
 
-                foreach (var unitEntity in _playerUnitFilter.Build())
+                foreach (var unitEntity in _playerUnitFilter)
                 {
                     var type = _settings.Allies[survivalModeComponent.HeroId];
 
-                    ref var unitComponent = ref unitEntity.GetComponent<UnitComponent>();
-                    ref var transformComponent = ref unitEntity.GetComponent<TransformComponent>();
-                    ref var teamComponent = ref unitEntity.GetComponent<TeamComponent>();
-                    ref var priorityComponent = ref unitEntity.GetComponent<PriorityComponent>();
+                    ref var unitComponent = ref _unitStash.Get(unitEntity);
+                    ref var transformComponent = ref _transformStash.Get(unitEntity);
+                    ref var teamComponent = ref _teamStash.Get(unitEntity);
+                    ref var priorityComponent = ref _priorityStash.Get(unitEntity);
                     
                     _unitSpawnRequest.Publish(new UnitSpawnRequest
                     {
@@ -114,7 +126,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
                     });
 
                     Object.Destroy(unitComponent.Value.gameObject);
-                    unitEntity.Dispose();
+                    World.RemoveEntity(unitEntity);
                 }
             }
         }

@@ -16,23 +16,23 @@ namespace _Logic.Gameplay.Units.AI.Systems
     public sealed class GlobalTargetFollowingSystem : AbstractUpdateSystem
     {
         private Dictionary<int, PriorityTargetData> _dictionary;
-        private FilterBuilder _prioritizedTargetsFilter;
-        private FilterBuilder _unitsFilter;
+        private Filter _prioritizedTargetsFilter;
+        private Filter _unitsFilter;
         private bool _prioritizedTargetsAreUpdated;
         
         public override void OnAwake()
         {
             _dictionary = new Dictionary<int, PriorityTargetData>();
-            _prioritizedTargetsFilter = World.Filter.With<UnitComponent>().With<HealthComponent>().With<AliveComponent>().With<PriorityComponent>().With<TeamComponent>();
+            _prioritizedTargetsFilter = World.Filter.With<UnitComponent>().With<HealthComponent>().With<AliveComponent>().With<PriorityComponent>().With<TeamComponent>().Build();
             _unitsFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().With<AttackComponent>().With<MovementComponent>().With<AIComponent>()
-                .Without<AttackTargetComponent>().Without<DestinationComponent>();
+                .Without<AttackTargetComponent>().Without<DestinationComponent>().Build();
         }
 
         public override void OnUpdate(float deltaTime)
         {
             _prioritizedTargetsAreUpdated = false;
             
-            foreach (var entity in _unitsFilter.Build())
+            foreach (var entity in _unitsFilter)
             {
                 if (!_prioritizedTargetsAreUpdated)
                 {
@@ -59,7 +59,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
 
         private void UpdatePositionsOfPrioritizedTargets()
         {
-            foreach (var entity in _prioritizedTargetsFilter.Build())
+            foreach (var entity in _prioritizedTargetsFilter)
             {
                 var teamId = entity.GetComponent<TeamComponent>().Id;
                 var transform = entity.GetComponent<TransformComponent>().Value;

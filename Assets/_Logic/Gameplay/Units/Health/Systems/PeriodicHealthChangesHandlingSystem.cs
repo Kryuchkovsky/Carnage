@@ -12,22 +12,24 @@ namespace _Logic.Gameplay.Units.Health.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class PeriodicHealthChangesHandlingSystem : AbstractUpdateSystem
     {
-        private FilterBuilder _healthFilter;
+        private Filter _healthFilter;
+        private Stash<PeriodicHealthChangesComponent> _periodicHealthChangesStash;
         private Request<HealthChangeRequest> _healthChangeRequest;
         private readonly float _interval = 0.5f;
         private float _time;
         
         public override void OnAwake()
         {
-            _healthFilter = World.Filter.With<HealthComponent>().With<PeriodicHealthChangesComponent>().With<AliveComponent>();
+            _healthFilter = World.Filter.With<HealthComponent>().With<PeriodicHealthChangesComponent>().With<AliveComponent>().Build();
+            _periodicHealthChangesStash = World.GetStash<PeriodicHealthChangesComponent>();
             _healthChangeRequest = World.GetRequest<HealthChangeRequest>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var entity in _healthFilter.Build())
+            foreach (var entity in _healthFilter)
             {
-                ref var periodicHealthChangesComponent = ref entity.GetComponent<PeriodicHealthChangesComponent>();
+                ref var periodicHealthChangesComponent = ref _periodicHealthChangesStash.Get(entity);
                 
                 for (int i = 0; i < periodicHealthChangesComponent.Value.length;)
                 {

@@ -21,34 +21,34 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
     {
         private const int SpawnDistance = 50;
         
-        private FilterBuilder _survivalModeFilter;
-        private FilterBuilder _playerFilter;
-        private FilterBuilder _levelFilter;
-        private FilterBuilder _unitCounterFilter;
+        private Filter _survivalModeFilter;
+        private Filter _playerFilter;
+        private Filter _levelFilter;
+        private Filter _unitCounterFilter;
         private Request<UnitSpawnRequest> _unitSpawnRequest;
         
         [Inject] private SurvivalModeSettings _settings;
 
         public override void OnAwake()
         {
-            _survivalModeFilter = World.Filter.With<SurvivalModeComponent>().With<TimerComponent>();
-            _playerFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().Without<AIComponent>();
-            _levelFilter = World.Filter.With<LevelComponent>().With<BoundsComponent>();
-            _unitCounterFilter = World.Filter.With<UnitCounterComponent>();
+            _survivalModeFilter = World.Filter.With<SurvivalModeComponent>().With<TimerComponent>().Build();
+            _playerFilter = World.Filter.With<UnitComponent>().With<TransformComponent>().Without<AIComponent>().Build();
+            _levelFilter = World.Filter.With<LevelComponent>().With<BoundsComponent>().Build();
+            _unitCounterFilter = World.Filter.With<UnitCounterComponent>().Build();
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var entity in _survivalModeFilter.Build())
+            foreach (var entity in _survivalModeFilter)
             {
                 if (entity.GetComponent<TimerComponent>().Value > 0) continue;
 
-                var levelEntity = _levelFilter.Build().FirstOrDefault();
+                var levelEntity = _levelFilter.FirstOrDefault();
                 var levelBoundsComponent = levelEntity.GetComponent<BoundsComponent>();
                 
-                var playerEntity = _playerFilter.Build().FirstOrDefault();
-                var unitCounterEntity = _unitCounterFilter.Build().FirstOrDefault();
+                var playerEntity = _playerFilter.FirstOrDefault();
+                var unitCounterEntity = _unitCounterFilter.FirstOrDefault();
 
                 if (playerEntity.IsNullOrDisposed() || unitCounterEntity.IsNullOrDisposed() || 
                     (unitCounterEntity.GetComponent<UnitCounterComponent>().TeamUnitNumbers.TryGetValue(1, out var number) && number >= _settings.MaxEnemiesNumber)) continue;

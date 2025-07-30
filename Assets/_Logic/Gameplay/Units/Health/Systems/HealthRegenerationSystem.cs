@@ -13,23 +13,29 @@ namespace _Logic.Gameplay.Units.Health.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class HealthRegenerationSystem : AbstractUpdateSystem
     {
-        private FilterBuilder _healthFilter;
+        private Filter _healthFilter;
+        private Stash<HealthComponent> _healthStash;
+        private Stash<HealthBarComponent> _healthBarStash;
+        private Stash<StatsComponent> _statsStash;
         private readonly float _interval = 0.5f;
         private float _time;
         
         public override void OnAwake()
         {
-            _healthFilter = World.Filter.With<HealthComponent>().With<StatsComponent>().With<AliveComponent>();
+            _healthFilter = World.Filter.With<HealthComponent>().With<StatsComponent>().With<AliveComponent>().Build();
+            _healthStash = World.GetStash<HealthComponent>();
+            _healthBarStash = World.GetStash<HealthBarComponent>();
+            _statsStash = World.GetStash<StatsComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
             if (_time >= _interval)
             {
-                foreach (var entity in _healthFilter.Build())
+                foreach (var entity in _healthFilter)
                 {
-                    ref var healthComponent = ref entity.GetComponent<HealthComponent>();
-                    ref var statsComponent = ref entity.GetComponent<StatsComponent>();
+                    ref var healthComponent = ref _healthStash.Get(entity);
+                    ref var statsComponent = ref _statsStash.Get(entity);
 
                     var maxHealth = statsComponent.Value.GetCurrentValue(StatType.MaxHeath);
                     var regenerationRate = statsComponent.Value.GetCurrentValue(StatType.HealthRegenerationRate);
@@ -42,12 +48,10 @@ namespace _Logic.Gameplay.Units.Health.Systems
                     healthComponent.CurrentHealth = health;
                     healthComponent.Percentage = percentage;
                     
-                    ref var healthBarComponent = ref entity.GetComponent<HealthBarComponent>(out var hasHealthBarComponent);
+                    ref var healthBarComponent = ref _healthBarStash.Get(entity, out var hasHealthBarComponent);
                     
                     if (hasHealthBarComponent)
-                    {
                         healthBarComponent.Value.SetFillValue(healthComponent.Percentage);
-                    }
                 }
                     
                 _time -= _interval;

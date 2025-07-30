@@ -135,7 +135,7 @@ namespace _Logic.Extensions.HealthBar
 			_currentFillValue = isImmediate ? value : _currentFillValue;
 			
 			var duration = isImmediate ? _valueChangeDuration : 0.1f;
-			_fillValueChangeTweener.ChangeValues(_currentFillValue, _targetFillValue, duration).Play();
+			_fillValueChangeTweener?.ChangeValues(_currentFillValue, _targetFillValue, duration).Play();
 
 			return this;
 		}

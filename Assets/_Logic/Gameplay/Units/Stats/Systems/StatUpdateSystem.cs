@@ -10,24 +10,26 @@ namespace _Logic.Gameplay.Units.Stats.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public class StatUpdateSystem : AbstractUpdateSystem
     {
-        private FilterBuilder _statsFilter;
-        
+        private Filter _statsFilter;
+        private Stash<StatsComponent> _statsStash;
+        private Stash<StatsPanelComponent> _statsPanelStash;
+
         public override void OnAwake()
         {
-            _statsFilter = World.Filter.With<StatsComponent>();
+            _statsFilter = World.Filter.With<StatsComponent>().Build();
+            _statsStash = World.GetStash<StatsComponent>();
+            _statsPanelStash = World.GetStash<StatsPanelComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var entity in _statsFilter.Build())
+            foreach (var entity in _statsFilter)
             {
-                ref var statsComponent = ref entity.GetComponent<StatsComponent>();
-                ref var statsPanelComponent = ref entity.GetComponent<StatsPanelComponent>(out var hasStatsPanelComponent);
+                ref var statsComponent = ref _statsStash.Get(entity);
+                ref var statsPanelComponent = ref _statsPanelStash.Get(entity, out var hasStatsPanelComponent);
                 
                 if (statsComponent.Value.HasChangedStat && hasStatsPanelComponent)
-                {
                     statsPanelComponent.Value.Update();
-                }
 
                 statsComponent.Value.Update(deltaTime);
             }

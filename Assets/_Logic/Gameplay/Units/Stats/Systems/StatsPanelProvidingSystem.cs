@@ -1,4 +1,5 @@
-﻿using _Logic.Gameplay.Units.AI.Components;
+﻿using _Logic.Core;
+using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Stats.Components;
@@ -6,22 +7,33 @@ using Scellecs.Morpeh;
 
 namespace _Logic.Gameplay.Units.Stats.Systems
 {
-    public sealed class StatsPanelProvidingSystem : QuerySystem
+    public sealed class StatsPanelProvidingSystem : AbstractUpdateSystem
     {
-        protected override void Configure()
-        {
-            CreateQuery()
-                .With<UnitComponent>().With<StatsComponent>().With<AliveComponent>()
-                .Without<StatsPanelComponent>().Without<AIComponent>()
-                .ForEach((Entity entity, ref UnitComponent unitComponent, ref StatsComponent statsComponent) =>
-                {
-                    entity.SetComponent(new StatsPanelComponent
-                    {
-                        Value = StatsPanel.Instance
-                    });
+        private Filter _filter;
+        private Stash<StatsPanelComponent> _statsPanelStash;
+        private Stash<StatsComponent> _statsStash;
 
-                    StatsPanel.Instance.Initiate(statsComponent.Value.Stats);
+        public override void OnAwake()
+        {
+            _filter = World.Filter.With<UnitComponent>().With<StatsComponent>().With<AliveComponent>()
+                .Without<StatsPanelComponent>().Without<AIComponent>().Build();
+            _statsPanelStash = World.GetStash<StatsPanelComponent>();
+            _statsStash = World.GetStash<StatsComponent>();
+        }
+
+        public override void OnUpdate(float deltaTime)
+        {
+            foreach (var entity in _filter)
+            {
+                ref var statsComponent = ref _statsStash.Get(entity);
+                
+                _statsPanelStash.Set(entity, new StatsPanelComponent
+                {
+                    Value = StatsPanel.Instance
                 });
+
+                StatsPanel.Instance.Initiate(statsComponent.Value.Stats);
+            }
         }
     }
 }

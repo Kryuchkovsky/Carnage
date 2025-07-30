@@ -22,88 +22,78 @@ namespace _Logic.Gameplay.SurvivalMode
 {
     public class SurvivalModeEcsBootstrapper : EcsBootstrapper
     {
-        private SystemsGroup _systemsGroup;
-
         public override World World => World.Default;
 
         protected override void RegisterSystems(IObjectResolver resolver)
         {
-            _systemsGroup = World.CreateSystemsGroup();
-            _systemsGroup.AddSystem(new TimerProcessingSystem(), resolver);
+            AddSystem<TimerProcessingSystem>();
 
-            _systemsGroup.AddInitializer(new SurvivalModeInitializationSystem(), resolver);
-            _systemsGroup.AddInitializer(new HeroSelectionStageHandlingSystem(), resolver);
-            _systemsGroup.AddSystem(new EnemiesSpawnRequestSendingSystem(), resolver);
-            _systemsGroup.AddSystem(new SurvivalModeEnhancementSystem(), resolver);
+            AddInitializer<SurvivalModeInitializationSystem>();
+            AddInitializer<HeroSelectionStageHandlingSystem>();
+            AddSystem<EnemiesSpawnRequestSendingSystem>();
+            AddSystem<SurvivalModeEnhancementSystem>();
             
-            _systemsGroup.AddInitializer(new AbilitiesRegistrationSystem(), resolver);
+            AddInitializer<AbilitiesRegistrationSystem>();
 
-            _systemsGroup.AddSystem(new SpawnAbilityHandlingSystem(), resolver);
+            AddSystem<SpawnAbilityHandlingSystem>();
             
-            _systemsGroup.AddSystem(new ImpactCreationRequestsProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new ImpactHandlingSystem(), resolver);
-            _systemsGroup.AddSystem(new EffectAttachmentRequestsProcessingSystem(), resolver);
+            AddSystem<ImpactCreationRequestsProcessingSystem>();
+            AddSystem<ImpactHandlingSystem>();
+            AddSystem<EffectAttachmentRequestsProcessingSystem>();
             
-            _systemsGroup.AddSystem(new TeamDataSettingRequestsProcessingSystem(), resolver);
+            AddSystem<TeamDataSettingRequestsProcessingSystem>();
 
-            _systemsGroup.AddSystem(new StatDependentComponentsSetRequestProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new StatsPanelProvidingSystem(), resolver);
-            _systemsGroup.AddSystem(new StatChangeRequestProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new StatUpdateSystem(), resolver);
+            AddSystem<StatDependentComponentsSetRequestProcessingSystem>();
+            AddSystem<StatsPanelProvidingSystem>();
+            AddSystem<StatChangeRequestProcessingSystem>();
+            AddSystem<StatUpdateSystem>();
             
-            _systemsGroup.AddSystem(new AttackTargetSearchSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackTargetValidationSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackTargetFollowingSystem(), resolver);
-            _systemsGroup.AddSystem(new GlobalTargetFollowingSystem(), resolver);
-            _systemsGroup.AddSystem(new UnitSightHandlingSystem(), resolver);
+            AddSystem<AttackTargetSearchSystem>();
+            AddSystem<AttackTargetValidationSystem>();
+            AddSystem<AttackTargetFollowingSystem>();
+            AddSystem<GlobalTargetFollowingSystem>();
+            AddSystem<UnitSightHandlingSystem>();
 
-            _systemsGroup.AddSystem(new AttackCooldownTimeProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackAnimationLaunchSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackAnimationCompletionSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackRequestProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackDamageCausingSystem(), resolver);
+            AddSystem<AttackCooldownTimeProcessingSystem>();
+            AddSystem<AttackAnimationLaunchSystem>();
+            AddSystem<AttackAnimationCompletionSystem>();
+            AddSystem<AttackRequestProcessingSystem>();
+            AddSystem<AttackDamageCausingSystem>();
             
-            _systemsGroup.AddSystem(new AttackFragmentationSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackReboundingSystem(), resolver);
-            _systemsGroup.AddSystem(new AttackSplittingSystem(), resolver);
+            AddSystem<AttackFragmentationSystem>();
+            AddSystem<AttackReboundingSystem>();
+            AddSystem<AttackSplittingSystem>();
 
-            _systemsGroup.AddSystem(new ProjectileCreationRequestProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new ProjectileDestinationUpdateSystem(), resolver);
-            _systemsGroup.AddSystem(new ProjectileFlightProcessingSystem(), resolver);
+            AddSystem<ProjectileCreationRequestProcessingSystem>();
+            AddSystem<ProjectileDestinationUpdateSystem>();
+            AddSystem<ProjectileFlightProcessingSystem>();
 
-            _systemsGroup.AddSystem(new ExperienceDropFromDeadSystem(), resolver);
-            _systemsGroup.AddSystem(new ExperienceAmountChangeRequestProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new LevelChangeRequestProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new ExperienceBarProvidingSystem(), resolver);
-            _systemsGroup.AddSystem(new ExperienceBarUpdateSystem(), resolver);
-            _systemsGroup.AddSystem(new LeveledUpUnitEnhancementSystem(), resolver);
+            AddSystem<ExperienceDropFromDeadSystem>();
+            AddSystem<ExperienceAmountChangeRequestProcessingSystem>();
+            AddSystem<LevelChangeRequestProcessingSystem>();
+            AddSystem<ExperienceBarProvidingSystem>();
+            AddSystem<ExperienceBarUpdateSystem>();
+            AddSystem<LeveledUpUnitEnhancementSystem>();
 
-            _systemsGroup.AddSystem(new HealthBarProvidingSystem(), resolver);
-            _systemsGroup.AddSystem(new HealthRegenerationSystem(), resolver);
-            _systemsGroup.AddSystem(new PeriodicHealthChangesHandlingSystem(), resolver);
-            _systemsGroup.AddSystem(new PeriodicHealthChangesResetSystem(), resolver);
-            _systemsGroup.AddSystem(new HealthChangeRequestProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new HealthChangeProcessAdditionRequestProcessingSystem(), resolver);
+            AddSystem<HealthBarProvidingSystem>();
+            AddSystem<HealthRegenerationSystem>();
+            AddSystem<PeriodicHealthChangesHandlingSystem>();
+            AddSystem<PeriodicHealthChangesResetSystem>();
+            AddSystem<HealthChangeRequestProcessingSystem>();
+            AddSystem<HealthChangeProcessAdditionRequestProcessingSystem>();
 
-            _systemsGroup.AddSystem(new ExperienceEssenceCreationRequestProcessingSystem(), resolver);
-            _systemsGroup.AddSystem(new ItemCollectionSystem(), resolver);
+            AddSystem<ExperienceEssenceCreationRequestProcessingSystem>();
+            AddSystem<ItemCollectionSystem>();
 
-            _systemsGroup.AddSystem(new PlayerUnitDestinationSystem(), resolver);
-            _systemsGroup.AddSystem(new ManualMovementSystem(), resolver);
-            _systemsGroup.AddSystem(new AutomaticMovementSystem(), resolver);
-            _systemsGroup.AddSystem(new DestinationChangeRequestsProcessingSystem(), resolver);
+            AddSystem<PlayerUnitDestinationSystem>();
+            AddSystem<ManualMovementSystem>();
+            AddSystem<AutomaticMovementSystem>();
+            AddSystem<DestinationChangeRequestsProcessingSystem>();
             
-            _systemsGroup.AddSystem(new UnitBuilderHandlingSystem(), resolver);
-            _systemsGroup.AddSystem(new UnitSpawnRequestsHandlingSystem(), resolver);
+            AddSystem<UnitBuilderHandlingSystem>();
+            AddSystem<UnitSpawnRequestsHandlingSystem>();
 
-            _systemsGroup.AddSystem(new GameCameraTargetGroupHandlingSystem(), resolver);
-
-            World.AddSystemsGroup(4, _systemsGroup);
-        }
-        
-        public void OnDestroy()
-        {
-            World.RemoveSystemsGroup(_systemsGroup);
+            AddSystem<GameCameraTargetGroupHandlingSystem>();
         }
     }
 }

@@ -1,17 +1,18 @@
-﻿using _Logic.Core.Components;
-using _Logic.Gameplay.Units.Attack.Components;
-using _Logic.Gameplay.Units.Components;
-using _Logic.Gameplay.Units.Team.Components;
-using Scellecs.Morpeh;
+﻿using _Logic.Core;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Attack.Systems
 {
-    public sealed class CleaveDamageRequestProcessingSystem : QuerySystem
+    public sealed class CleaveDamageRequestProcessingSystem : AbstractUpdateSystem
     {
         private Collider[] _colliders = new Collider[10];
-        
-        protected override void Configure()
+
+        public override void OnAwake()
+        {
+            
+        }
+
+        public override void OnUpdate(float deltaTime)
         {
             // CreateQuery()
             //     .With<UnitComponent>().With<AttackComponent>().With<TeamDataComponent>().With<TransformComponent>()

@@ -1,48 +1,64 @@
-﻿using _Logic.Core.Components;
+﻿using _Logic.Core;
+using _Logic.Core.Components;
 using _Logic.Gameplay.Units.Spawn.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
-using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Logic.Gameplay.Units.Spawn.Systems
 {
-    public sealed class SpawnAbilityHandlingSystem : QuerySystem
+    public sealed class SpawnAbilityHandlingSystem : AbstractUpdateSystem
     {
+        private Filter _filter;
+        private Stash<TimerComponent> _timerStash;
+        private Stash<OwnerComponent> _ownerStash;
+        private Stash<SpawnAbilityComponent> _spawnAbilityStash;
+        private Stash<TeamComponent> _teamStash;
+        private Stash<TransformComponent> _transformStash;
         private Request<UnitSpawnRequest> _unitSpawnRequest;
 
         public override void OnAwake()
         {
-            base.OnAwake();
+            _filter = World.Filter.With<SpawnAbilityComponent>().With<OwnerComponent>().With<TimerComponent>().Build();
+            _timerStash = World.GetStash<TimerComponent>();
+            _ownerStash = World.GetStash<OwnerComponent>();
+            _spawnAbilityStash = World.GetStash<SpawnAbilityComponent>();
+            _teamStash = World.GetStash<TeamComponent>();
+            _transformStash = World.GetStash<TransformComponent>();
             _unitSpawnRequest = World.GetRequest<UnitSpawnRequest>();
         }
 
-        protected override void Configure()
+        public override void OnUpdate(float deltaTime)
         {
-            CreateQuery()
-                .With<SpawnAbilityComponent>().With<OwnerComponent>().With<TimerComponent>()
-                .ForEach((Entity entity, ref SpawnAbilityComponent spawnAbilityComponent, ref OwnerComponent ownerComponent, ref TimerComponent timerComponent) =>
-                {
-                    if (timerComponent.Value > 0 || ownerComponent.Entity.IsNullOrDisposed() ||
-                        !ownerComponent.Entity.Has<TeamComponent>() || !ownerComponent.Entity.Has<TransformComponent>()) return;
+            foreach (var entity in _filter)
+            {
+                ref var timerComponent = ref _timerStash.Get(entity);
+                ref var ownerComponent = ref _ownerStash.Get(entity);
 
-                    var allUnitTypes = spawnAbilityComponent.UnitTypes;
-                    var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];
+                if (timerComponent.Value > 0 || World.IsDisposed(ownerComponent.Entity) || 
+                    !_teamStash.Has(ownerComponent.Entity) || !_transformStash.Has(ownerComponent.Entity)) 
+                    return;
+                
+                ref var spawnAbilityComponent = ref _spawnAbilityStash.Get(entity);
 
-                    ref var ownerTeamDataComponent = ref ownerComponent.Entity.GetComponent<TeamComponent>();
-                    ref var ownerTransformComponent = ref ownerComponent.Entity.GetComponent<TransformComponent>();
+                var allUnitTypes = spawnAbilityComponent.UnitTypes;
+                var unitType = allUnitTypes[Random.Range(0, allUnitTypes.Count)];
+
+                ref var ownerTeamComponent = ref _teamStash.Get(ownerComponent.Entity);
+                ref var ownerTransformComponent = ref _transformStash.Get(ownerComponent.Entity);
                     
-                    _unitSpawnRequest.Publish(new UnitSpawnRequest
-                    {
-                        UnitType = unitType,
-                        Position = ownerTransformComponent.Value.transform.position,
-                        TeamId = ownerTeamDataComponent.Id,
-                        HasAI = true
-                    });
-                    entity.SetComponent(new TimerComponent
-                    {
-                        Value = spawnAbilityComponent.Interval
-                    });
+                _unitSpawnRequest.Publish(new UnitSpawnRequest
+                {
+                    UnitType = unitType,
+                    Position = ownerTransformComponent.Value.transform.position,
+                    TeamId = ownerTeamComponent.Id,
+                    HasAI = true
                 });
+                _timerStash.Set(entity, new TimerComponent
+                {
+                    Value = spawnAbilityComponent.Interval
+                });
+            }
         }
     }
 }
