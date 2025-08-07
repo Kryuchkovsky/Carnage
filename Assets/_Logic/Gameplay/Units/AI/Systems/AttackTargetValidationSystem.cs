@@ -16,7 +16,9 @@ namespace _Logic.Gameplay.Units.AI.Systems
         private Filter _filter;
         private Stash<AttackTargetComponent> _attackTargetStash;
         private Stash<StatsComponent> _statsStash;
-        private Stash<DestinationComponent> _destinationStash;
+        private Stash<AliveComponent> _aliveStash;
+        private Stash<AIComponent> _aiStash;
+        private Stash<PriorityComponent> _priorityStash;
 
         [Inject] private AISettings _aiSettings;
 
@@ -26,7 +28,9 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 .With<StatsComponent>().With<AliveComponent>().Build();
             _attackTargetStash = World.GetStash<AttackTargetComponent>();
             _statsStash = World.GetStash<StatsComponent>();
-            _destinationStash = World.GetStash<DestinationComponent>();
+            _aliveStash = World.GetStash<AliveComponent>();
+            _aiStash = World.GetStash<AIComponent>();
+            _priorityStash = World.GetStash<PriorityComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -40,20 +44,17 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 var followingRange = range * _aiSettings.TargetSearchRangeToAttackRangeRatio;
                 var distanceIsGotten = EcsExtensions.TryGetDistanceBetweenClosestPoints(
                     entity, attackTargetComponent.TargetEntity, out var distance);
-                    
-                if (attackTargetComponent.TargetEntity.Has<AliveComponent>() && distanceIsGotten && 
-                    ((entity.Has<AIComponent>() && (distance < followingRange || attackTargetComponent.TargetEntity.Has<PriorityComponent>())) || 
-                     (!entity.Has<AIComponent>() && distance < range)))
-                {
-                    attackTargetComponent.IsInAttackRadius = distance < range;
-                }
-                else
-                {
-                    _attackTargetStash.Remove(entity);
+                var isAI = _aiStash.Has(entity);
+                var hasPrioritizedTarget = _priorityStash.Has(attackTargetComponent.TargetEntity);
+                var targetIsAlive = _aliveStash.Has(attackTargetComponent.TargetEntity);
 
-                    if (_destinationStash.Has(entity))
-                        _destinationStash.Remove(entity);
-                }
+                var targetIsCorrected = targetIsAlive && distanceIsGotten && 
+                                        ((isAI && (distance < followingRange || hasPrioritizedTarget)) || 
+                                         (!isAI && distance < range));
+                
+                if (targetIsCorrected)
+                    attackTargetComponent.IsInAttackRadius = distance < range;
+                else _attackTargetStash.Remove(entity);
             }
         }
     }

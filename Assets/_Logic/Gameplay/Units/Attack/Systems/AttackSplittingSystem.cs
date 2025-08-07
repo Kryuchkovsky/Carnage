@@ -33,14 +33,16 @@ namespace _Logic.Gameplay.Units.Attack.Systems
         {
             foreach (var ent in _attackStartEvent.publishedChanges)
             {
-                if (ent.AttackingEntity.IsNullOrDisposed() || ent.AttackedEntity.IsNullOrDisposed() || !ent.AttackingEntity.Has<AttackComponent>()) continue;
+                if (ent.AttackingEntity.IsNullOrDisposed() || ent.AttackedEntity.IsNullOrDisposed() || !ent.AttackingEntity.Has<AttackComponent>()) 
+                    continue;
 
                 ref var unitComponent = ref ent.AttackingEntity.GetComponent<UnitComponent>(out var hasUnitComponent);
                 ref var splitComponent = ref ent.AttackingEntity.GetComponent<SplitAttackComponent>(out var hasSplitComponent);
                 ref var statsComponent = ref ent.AttackingEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
                 ref var teamDataComponent = ref ent.AttackingEntity.GetComponent<TeamComponent>(out var hasTeamDataComponent);
 
-                if (!hasUnitComponent && !hasSplitComponent || !hasStatsComponent || !hasTeamDataComponent || splitComponent.AdditionalTargets <= 0) continue;
+                if (!hasUnitComponent && !hasSplitComponent || !hasStatsComponent || !hasTeamDataComponent || splitComponent.AdditionalTargets <= 0) 
+                    continue;
 
                 var range = statsComponent.Value.GetCurrentValue(StatType.AttackRange);
                 var ownerEntity = ent.AttackingEntity;
@@ -50,7 +52,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 {
                     ref var ownerComponent = ref ent.AttackingEntity.GetComponent<OwnerComponent>(out var hasOwnerComponent);
                     
-                    if (!effectComponent.ModifiersAreInfluencing || !hasOwnerComponent || ownerComponent.Entity.IsNullOrDisposed()) continue;
+                    if (!effectComponent.ModifiersAreInfluencing || !hasOwnerComponent || ownerComponent.Entity.IsNullOrDisposed()) 
+                        continue;
                     
                     ownerEntity = ownerComponent.Entity;
                 }

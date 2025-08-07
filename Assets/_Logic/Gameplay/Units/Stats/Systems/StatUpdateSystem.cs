@@ -2,6 +2,7 @@
 using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Stats.Systems
 {
@@ -12,13 +13,13 @@ namespace _Logic.Gameplay.Units.Stats.Systems
     {
         private Filter _statsFilter;
         private Stash<StatsComponent> _statsStash;
-        private Stash<StatsPanelComponent> _statsPanelStash;
+        
+        [Inject] private StatsPanel _statsPanel;
 
         public override void OnAwake()
         {
             _statsFilter = World.Filter.With<StatsComponent>().Build();
             _statsStash = World.GetStash<StatsComponent>();
-            _statsPanelStash = World.GetStash<StatsPanelComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -26,10 +27,9 @@ namespace _Logic.Gameplay.Units.Stats.Systems
             foreach (var entity in _statsFilter)
             {
                 ref var statsComponent = ref _statsStash.Get(entity);
-                ref var statsPanelComponent = ref _statsPanelStash.Get(entity, out var hasStatsPanelComponent);
-                
-                if (statsComponent.Value.HasChangedStat && hasStatsPanelComponent)
-                    statsPanelComponent.Value.Update();
+
+                if (statsComponent.Value.HasChangedStat)
+                    _statsPanel.Update();
 
                 statsComponent.Value.Update(deltaTime);
             }

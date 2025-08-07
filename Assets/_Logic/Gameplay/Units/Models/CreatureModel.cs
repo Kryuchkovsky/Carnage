@@ -8,6 +8,7 @@ namespace _Logic.Gameplay.Units.Models
     public class CreatureModel : UnitModel
     {
         [SerializeField] private Animator _animator;
+        [SerializeField] private ParticleSystem _attackEffect;
 
         private AttackStateMachineBehavior[] _attackStateMachineBehaviors;
         private Sequence _jumpSequence;
@@ -53,6 +54,9 @@ namespace _Logic.Gameplay.Units.Models
             _animator.SetFloat(_attackSpeedFloatHash, attackSpeed);
             _animator.SetTrigger(_attackTriggerHash);
             _attackAnimationCallback = callback;
+            
+            if (_attackEffect) 
+                _attackEffect.Play();
         }
 
         public override void PlayHitAnimation()
@@ -64,6 +68,16 @@ namespace _Logic.Gameplay.Units.Models
             {
                 //_jumpSequence.Restart();
             }
+        }
+
+        public void Hit()
+        {
+            InvokeAttackAnimationCallback();
+        }
+        
+        public void Shoot()
+        {
+            InvokeAttackAnimationCallback();
         }
 
         public override void PlayDeathAnimation()
@@ -94,7 +108,8 @@ namespace _Logic.Gameplay.Units.Models
 
         private void InvokeAttackAnimationCallback()
         {
-            if (_attackAnimationCallback == null) return;
+            if (_attackAnimationCallback == null) 
+                return;
             
             _attackAnimationCallback.Invoke();
             _attackAnimationCallback = null;

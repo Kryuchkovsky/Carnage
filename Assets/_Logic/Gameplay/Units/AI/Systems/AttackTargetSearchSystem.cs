@@ -19,6 +19,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         private Stash<AttackTargetComponent> _attackTargetStash;
         private Stash<TeamComponent> _teamStash;
         private Stash<TransformComponent> _transformStash;
+        private Stash<PriorityComponent> _priorityStash;
         private readonly Collider[] _colliders = new Collider[10];
 
         [Inject] private AISettings _aiSettings;
@@ -32,6 +33,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
             _attackTargetStash = World.GetStash<AttackTargetComponent>();
             _teamStash = World.GetStash<TeamComponent>();
             _transformStash = World.GetStash<TransformComponent>();
+            _priorityStash = World.GetStash<PriorityComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -47,17 +49,26 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 var searchRange  = range * _aiSettings.TargetSearchRangeToAttackRangeRatio;
                 var collisions = Physics.OverlapSphereNonAlloc(position, searchRange, _colliders, 1 << teamComponent.EnemiesLayer);
                 var minDistance = float.MaxValue;
-                
+                var maxPriority = int.MinValue;
                 LinkedCollider targetLinkedCollider = null;
-                    
+
                 for (int i = 0; i < collisions; i++)
                 {
                     if (_colliders[i].TryGetComponent(out LinkedCollider collider) &&
                         !World.IsDisposed(collider.Entity) && 
                         _teamStash.Get(collider.Entity).Id != teamComponent.Id)
                     {
-                        if (EcsExtensions.TryGetDistanceBetweenClosestPoints(entity, collider.Entity, out var distance) && 
-                            distance < searchRange && distance < minDistance)
+                        var priorityComponent = _priorityStash.Get(collider.Entity);
+                        
+                        if (priorityComponent.Value > maxPriority)
+                        {
+                            maxPriority = priorityComponent.Value;
+                            targetLinkedCollider = collider;
+                        }
+                        else if (priorityComponent.Value == maxPriority &&
+                                 EcsExtensions.TryGetDistanceBetweenClosestPoints(entity, collider.Entity,
+                                     out var distance) &&
+                                 distance <= searchRange && distance < minDistance)
                         {
                             minDistance = distance;
                             targetLinkedCollider = collider;

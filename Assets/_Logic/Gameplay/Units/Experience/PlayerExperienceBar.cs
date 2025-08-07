@@ -1,3 +1,4 @@
+using System;
 using _GameLogic.Extensions.Patterns;
 using DG.Tweening;
 using TMPro;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 namespace _Logic.Gameplay.Units.Experience
 {
-    public class PlayerExperienceBar : SingletonBehavior<PlayerExperienceBar>, IExperienceBar
+    public class PlayerExperienceBar : MonoBehaviour, IExperienceBar
     {
 	    [SerializeField] private AnimationCurve _fillValueChangeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
         [SerializeField] private Image _fillingImage;
@@ -17,16 +18,9 @@ namespace _Logic.Gameplay.Units.Experience
         private Tweener _fillValueChangeTweener;
         private float _currentFillValue;
         private float _targetFillValue;
-        private bool _isInitiated;
 
-        private void OnDestroy()
+        private void Awake()
         {
-	        _fillValueChangeTweener?.Kill();
-        }
-
-        protected override void Initialize()
-        {
-	        base.Initialize();
 	        _fillValueChangeTweener = DOVirtual
 		        .Float(_currentFillValue, _targetFillValue, _valueChangeDuration, t =>
 		        {
@@ -37,15 +31,19 @@ namespace _Logic.Gameplay.Units.Experience
 		        .SetAutoKill(false)
 		        .SetRecyclable(true)
 		        .Pause();
-	        _isInitiated = true;
 	        SetFilling(1);
+        }
+
+        private void OnDestroy()
+        {
+	        _fillValueChangeTweener?.Kill();
         }
 
         public void SetFilling(float filling)
         {
 	        _targetFillValue = filling;
 	        _currentFillValue = _currentFillValue > _targetFillValue ? 0 : _currentFillValue;
-	        _fillValueChangeTweener.ChangeValues(_currentFillValue, _targetFillValue, _valueChangeDuration).Play();
+	        _fillValueChangeTweener?.ChangeValues(_currentFillValue, _targetFillValue, _valueChangeDuration).Play();
         }
         
         public void SetExperienceAmount(float currentValue, float maxValue)
@@ -60,7 +58,6 @@ namespace _Logic.Gameplay.Units.Experience
 			transform.localScale = Vector3.one;
 			_fillingImage.fillAmount = 1;
 			_fillValueChangeTweener.Kill();
-			_isInitiated = false;
 		}
     }
 }

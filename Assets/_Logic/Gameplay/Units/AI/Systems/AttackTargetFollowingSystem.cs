@@ -16,8 +16,8 @@ namespace _Logic.Gameplay.Units.AI.Systems
         private Filter _filter;
         private Stash<NavMeshAgentComponent> _navMeshAgentStash;
         private Stash<AttackTargetComponent> _attackTargetStash;
-        private Stash<DestinationComponent> _transformStash;
-        private Stash<TransformComponent> _destinationStash;
+        private Stash<TransformComponent> _transformStash;
+        private Stash<DestinationComponent> _destinationStash;
 
         public override void OnAwake()
         {
@@ -25,8 +25,8 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 .With<AttackComponent>().With<AttackTargetComponent>().With<AliveComponent>().With<AIComponent>().Build();
             _navMeshAgentStash = World.GetStash<NavMeshAgentComponent>();
             _attackTargetStash = World.GetStash<AttackTargetComponent>();
-            _transformStash = World.GetStash<DestinationComponent>();
-            _destinationStash = World.GetStash<TransformComponent>();
+            _transformStash = World.GetStash<TransformComponent>();
+            _destinationStash = World.GetStash<DestinationComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -37,23 +37,22 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 ref var navMeshAgentComponent = ref _navMeshAgentStash.Get(entity);
                 
                 if (World.IsDisposed(targetComponent.TargetEntity)) 
-                    return;
+                    continue;
                     
                 if (navMeshAgentComponent.Value.enabled)
                 {
                     navMeshAgentComponent.Value.isStopped = targetComponent.IsInAttackRadius;
                         
                     if (targetComponent.IsInAttackRadius)
-                    {
                         navMeshAgentComponent.Value.velocity = Vector3.zero;
-                    }
                 }
                     
-                var targetTransform = targetComponent.TargetEntity.GetComponent<TransformComponent>().Value;
-                var destinationComponent = entity.GetComponent<DestinationComponent>(out var hasDestinationComponent);
-                    
-                if (targetComponent.IsInAttackRadius || (hasDestinationComponent && destinationComponent.Value == targetTransform.position)) return;
-                    
+                var targetTransform = _transformStash.Get(targetComponent.TargetEntity).Value;
+                ref var destinationComponent = ref _destinationStash.Get(entity, out var hasDestinationComponent);
+
+                if (targetComponent.IsInAttackRadius || (hasDestinationComponent && destinationComponent.Value == targetTransform.position))
+                    continue;
+
                 World.GetRequest<DestinationChangeRequest>().Publish(new DestinationChangeRequest
                 {
                     Entity = entity,

@@ -13,7 +13,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         public override void OnAwake()
         {
             var entity = World.CreateEntity();
-            entity.AddComponent<SurvivalModeComponent>();
+            World.GetStash<SurvivalModeComponent>().Add(entity);
         }
     }
 }

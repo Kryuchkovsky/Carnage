@@ -10,7 +10,6 @@ namespace _Logic.Gameplay.Units.Spawn
         public Vector3 LookDirection;
         public int TeamId;
         public int Priority;
-        public bool IsPrioritizedTarget;
         public bool HasAI;
     }
 }

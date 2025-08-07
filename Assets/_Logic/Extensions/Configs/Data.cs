@@ -10,9 +10,8 @@ namespace _Logic.Extensions.Configs
         [field: SerializeField, ReadOnly] public TEnumKey Type { get; private set; }
         [field: SerializeField, ReadOnly] public int Id { get; private set; }
 
-        public virtual void Initialize(int id)
+        public virtual void Initialize()
         {
-            Id = id;
         }
     }
 }

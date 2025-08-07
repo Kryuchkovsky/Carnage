@@ -5,6 +5,7 @@ using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using VContainer;
 
 namespace _Logic.Gameplay.Units.Experience.Systems
 {
@@ -15,6 +16,8 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     {
         private Filter _filter;
         private Stash<ExperienceBarComponent> _experienceBarStash;
+
+        [Inject] private PlayerExperienceBar _experienceBar;
         
         public override void OnAwake()
         {
@@ -29,7 +32,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
             {
                 _experienceBarStash.Set(entity, new ExperienceBarComponent
                 {
-                    Value = PlayerExperienceBar.Instance
+                    Value = _experienceBar
                 });
             }
         }

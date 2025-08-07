@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using _GameLogic.Extensions.Patterns;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Stats
 {
-    public class StatsPanel : SingletonBehavior<StatsPanel>, IStatsPanel
+    public class StatsPanel : MonoBehaviour, IStatsPanel
     {
         [SerializeField] private StatView _statViewPrefab;
         

@@ -20,7 +20,6 @@ namespace _Logic.Gameplay.Units
         [SerializeField, CanBeNull] protected NavMeshAgent _navMeshAgent;
         [SerializeField, CanBeNull] protected NavMeshObstacle _navMeshObstacle;
         
-        [SerializeField] private LinkedCollider _linkedCollider;
         [SerializeField] private SpriteRenderer _markerSprite;
         
         [SerializeField, Range(0, 100)] private int _priority;
@@ -45,10 +44,15 @@ namespace _Logic.Gameplay.Units
                 {
                     Value = Model.Bounds
                 });
-                
+
                 Entity.SetComponent(new ColliderComponent
                 {
                     Value = Model.Collider
+                });
+
+                Entity.SetComponent(new RendererComponent
+                {
+                    Value = Model.Renderer
                 });
             }
             
@@ -112,6 +116,11 @@ namespace _Logic.Gameplay.Units
                 Value = model.Collider
             });
             
+            Entity.SetComponent(new RendererComponent
+            {
+                Value = Model.Renderer
+            });
+            
             if (_navMeshAgent)
             {
                 _navMeshAgent.agentTypeID = model.NavMeshAgentTypeId;
@@ -131,7 +140,7 @@ namespace _Logic.Gameplay.Units
 
         public void SetTeamData(Color color, int teamLayer)
         {
-            _linkedCollider?.Initiate(Entity, teamLayer);
+            Model?.LinkedCollider?.Initiate(Entity, teamLayer);
             _markerSprite.color = color;
         }
 
@@ -152,18 +161,18 @@ namespace _Logic.Gameplay.Units
 
         public void OnDie()
         {
-            gameObject.layer = LayerMask.NameToLayer("Corpse");
-            Model?.PlayDeathAnimation();
-            
-            if (_navMeshAgent)
+            if (Model)
             {
-                _navMeshAgent.enabled = false;
+                Model.PlayDeathAnimation();
+                Model.LinkedCollider.enabled = false;
+                Model.gameObject.layer = LayerMask.NameToLayer("Corpse");
             }
 
+            if (_navMeshAgent)
+                _navMeshAgent.enabled = false;
+
             if (_navMeshObstacle)
-            {
                 _navMeshObstacle.enabled = false;
-            }
         }
 
 #if UNITY_EDITOR

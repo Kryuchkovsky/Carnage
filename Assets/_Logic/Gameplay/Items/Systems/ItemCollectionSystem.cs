@@ -36,7 +36,8 @@ namespace _Logic.Gameplay.Items.Systems
         {
             _time -= deltaTime;
             
-            if (_time > 0) return;
+            if (_time > 0) 
+                return;
             
             foreach (var entity in _collectorFilter)
             {

@@ -29,7 +29,8 @@
 
         public void UpdateTime(float delta)
         {
-            if (IsPersist) return;
+            if (IsPersist) 
+                return;
             
             TimeBeforeRemoving -= delta;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using _Logic.Core;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,7 +7,8 @@ namespace _Logic.Gameplay.Units
 {
     public abstract class UnitModel : MonoBehaviour
     {
-        [field: SerializeField] private Renderer Renderer;
+        [field: SerializeField] public LinkedCollider LinkedCollider { get; private set; }
+        [field: SerializeField] public Renderer Renderer { get; private set; }
         [field: SerializeField] public Collider Collider { get; private set; }
         [field: SerializeField] public Transform AttackPoint { get; private set; }
         [field: SerializeField] public NavMeshObstacleShape NavMeshObstacleShape { get; private set; } = NavMeshObstacleShape.Capsule;

@@ -5,7 +5,7 @@ namespace _Logic.Extensions.Configs.Editor
 {
     public static class FunctionalConfigMenuItem
     {
-        [MenuItem("Tools/Fill configs")]
+        [MenuItem("Tools/Configs/Fill configs")]
         public static void FillConfigs()
         {
             try
@@ -19,7 +19,7 @@ namespace _Logic.Extensions.Configs.Editor
             }
         }
         
-        [MenuItem("Tools/Generate enum types")]
+        [MenuItem("Tools/Configs/Generate new enum types")]
         public static void GenerateDataEnumTypes()
         {
             try
@@ -33,7 +33,7 @@ namespace _Logic.Extensions.Configs.Editor
             }
         }
         
-        [MenuItem("Tools/Regenerate enum types")]
+        [MenuItem("Tools/Configs/Regenerate all enum types")]
         public static void RegenerateDataEnumTypes()
         {
             try

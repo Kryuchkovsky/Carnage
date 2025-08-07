@@ -40,7 +40,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                 ref var destinationComponent = ref _destinationStash.Get(entity);
                 
                 if (destinationComponent.Value == transformComponent.Value.position) 
-                    return;
+                    continue;
                 
                 ref var statsComponent = ref _statsStash.Get(entity);
 

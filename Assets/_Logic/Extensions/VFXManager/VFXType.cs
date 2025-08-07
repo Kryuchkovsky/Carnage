@@ -1,11 +1,11 @@
 public enum VFXType
 {
     None = 0,
-    Fire = 6,
-    FireBlast = 5,
-    GreenBloodExplosion = 1,
-    GreenBloodPool = 2,
-    LevelUp = 7,
-    RedBloodExplosion = 3,
-    RedBloodPool = 4,
+    Fire = 1,
+    FireBlast = 2,
+    GreenBloodExplosion = 3,
+    GreenBloodPool = 4,
+    LevelUp = 5,
+    RedBloodExplosion = 6,
+    RedBloodPool = 7,
 }

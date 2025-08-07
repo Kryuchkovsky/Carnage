@@ -39,7 +39,8 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         {
             foreach (var evt in _levelChangeEvent.publishedChanges)
             {
-                if (evt.Entity.IsNullOrDisposed() || evt.Change <= 0 || evt.NewLevel <= 1 || evt.Entity.Has<AIComponent>() || !evt.Entity.Has<StatsComponent>()) continue;
+                if (evt.Entity.IsNullOrDisposed() || evt.Change <= 0 || evt.NewLevel <= 1 || evt.Entity.Has<AIComponent>() || !evt.Entity.Has<StatsComponent>()) 
+                    continue;
                 
                 ref var statsComponent = ref evt.Entity.GetComponent<StatsComponent>();
                 var selections = new List<SelectionData>(_survivalModeSettings.RewardsNumberWhenLevelUp);

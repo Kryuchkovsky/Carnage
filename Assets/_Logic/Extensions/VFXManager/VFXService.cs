@@ -16,7 +16,8 @@ namespace _Logic.Extensions.VFXManager
 
             foreach (var effectType in (VFXType[])Enum.GetValues(typeof(VFXType)))
             {
-                if (!_vfxCatalog.HasData((int)effectType)) continue;
+                if (!_vfxCatalog.HasData((int)effectType)) 
+                    continue;
 
                 var effect = _vfxCatalog.GetData((int)effectType);
                 var pool = new ObjectPool<VFX>(
@@ -39,15 +40,14 @@ namespace _Logic.Extensions.VFXManager
 
         public void CreateEffect(VFXType type, Vector3 position, Quaternion rotation = new(), Transform parent = null, float duration = -1)
         {
-            if (type == VFXType.None) return;
+            if (type == VFXType.None) 
+                return;
             
             var effect = _vfxPools[type].Take();
             effect.Initialize(position, rotation, duration);
 
             if (parent)
-            {
                 effect.transform.SetParent(parent);
-            }
         }
     }
 }

@@ -13,6 +13,9 @@ namespace _Logic.Extensions.Configs
 
         protected override void Initialize()
         {
+            if (IsInitiated)
+                return;
+            
             base.Initialize();
 
             _configDictionary = new Dictionary<Type, Config>();
@@ -22,6 +25,14 @@ namespace _Logic.Extensions.Configs
                 config.Initialize();
                 _configDictionary.Add(config.GetType(),config);
             }
+        }
+
+        public IReadOnlyDictionary<Type, Config> GetConfigs()
+        {
+            if (!IsInitiated)
+                Initialize();
+                
+            return _configDictionary;
         }
 
         public static void FillConfigs()

@@ -70,10 +70,9 @@ namespace _Logic.Gameplay.Units
         
         public Dictionary<StatType, float> Stats { get; private set; } = new ();
 
-        public override void Initialize(int id)
+        public override void Initialize()
         {
-            base.Initialize(id);
-            Model.Initialize(id);
+            Model.Initialize(Id);
             
             if (_hasAttack)
             {
@@ -94,7 +93,6 @@ namespace _Logic.Gameplay.Units
                 Stats.Add(StatType.MovementSpeed, _movementSpeed);
                 Stats.Add(StatType.RotationSpeed, _rotationSpeed);
             }
-
         }
     }
 }

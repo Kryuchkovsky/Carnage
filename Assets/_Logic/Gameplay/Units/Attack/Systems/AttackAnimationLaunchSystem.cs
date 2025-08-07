@@ -33,14 +33,16 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 ref var attackComponent = ref _attackStash.Get(entity);
                 ref var attackTargetComponent = ref _attackTargetStash.Get(entity);
                 
-                if (!attackTargetComponent.IsInAttackRadius || attackComponent.AttackTimePercentage < 1) return;
+                if (!attackTargetComponent.IsInAttackRadius || attackComponent.AttackTimePercentage < 1) 
+                    continue;
 
                 var receiverEntity = attackTargetComponent.TargetEntity;
                     
                 attackComponent.AttackTimePercentage = 0;
                 unitComponent.Value.OnAttack(attackComponent.AttacksPerSecond, () =>
                 {
-                    if (entity.IsNullOrDisposed() && receiverEntity.IsNullOrDisposed()) return;
+                    if (World.IsDisposed(entity) || World.IsDisposed(receiverEntity)) 
+                        return;
                         
                     _event.NextFrame(new AttackAnimationCompletionEvent
                     {

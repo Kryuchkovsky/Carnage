@@ -11,4 +11,8 @@ public enum UnitType
     OrcishHunter = 8,
     OrcishShaman = 9,
     OrcishWarrior = 10,
+    Man = 11,
+    Man_2HandedAxe = 12,
+    Man_Giant = 13,
+    Man_Rifle = 14,
 }

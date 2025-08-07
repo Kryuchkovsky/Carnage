@@ -20,7 +20,7 @@ namespace _GameLogic.Extensions.Patterns
                     return _instance != null;
                 }
 
-                return FindObjectsOfType<T>().Length == 1;
+                return FindObjectsByType<T>(FindObjectsSortMode.InstanceID).Length == 1;
             }
         }
 
@@ -30,7 +30,7 @@ namespace _GameLogic.Extensions.Patterns
             {
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<T>();
+                    _instance = FindAnyObjectByType<T>();
 
                     if (!_instance.IsInitiated)
                     {

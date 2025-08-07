@@ -1,4 +1,5 @@
 ﻿using _Logic.Core;
+using _Logic.Core.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
@@ -37,9 +38,11 @@ namespace _Logic.Gameplay.Units.Team.Systems
                     }
                 }
 
+                var color = request.TeamId == 0 ? Color.blue : Color.red;
+
                 var teamDataComponent = new TeamComponent
                 {
-                    Color = request.TeamId == 0 ? Color.blue : Color.red,
+                    Color = color,
                     AlliesLayer = alliesLayer,
                     EnemiesLayer = enemiesLayer,
                     Id = request.TeamId
@@ -52,6 +55,11 @@ namespace _Logic.Gameplay.Units.Team.Systems
                 {
                     var layer = LayerMask.NameToLayer($"Team{request.TeamId}");
                     unitComponent.Value.SetTeamData(teamDataComponent.Color, layer);
+                }
+                
+                if (request.Entity.Has<RendererComponent>())
+                {
+                    request.Entity.GetComponent<RendererComponent>().Value.material.color = color;
                 }
             }
         }

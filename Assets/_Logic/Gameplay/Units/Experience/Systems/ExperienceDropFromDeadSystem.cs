@@ -28,14 +28,15 @@ namespace _Logic.Gameplay.Units.Experience.Systems
 
         public override void OnUpdate(float deltaTime)
         {
-            foreach (var @event in _unitDeathEvent.publishedChanges)
+            foreach (var evt in _unitDeathEvent.publishedChanges)
             {
-                if (@event.CorpseEntity.IsNullOrDisposed() || !@event.CorpseEntity.Has<ExperienceComponent>() || !@event.CorpseEntity.Has<TransformComponent>()) continue;
+                if (!_experienceSettings.ExpDropIsEnabled || evt.CorpseEntity.IsNullOrDisposed() || !evt.CorpseEntity.Has<ExperienceComponent>() || !evt.CorpseEntity.Has<TransformComponent>()) 
+                    continue;
 
-                var experienceComponent = @event.CorpseEntity.GetComponent<ExperienceComponent>();
-                var transformComponent = @event.CorpseEntity.GetComponent<TransformComponent>();
+                var experienceComponent = evt.CorpseEntity.GetComponent<ExperienceComponent>();
+                var transformComponent = evt.CorpseEntity.GetComponent<TransformComponent>();
                 var experience = _experienceSettings.CalculateExperienceRewardForMurder(experienceComponent.TotalExperienceAmount);
-                
+
                 _experienceEssenceCreationRequest.Publish(new ExperienceEssenceCreationRequest
                 {
                     Position = transformComponent.Value.position + Vector3.up,

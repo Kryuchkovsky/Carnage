@@ -32,8 +32,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
         {
             foreach (var request in _attackRequest.Consume())
             {
-                if (request.AttackerEntity.IsNullOrDisposed() || request.TargetEntity.IsNullOrDisposed() || 
-                    !request.AttackerEntity.Has<AttackComponent>()) continue;
+                if (request.AttackerEntity.IsNullOrDisposed() || request.TargetEntity.IsNullOrDisposed() || !request.AttackerEntity.Has<AttackComponent>()) 
+                    continue;
                 
                 ref var attackComponent = ref request.AttackerEntity.GetComponent<AttackComponent>();
                 
@@ -63,7 +63,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
             foreach (var ent in _projectileFlightEndEvent.publishedChanges)
             {
-                if (ent.OwnerEntity.IsNullOrDisposed() || !ent.OwnerEntity.Has<AttackComponent>() || !ent.ProjectileEntity.Has<OriginComponent>()) continue;
+                if (ent.OwnerEntity.IsNullOrDisposed() || !ent.OwnerEntity.Has<AttackComponent>() || !ent.ProjectileEntity.Has<OriginComponent>()) 
+                    continue;
 
                 _attackEndEvent.NextFrame(new AttackEndEvent
                 {

@@ -1,4 +1,19 @@
-﻿using Scellecs.Morpeh;
+﻿using _Logic.Core.Systems;
+using _Logic.Gameplay;
+using _Logic.Gameplay.Abilities.Systems;
+using _Logic.Gameplay.Camera.Systems;
+using _Logic.Gameplay.Effects.Systems;
+using _Logic.Gameplay.Items.Systems;
+using _Logic.Gameplay.Projectiles.Systems;
+using _Logic.Gameplay.Units.AI.Systems;
+using _Logic.Gameplay.Units.Attack.Systems;
+using _Logic.Gameplay.Units.Experience.Systems;
+using _Logic.Gameplay.Units.Health.Systems;
+using _Logic.Gameplay.Units.Movement.Systems;
+using _Logic.Gameplay.Units.Spawn.Systems;
+using _Logic.Gameplay.Units.Stats.Systems;
+using _Logic.Gameplay.Units.Team.Systems;
+using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -7,7 +22,7 @@ namespace _Logic.Core
 {
     public abstract class EcsBootstrapper : MonoBehaviour
     {
-        [SerializeField] private LifetimeScope _lifetimeScope;
+        [SerializeField] private GameLifetimeScope _lifetimeScope;
         [SerializeField] private int _order;
         
         private SystemsGroup _systemsGroup;
@@ -19,7 +34,8 @@ namespace _Logic.Core
         private void OnEnable()
         {
             _systemsGroup = World.CreateSystemsGroup();
-            
+
+            RegisterCommonSystems(_lifetimeScope.Container);
             RegisterSystems(_lifetimeScope.Container);
             _isRegistered = true;
             
@@ -64,7 +80,73 @@ namespace _Logic.Core
         {
             World.RemoveSystemsGroup(_systemsGroup);
         }
-        
+
+        private void RegisterCommonSystems(IObjectResolver resolver)
+        {
+            AddSystem<TimerProcessingSystem>();
+            
+            AddInitializer<AbilitiesRegistrationSystem>();
+            AddSystem<SpawnAbilityHandlingSystem>();
+            
+            AddSystem<ImpactCreationRequestsProcessingSystem>();
+            AddSystem<ImpactHandlingSystem>();
+            AddSystem<EffectAttachmentRequestsProcessingSystem>();
+            
+            AddSystem<TeamDataSettingRequestsProcessingSystem>();
+
+            AddSystem<StatDependentComponentsSetRequestProcessingSystem>();
+            AddInitializer<StatsPanelProvidingSystem>();
+            AddSystem<StatChangeRequestProcessingSystem>();
+            AddSystem<StatUpdateSystem>();
+            
+            AddSystem<AttackTargetSearchSystem>();
+            AddSystem<AttackTargetValidationSystem>();
+            AddSystem<AttackTargetFollowingSystem>();
+            //AddSystem<GlobalTargetFollowingSystem>();
+            AddSystem<UnitSightHandlingSystem>();
+
+            AddSystem<AttackCooldownTimeProcessingSystem>();
+            AddSystem<AttackAnimationLaunchSystem>();
+            AddSystem<AttackAnimationCompletionSystem>();
+            AddSystem<AttackRequestProcessingSystem>();
+            AddSystem<AttackDamageCausingSystem>();
+            
+            AddSystem<AttackFragmentationSystem>();
+            AddSystem<AttackReboundingSystem>();
+            AddSystem<AttackSplittingSystem>();
+
+            AddSystem<ProjectileCreationRequestProcessingSystem>();
+            AddSystem<ProjectileDestinationUpdateSystem>();
+            AddSystem<ProjectileFlightProcessingSystem>();
+
+            AddSystem<ExperienceDropFromDeadSystem>();
+            AddSystem<ExperienceAmountChangeRequestProcessingSystem>();
+            AddSystem<LevelChangeRequestProcessingSystem>();
+            AddSystem<ExperienceBarProvidingSystem>();
+            AddSystem<ExperienceBarUpdateSystem>();
+            AddSystem<LeveledUpUnitEnhancementSystem>();
+
+            AddSystem<HealthBarProvidingSystem>();
+            AddSystem<HealthRegenerationSystem>();
+            AddSystem<PeriodicHealthChangesHandlingSystem>();
+            AddSystem<PeriodicHealthChangesResetSystem>();
+            AddSystem<HealthChangeRequestProcessingSystem>();
+            AddSystem<HealthChangeProcessAdditionRequestProcessingSystem>();
+
+            AddSystem<ExperienceEssenceCreationRequestProcessingSystem>();
+            AddSystem<ItemCollectionSystem>();
+
+            AddSystem<PlayerUnitDestinationSystem>();
+            AddSystem<ManualMovementSystem>();
+            AddSystem<AutomaticMovementSystem>();
+            AddSystem<DestinationChangeRequestsProcessingSystem>();
+            
+            AddSystem<UnitBuilderHandlingSystem>();
+            AddSystem<UnitSpawnRequestsHandlingSystem>();
+
+            AddSystem<GameCameraTargetGroupHandlingSystem>();
+        }
+
         protected abstract void RegisterSystems(IObjectResolver resolver);
     }
 }

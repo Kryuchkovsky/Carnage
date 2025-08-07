@@ -42,8 +42,8 @@ namespace _Logic.Gameplay.Effects.Systems
                 ref var timerComponent = ref _timerStash.Get(entity);
                 ref var transformComponent = ref _transformStash.Get(entity);
                 
-                if (timerComponent.Value > 0 &&
-                    impactComponent.LastCheckTime - timerComponent.Value < _checkInterval) return;
+                if (timerComponent.Value > 0 && impactComponent.LastCheckTime - timerComponent.Value < _checkInterval) 
+                    continue;
 
                 impactComponent.LastCheckTime = timerComponent.Value;
 

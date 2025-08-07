@@ -31,7 +31,6 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     UnitType = provider.UnitType,
                     Position = provider.transform.position,
                     TeamId = provider.TeamId,
-                    IsPrioritizedTarget = provider.IsPrioritizedTarget,
                     Priority = provider.Priority,
                     HasAI = provider.HasAI
                 }, true);

@@ -74,7 +74,9 @@ namespace _Logic.Extensions.Patterns
                 obj.transform.SetParent(_storage);
             }
 
-            obj.transform.localPosition = Vector3.zero;
+            if (disabling) 
+                obj.transform.localPosition = Vector3.zero;
+            
             _returnAction?.Invoke(obj);
         }
 

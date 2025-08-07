@@ -19,7 +19,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
             //     .ForEach((Entity entity, ref UnitComponent unitComponent, ref AttackComponent attackComponent, 
             //         ref TeamDataComponent teamDataComponent, ref TransformComponent transformComponent) =>
             //     {
-            //         if (attackComponent.AttackTimePercentage < 1) return;
+            //         if (attackComponent.AttackTimePercentage < 1) continue;
             //         
             //         var collisions = Physics.OverlapSphereNonAlloc(
             //             transformComponent.Value.position, attackComponent.Stats.Range.CurrentValue, _colliders, 1 << teamDataComponent.EnemiesLayer);
@@ -37,7 +37,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
             //                 var direction = (_colliders[i].transform.position - transformComponent.Value.position).normalized;
             //                 var angle = Vector3.Angle(transformComponent.Value.forward, direction);
             //
-            //                 if (angle > 60) return;
+            //                 if (angle > 60) continue;
             //                 
             //                 // World.GetRequest<AttackCompletionRequest>().Publish(new AttackCompletionRequest
             //                 // {

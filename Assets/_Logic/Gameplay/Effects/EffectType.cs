@@ -1,6 +1,6 @@
 public enum EffectType
 {
     None = 0,
-    Ignition = 2,
-    SurvivalModePlayerEnhancement = 1,
+    Ignition = 1,
+    SurvivalModePlayerEnhancement = 2,
 }

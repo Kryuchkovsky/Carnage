@@ -1,5 +1,5 @@
 public enum ImpactType
 {
     None = 0,
-    FireBlast = 2,
+    FireBlast = 1,
 }

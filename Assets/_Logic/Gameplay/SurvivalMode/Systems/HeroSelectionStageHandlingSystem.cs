@@ -65,7 +65,6 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
                 LookDirection = Vector3.back,
                 TeamId = 0,
                 HasAI = false,
-                IsPrioritizedTarget = true,
                 Priority = 100
             });
         }
@@ -122,7 +121,6 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
                         LookDirection = Vector3.back,
                         TeamId = teamComponent.Id,
                         Priority = priorityComponent.Value,
-                        IsPrioritizedTarget = true
                     });
 
                     Object.Destroy(unitComponent.Value.gameObject);

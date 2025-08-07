@@ -33,7 +33,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
             foreach (var ent in _attackEndEvent.publishedChanges)
             {
                 if (ent.AttackerEntity.IsNullOrDisposed() || ent.TargetEntity.IsNullOrDisposed() || !ent.AttackerEntity.Has<ReboundAttackComponent>() ||
-                    !ent.AttackerEntity.Has<AttackComponent>() || !ent.AttackerEntity.Has<StatsComponent>() || !ent.AttackerEntity.Has<TeamComponent>()) continue;
+                    !ent.AttackerEntity.Has<AttackComponent>() || !ent.AttackerEntity.Has<StatsComponent>() || !ent.AttackerEntity.Has<TeamComponent>()) 
+                    continue;
 
                 var ownerEntity = ent.AttackerEntity;
                 var isEffect = ent.AttackerEntity.Has<EffectComponent>();

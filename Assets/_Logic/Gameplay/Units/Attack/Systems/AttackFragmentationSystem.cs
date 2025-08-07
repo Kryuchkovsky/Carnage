@@ -50,7 +50,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 {
                     ref var ownerComponent = ref ent.AttackerEntity.GetComponent<OwnerComponent>(out var hasOwnerComponent);
                     
-                    if (!effectComponent.ModifiersAreInfluencing || !hasOwnerComponent || ownerComponent.Entity.IsNullOrDisposed()) continue;
+                    if (!effectComponent.ModifiersAreInfluencing || !hasOwnerComponent || ownerComponent.Entity.IsNullOrDisposed()) 
+                        continue;
                     
                     ownerEntity = ownerComponent.Entity;
                 }

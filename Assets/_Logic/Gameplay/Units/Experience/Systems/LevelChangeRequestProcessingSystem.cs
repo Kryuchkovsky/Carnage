@@ -32,7 +32,8 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         {
             foreach (var request in _levelChangeRequest.Consume())
             {
-                if (request.Entity.IsNullOrDisposed()) continue;
+                if (request.Entity.IsNullOrDisposed()) 
+                    continue;
                 
                 ref var expComponent = ref request.Entity.GetComponent<ExperienceComponent>(out var hasExpComponent);
                 
@@ -72,15 +73,11 @@ namespace _Logic.Gameplay.Units.Experience.Systems
 
                 ref var transformComponent = ref request.Entity.GetComponent<TransformComponent>(out var hasTransformComponent);
 
-                if (hasTransformComponent)
-                {
+                if (hasExpComponent && hasTransformComponent)
                     _vfxService.CreateEffect(_experienceSettings.LevelUpVFX, transformComponent.Value.position);
-                }
 
                 if (!hasExpComponent)
-                {
                     request.Entity.SetComponent(expComponent);
-                }
             }
         }
     }

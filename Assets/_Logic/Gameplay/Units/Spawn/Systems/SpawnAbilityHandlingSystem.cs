@@ -37,7 +37,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
 
                 if (timerComponent.Value > 0 || World.IsDisposed(ownerComponent.Entity) || 
                     !_teamStash.Has(ownerComponent.Entity) || !_transformStash.Has(ownerComponent.Entity)) 
-                    return;
+                    continue;
                 
                 ref var spawnAbilityComponent = ref _spawnAbilityStash.Get(entity);
 

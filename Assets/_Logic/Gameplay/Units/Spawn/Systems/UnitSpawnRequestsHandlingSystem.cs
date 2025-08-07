@@ -131,7 +131,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     HasReset = true
                 }, true);
 
-                if (request.IsPrioritizedTarget)
+                if (request.Priority >= 0)
                 {
                     unit.Entity.SetComponent(new PriorityComponent
                     {

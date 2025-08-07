@@ -10,7 +10,7 @@ namespace _Logic.Extensions.VFXManager
     {
         public event Action<VFX> Played;
 
-        private Vector3 _defaultRotation;
+        private Quaternion _defaultRotation;
         private float _duration;
         private float _timer;
         private bool _isPlayed;
@@ -19,14 +19,14 @@ namespace _Logic.Extensions.VFXManager
 
         private void Awake()
         {
-            _defaultRotation = transform.rotation.eulerAngles;
+            _defaultRotation = transform.rotation;
         }
 
         public void Initialize(Vector3 position, Quaternion rotation, float duration = -1)
         {
             _isPlayed = false;
             transform.position = position;
-            transform.rotation = Quaternion.LookRotation(Vector3.up, _defaultRotation + rotation.eulerAngles);
+            transform.rotation = rotation;
             _duration = duration;
             _timer = duration;
             ParticleSystem.Play();
@@ -34,7 +34,8 @@ namespace _Logic.Extensions.VFXManager
 
         private void Update()
         {
-            if (_isPlayed || _duration <= 0) return;
+            if (_isPlayed || _duration <= 0) 
+                return;
             
             _timer -= Time.deltaTime;
             

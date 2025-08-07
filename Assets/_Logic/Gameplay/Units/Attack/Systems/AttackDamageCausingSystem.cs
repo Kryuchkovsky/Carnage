@@ -30,7 +30,8 @@ namespace _Logic.Gameplay.Units.Attack.Systems
         {
             foreach (var ent in _attackEndEvent.publishedChanges)
             {
-                if (ent.AttackerEntity.IsNullOrDisposed() || !ent.AttackerEntity.Has<AttackComponent>() || !ent.AttackerEntity.Has<StatsComponent>()) continue;
+                if (ent.AttackerEntity.IsNullOrDisposed() || !ent.AttackerEntity.Has<AttackComponent>() || !ent.AttackerEntity.Has<StatsComponent>()) 
+                    continue;
 
                 ref var attackComponent = ref ent.AttackerEntity.GetComponent<AttackComponent>();
                 ref var statsComponent = ref ent.AttackerEntity.GetComponent<StatsComponent>();

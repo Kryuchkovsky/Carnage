@@ -36,7 +36,8 @@ namespace _Logic.Gameplay.Units.Experience.Systems
         {
             foreach (var request in _experienceAmountChangeRequest.Consume())
             {
-                if (request.ReceivingEntity.IsNullOrDisposed() || !request.ReceivingEntity.Has<ExperienceComponent>()) continue;
+                if (request.ReceivingEntity.IsNullOrDisposed() || !request.ReceivingEntity.Has<ExperienceComponent>()) 
+                    continue;
                 
                 ref var expComponent = ref request.ReceivingEntity.GetComponent<ExperienceComponent>();
                 expComponent.TotalExperienceAmount += request.Change;

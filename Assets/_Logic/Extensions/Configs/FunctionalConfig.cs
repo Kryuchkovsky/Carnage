@@ -22,7 +22,7 @@ namespace _Logic.Extensions.Configs
             for (int i = 0; i < _dataList.Count; i++)
             {
                 _dataDictionary.TryAdd(Convert.ToInt32(_dataList[i].Type), _dataList[i]);
-                _dataList[i].Initialize(i);
+                _dataList[i].Initialize();
             }
         }
 
@@ -53,14 +53,18 @@ namespace _Logic.Extensions.Configs
             EnumGenerator.GenerateEnumValues<TData, TEnumType>(useOldValues);
         }
 
+        [ContextMenu("UpdateDataTypes")]
         public void UpdateDataTypes()
         {
             foreach (var data in _dataList)
             {
                 var stringValue = Enum.GetNames(typeof(TEnumType)).FirstOrDefault(e => e == data.name);
                 var enumValue = Enum.Parse<TEnumType>(stringValue);
-                var property = data.GetType().BaseType.GetProperty(nameof(data.Type));
-                property.SetValue(data, enumValue);
+                var type = data.GetType().BaseType;
+                var typeProperty = type?.GetProperty(nameof(data.Type));
+                typeProperty?.SetValue(data, enumValue);
+                var idProperty = type?.GetProperty(nameof(data.Id));
+                idProperty?.SetValue(data, Convert.ToInt32(data.Type) + 1);
                 EditorUtility.SetDirty(data);
                 AssetDatabase.SaveAssetIfDirty(data);
             }
