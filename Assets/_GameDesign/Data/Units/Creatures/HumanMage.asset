@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HumanMage
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 6
-  <Id>k__BackingField: 5
+  <Id>k__BackingField: 7
   _hasAttack: 1
   _attackDamage: 10
   _attackRange: 8

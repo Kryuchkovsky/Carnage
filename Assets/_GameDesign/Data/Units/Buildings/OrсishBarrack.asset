@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "Or\u0441ishBarrack"
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 4
-  <Id>k__BackingField: 3
+  <Id>k__BackingField: 5
   _hasAttack: 1
   _attackDamage: 10
   _attackRange: 1.5

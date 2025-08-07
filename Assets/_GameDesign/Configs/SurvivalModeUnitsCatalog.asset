@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199620dc137ac524eba071a5c6007ca1, type: 3}
+  m_Name: SurvivalModeUnitsCatalog
+  m_EditorClassIdentifier: 
+  _dataList:
+  - {fileID: 11400000, guid: 596496ba31d91b1488d86aae70bff11b, type: 2}
+  - {fileID: 11400000, guid: 876c2d020dff0a2459694253bcce6901, type: 2}
+  - {fileID: 11400000, guid: b45a24812554eb34399f07d8a8a695c8, type: 2}
+  - {fileID: 11400000, guid: 7c06bc5912fab16459cd8c1e067750ca, type: 2}
+  - {fileID: 11400000, guid: fac572dcbc841ae4fad2eeedce0a2e53, type: 2}
+  - {fileID: 11400000, guid: 775fa726b32bd814dac9ea06100adc57, type: 2}
+  - {fileID: 11400000, guid: 94dd1d1199669ee45a3c32ba97d2e4cc, type: 2}
+  - {fileID: 11400000, guid: 556d6001a4d60304998a54152001722d, type: 2}
+  - {fileID: 11400000, guid: 98efc278f4848f942a58bc3ccd349a0a, type: 2}
+  - {fileID: 11400000, guid: 0892dc92fd5c3f74ca6c9e07d2c0d62f, type: 2}
+  <UnitProvider>k__BackingField: {fileID: 3917242633204558852, guid: 63d46729be2d8234da42548890143071,
+    type: 3}

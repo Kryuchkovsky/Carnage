@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9c83f320ec04c358559b8bf471aa489, type: 3}
-  m_Name: SurvivalModeSettings
+  m_Name: SM_Settings
   m_EditorClassIdentifier: 
   <Allies>k__BackingField: 070000000500000006000000
   <Enemies>k__BackingField: 0a0000000800000009000000
-  <PlayerEnhancmentEffectType>k__BackingField: 1
+  <PlayerEnhancmentEffectType>k__BackingField: 2
   <MaxEnemiesNumber>k__BackingField: 10
   <EnemySpawnInterval>k__BackingField: 0.25
   <PossibleAffectionsWhenLevelUp>k__BackingField:

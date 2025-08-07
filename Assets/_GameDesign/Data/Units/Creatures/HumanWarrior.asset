@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HumanWarrior
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 7
-  <Id>k__BackingField: 6
+  <Id>k__BackingField: 8
   _hasAttack: 1
   _attackDamage: 10
   _attackRange: 1.5

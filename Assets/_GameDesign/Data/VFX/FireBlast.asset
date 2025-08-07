@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395d444a4ad4449a873db85ec4907f84, type: 3}
   m_Name: FireBlast
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 5
-  <Id>k__BackingField: 1
+  <Type>k__BackingField: 2
+  <Id>k__BackingField: 3
   <VFX>k__BackingField: {fileID: -7201351285509082667, guid: 52f7522380bb82840806d73334dc7b65,
     type: 3}

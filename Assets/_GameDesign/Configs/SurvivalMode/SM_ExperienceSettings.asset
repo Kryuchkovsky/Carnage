@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 612cd4d2894e46e1ac599bf49fadfdac, type: 3}
-  m_Name: ExperienceSettings
+  m_Name: SM_ExperienceSettings
   m_EditorClassIdentifier: 
   _baseExperienceReward: 100
   _experienceTransitionFactor: 0.13
   _baseLevelCost: 300
   _baseRaisedToPower: 1.5
-  <LevelUpVFX>k__BackingField: 7
+  <LevelUpVFX>k__BackingField: 5

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OrcishShaman
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 9
-  <Id>k__BackingField: 8
+  <Id>k__BackingField: 10
   _hasAttack: 1
   _attackDamage: 10
   _attackRange: 8

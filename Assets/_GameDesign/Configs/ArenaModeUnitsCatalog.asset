@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 199620dc137ac524eba071a5c6007ca1, type: 3}
-  m_Name: UnitsCatalog
+  m_Name: ArenaModeUnitsCatalog
   m_EditorClassIdentifier: 
   _dataList:
   - {fileID: 11400000, guid: 596496ba31d91b1488d86aae70bff11b, type: 2}
@@ -23,5 +23,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 556d6001a4d60304998a54152001722d, type: 2}
   - {fileID: 11400000, guid: 98efc278f4848f942a58bc3ccd349a0a, type: 2}
   - {fileID: 11400000, guid: 0892dc92fd5c3f74ca6c9e07d2c0d62f, type: 2}
+  - {fileID: 11400000, guid: 1e7b845b0f1798a40bbf22f1db7375e3, type: 2}
+  - {fileID: 11400000, guid: aa5dc9fb3ff3f1f4880f43e16a60384d, type: 2}
+  - {fileID: 11400000, guid: 7cdbfb265cf51f9479b3d84ea3b341c0, type: 2}
+  - {fileID: 11400000, guid: 56e7ce47e25d93943a353f79dd49d3c2, type: 2}
   <UnitProvider>k__BackingField: {fileID: 3917242633204558852, guid: 63d46729be2d8234da42548890143071,
     type: 3}

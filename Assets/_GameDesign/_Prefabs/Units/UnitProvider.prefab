@@ -49,6 +49,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -97,6 +100,7 @@ GameObject:
   - component: {fileID: -5137279605775806654}
   - component: {fileID: 6617082677966315236}
   - component: {fileID: 3917242633204558852}
+  - component: {fileID: 752051661152975466}
   m_Layer: 6
   m_Name: UnitProvider
   m_TagString: Untagged
@@ -118,7 +122,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3929269282658630501}
-  - {fileID: 128998983375225804}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &6278904384947501881
@@ -130,7 +133,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8139585502292299976}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.5
   m_Speed: 12
   m_Acceleration: 12
   avoidancePriority: 50
@@ -203,76 +206,19 @@ MonoBehaviour:
   _rigidbody: {fileID: 6617082677966315236}
   _navMeshAgent: {fileID: 6278904384947501881}
   _navMeshObstacle: {fileID: -5137279605775806654}
-  _linkedCollider: {fileID: 7906179249570702267}
   _markerSprite: {fileID: 2028462850241952748}
   _priority: 0
   _isPrioritizedTarget: 0
   <Model>k__BackingField: {fileID: 0}
---- !u!1 &8142931112330621638
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 128998983375225804}
-  - component: {fileID: 2958493143067954547}
-  - component: {fileID: 7906179249570702267}
-  m_Layer: 6
-  m_Name: LinkedCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &128998983375225804
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8142931112330621638}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 381762577256161400}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2958493143067954547
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8142931112330621638}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.25
-  m_Height: 3
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.5, z: 0}
---- !u!114 &7906179249570702267
+--- !u!114 &752051661152975466
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8142931112330621638}
+  m_GameObject: {fileID: 8139585502292299976}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba10c4c32b06ca4bb2fa220c68bfd48, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fa9facf59ab496ba5b94b68b41bd267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
