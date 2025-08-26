@@ -49,7 +49,7 @@ namespace _Logic.Gameplay.Units
         {
         }
 
-        public virtual void LookAtPoint(Vector3 point)
+        public virtual void LookAtPoint(Vector3 point, float rotationSpeed)
         {
         }   
         

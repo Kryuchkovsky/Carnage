@@ -28,7 +28,7 @@ MonoBehaviour:
   <DeathVFXType>k__BackingField: 7
   _hasMovement: 1
   _movementSpeed: 8
-  _rotationSpeed: 0
+  _rotationSpeed: 180
   <Model>k__BackingField: {fileID: 5750806437206450552, guid: 454747459187a4945b197b6e09039060,
     type: 3}
   <SpawnTime>k__BackingField: 3

@@ -16,10 +16,10 @@ MonoBehaviour:
   <Id>k__BackingField: 15
   _hasAttack: 1
   _attackDamage: 30
-  _attackRange: 5
+  _attackRange: 10
   _attackSpeed: 100
   _attackTime: 3
-  <ProjectileType>k__BackingField: 0
+  <ProjectileType>k__BackingField: 3
   <AttackHealthChangeType>k__BackingField: 0
   _hasHealth: 1
   _healthRegenerationRate: 0
@@ -27,8 +27,8 @@ MonoBehaviour:
   <DamageVFXType>k__BackingField: 6
   <DeathVFXType>k__BackingField: 7
   _hasMovement: 1
-  _movementSpeed: 8
-  _rotationSpeed: 0
+  _movementSpeed: 7
+  _rotationSpeed: 180
   <Model>k__BackingField: {fileID: 5750806437206450552, guid: 48c01d514e365e9478e509dc722018be,
     type: 3}
   <SpawnTime>k__BackingField: 3
