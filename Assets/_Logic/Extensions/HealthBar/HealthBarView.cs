@@ -6,6 +6,7 @@ namespace _Logic.Extensions.HealthBar
 {
 	public class HealthBarView : MonoBehaviour
 	{
+		[SerializeField] private CanvasGroup _canvasGroup;
 		[SerializeField] private AnimationCurve _fillValueChangeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 		[SerializeField] private Image _damageImage;
 		[SerializeField] private Image _healingImage;
@@ -65,7 +66,8 @@ namespace _Logic.Extensions.HealthBar
 
 		public void Update()
 		{
-			if (!IsInitiated) return;
+			if (!IsInitiated) 
+				return;
 
 			if (_target == null)
 			{
@@ -76,47 +78,48 @@ namespace _Logic.Extensions.HealthBar
 			if (_hasTemporaryShowing)
 			{
 				if (_timeBeforeHiding > 0)
-				{
 					_timeBeforeHiding -= Time.deltaTime;
-				}
-				
-				SetActivity(_timeBeforeHiding > 0, true);
+
+				_canvasGroup.alpha = _timeBeforeHiding > 0 ? 1 : 0;
 			}
 			
 			if ((_hasTemporaryShowing && _timeBeforeHiding > 0) || !_hasTemporaryShowing)
-			{
 				transform.position = _camera.WorldToScreenPoint(_target.position + Vector3.up * (_baseOffset + _additionalOffset));
-			}
 		}
 
 		public HealthBarView SetActivity(bool isActive, bool isImmediate = false)
 		{
 			if (isImmediate)
 			{
-				_closingSequence.Kill();
-				_openingSequence.Kill();
+				_closingSequence?.Kill();
+				_openingSequence?.Kill();
 				gameObject.SetActive(isActive);
 				transform.localScale = isActive ? Vector3.one : Vector3.zero;
 			}
-			else if (isActive)
-			{
-				_closingSequence.Kill();
-
-				if (_openingSequence != null && _openingSequence.IsPlaying()) return this;
-				
-				_openingSequence = DOTween.Sequence()
-					.AppendCallback(() => gameObject.SetActive(true))
-					.Append(transform.DOScale(1, _activityChangeDuration).SetEase(Ease.OutBack));
-			}
 			else
 			{
-				_openingSequence.Kill();
+				if (isActive)
+				{
+					_closingSequence?.Kill();
 
-				if (_closingSequence != null && _closingSequence.IsPlaying()) return this;
+					if (_openingSequence != null && _openingSequence.IsPlaying()) 
+						return this;
 				
-				_closingSequence = DOTween.Sequence()
-					.Append(transform.DOScale(0, _activityChangeDuration).SetEase(Ease.InBack))
-					.AppendCallback(() => gameObject.SetActive(false));
+					_openingSequence = DOTween.Sequence()
+						.AppendCallback(() => gameObject.SetActive(true))
+						.Append(transform.DOScale(1, _activityChangeDuration).SetEase(Ease.OutBack));
+				}
+				else
+				{
+					_openingSequence?.Kill();
+
+					if (_closingSequence != null && _closingSequence.IsPlaying()) 
+						return this;
+				
+					_closingSequence = DOTween.Sequence()
+						.Append(transform.DOScale(0, _activityChangeDuration).SetEase(Ease.InBack))
+						.AppendCallback(() => gameObject.SetActive(false));
+				}
 			}
 
 			return this;
@@ -124,11 +127,10 @@ namespace _Logic.Extensions.HealthBar
 
 		public HealthBarView SetFillValue(float value, bool isImmediate = false)
 		{
-			if (_hasTemporaryShowing)
-			{
+			if (_hasTemporaryShowing && _targetFillValue != value)
 				_timeBeforeHiding = _hidingDelay;
-			}
-			else if (!gameObject.activeInHierarchy) return this;
+			else if (!gameObject.activeInHierarchy) 
+				return this;
 			
 			_targetFillValue = value;
 			_healingImage.fillAmount = _targetFillValue;

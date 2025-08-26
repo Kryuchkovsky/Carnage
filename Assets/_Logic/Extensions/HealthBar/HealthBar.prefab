@@ -223,6 +223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3621313135527350702}
+  - component: {fileID: 5144800267775233634}
   - component: {fileID: 3621313135527350689}
   m_Layer: 0
   m_Name: HealthBar
@@ -251,6 +252,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 5}
   m_SizeDelta: {x: 100, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &5144800267775233634
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3621313135527350690}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &3621313135527350689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029771645ae846a48c24a6390ae9ec89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 5144800267775233634}
   _fillValueChangeCurve:
     serializedVersion: 2
     m_Curve:
