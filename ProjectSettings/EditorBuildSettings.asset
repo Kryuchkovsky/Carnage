@@ -8,5 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_GameDesign/Scenes/SurvivalModeScene.unity
     guid: c48886c1eaf48a3428b9d2757f094738
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 6bad1b85141658d48b9093760700eee7,
+      type: 3}
   m_UseUCBPForAssetBundles: 0
