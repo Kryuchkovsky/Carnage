@@ -92,11 +92,12 @@ namespace _Logic.Gameplay.Units.Models
             _animator.SetFloat(_movementSpeedFloatHash, value);
         }
 
-        public override void LookAtPoint(Vector3 point)
+        public override void LookAtPoint(Vector3 point, float rotationSpeed)
         {
-            base.LookAtPoint(point);
+            base.LookAtPoint(point, rotationSpeed);
             var direction = (point - transform.position).normalized;
-            transform.rotation = Quaternion.LookRotation(direction);
+            var targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
         }
 
         public override void Reset()
