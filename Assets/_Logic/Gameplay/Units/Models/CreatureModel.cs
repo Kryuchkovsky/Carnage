@@ -16,12 +16,9 @@ namespace _Logic.Gameplay.Units.Models
 
         private readonly int _attackTriggerHash = Animator.StringToHash("Attack");
         private readonly int _attackSpeedFloatHash = Animator.StringToHash("AttackSpeed");
-        private readonly int _weaponTypeIntegerHash = Animator.StringToHash("WeaponType_int");
         private readonly int _hitTriggerHash = Animator.StringToHash("Hit");
         private readonly int _movementSpeedFloatHash = Animator.StringToHash("Speed_f");
         private readonly int _deathBooleanHash = Animator.StringToHash("Death_b");
-        
-        [field: SerializeField] public WeaponType WeaponType { get; private set; }
 
         private void Awake()
         {
@@ -38,7 +35,6 @@ namespace _Logic.Gameplay.Units.Models
                 .SetAutoKill(false)
                 .SetRecyclable(true)
                 .Pause();
-            _animator.SetInteger(_weaponTypeIntegerHash, (int)WeaponType);
         }
 
         private void OnDestroy()
@@ -54,9 +50,6 @@ namespace _Logic.Gameplay.Units.Models
             _animator.SetFloat(_attackSpeedFloatHash, attackSpeed);
             _animator.SetTrigger(_attackTriggerHash);
             _attackAnimationCallback = callback;
-            
-            if (_attackEffect) 
-                _attackEffect.Play();
         }
 
         public override void PlayHitAnimation()
@@ -77,6 +70,9 @@ namespace _Logic.Gameplay.Units.Models
         
         public void Shoot()
         {
+            if (_attackEffect) 
+                _attackEffect.Play();
+            
             InvokeAttackAnimationCallback();
         }
 
@@ -109,10 +105,7 @@ namespace _Logic.Gameplay.Units.Models
 
         private void InvokeAttackAnimationCallback()
         {
-            if (_attackAnimationCallback == null) 
-                return;
-            
-            _attackAnimationCallback.Invoke();
+            _attackAnimationCallback?.Invoke();
             _attackAnimationCallback = null;
         }
     }

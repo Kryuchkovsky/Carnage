@@ -22,7 +22,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         public override void OnAwake()
         {
             _filter = World.Filter.With<UnitComponent>().With<MovementComponent>().With<NavMeshAgentComponent>()
-                .With<AttackComponent>().With<AttackTargetComponent>().With<AliveComponent>().With<AIComponent>().Build();
+                .With<AttackComponent>().With<AliveComponent>().With<AIComponent>().Build();
             _navMeshAgentStash = World.GetStash<NavMeshAgentComponent>();
             _attackTargetStash = World.GetStash<AttackTargetComponent>();
             _transformStash = World.GetStash<TransformComponent>();
@@ -33,31 +33,35 @@ namespace _Logic.Gameplay.Units.AI.Systems
         {
             foreach (var entity in _filter)
             {
-                ref var targetComponent = ref _attackTargetStash.Get(entity);
+                ref var targetComponent = ref _attackTargetStash.Get(entity, out var hasTargetComponent);
                 ref var navMeshAgentComponent = ref _navMeshAgentStash.Get(entity);
-                
-                if (World.IsDisposed(targetComponent.TargetEntity)) 
-                    continue;
+                var hasTarget = hasTargetComponent && !World.IsDisposed(targetComponent.TargetEntity);
+                var isStopped = true;
+
+                if (hasTarget)
+                {
+                    ref var targetTransformComponent = ref _transformStash.Get(targetComponent.TargetEntity, out var targetHasTransform);
+                    isStopped = targetHasTransform && targetComponent.IsInAttackRadius;
                     
+                    ref var destinationComponent = ref _destinationStash.Get(entity, out var hasDestinationComponent);
+
+                    if (targetHasTransform && (!hasDestinationComponent || destinationComponent.Value != targetTransformComponent.Value.position))
+                    {
+                        World.GetRequest<DestinationChangeRequest>().Publish(new DestinationChangeRequest
+                        {
+                            Entity = entity,
+                            Destination = targetTransformComponent.Value.position
+                        });
+                    }
+                }
+                
                 if (navMeshAgentComponent.Value.enabled)
                 {
-                    navMeshAgentComponent.Value.isStopped = targetComponent.IsInAttackRadius;
+                    navMeshAgentComponent.Value.isStopped = isStopped;
                         
-                    if (targetComponent.IsInAttackRadius)
+                    if (isStopped)
                         navMeshAgentComponent.Value.velocity = Vector3.zero;
                 }
-                    
-                var targetTransform = _transformStash.Get(targetComponent.TargetEntity).Value;
-                ref var destinationComponent = ref _destinationStash.Get(entity, out var hasDestinationComponent);
-
-                if (targetComponent.IsInAttackRadius || (hasDestinationComponent && destinationComponent.Value == targetTransform.position))
-                    continue;
-
-                World.GetRequest<DestinationChangeRequest>().Publish(new DestinationChangeRequest
-                {
-                    Entity = entity,
-                    Destination = targetTransform.position
-                });
             }
         }
     }

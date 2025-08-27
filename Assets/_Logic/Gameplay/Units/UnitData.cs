@@ -76,22 +76,22 @@ namespace _Logic.Gameplay.Units
             
             if (_hasAttack)
             {
-                Stats.Add(StatType.AttackDamage, _attackDamage);
-                Stats.Add(StatType.AttackRange, _attackRange);
-                Stats.Add(StatType.AttackSpeed, _attackSpeed);
-                Stats.Add(StatType.AttackTime, _attackTime);
+                Stats.TryAdd(StatType.AttackDamage, _attackDamage);
+                Stats.TryAdd(StatType.AttackRange, _attackRange);
+                Stats.TryAdd(StatType.AttackSpeed, _attackSpeed);
+                Stats.TryAdd(StatType.AttackTime, _attackTime);
             }
             
             if (_hasHealth)
             {
-                Stats.Add(StatType.HealthRegenerationRate, _healthRegenerationRate);
-                Stats.Add(StatType.MaxHeath, _maxHeath);
+                Stats.TryAdd(StatType.HealthRegenerationRate, _healthRegenerationRate);
+                Stats.TryAdd(StatType.MaxHeath, _maxHeath);
             }
             
             if (_hasMovement)
             {
-                Stats.Add(StatType.MovementSpeed, _movementSpeed);
-                Stats.Add(StatType.RotationSpeed, _rotationSpeed);
+                Stats.TryAdd(StatType.MovementSpeed, _movementSpeed);
+                Stats.TryAdd(StatType.RotationSpeed, _rotationSpeed);
             }
         }
     }

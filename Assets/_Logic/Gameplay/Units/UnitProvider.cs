@@ -166,6 +166,7 @@ namespace _Logic.Gameplay.Units
                 Model.PlayDeathAnimation();
                 Model.LinkedCollider.enabled = false;
                 Model.gameObject.layer = LayerMask.NameToLayer("Corpse");
+                Model.Renderer.material.color = Color.grey;
             }
 
             if (_navMeshAgent)
