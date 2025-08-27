@@ -36,6 +36,7 @@ namespace _Logic.Gameplay.FightMode.Systems
         [Inject] private MenuUIContainer _menuUIContainer;
         [Inject] private GameplayUIContainer _gameplayUIContainer;
         [Inject] private ConfigManager _configManager;
+        
         private FightModeSettings Settings => _configManager.GetConfig<FightModeSettings>();
 
         public override void OnAwake()
@@ -53,31 +54,40 @@ namespace _Logic.Gameplay.FightMode.Systems
             _timerStash = World.GetStash<TimerComponent>();
             _fightModeStash = World.GetStash<FightModeComponent>();
             _fightLevelStash = World.GetStash<FightLevelComponent>();
-            _menuUIContainer.SetActivity(true);
-            _gameplayUIContainer.SetActivity(false);
-            _menuUIContainer.NextHeroButton.onClick.AddListener(SwitchToNextHero);
-            _menuUIContainer.PreviousHeroButton.onClick.AddListener(SwitchToPreviousHero);
-            _menuUIContainer.StartButton.onClick.AddListener(StartGame);
 
-            foreach (var entity in _gameCameraFilter)
+            if (Settings.SpawnPlayer)
             {
-                ref var cameraComponent = ref _gameCameraStash.Get(entity);
-                cameraComponent.Value.SetMenuCamera();
+                _menuUIContainer.SetActivity(true);
+                _gameplayUIContainer.SetActivity(false);
+                
+                _menuUIContainer.NextHeroButton.onClick.AddListener(SwitchToNextHero);
+                _menuUIContainer.PreviousHeroButton.onClick.AddListener(SwitchToPreviousHero);
+                _menuUIContainer.StartButton.onClick.AddListener(StartGame);
+                
+                foreach (var entity in _gameCameraFilter)
+                {
+                    ref var cameraComponent = ref _gameCameraStash.Get(entity);
+                    cameraComponent.Value.SetMenuCamera();
+                }
+                
+                var levelEntity = _levelFilter.FirstOrDefault();
+                ref var levelComponent = ref _fightLevelStash.Get(levelEntity);
+                var levelProvider = levelComponent.Value;
+                levelProvider.TryGetSpawnPosition(0, out var spawnPosition1);
+                
+                _unitSpawnRequest.Publish(new UnitSpawnRequest
+                {
+                    UnitType = Settings.Heroes[0],
+                    Position = spawnPosition1,
+                    LookDirection = Vector3.forward,
+                    TeamId = 0,
+                    HasAI = false,
+                });
             }
-            
-            var levelEntity = _levelFilter.FirstOrDefault();
-            ref var levelComponent = ref _fightLevelStash.Get(levelEntity);
-            var levelProvider = levelComponent.Value;
-            levelProvider.TryGetSpawnPosition(0, out var spawnPosition1);
-            
-            _unitSpawnRequest.Publish(new UnitSpawnRequest
+            else
             {
-                UnitType = Settings.Heroes[0],
-                Position = spawnPosition1,
-                LookDirection = Vector3.forward,
-                TeamId = 0,
-                HasAI = false,
-            });
+                StartGame();
+            }
         }
 
         private void SwitchToNextHero() => ChangeUnitTypes(1);
@@ -101,23 +111,20 @@ namespace _Logic.Gameplay.FightMode.Systems
             levelProvider.TryGetSpawnPosition(0, out var spawnPosition1);
             levelProvider.TryGetSpawnPosition(1, out var spawnPosition2);
             
-            for (int i = 0; i < Settings.MaxUnitsInArmy; i++)
+            for (int i = 0; i < 60; i++)
             {
                 _unitSpawnRequest.Publish(new UnitSpawnRequest
                 {
-                    UnitType = Settings.GetRandomUnit(),
+                    UnitType = UnitType.Man,
                     Position = spawnPosition1,
                     LookDirection = Vector3.forward,
                     TeamId = 0,
                     HasAI = true
                 });
-            }
-            
-            for (int i = 0; i < Settings.MaxUnitsInArmy; i++)
-            {
+                
                 _unitSpawnRequest.Publish(new UnitSpawnRequest
                 {
-                    UnitType = Settings.GetRandomUnit(),
+                    UnitType = UnitType.Man,
                     Position = spawnPosition2,
                     LookDirection = Vector3.back,
                     TeamId = 1,
@@ -125,6 +132,69 @@ namespace _Logic.Gameplay.FightMode.Systems
                 });
             }
             
+            for (int i = 0; i < 30; i++)
+            {
+                _unitSpawnRequest.Publish(new UnitSpawnRequest
+                {
+                    UnitType = UnitType.Man_2HandedAxe,
+                    Position = spawnPosition1,
+                    LookDirection = Vector3.forward,
+                    TeamId = 0,
+                    HasAI = true
+                });
+                
+                _unitSpawnRequest.Publish(new UnitSpawnRequest
+                {
+                    UnitType = UnitType.Man_2HandedAxe,
+                    Position = spawnPosition2,
+                    LookDirection = Vector3.back,
+                    TeamId = 1,
+                    HasAI = true
+                });
+            }
+            
+            for (int i = 0; i < 15; i++)
+            {
+                _unitSpawnRequest.Publish(new UnitSpawnRequest
+                {
+                    UnitType = UnitType.Man_Rifle,
+                    Position = spawnPosition1,
+                    LookDirection = Vector3.forward,
+                    TeamId = 0,
+                    HasAI = true
+                });
+                
+                _unitSpawnRequest.Publish(new UnitSpawnRequest
+                {
+                    UnitType = UnitType.Man_Rifle,
+                    Position = spawnPosition2,
+                    LookDirection = Vector3.back,
+                    TeamId = 1,
+                    HasAI = true
+                });
+            }
+            
+            for (int i = 0; i < 5; i++)
+            {
+                _unitSpawnRequest.Publish(new UnitSpawnRequest
+                {
+                    UnitType = UnitType.Man_Giant,
+                    Position = spawnPosition1,
+                    LookDirection = Vector3.forward,
+                    TeamId = 0,
+                    HasAI = true
+                });
+                
+                _unitSpawnRequest.Publish(new UnitSpawnRequest
+                {
+                    UnitType = UnitType.Man_Giant,
+                    Position = spawnPosition2,
+                    LookDirection = Vector3.back,
+                    TeamId = 1,
+                    HasAI = true
+                });
+            }
+
             _menuUIContainer.SetActivity(false);
             _gameplayUIContainer.SetActivity(true);
         }

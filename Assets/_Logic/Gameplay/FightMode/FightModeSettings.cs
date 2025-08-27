@@ -11,6 +11,7 @@ namespace _Logic.Gameplay.FightMode
         [field: SerializeField] public List<UnitType> Units { get; private set; }
         [field: SerializeField] public EffectType PlayerEnhancmentEffectType { get; private set; }
         [field: SerializeField, Range(0, 100)] public int MaxUnitsInArmy { get; private set; } = 10;
+        [field: SerializeField] public bool SpawnPlayer { get; private set; }
         
         public UnitType GetRandomUnit()
         {

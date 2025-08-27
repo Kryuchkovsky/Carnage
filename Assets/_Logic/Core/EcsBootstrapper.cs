@@ -1,10 +1,12 @@
-﻿using _Logic.Core.Systems;
+﻿using System;
+using _Logic.Core.Systems;
 using _Logic.Gameplay;
 using _Logic.Gameplay.Abilities.Systems;
 using _Logic.Gameplay.Camera.Systems;
 using _Logic.Gameplay.Effects.Systems;
 using _Logic.Gameplay.Items.Systems;
 using _Logic.Gameplay.Projectiles.Systems;
+using _Logic.Gameplay.Testing.Systems;
 using _Logic.Gameplay.Units.AI.Systems;
 using _Logic.Gameplay.Units.Attack.Systems;
 using _Logic.Gameplay.Units.Experience.Systems;
@@ -16,7 +18,6 @@ using _Logic.Gameplay.Units.Team.Systems;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 
 namespace _Logic.Core
 {
@@ -27,12 +28,15 @@ namespace _Logic.Core
         
         private SystemsGroup _systemsGroup;
 
-        public abstract World World { get; }
+        public World World { get; private set; }
 
         private bool _isRegistered;
 
-        private void OnEnable()
+        private void Awake()
         {
+            WorldExtensions.InitializationDefaultWorld();
+            World = World.Default;
+            
             _systemsGroup = World.CreateSystemsGroup();
 
             RegisterCommonSystems(_lifetimeScope.Container);
@@ -76,14 +80,13 @@ namespace _Logic.Core
             return this;
         }
 
-        private void OnDisable()
-        {
-            World.RemoveSystemsGroup(_systemsGroup);
-        }
-
         private void RegisterCommonSystems(IObjectResolver resolver)
         {
             AddSystem<TimerProcessingSystem>();
+
+#if UNITY_EDITOR
+            AddInitializer<TestingCommandsHandlingSystem>();
+#endif
             
             AddInitializer<AbilitiesRegistrationSystem>();
             AddSystem<SpawnAbilityHandlingSystem>();
@@ -98,9 +101,9 @@ namespace _Logic.Core
             AddInitializer<StatsPanelProvidingSystem>();
             AddSystem<StatChangeRequestProcessingSystem>();
             AddSystem<StatUpdateSystem>();
-            
-            AddSystem<AttackTargetSearchSystem>();
+
             AddSystem<AttackTargetValidationSystem>();
+            AddSystem<AttackTargetSearchSystem>();
             AddSystem<AttackTargetFollowingSystem>();
             //AddSystem<GlobalTargetFollowingSystem>();
             AddSystem<UnitSightHandlingSystem>();
@@ -148,5 +151,10 @@ namespace _Logic.Core
         }
 
         protected abstract void RegisterSystems(IObjectResolver resolver);
+
+        private void OnDestroy()
+        {
+            World.Dispose();
+        }
     }
 }
