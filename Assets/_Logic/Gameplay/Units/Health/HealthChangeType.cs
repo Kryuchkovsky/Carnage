@@ -2,8 +2,9 @@
 {
     public enum HealthChangeType
     {
-        PhysicDamage,
-        MagicDamage,
-        Healing
+        None = 0,
+        PhysicDamage = 1,
+        MagicDamage = 2,
+        Healing = 3
     }
 }

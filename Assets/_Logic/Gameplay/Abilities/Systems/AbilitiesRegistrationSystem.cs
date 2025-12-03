@@ -33,7 +33,8 @@ namespace _Logic.Gameplay.Abilities.Systems
                 {
                     e.SetComponent(new FragmentationAttackComponent
                     {
-                        Fragments = 1
+                        Fragments = 1,
+                        Radius = -1
                     });
                 }
             }));
@@ -68,7 +69,7 @@ namespace _Logic.Gameplay.Abilities.Systems
                 }
             }));
 
-            foreach (int typeIndex in (ImpactType[]) Enum.GetValues(typeof(ImpactType)))
+            foreach (ImpactType typeIndex in (ImpactType[]) Enum.GetValues(typeof(ImpactType)))
             {
                 if (typeIndex == 0) continue;
                 

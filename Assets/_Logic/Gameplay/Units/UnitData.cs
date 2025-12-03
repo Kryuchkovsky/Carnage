@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Logic.Extensions.Attributes;
 using _Logic.Extensions.Configs;
-using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Stats;
 using UnityEngine;
 
@@ -15,22 +14,16 @@ namespace _Logic.Gameplay.Units
         [SerializeField] private bool _hasAttack = true;
         
         [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
-        private float _attackDamage = 10;
+        private float _baseAttackDamageFactor = 10;
+
+        [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
+        private float _baseAttackSpeed = 100;
         
         [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
-        private float _attackRange = 1.5f;
+        private float _baseAttackRange = 100;
         
         [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
-        private float _attackSpeed = 100;
-        
-        [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
-        private float _attackTime = 2;
-        
-        [field: SerializeField, ConditionalField(nameof(_hasAttack), true)] 
-        public ProjectileType ProjectileType { get; private set; }
-        
-        [field: SerializeField, ConditionalField(nameof(_hasAttack), true)] 
-        public HealthChangeType AttackHealthChangeType { get; private set; }
+        private float _baseAttackTime = 2;
 
         #endregion
 
@@ -64,6 +57,13 @@ namespace _Logic.Gameplay.Units
 
         #endregion
 
+        #region Other
+
+        [field: SerializeField, Min(1)] 
+        public float VisionRange { get; private set; } = 25;
+
+        #endregion
+        
         [field: SerializeField] public UnitModel Model { get; private set; }
         
         [field: SerializeField, Min(0)] public float SpawnTime { get; private set; } = 3f;
@@ -76,10 +76,10 @@ namespace _Logic.Gameplay.Units
             
             if (_hasAttack)
             {
-                Stats.TryAdd(StatType.AttackDamage, _attackDamage);
-                Stats.TryAdd(StatType.AttackRange, _attackRange);
-                Stats.TryAdd(StatType.AttackSpeed, _attackSpeed);
-                Stats.TryAdd(StatType.AttackTime, _attackTime);
+                Stats.TryAdd(StatType.AttackDamage, _baseAttackDamageFactor);
+                Stats.TryAdd(StatType.AttackSpeed, _baseAttackSpeed);
+                Stats.TryAdd(StatType.AttackRange, _baseAttackRange);
+                Stats.TryAdd(StatType.AttackTime, _baseAttackTime);
             }
             
             if (_hasHealth)
@@ -93,6 +93,8 @@ namespace _Logic.Gameplay.Units
                 Stats.TryAdd(StatType.MovementSpeed, _movementSpeed);
                 Stats.TryAdd(StatType.RotationSpeed, _rotationSpeed);
             }
+
+            Stats.TryAdd(StatType.VisionRange, VisionRange);
         }
     }
 }

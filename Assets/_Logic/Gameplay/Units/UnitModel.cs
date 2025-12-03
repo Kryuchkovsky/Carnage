@@ -1,5 +1,7 @@
 ﻿using System;
 using _Logic.Core;
+using _Logic.Gameplay.Items;
+using _Logic.Gameplay.Items.Equipment;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -32,6 +34,9 @@ namespace _Logic.Gameplay.Units
             }
         }
 
+        public abstract bool GetEquipment(SlotType slotType, out EquipmentProvider equipment);
+        public abstract void SetEquipment(SlotType slotType, EquipmentProvider equipment);
+        
         public virtual void PlayAttackAnimation(float attackSpeed = 1, Action callback = null)
         {
             callback?.Invoke();
@@ -51,8 +56,8 @@ namespace _Logic.Gameplay.Units
 
         public virtual void LookAtPoint(Vector3 point, float rotationSpeed)
         {
-        }   
-        
+        }
+
         public virtual void Reset()
         {
         }

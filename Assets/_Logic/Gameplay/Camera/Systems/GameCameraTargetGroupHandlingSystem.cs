@@ -1,5 +1,6 @@
 using _Logic.Core;
 using _Logic.Core.Components;
+using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Spawn;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -24,7 +25,8 @@ namespace _Logic.Gameplay.Camera.Systems
         {
             foreach (var evt in _unitSpawnEvent.publishedChanges) 
             {
-                if (!evt.Entity.Has<TransformComponent>()) continue;
+                if (!evt.Entity.Has<TransformComponent>() || evt.Entity.Has<AIComponent>()) 
+                    continue;
 
                 var transformComponent = evt.Entity.GetComponent<TransformComponent>();
                 

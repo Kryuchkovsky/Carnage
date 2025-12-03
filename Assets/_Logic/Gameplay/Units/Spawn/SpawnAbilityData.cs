@@ -15,7 +15,7 @@ namespace _Logic.Gameplay.Units.Spawn
         public IStatGroup GetCopy() =>
             new SpawnAbilityData
             {
-                SpawnInterval = new Stat(SpawnInterval.BaseValue),
+                SpawnInterval = new Stat(StatType.SpawnDuration, SpawnInterval.BaseValue),
                 Units = new List<UnitType>(Units)
             };
     }

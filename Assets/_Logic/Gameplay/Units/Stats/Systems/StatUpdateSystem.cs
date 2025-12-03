@@ -28,7 +28,7 @@ namespace _Logic.Gameplay.Units.Stats.Systems
             {
                 ref var statsComponent = ref _statsStash.Get(entity);
 
-                if (statsComponent.Value.HasChangedStat)
+                if (statsComponent.Value.IsModified)
                     _statsPanel.Update();
 
                 statsComponent.Value.Update(deltaTime);

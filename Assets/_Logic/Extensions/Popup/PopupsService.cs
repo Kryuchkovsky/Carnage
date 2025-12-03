@@ -92,7 +92,7 @@ namespace _Logic.Extensions.Popup
         private int AddPoolAndGetPoolId(Popup prefab)
         {
             var id = _pools.Count;
-            var pool = new ObjectPool<Popup>(prefab, 8, true, _canvas.transform,
+            var pool = new ObjectPool<Popup>(prefab, 8, _canvas.transform,
                 takeAction: p => _activePopups.Add(p),
                 returnAction: p => _activePopups.Remove(p));
             _pools.Add(id, pool);

@@ -6,6 +6,8 @@ using _Logic.Extensions.VFXManager;
 using _Logic.Gameplay.Effects;
 using _Logic.Gameplay.FightMode;
 using _Logic.Gameplay.Items;
+using _Logic.Gameplay.Items.Assets;
+using _Logic.Gameplay.Items.Equipment;
 using _Logic.Gameplay.Projectiles;
 using _Logic.Gameplay.SelectionPanel;
 using _Logic.Gameplay.SurvivalMode;
@@ -45,7 +47,9 @@ namespace _Logic.Gameplay
             builder.RegisterInstance(_configManager.GetConfig<SurvivalModeSettings>());
             builder.RegisterInstance(_configManager.GetConfig<FightModeSettings>());
             builder.RegisterInstance(_configManager.GetConfig<UnitsCatalog>());
-            builder.RegisterInstance(_configManager.GetConfig<ItemConfig>());
+            builder.RegisterInstance(_configManager.GetConfig<ItemsCatalog>());
+            builder.RegisterInstance(_configManager.GetConfig<AssetsCatalog>());
+            builder.RegisterInstance(_configManager.GetConfig<EquipmentCatalog>());
 
             var vfxConfig = _configManager.GetConfig<VFXCatalog>();
             var vfxService = new VFXService(vfxConfig);

@@ -17,7 +17,7 @@ namespace _Logic.Extensions.HealthBar
         {
             _camera ??= Camera.main;
             _settings = settings;
-            _healthBarsPool = new(_settings.HealthBar, 16, true, _canvas.transform,
+            _healthBarsPool = new(_settings.HealthBar, 16, _canvas.transform,
                 takeAction: v => _healthBarViews.Add(v),
                 returnAction: v =>
                 {

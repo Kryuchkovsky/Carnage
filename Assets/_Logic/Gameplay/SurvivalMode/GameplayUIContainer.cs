@@ -1,4 +1,5 @@
-﻿using _Logic.Gameplay.Units.Experience;
+﻿using _Logic.Gameplay.FightMode;
+using _Logic.Gameplay.Units.Experience;
 using _Logic.Gameplay.Units.Stats;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace _Logic.Gameplay.SurvivalMode
     {
         [field: SerializeField] public StatsPanel StatsPanel { get; private set; }
         [field: SerializeField] public PlayerExperienceBar PlayerExperienceBar { get; private set; }
+        [field: SerializeField] public UIBattleStateView BattleStateView { get; private set; }
         
         public void SetActivity(bool isActive) => gameObject.SetActive(isActive);
     }

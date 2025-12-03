@@ -19,7 +19,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class AttackFragmentationSystem : AbstractUpdateSystem
     {
-        private readonly Collider[] _colliders = new Collider[64];
+        private readonly Collider[] _colliders = new Collider[256];
         private Request<AttackRequest> _attackRequest;
         private Event<AttackEndEvent> _attackEndEvent;
 
@@ -33,16 +33,18 @@ namespace _Logic.Gameplay.Units.Attack.Systems
         {
             foreach (var ent in _attackEndEvent.publishedChanges)
             {
-                if (ent.AttackerEntity.IsNullOrDisposed() || ent.TargetEntity.IsNullOrDisposed() ) continue;
+                if (!ent.IsOrigin || ent.AttackerEntity.IsNullOrDisposed() || ent.TargetEntity.IsNullOrDisposed()) 
+                    continue;
                 
                 ref var fragmentationAttackComponent = ref ent.AttackerEntity.GetComponent<FragmentationAttackComponent>(out var hasFragmentationAttackComponent);
                 ref var attackComponent = ref ent.AttackerEntity.GetComponent<AttackComponent>(out var hasAttackComponent);
                 ref var statsComponent = ref ent.AttackerEntity.GetComponent<StatsComponent>(out var hasStatsComponent);
                 ref var teamDataComponent = ref ent.AttackerEntity.GetComponent<TeamComponent>(out var hasTeamDataComponent);
 
-                if (!hasFragmentationAttackComponent || !hasAttackComponent || !hasStatsComponent || !hasTeamDataComponent || fragmentationAttackComponent.Fragments <= 0) continue;
+                if (!hasFragmentationAttackComponent || !hasAttackComponent || !hasStatsComponent || !hasTeamDataComponent || fragmentationAttackComponent.Fragments <= 0) 
+                    continue;
 
-                var range = statsComponent.Value.GetCurrentValue(StatType.AttackRange);
+                var range = fragmentationAttackComponent.Radius <= 0 ? statsComponent.Value.GetCurrentValue(StatType.AttackRange) : fragmentationAttackComponent.Radius;
                 var ownerEntity = ent.AttackerEntity;
                 ref var effectComponent = ref ent.AttackerEntity.GetComponent<EffectComponent>(out var hasEffectComponent);
                 
@@ -79,7 +81,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                             AttackerEntity = ownerEntity,
                             TargetEntity = linkedCollider.Entity,
                             AttackPosition = attackPosition,
-                            IsOriginal = true
+                            IsOrigin = false
                         }, true);
                         
                         numberOfFoundedTargets++;

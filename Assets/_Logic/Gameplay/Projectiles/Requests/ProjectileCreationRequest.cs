@@ -10,6 +10,6 @@ namespace _Logic.Gameplay.Projectiles.Requests
         public ProjectileType Type;
         public Vector3 InitialPosition;
         public Vector3 TargetPosition;
-        public bool IsOriginal;
+        public bool IsOrigin;
     }
 }

@@ -1,8 +1,11 @@
-﻿using _Logic.Core;
+﻿using System;
+using System.Collections.Generic;
+using _Logic.Core;
 using _Logic.Core.Components;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.FightMode.Components;
 using _Logic.Gameplay.SurvivalMode;
+using _Logic.Gameplay.Units;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Spawn;
@@ -11,6 +14,7 @@ using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using VContainer;
+using Object = UnityEngine.Object;
 
 namespace _Logic.Gameplay.FightMode.Systems
 {
@@ -110,86 +114,29 @@ namespace _Logic.Gameplay.FightMode.Systems
 
             levelProvider.TryGetSpawnPosition(0, out var spawnPosition1);
             levelProvider.TryGetSpawnPosition(1, out var spawnPosition2);
+
+            var positions1 = GetPositions(spawnPosition1, 28, false);
+            var positions2 = GetPositions(spawnPosition2, 28, true);
             
-            for (int i = 0; i < 60; i++)
+            for (int i = 0; i < 28; i++)
             {
                 _unitSpawnRequest.Publish(new UnitSpawnRequest
                 {
                     UnitType = UnitType.Man,
-                    Position = spawnPosition1,
-                    LookDirection = Vector3.forward,
+                    Position = positions1[i],
+                    LookDirection = spawnPosition2 - spawnPosition1,
                     TeamId = 0,
                     HasAI = true
                 });
-                
+            }
+
+            for (int i = 0; i < 28; i++)
+            {
                 _unitSpawnRequest.Publish(new UnitSpawnRequest
                 {
                     UnitType = UnitType.Man,
-                    Position = spawnPosition2,
-                    LookDirection = Vector3.back,
-                    TeamId = 1,
-                    HasAI = true
-                });
-            }
-            
-            for (int i = 0; i < 30; i++)
-            {
-                _unitSpawnRequest.Publish(new UnitSpawnRequest
-                {
-                    UnitType = UnitType.Man_2HandedAxe,
-                    Position = spawnPosition1,
-                    LookDirection = Vector3.forward,
-                    TeamId = 0,
-                    HasAI = true
-                });
-                
-                _unitSpawnRequest.Publish(new UnitSpawnRequest
-                {
-                    UnitType = UnitType.Man_2HandedAxe,
-                    Position = spawnPosition2,
-                    LookDirection = Vector3.back,
-                    TeamId = 1,
-                    HasAI = true
-                });
-            }
-            
-            for (int i = 0; i < 15; i++)
-            {
-                _unitSpawnRequest.Publish(new UnitSpawnRequest
-                {
-                    UnitType = UnitType.Man_Rifle,
-                    Position = spawnPosition1,
-                    LookDirection = Vector3.forward,
-                    TeamId = 0,
-                    HasAI = true
-                });
-                
-                _unitSpawnRequest.Publish(new UnitSpawnRequest
-                {
-                    UnitType = UnitType.Man_Rifle,
-                    Position = spawnPosition2,
-                    LookDirection = Vector3.back,
-                    TeamId = 1,
-                    HasAI = true
-                });
-            }
-            
-            for (int i = 0; i < 5; i++)
-            {
-                _unitSpawnRequest.Publish(new UnitSpawnRequest
-                {
-                    UnitType = UnitType.Man_Giant,
-                    Position = spawnPosition1,
-                    LookDirection = Vector3.forward,
-                    TeamId = 0,
-                    HasAI = true
-                });
-                
-                _unitSpawnRequest.Publish(new UnitSpawnRequest
-                {
-                    UnitType = UnitType.Man_Giant,
-                    Position = spawnPosition2,
-                    LookDirection = Vector3.back,
+                    Position = positions2[i],
+                    LookDirection = spawnPosition1 - spawnPosition2,
                     TeamId = 1,
                     HasAI = true
                 });
@@ -199,6 +146,29 @@ namespace _Logic.Gameplay.FightMode.Systems
             _gameplayUIContainer.SetActivity(true);
         }
 
+        private List<Vector3> GetPositions(Vector3 center, int count, bool inverse = false)
+        {
+            var positions = new List<Vector3>(count);
+            var cellSideLength = 1f;
+            var factor = inverse ? -1 : 1;
+            var rows = Mathf.Clamp((int)Math.Sqrt(count), 1, 20);
+            var columns = Mathf.FloorToInt((float)count / rows);
+            var initialPosition = center + new Vector3(rows * factor, 0, columns * factor) / 2;
+
+            for (int i = 0; i < count; i++)
+            {
+                var row = Mathf.FloorToInt((float)i / rows);
+                var column = i % rows;
+                var position = initialPosition - new Vector3(
+                    row * cellSideLength * factor, 
+                    0,
+                    column * cellSideLength * factor);
+                positions.Add(position);
+            }
+
+            return positions;
+        }
+        
         private void ChangeUnitTypes(int change)
         {
             foreach (var modeEntity in _fightModeFilter)

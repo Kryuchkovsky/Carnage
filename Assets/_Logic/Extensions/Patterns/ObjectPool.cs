@@ -19,7 +19,7 @@ namespace _Logic.Extensions.Patterns
         
         public T Prefab { get; private set; }
 
-        public ObjectPool(T prefab, int capacity = 16, bool autoFilling = false, Transform poolParent = null, 
+        public ObjectPool(T prefab, int capacity = 0, Transform poolParent = null, 
             Action<T> creationAction = null, Action<T> takeAction = null, Action<T> returnAction = null)
         {
             Prefab = prefab;
@@ -50,10 +50,8 @@ namespace _Logic.Extensions.Patterns
 
             Object.DontDestroyOnLoad(_storage);
 
-            if (autoFilling)
-            {
+            if (capacity > 0)
                 FillPool();
-            }
         }
 
         public T Take()

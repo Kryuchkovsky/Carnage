@@ -1,6 +1,5 @@
 ﻿using _Logic.Core;
 using _Logic.Gameplay.SurvivalMode.Systems;
-using Scellecs.Morpeh;
 using VContainer;
 
 namespace _Logic.Gameplay.SurvivalMode

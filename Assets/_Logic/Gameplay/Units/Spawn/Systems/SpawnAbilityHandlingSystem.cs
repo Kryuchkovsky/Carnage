@@ -3,10 +3,14 @@ using _Logic.Core.Components;
 using _Logic.Gameplay.Units.Spawn.Components;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using Random = UnityEngine.Random;
 
 namespace _Logic.Gameplay.Units.Spawn.Systems
 {
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class SpawnAbilityHandlingSystem : AbstractUpdateSystem
     {
         private Filter _filter;

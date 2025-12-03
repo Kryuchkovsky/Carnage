@@ -10,6 +10,7 @@ namespace _Logic.Gameplay.FightMode
         {
             AddInitializer<FightModeInitializationSystem>();
             AddInitializer<FightSelectionStageHandlingSystem>();
+            AddSystem<UnitsCountHandlingSystem>();
         }
     }
 }

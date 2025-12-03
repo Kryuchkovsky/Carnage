@@ -43,28 +43,12 @@ namespace _Logic.Extensions.Configs
                 {
                     var expandedConfig = (IExpandedConfig)config;
                     expandedConfig.FindAllDataObjects();
-                    expandedConfig.UpdateDataTypes();
                 }
             }
             
             AssetDatabase.Refresh();
         }
-        
-        public static void GenerateDataEnumTypes(bool useOldValues = true)
-        {
-            foreach (var config in Instance._configs)
-            {
-                if (config is IExpandedConfig)
-                {
-                    var expandedConfig = (IExpandedConfig)config;
-                    expandedConfig.GenerateDataEnumTypes(useOldValues);
-                    expandedConfig.UpdateDataTypes();
-                }
-            }
-            
-            AssetDatabase.Refresh();
-        }
-        
+
         public T GetConfig<T>() where T : ScriptableObject => Instance._configDictionary[typeof(T)] as T;
     }
 }

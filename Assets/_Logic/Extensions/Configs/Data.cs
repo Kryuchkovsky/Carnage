@@ -1,5 +1,4 @@
 ﻿using System;
-using TriInspector;
 using UnityEngine;
 
 namespace _Logic.Extensions.Configs
@@ -7,8 +6,9 @@ namespace _Logic.Extensions.Configs
     [Serializable]
     public abstract class Data<TEnumKey> : ScriptableObject where TEnumKey : Enum
     {
-        [field: SerializeField, ReadOnly] public TEnumKey Type { get; private set; }
-        [field: SerializeField, ReadOnly] public int Id { get; private set; }
+        [field: SerializeField] public virtual TEnumKey Type { get; private set; }
+        
+        public int Id => Convert.ToInt32(Type);
 
         public virtual void Initialize()
         {

@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using _Logic.Core;
+using _Logic.Gameplay.Effects;
+using _Logic.Gameplay.Items.Equipment.Weapon.Components;
+using _Logic.Gameplay.Projectiles;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Movement.Components;
 using _Logic.Gameplay.Units.Stats.Components;
@@ -17,10 +21,12 @@ namespace _Logic.Gameplay.Units.Stats.Systems
     public class StatDependentComponentsSetRequestProcessingSystem : AbstractUpdateSystem
     {
         private Request<StatDependentComponentsSetRequest> _request;
-        
+        private Stash<WeaponComponent> _weaponStash;
+
         public override void OnAwake()
         {
             _request = World.GetRequest<StatDependentComponentsSetRequest>();
+            _weaponStash = World.GetStash<WeaponComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -37,20 +43,31 @@ namespace _Logic.Gameplay.Units.Stats.Systems
                 var hasAllAttackStats = stats.HasStat(StatType.AttackDamage) && stats.HasStat(StatType.AttackRange) &&
                                         stats.HasStat(StatType.AttackSpeed) && stats.HasStat(StatType.AttackTime);
 
+                if (hasAllAttackStats)
+                {
+                    //todo add weapon
+                }
+                else
+                {
+                    _weaponStash.Remove(request.Entity);
+                }
+                
                 if (hasAllAttackStats && (request.HasReset || !request.Entity.Has<AttackComponent>()))
                 {
+                    var weaponComponent = _weaponStash.Get(request.Entity, out var hasWeaponComponent);
+
                     request.Entity.SetComponent(new AttackComponent
                     {
                         ImpactTypes = new HashSet<ImpactType>(),
-                        ProjectileType = data.ProjectileType,
-                        AttackHealthChangeType = data.AttackHealthChangeType
+                        ProjectileType = hasWeaponComponent ? weaponComponent.WeaponData.ProjectileType : ProjectileType.None,
+                        AttackHealthChangeType = hasWeaponComponent ? weaponComponent.WeaponData.AttackHealthChangeType : HealthChangeType.PhysicDamage
                     });
                 }
                 else if (!hasAllAttackStats && request.Entity.Has<AttackComponent>())
                 {
                     request.Entity.RemoveComponent<AttackComponent>();
                 }
-                
+
                 var hasAllMovementStats = stats.HasStat(StatType.MovementSpeed) && stats.HasStat(StatType.RotationSpeed);
 
                 if (hasAllMovementStats && (request.HasReset || !request.Entity.Has<MovementComponent>()))

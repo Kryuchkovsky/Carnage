@@ -15,11 +15,15 @@ using _Logic.Gameplay.Units.Stats.Requests;
 using _Logic.Gameplay.Units.Team;
 using _Logic.Gameplay.Units.Team.Components;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using VContainer;
 
 namespace _Logic.Gameplay.Units.Spawn.Systems
 {
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class UnitSpawnRequestsHandlingSystem : AbstractUpdateSystem
     {
         private Dictionary<UnitType, ObjectPool<UnitProvider>> _objectPools;
@@ -70,7 +74,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                 unit.transform.rotation = Quaternion.LookRotation(request.LookDirection);
 
                 var entity = unit.Entity;
-                var data = _unitCatalog.GetData((int)request.UnitType);
+                var data = _unitCatalog.GetData(request.UnitType);
                 
                 if (unit.Model && unit.Model.Id == data.Model.Id)
                 {
@@ -99,7 +103,7 @@ namespace _Logic.Gameplay.Units.Spawn.Systems
                     
                     foreach (var statPair in data.Stats)
                     {
-                        stats.Register(statPair.Key, statPair.Value);
+                        stats.Add(statPair.Key, statPair.Value);
                     }
                     
                     entity.SetComponent(new StatsComponent

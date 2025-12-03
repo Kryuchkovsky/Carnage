@@ -9,5 +9,6 @@ namespace _Logic.Gameplay.Units.Attack.Components
     public struct FragmentationAttackComponent : IAttackModifierComponent
     {
         public int Fragments;
+        public float Radius;
     }
 }

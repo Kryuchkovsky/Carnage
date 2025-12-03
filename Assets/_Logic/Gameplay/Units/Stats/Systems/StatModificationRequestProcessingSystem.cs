@@ -1,0 +1,35 @@
+﻿using _Logic.Core;
+using _Logic.Gameplay.Units.Stats.Components;
+using _Logic.Gameplay.Units.Stats.Requests;
+using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
+
+namespace _Logic.Gameplay.Units.Stats.Systems
+{
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public class StatModificationRequestProcessingSystem : AbstractUpdateSystem
+    {
+        private Request<StatModificationRequest> _request;
+        
+        public override void OnAwake()
+        {
+            _request = World.GetRequest<StatModificationRequest>();
+        }
+
+        public override void OnUpdate(float deltaTime)
+        {
+            foreach (var request in _request.Consume())
+            {
+                if (request.Entity.IsNullOrDisposed()) 
+                    continue;
+                
+                ref var statsComponent = ref request.Entity.GetComponent<StatsComponent>(out var hasStatsComponent);
+                
+                if (hasStatsComponent)
+                    statsComponent.Value.AddBuff(request.statBuff);
+            }
+        }
+    }
+}

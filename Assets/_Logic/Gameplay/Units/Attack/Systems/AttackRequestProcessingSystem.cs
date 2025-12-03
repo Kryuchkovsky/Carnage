@@ -1,5 +1,6 @@
 ﻿using _Logic.Core;
 using _Logic.Core.Components;
+using _Logic.Gameplay.Projectiles;
 using _Logic.Gameplay.Projectiles.Events;
 using _Logic.Gameplay.Projectiles.Requests;
 using _Logic.Gameplay.Units.Attack.Components;
@@ -36,17 +37,15 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     continue;
                 
                 ref var attackComponent = ref request.AttackerEntity.GetComponent<AttackComponent>();
-                
+
                 if (attackComponent.ProjectileType == ProjectileType.None)
                 {
-                    if (request.IsOriginal)
+                    _attackEndEvent.NextFrame(new AttackEndEvent
                     {
-                        _attackEndEvent.NextFrame(new AttackEndEvent
-                        {
-                            AttackerEntity = request.AttackerEntity,
-                            TargetEntity = request.TargetEntity,
-                        });
-                    }
+                        AttackerEntity = request.AttackerEntity,
+                        TargetEntity = request.TargetEntity,
+                        IsOrigin = request.IsOrigin
+                    });
                 }
                 else
                 {
@@ -56,7 +55,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                         TargetEntity = request.TargetEntity,
                         Type = attackComponent.ProjectileType,
                         InitialPosition = request.AttackPosition,
-                        IsOriginal = request.IsOriginal
+                        IsOrigin = request.IsOrigin
                     }, true);
                 }
             }

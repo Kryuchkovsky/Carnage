@@ -1,5 +1,4 @@
-﻿using System;
-using _Logic.Core;
+﻿using _Logic.Core;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Stats;
@@ -28,7 +27,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
             {
                 ref var attackComponent = ref _attackStash.Get(entity);
                 ref var statsComponent = ref _statsStash.Get(entity);
-                
+
                 var attackSpeed = statsComponent.Value.GetCurrentValue(StatType.AttackSpeed);
                 var attackTime = statsComponent.Value.GetCurrentValue(StatType.AttackTime);
                 attackComponent.AttacksPerSecond = attackSpeed * 0.01f / attackTime;

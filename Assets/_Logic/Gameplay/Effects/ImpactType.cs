@@ -1,5 +1,8 @@
-public enum ImpactType
+namespace _Logic.Gameplay.Effects
 {
-    None = 0,
-    FireBlast = 1,
+    public enum ImpactType
+    {
+        None = 0,
+        FireBlast = 1,
+    }
 }

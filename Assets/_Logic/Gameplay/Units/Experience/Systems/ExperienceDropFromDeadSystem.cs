@@ -1,6 +1,7 @@
 ﻿using _Logic.Core;
 using _Logic.Core.Components;
-using _Logic.Gameplay.Items.Requests;
+using _Logic.Gameplay.Items.Assets;
+using _Logic.Gameplay.Items.Assets.Components;
 using _Logic.Gameplay.Units.Experience.Components;
 using _Logic.Gameplay.Units.Health.Events;
 using Scellecs.Morpeh;
@@ -15,14 +16,14 @@ namespace _Logic.Gameplay.Units.Experience.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class ExperienceDropFromDeadSystem : AbstractUpdateSystem
     {
-        private Request<ExperienceEssenceCreationRequest> _experienceEssenceCreationRequest;
+        private Request<AssetCreationRequest> _experienceEssenceCreationRequest;
         private Event<UnitDeathEvent> _unitDeathEvent;
         
         [Inject] private ExperienceSettings _experienceSettings;
         
         public override void OnAwake()
         {
-            _experienceEssenceCreationRequest = World.GetRequest<ExperienceEssenceCreationRequest>();
+            _experienceEssenceCreationRequest = World.GetRequest<AssetCreationRequest>();
             _unitDeathEvent = World.GetEvent<UnitDeathEvent>();
         }
 
@@ -37,10 +38,11 @@ namespace _Logic.Gameplay.Units.Experience.Systems
                 var transformComponent = evt.CorpseEntity.GetComponent<TransformComponent>();
                 var experience = _experienceSettings.CalculateExperienceRewardForMurder(experienceComponent.TotalExperienceAmount);
 
-                _experienceEssenceCreationRequest.Publish(new ExperienceEssenceCreationRequest
+                _experienceEssenceCreationRequest.Publish(new AssetCreationRequest
                 {
                     Position = transformComponent.Value.position + Vector3.up,
-                    ExperienceAmount = experience
+                    Type = AssetType.Experience,
+                    Value = experience
                 });
             }
         }

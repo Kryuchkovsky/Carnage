@@ -1,6 +1,9 @@
-public enum EffectType
+namespace _Logic.Gameplay.Effects
 {
-    None = 0,
-    Ignition = 1,
-    SurvivalModePlayerEnhancement = 2,
+    public enum EffectType
+    {
+        None = 0,
+        Ignition = 1,
+        SurvivalModePlayerEnhancement = 2,
+    }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
 using _Logic.Core;
 using _Logic.Core.Components;
-using _Logic.Extensions.Configs;
-using _Logic.Gameplay.Units.AI;
-using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Stats;
 using _Logic.Gameplay.Units.Stats.Components;
@@ -99,7 +96,7 @@ namespace _Logic.Gameplay.Units
             Model = model;
             model.transform.parent = transform;
             model.transform.localPosition = Vector3.zero;
-            model.transform.rotation = Quaternion.identity;
+            model.transform.localRotation = Quaternion.identity;
             
             Entity.SetComponent(new BoundsComponent
             {
@@ -179,15 +176,14 @@ namespace _Logic.Gameplay.Units
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
-            if (!Entity.IsNullOrDisposed() && Entity.Has<AttackComponent>() && Entity.Has<StatsComponent>())
+            if (!Entity.IsNullOrDisposed() && Entity.Has<StatsComponent>())
             {
-                var stats = Entity.GetComponent<StatsComponent>().Value;
-                var attackRange = stats.GetCurrentValue(StatType.AttackRange);
+                var attackRange = Entity.GetComponent<StatsComponent>().Value.GetCurrentValue(StatType.AttackRange);
 
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, attackRange);
 
-                var searchRange = attackRange * ConfigManager.Instance.GetConfig<AISettings>().TargetSearchRangeToAttackRangeRatio;
+                var searchRange = Entity.GetComponent<StatsComponent>().Value.GetCurrentValue(StatType.VisionRange);
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, searchRange);
             } 

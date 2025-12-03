@@ -36,7 +36,9 @@ namespace _Logic.Gameplay.Units.Health.Systems
             foreach (var type in (HealthChangeType[])Enum.GetValues(typeof(HealthChangeType)))
             {
                 var data = GetPopupData(type);
-                _popupDataSet.Add(type, data);
+                
+                if (data is not null) 
+                    _popupDataSet.Add(type, data);
             }
             
             _healthChangeRequest = World.GetRequest<HealthChangeRequest>();
@@ -49,7 +51,7 @@ namespace _Logic.Gameplay.Units.Health.Systems
             {
                 if (request.TargetEntity.IsNullOrDisposed() || !request.TargetEntity.Has<UnitComponent>() || 
                     !request.TargetEntity.Has<UnitDataComponent>() || !request.TargetEntity.Has<HealthComponent>() || 
-                    !request.TargetEntity.Has<AliveComponent>() || !request.TargetEntity.Has<StatsComponent>()) continue;
+                    !request.TargetEntity.Has<AliveComponent>() || !request.TargetEntity.Has<StatsComponent>() || request.Data.Type == HealthChangeType.None) continue;
 
                 ref var unitComponent = ref request.TargetEntity.GetComponent<UnitComponent>();
                 ref var unitDataComponent = ref request.TargetEntity.GetComponent<UnitDataComponent>();
@@ -120,6 +122,8 @@ namespace _Logic.Gameplay.Units.Health.Systems
 
             switch (type)
             {
+                case HealthChangeType.None:
+                    return null;
                 case HealthChangeType.PhysicDamage:
                     popupFormat = "-{0:1}";
                     popupColor = Color.red;

@@ -1,0 +1,12 @@
+﻿using Scellecs.Morpeh.Collections;
+
+namespace _Logic.Gameplay.Units.Stats
+{
+    public interface IStatBuff
+    {
+        public FastList<StatModifier> StatModifiers { get; }
+        public StatModificationType StatModificationType { get; }
+        public bool IsPersist { get; }
+        public float Duration { get;}
+    }
+}

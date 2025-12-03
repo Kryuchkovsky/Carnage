@@ -10,5 +10,6 @@ namespace _Logic.Gameplay.Items.Components
     public struct CollectorComponent : IComponent
     {
         public float Radius;
+        public float Speed;
     }
 }

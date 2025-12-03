@@ -6,5 +6,6 @@ namespace _Logic.Gameplay.Units.Attack.Events
     {
         public Entity AttackerEntity;
         public Entity TargetEntity;
+        public bool IsOrigin;
     }
 }

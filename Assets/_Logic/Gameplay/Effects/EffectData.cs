@@ -1,19 +1,22 @@
-﻿using System.Collections.Generic;
-using _Logic.Extensions.Attributes;
+﻿using _Logic.Extensions.Attributes;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Stats;
 using JetBrains.Annotations;
+using Scellecs.Morpeh.Collections;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Effects
 {
     [CreateAssetMenu(menuName = "Effects/Create EffectData", fileName = "EffectData", order = 0)]
-    public class EffectData : Data<EffectType>
+    public class EffectData : Data<EffectType>, IStatBuff
     {
         [field: SerializeField, Header("Affections")] 
-        public List<EffectAffection> Changes { get; private set; }
-        
+        public FastList<StatModifier> StatModifiers { get; private set; }
+
+        [field: SerializeField] 
+        public StatModificationType StatModificationType { get; private set; }
+
         [field: SerializeField, CanBeNull] 
         public string Description { get; private set; }
 
@@ -37,5 +40,7 @@ namespace _Logic.Gameplay.Effects
 
         [field: SerializeField, Header("Visualization")] 
         public VFXType VFXType { get; private set; }
+
+
     }
 }

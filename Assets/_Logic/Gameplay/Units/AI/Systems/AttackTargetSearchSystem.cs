@@ -22,8 +22,6 @@ namespace _Logic.Gameplay.Units.AI.Systems
         private Stash<PriorityComponent> _priorityStash;
         private readonly Collider[] _colliders = new Collider[10];
 
-        [Inject] private AISettings _aiSettings;
-
         public override void OnAwake()
         {
             _filter = World.Filter.With<UnitComponent>().With<StatsComponent>().With<AttackComponent>()
@@ -45,9 +43,8 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 ref var transformComponent = ref _transformStash.Get(entity);
                 
                 var position = transformComponent.Value.position;
-                var range = statsComponent.Value.GetCurrentValue(StatType.AttackRange);
-                var searchRange  = range * _aiSettings.TargetSearchRangeToAttackRangeRatio;
-                var collisions = Physics.OverlapSphereNonAlloc(position, searchRange, _colliders, 1 << teamComponent.EnemiesLayer);
+                var visionRange  = statsComponent.Value.GetCurrentValue(StatType.VisionRange);
+                var collisions = Physics.OverlapSphereNonAlloc(position, visionRange, _colliders, 1 << teamComponent.EnemiesLayer);
                 var minDistance = float.MaxValue;
                 var maxPriority = int.MinValue;
                 LinkedCollider targetLinkedCollider = null;
@@ -68,7 +65,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
                         else if (priorityComponent.Value == maxPriority &&
                                  EcsExtensions.TryGetDistanceBetweenClosestPoints(entity, collider.Entity,
                                      out var distance) &&
-                                 distance <= searchRange && distance < minDistance)
+                                 distance <= visionRange && distance < minDistance)
                         {
                             minDistance = distance;
                             targetLinkedCollider = collider;

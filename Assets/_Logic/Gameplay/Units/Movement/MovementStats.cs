@@ -7,8 +7,8 @@ namespace _Logic.Gameplay.Units.Movement
     [Serializable]
     public class MovementStats : IStatGroup
     {
-        [field: SerializeField] public Stat MovementSpeed { get; private set; } = new(10);
-        [field: SerializeField] public Stat RotationSpeed { get; private set; } = new(360);
+        [field: SerializeField] public Stat MovementSpeed { get; private set; } = new(StatType.MovementSpeed, 10);
+        [field: SerializeField] public Stat RotationSpeed { get; private set; } = new(StatType.RotationSpeed, 360);
 
         public MovementStats()
         {
@@ -16,8 +16,8 @@ namespace _Logic.Gameplay.Units.Movement
 
         public MovementStats(float movementSpeed, float rotationSpeed)
         {
-            MovementSpeed = new Stat(movementSpeed);
-            RotationSpeed = new Stat(rotationSpeed);
+            MovementSpeed = new Stat(StatType.MovementSpeed, movementSpeed);
+            RotationSpeed = new Stat(StatType.RotationSpeed, rotationSpeed);
         }
 
         public StatGroupType Type => StatGroupType.MovementStats;

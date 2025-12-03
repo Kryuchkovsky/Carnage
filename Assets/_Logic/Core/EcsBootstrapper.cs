@@ -1,9 +1,10 @@
-﻿using System;
-using _Logic.Core.Systems;
+﻿using _Logic.Core.Systems;
 using _Logic.Gameplay;
 using _Logic.Gameplay.Abilities.Systems;
 using _Logic.Gameplay.Camera.Systems;
 using _Logic.Gameplay.Effects.Systems;
+using _Logic.Gameplay.Items.Assets.Systems;
+using _Logic.Gameplay.Items.Equipment.Systems;
 using _Logic.Gameplay.Items.Systems;
 using _Logic.Gameplay.Projectiles.Systems;
 using _Logic.Gameplay.Testing.Systems;
@@ -39,8 +40,8 @@ namespace _Logic.Core
             
             _systemsGroup = World.CreateSystemsGroup();
 
-            RegisterCommonSystems(_lifetimeScope.Container);
             RegisterSystems(_lifetimeScope.Container);
+            RegisterCommonSystems(_lifetimeScope.Container);
             _isRegistered = true;
             
             World.AddSystemsGroup(_order, _systemsGroup);
@@ -99,7 +100,7 @@ namespace _Logic.Core
 
             AddSystem<StatDependentComponentsSetRequestProcessingSystem>();
             AddInitializer<StatsPanelProvidingSystem>();
-            AddSystem<StatChangeRequestProcessingSystem>();
+            AddSystem<StatModificationRequestProcessingSystem>();
             AddSystem<StatUpdateSystem>();
 
             AddSystem<AttackTargetValidationSystem>();
@@ -136,7 +137,7 @@ namespace _Logic.Core
             AddSystem<HealthChangeRequestProcessingSystem>();
             AddSystem<HealthChangeProcessAdditionRequestProcessingSystem>();
 
-            AddSystem<ExperienceEssenceCreationRequestProcessingSystem>();
+            AddSystem<AssetCreationRequestProcessingSystem>();
             AddSystem<ItemCollectionSystem>();
 
             AddSystem<PlayerUnitDestinationSystem>();
@@ -148,6 +149,9 @@ namespace _Logic.Core
             AddSystem<UnitSpawnRequestsHandlingSystem>();
 
             AddSystem<GameCameraTargetGroupHandlingSystem>();
+
+            AddSystem<EquipmentSetRequestProcessingSystem>();
+            AddSystem<StatModificationRequestProcessingSystem>();
         }
 
         protected abstract void RegisterSystems(IObjectResolver resolver);

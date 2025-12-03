@@ -16,10 +16,10 @@ namespace _Logic.Extensions.VFXManager
 
             foreach (var effectType in (VFXType[])Enum.GetValues(typeof(VFXType)))
             {
-                if (!_vfxCatalog.HasData((int)effectType)) 
+                if (!_vfxCatalog.HasData(effectType)) 
                     continue;
 
-                var effect = _vfxCatalog.GetData((int)effectType);
+                var effect = _vfxCatalog.GetData(effectType);
                 var pool = new ObjectPool<VFX>(
                     prefab: effect.VFX,
                     capacity: 32,

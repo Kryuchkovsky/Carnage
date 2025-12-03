@@ -1,6 +1,7 @@
 ﻿using _Logic.Core;
 using _Logic.Core.Components;
 using _Logic.Gameplay.Items.Components;
+using _Logic.Gameplay.Projectiles.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -18,6 +19,7 @@ namespace _Logic.Gameplay.Items.Systems
         private Stash<TransformComponent> _transformStash;
         private Stash<CollectableComponent> _collectableStash;
         private Stash<TargetComponent> _targetStash;
+        private Stash<FlightParametersComponent> _flightParametersStash;
         private readonly Collider[] _colliders = new Collider[32];
         private readonly LayerMask _mask = LayerMask.NameToLayer("Item");
         private readonly float _checkInterval = 1;
@@ -30,6 +32,7 @@ namespace _Logic.Gameplay.Items.Systems
             _transformStash = World.GetStash<TransformComponent>();
             _collectableStash = World.GetStash<CollectableComponent>();
             _targetStash = World.GetStash<TargetComponent>();
+            _flightParametersStash = World.GetStash<FlightParametersComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -57,6 +60,12 @@ namespace _Logic.Gameplay.Items.Systems
                         _targetStash.Set(entity, new TargetComponent
                         {
                             Entity = entity
+                        });
+                        
+                        _flightParametersStash.Set(entity, new FlightParametersComponent
+                        {
+                            FlightRangeToHeightRatio = 3,
+                            Speed = collectorComponent.Speed
                         });
                     }
                 }

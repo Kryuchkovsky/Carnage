@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Logic.Extensions.Configs;
+using _Logic.Gameplay.Projectiles;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Effects

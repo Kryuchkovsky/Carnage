@@ -46,7 +46,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                         AttackerEntity = ent.Entity,
                         TargetEntity = attackTargetComponent.TargetEntity,
                         AttackPosition = unitComponent.Value.Model.AttackPoint.position,
-                        IsOriginal = true
+                        IsOrigin = true
                     });
                 }
             }

@@ -5,7 +5,6 @@ using _Logic.Gameplay.Effects.Requests;
 using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Health.Components;
 using _Logic.Gameplay.Units.Health.Requests;
-using _Logic.Gameplay.Units.Stats;
 using _Logic.Gameplay.Units.Stats.Requests;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace _Logic.Gameplay.Effects.Systems
     public class EffectAttachmentRequestsProcessingSystem : AbstractUpdateSystem
     {
         private Request<EffectAttachmentRequest> _effectAttachmentRequest;
-        private Request<StatChangeRequest> _statChangeRequest;
+        private Request<StatModificationRequest> _statModificationRequest;
         private Request<HealthChangeProcessAdditionRequest> _healthChangeProcessAdditionRequest;
         
         [Inject] private GameEffectCatalog _gameEffectCatalog;
@@ -25,7 +24,7 @@ namespace _Logic.Gameplay.Effects.Systems
         public override void OnAwake()
         {
             _effectAttachmentRequest = World.GetRequest<EffectAttachmentRequest>();
-            _statChangeRequest = World.GetRequest<StatChangeRequest>();
+            _statModificationRequest = World.GetRequest<StatModificationRequest>();
             _healthChangeProcessAdditionRequest = World.GetRequest<HealthChangeProcessAdditionRequest>();
         }
 
@@ -33,9 +32,10 @@ namespace _Logic.Gameplay.Effects.Systems
         {
             foreach (var request in _effectAttachmentRequest.Consume())
             {
-                if (request.TargetEntity.IsNullOrDisposed() || request.EffectType == EffectType.None) continue;
+                if (request.TargetEntity.IsNullOrDisposed() || request.EffectType == EffectType.None) 
+                    continue;
                 
-                var data = _gameEffectCatalog.GetData((int)request.EffectType);
+                var data = _gameEffectCatalog.GetData(request.EffectType);
 
                 if (data.IsChangingHealth && request.TargetEntity.Has<HealthComponent>())
                 {
@@ -52,19 +52,11 @@ namespace _Logic.Gameplay.Effects.Systems
                     });
                 }
 
-                foreach (var change in data.Changes)
+                _statModificationRequest.Publish(new StatModificationRequest
                 {
-                    var statModifier = data.IsPersist
-                        ? new StatModifier(change.OperationType, change.Value)
-                        : new StatModifier(change.OperationType, change.Value, data.Duration);
-                    
-                    _statChangeRequest.Publish(new StatChangeRequest
-                    {
-                        Entity = request.TargetEntity,
-                        Type = change.StatType,
-                        Modifier = statModifier
-                    });
-                }
+                    Entity = request.TargetEntity, 
+                    statBuff = data
+                });
 
                 ref var transformComponent = ref request.TargetEntity.GetComponent<TransformComponent>(out var hasTransformComponent);
 

@@ -1,6 +1,5 @@
 ﻿using _Logic.Core;
 using _Logic.Gameplay.Effects.Requests;
-using _Logic.Gameplay.Items;
 using _Logic.Gameplay.Items.Components;
 using _Logic.Gameplay.Units.AI.Components;
 using _Logic.Gameplay.Units.Components;
@@ -20,8 +19,7 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         private Request<EffectAttachmentRequest> _effectAttachmentRequest;
         
         [Inject] private SurvivalModeSettings _survivalModeSettings;
-        [Inject] private ItemConfig _itemConfig;
-        
+
         public override void OnAwake()
         {
             _unitSpawnEvent = World.GetEvent<UnitSpawnEvent>();
@@ -32,16 +30,20 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         {
             foreach (var evt in _unitSpawnEvent.publishedChanges) 
             {
-                if (evt.Entity.Has<AIComponent>() || !evt.Entity.Has<UnitComponent>()) continue;
+                if (evt.Entity.Has<AIComponent>() || !evt.Entity.Has<UnitComponent>()) 
+                    continue;
                 
                 _effectAttachmentRequest.Publish(new EffectAttachmentRequest
                 {
                     TargetEntity = evt.Entity,
                     EffectType = _survivalModeSettings.PlayerEnhancmentEffectType
                 }, true);
-                evt.Entity.SetComponent(new CollectorComponent
+                evt.Entity.SetComponent(_survivalModeSettings.CollectorComponent);
+                
+                World.GetRequest<EquipmentSetRequest>().Publish(new EquipmentSetRequest
                 {
-                    Radius = _itemConfig.CollectionRange
+                    Entity = evt.Entity,
+                    EquipmentId = _survivalModeSettings.TestPlayerEquipmentData.Id
                 });
             }
         }

@@ -30,7 +30,7 @@ namespace _Logic.Gameplay.Effects.Systems
             foreach (var request in _impactCreationRequest.Consume())
             {
                 var teamComponent = request.Invoker.GetComponent<TeamComponent>(out var hasTeam);
-                var data = _impactCatalog.GetData((int)request.Type);
+                var data = _impactCatalog.GetData(request.Type);
                 
                 var impactObject = Object.Instantiate(_impactCatalog.ImpactPrefab, request.Position, Quaternion.identity, _container);
                 impactObject.Entity.SetComponent(new ImpactDataComponent

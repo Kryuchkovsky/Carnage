@@ -1,38 +1,20 @@
-﻿namespace _Logic.Gameplay.Units.Stats
+﻿using System;
+using UnityEngine;
+
+namespace _Logic.Gameplay.Units.Stats
 {
+    [Serializable]
     public struct StatModifier
     {
-        public readonly StatModifierOperationType OperationType;
-        public readonly float ModifierValue;
-        public readonly float Duration;
-        public readonly bool IsPersist;
+        [field: SerializeField] public StatType StatType { get; private set; }
+        [field: SerializeField] public StatModifierOperationType OperationType { get; private set; }
+        [field: SerializeField] public float Value { get; set; }
 
-        public float TimeBeforeRemoving { get; private set; }
-
-        public StatModifier(StatModifierOperationType operationType, float modifierValue, float duration)
+        public StatModifier(StatType statType, StatModifierOperationType operationType, float value)
         {
+            StatType = statType;
             OperationType = operationType;
-            ModifierValue = modifierValue;
-            Duration = duration;
-            IsPersist = false;
-            TimeBeforeRemoving = Duration;
-        }
-        
-        public StatModifier(StatModifierOperationType operationType, float modifierValue)
-        {
-            OperationType = operationType;
-            ModifierValue = modifierValue;
-            Duration = float.MaxValue;
-            IsPersist = true;
-            TimeBeforeRemoving = Duration;
-        }
-
-        public void UpdateTime(float delta)
-        {
-            if (IsPersist) 
-                return;
-            
-            TimeBeforeRemoving -= delta;
+            Value = value;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace _Logic.Gameplay.Projectiles.Systems
                     (request.TargetEntity.IsNullOrDisposed() && request.TargetPosition == Vector3.zero)) continue;
 
                 var type = request.Type;
-                var data = _projectilesCatalog.GetData((int)type);
+                var data = _projectilesCatalog.GetData(type);
                 
                 if (!_projectilePools.ContainsKey(type))
                 {
@@ -62,11 +62,11 @@ namespace _Logic.Gameplay.Projectiles.Systems
                     });
                 }
 
-                if (request.IsOriginal && !projectile.Entity.Has<OriginComponent>())
+                if (request.IsOrigin && !projectile.Entity.Has<OriginComponent>())
                 {
                     projectile.Entity.AddComponent<OriginComponent>();
                 }
-                else if (!request.IsOriginal && projectile.Entity.Has<OriginComponent>())
+                else if (!request.IsOrigin && projectile.Entity.Has<OriginComponent>())
                 {
                     projectile.Entity.RemoveComponent<OriginComponent>();
                 }

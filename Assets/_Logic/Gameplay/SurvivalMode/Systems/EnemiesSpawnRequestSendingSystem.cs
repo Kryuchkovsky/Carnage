@@ -42,9 +42,14 @@ namespace _Logic.Gameplay.SurvivalMode.Systems
         {
             foreach (var entity in _survivalModeFilter)
             {
-                if (entity.GetComponent<TimerComponent>().Value > 0) continue;
+                if (entity.GetComponent<TimerComponent>().Value > 0) 
+                    continue;
 
                 var levelEntity = _levelFilter.FirstOrDefault();
+                
+                if (World.IsDisposed(levelEntity))
+                    continue;
+                
                 var levelBoundsComponent = levelEntity.GetComponent<BoundsComponent>();
                 
                 var playerEntity = _playerFilter.FirstOrDefault();
