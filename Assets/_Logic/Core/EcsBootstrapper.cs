@@ -142,7 +142,8 @@ namespace _Logic.Core
 
             AddSystem<PlayerUnitDestinationSystem>();
             AddSystem<ManualMovementSystem>();
-            AddSystem<AutomaticMovementSystem>();
+            AddSystem<SimpleAIMovementSystem>();
+            AddSystem<PathfindingSystem>();
             AddSystem<DestinationChangeRequestsProcessingSystem>();
             
             AddSystem<UnitBuilderHandlingSystem>();

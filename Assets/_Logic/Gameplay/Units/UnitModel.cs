@@ -34,9 +34,6 @@ namespace _Logic.Gameplay.Units
             }
         }
 
-        public abstract bool GetEquipment(SlotType slotType, out EquipmentProvider equipment);
-        public abstract void SetEquipment(SlotType slotType, EquipmentProvider equipment);
-        
         public virtual void PlayAttackAnimation(float attackSpeed = 1, Action callback = null)
         {
             callback?.Invoke();

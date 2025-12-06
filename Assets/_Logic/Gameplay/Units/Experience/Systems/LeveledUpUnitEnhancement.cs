@@ -1,11 +1,11 @@
-﻿using _Logic.Gameplay.Units.Stats;
-using Scellecs.Morpeh.Collections;
+﻿using System.Collections.Generic;
+using _Logic.Gameplay.Units.Stats;
 
 namespace _Logic.Gameplay.Units.Experience.Systems
 {
     public class LeveledUpUnitEnhancement : IStatBuff
     {
-        public FastList<StatModifier> StatModifiers { get; private set; }
+        public List<StatModifier> StatModifiers { get; private set; }
         
         public StatModificationType StatModificationType => StatModificationType.Addition;
         public float Duration => -1;
@@ -13,7 +13,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
 
         public LeveledUpUnitEnhancement()
         {
-            StatModifiers = new FastList<StatModifier>();
+            StatModifiers = new List<StatModifier>();
         }
 
         public void AddModifier(StatModifier statModifier)
@@ -21,7 +21,7 @@ namespace _Logic.Gameplay.Units.Experience.Systems
             StatModifiers.Add(statModifier);
         }
         
-        public void AddModifier(FastList<StatModifier> statModifiers)
+        public void AddModifier(List<StatModifier> statModifiers)
         {
             StatModifiers.AddRange(statModifiers);
         }

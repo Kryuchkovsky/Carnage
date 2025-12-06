@@ -17,7 +17,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
         private Stash<StatsComponent> _statsStash;
         private Stash<TransformComponent> _transformStash;
         private Stash<AttackTargetComponent> _attackTargetStash;
-        private Stash<NavMeshAgentComponent> _navMeshAgentStash;
+        private Stash<PathfinderComponent> _pathfinderStash;
 
         public override void OnAwake()
         {
@@ -27,7 +27,7 @@ namespace _Logic.Gameplay.Units.AI.Systems
             _statsStash = World.GetStash<StatsComponent>();
             _transformStash = World.GetStash<TransformComponent>();
             _attackTargetStash = World.GetStash<AttackTargetComponent>();
-            _navMeshAgentStash = World.GetStash<NavMeshAgentComponent>();
+            _pathfinderStash = World.GetStash<PathfinderComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -38,20 +38,17 @@ namespace _Logic.Gameplay.Units.AI.Systems
                 ref var statsComponent = ref _statsStash.Get(entity);
                 ref var transformComponent = ref _transformStash.Get(entity);
                 ref var targetComponent = ref _attackTargetStash.Get(entity, out var hasTargetComponent);
-                Vector3 sightPosition;
+                ref var pathfinderComponent = ref _pathfinderStash.Get(entity, out var hasPathfinderComponent);
+                var sightPosition = Vector3.zero;
 
                 if (hasTargetComponent && !World.IsDisposed(targetComponent.TargetEntity) &&
                     _transformStash.Has(targetComponent.TargetEntity) && targetComponent.IsInAttackRadius)
                 {
                     sightPosition = _transformStash.Get(targetComponent.TargetEntity).Value.position;
                 }
-                else
+                else if (!hasPathfinderComponent || pathfinderComponent.Value.velocity != Vector3.zero)
                 {
-                    var navMeshAgentComponent = _navMeshAgentStash.Get(entity, out var hasNavMeshAgentComponent);
-                    
-                    if ((hasNavMeshAgentComponent && navMeshAgentComponent.Value.velocity != Vector3.zero) || !hasNavMeshAgentComponent) 
-                        sightPosition = transformComponent.Value.position + transformComponent.Value.forward;
-                    else sightPosition = Vector3.zero;
+                    sightPosition = transformComponent.Value.position + transformComponent.Value.forward;
                 }
 
                 if (sightPosition != Vector3.zero)

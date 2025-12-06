@@ -50,7 +50,7 @@ namespace _Logic.Gameplay.Units.Stats
                 var kvp = _modifications.ElementAt(i);
                 kvp.Value.Update(deltaTime);
 
-                if (kvp.Value.TimeBeforeRemoving <= 0)
+                if (kvp.Value.IsExpired)
                 {
                     _modifications.Remove(kvp.Key);
                     IsModified = true;

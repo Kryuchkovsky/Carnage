@@ -5,18 +5,18 @@ using _Logic.Gameplay.Units.Components;
 using _Logic.Gameplay.Units.Stats;
 using _Logic.Gameplay.Units.Stats.Components;
 using JetBrains.Annotations;
+using Pathfinding;
 using Scellecs.Morpeh;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace _Logic.Gameplay.Units
 {
     public class UnitProvider : GameObjectProvider<UnitComponent>
     {
         [SerializeField, CanBeNull] protected Rigidbody _rigidbody;
-        [SerializeField, CanBeNull] protected NavMeshAgent _navMeshAgent;
-        [SerializeField, CanBeNull] protected NavMeshObstacle _navMeshObstacle;
         
+        [SerializeField, CanBeNull] protected AIPath _path;
+
         [SerializeField] private SpriteRenderer _markerSprite;
         
         [SerializeField, Range(0, 100)] private int _priority;
@@ -69,19 +69,13 @@ namespace _Logic.Gameplay.Units
                 });
             }
             
-            if (_navMeshAgent)
+            if (_path)
             {
-                Entity.SetComponent(new NavMeshAgentComponent
-                {
-                    Value = _navMeshAgent
-                });
-            }
+                _path.enabled = true;
 
-            if (_navMeshObstacle)
-            {
-                Entity.SetComponent(new NavMeshObstacleComponent
+                Entity.SetComponent(new PathfinderComponent()
                 {
-                    Value = _navMeshObstacle
+                    Value = _path
                 });
             }
         }
@@ -117,22 +111,6 @@ namespace _Logic.Gameplay.Units
             {
                 Value = Model.Renderer
             });
-            
-            if (_navMeshAgent)
-            {
-                _navMeshAgent.agentTypeID = model.NavMeshAgentTypeId;
-                _navMeshAgent.height = model.Bounds.size.y;
-                _navMeshAgent.radius = model.Bounds.extents.z;
-            }
-
-            if (_navMeshObstacle)
-            {
-                _navMeshObstacle.shape = model.NavMeshObstacleShape;
-                _navMeshObstacle.height = model.Bounds.size.y;
-                _navMeshObstacle.radius = model.Bounds.extents.z;
-                _navMeshObstacle.size = model.Bounds.size;
-                _navMeshObstacle.center = model.Bounds.center - transform.position;
-            }
         }
 
         public void SetTeamData(Color color, int teamLayer)
@@ -165,12 +143,12 @@ namespace _Logic.Gameplay.Units
                 Model.gameObject.layer = LayerMask.NameToLayer("Corpse");
                 Model.Renderer.material.color = Color.grey;
             }
+            
+            if (_seeker)
+                _seeker.enabled = false;
 
-            if (_navMeshAgent)
-                _navMeshAgent.enabled = false;
-
-            if (_navMeshObstacle)
-                _navMeshObstacle.enabled = false;
+            if (_path)
+                _path.enabled = false;
         }
 
 #if UNITY_EDITOR

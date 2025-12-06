@@ -10,6 +10,7 @@ namespace _Logic.Gameplay.Units.Stats
         public Dictionary<StatType, StatModifier> Modifiers { get; private set; } = new();
 
         public float TimeBeforeRemoving { get; private set; }
+        public bool IsExpired => !_statBuff.IsPersist && TimeBeforeRemoving <= 0;
 
         public StatModificationSource(IStatBuff statBuff)
         {

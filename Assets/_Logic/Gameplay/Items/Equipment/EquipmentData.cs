@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Logic.Gameplay.Units.Stats;
-using Scellecs.Morpeh.Collections;
 using TriInspector;
 using UnityEditor;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace _Logic.Gameplay.Items.Equipment
         
         [field: SerializeField] public EquipmentProvider Prefab  { get; private set; }
         [field: SerializeField] public EquipmentType EquipmentType { get; private set; }
-        [field: SerializeField] public FastList<StatModifier> StatModifiers { get; private set; }
+        [field: SerializeField] public List<StatModifier> StatModifiers { get; private set; }
         
         [field: SerializeField] public bool SetSlotsPreset { get; private set; }
         [field: SerializeField, HideIf(nameof(SetSlotsPreset))] public SlotType SlotType { get; private set; }

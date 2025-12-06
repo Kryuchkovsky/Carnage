@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Logic.Gameplay.Items;
 using _Logic.Gameplay.Items.Equipment;
+using _Logic.Gameplay.Items.Equipment.Weapon;
 using _Logic.Gameplay.Units.Attack;
 using DG.Tweening;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace _Logic.Gameplay.Units.Models
         [SerializeField] private Animator _animator;
         [SerializeField] private List<ItemSlot> _itemPlaces;
 
+        private Dictionary<SlotType, ItemSlot> _slotsCache;
         private AttackStateMachineBehavior[] _attackStateMachineBehaviors;
         private Sequence _jumpSequence;
         private Action _attackAnimationCallback;
@@ -23,15 +25,15 @@ namespace _Logic.Gameplay.Units.Models
         private readonly int _hitTriggerHash = Animator.StringToHash("Hit");
         private readonly int _movementSpeedFloatHash = Animator.StringToHash("Speed_f");
         private readonly int _deathBooleanHash = Animator.StringToHash("Death_b");
+        private readonly int _weaponTypeHash = Animator.StringToHash("WeaponType");
 
         private void Awake()
         {
             _attackStateMachineBehaviors = _animator.GetBehaviours<AttackStateMachineBehavior>();
-
+            _slotsCache = _itemPlaces.ToDictionary(s => s.SlotType, s => s);
+            
             foreach (var behavior in _attackStateMachineBehaviors)
-            {
                 behavior.AttackCompleted += InvokeAttackAnimationCallback;
-            }
             
             _jumpSequence = DOTween.Sequence()
                 .Append(transform.DOLocalJump(Vector3.up, 1, 1, 0.25f))
@@ -67,7 +69,7 @@ namespace _Logic.Gameplay.Units.Models
             }
         }
 
-        public override bool GetEquipment(SlotType slotType, out EquipmentProvider equipment)
+        public bool GetEquipment(SlotType slotType, out EquipmentProvider equipment)
         {
             var itemPlace = _itemPlaces.FirstOrDefault(s => s.SlotType == slotType);
 
@@ -79,9 +81,13 @@ namespace _Logic.Gameplay.Units.Models
             return false;
         }
         
-        public override void SetEquipment(SlotType slotType, EquipmentProvider equipment)
+        public void SetEquipment(SlotType slotType, EquipmentType equipmentType, EquipmentProvider equipment)
         {
-            _itemPlaces.FirstOrDefault(s => s.SlotType == slotType)?.Set(equipment);
+            if (equipment is WeaponProvider)
+                _animator.SetInteger(_weaponTypeHash, (int)equipmentType);
+            
+            if (_slotsCache.TryGetValue(slotType, out var slot))
+                slot.Set(equipment);
         }
 
         public void Hit()

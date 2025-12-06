@@ -4,6 +4,7 @@ using _Logic.Core;
 using _Logic.Gameplay.Items.Components;
 using _Logic.Gameplay.Units;
 using _Logic.Gameplay.Units.Components;
+using _Logic.Gameplay.Units.Models;
 using _Logic.Gameplay.Units.Stats;
 using _Logic.Gameplay.Units.Stats.Components;
 using Scellecs.Morpeh;
@@ -81,13 +82,13 @@ namespace _Logic.Gameplay.Items.Equipment.Systems
                 if (slotType == SlotType.None)
                     slotType = dressingEquipment.SlotsPreset.PossibleSlots.First(s => s != SlotType.None);
 
-                FreeSlot(dressedEquipment, slotType, unit, stats);
-                FreeSlots(dressedEquipment, dressingEquipment.SlotsPreset.BlockingSlots, unit, stats);
+                FreeSlot(dressedEquipment, slotType, stats);
+                FreeSlots(dressedEquipment, dressingEquipment.SlotsPreset.BlockingSlots, stats);
                 DressEquipment(dressedEquipment, dressingEquipment, slotType, unit, stats);
             }
             else
             {
-                FreeSlot(dressedEquipment, dressingEquipment.SlotType, unit, stats);
+                FreeSlot(dressedEquipment, dressingEquipment.SlotType, stats);
                 DressEquipment(dressedEquipment, dressingEquipment, dressingEquipment.SlotType, unit, stats);
             }
         }
@@ -101,13 +102,13 @@ namespace _Logic.Gameplay.Items.Equipment.Systems
             }
         }
 
-        private void FreeSlots(Dictionary<SlotType, EquipmentData> dressedEquipment, List<SlotType> freeSlots, UnitProvider unit, StatStorage stats)
+        private void FreeSlots(Dictionary<SlotType, EquipmentData> dressedEquipment, List<SlotType> freeSlots, StatStorage stats)
         {
             foreach (var slot in freeSlots)
-                FreeSlot(dressedEquipment, slot, unit, stats);
+                FreeSlot(dressedEquipment, slot, stats);
         }
         
-        private void FreeSlot(Dictionary<SlotType, EquipmentData> dressedEquipment, SlotType freeSlot, UnitProvider unit, StatStorage stats)
+        private void FreeSlot(Dictionary<SlotType, EquipmentData> dressedEquipment, SlotType freeSlot, StatStorage stats)
         {
             if (dressedEquipment.TryGetValue(freeSlot, out var equipment))
             {
@@ -118,13 +119,14 @@ namespace _Logic.Gameplay.Items.Equipment.Systems
 
         private void SetEquipmentToView(EquipmentData equipmentData, SlotType slotType, UnitProvider unit)
         {
-            EquipmentProvider equipmentProvider = null;
-
-            if (unit.Model.GetEquipment(slotType, out equipmentProvider))
-                Object.Destroy(equipmentProvider.gameObject);
-
-            equipmentProvider = Object.Instantiate(equipmentData.Prefab);
-            unit.Model.SetEquipment(slotType, equipmentProvider);
+            if (unit.Model is HumanoidModel humanoidModel)
+            {
+                if (humanoidModel.GetEquipment(slotType, out var equipmentProvider))
+                    Object.Destroy(equipmentProvider.gameObject);
+                
+                equipmentProvider = Object.Instantiate(equipmentData.Prefab);
+                humanoidModel.SetEquipment(slotType, equipmentData.EquipmentType, equipmentProvider);
+            }
         }
     }
 }

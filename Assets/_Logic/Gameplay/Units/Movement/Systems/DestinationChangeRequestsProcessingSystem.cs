@@ -2,13 +2,17 @@
 using _Logic.Core.Components;
 using _Logic.Gameplay.Units.Health.Components;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 
 namespace _Logic.Gameplay.Units.Movement.Systems
 {
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class DestinationChangeRequestsProcessingSystem : AbstractUpdateSystem
     {
         private Request<DestinationChangeRequest> _request;
-        private Stash<NavMeshAgentComponent> _navMeshAgentStash;
+        private Stash<PathfinderComponent> _pathfinderStash;
         private Stash<DestinationComponent> _destinationStash;
         private Stash<AliveComponent> _aliveStash;
         private Stash<TransformComponent> _transformStash;
@@ -16,7 +20,7 @@ namespace _Logic.Gameplay.Units.Movement.Systems
         public override void OnAwake()
         {
             _request = World.GetRequest<DestinationChangeRequest>();
-            _navMeshAgentStash = World.GetStash<NavMeshAgentComponent>();
+            _pathfinderStash = World.GetStash<PathfinderComponent>();
             _destinationStash = World.GetStash<DestinationComponent>();
             _aliveStash = World.GetStash<AliveComponent>();
             _transformStash = World.GetStash<TransformComponent>();
@@ -53,13 +57,11 @@ namespace _Logic.Gameplay.Units.Movement.Systems
                     });
                 }
 
-                var agentComponent = _navMeshAgentStash.Get(request.Entity, out var hasAgentComponent);
+                ref var pathfinderComponent = ref _pathfinderStash.Get(request.Entity, out var hasPathfinderComponent);
                 
-                if (hasAgentComponent)
+                if (hasPathfinderComponent)
                 {
-                    var destination = request.Destination - direction.normalized * 0.1f;
-                    agentComponent.Value.enabled = true;
-                    agentComponent.Value.SetDestination(destination);
+                    //todo refactor
                 }
             }
         }

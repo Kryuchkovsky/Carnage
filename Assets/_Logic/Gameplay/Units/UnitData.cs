@@ -20,7 +20,7 @@ namespace _Logic.Gameplay.Units
         private float _baseAttackSpeed = 100;
         
         [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
-        private float _baseAttackRange = 100;
+        private float _baseAttackRange = 1;
         
         [SerializeField, ConditionalField(nameof(_hasAttack), true)] 
         private float _baseAttackTime = 2;

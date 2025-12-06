@@ -1,9 +1,9 @@
-﻿using _Logic.Extensions.Attributes;
+﻿using System.Collections.Generic;
+using _Logic.Extensions.Attributes;
 using _Logic.Extensions.Configs;
 using _Logic.Gameplay.Units.Health;
 using _Logic.Gameplay.Units.Stats;
 using JetBrains.Annotations;
-using Scellecs.Morpeh.Collections;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Effects
@@ -12,7 +12,7 @@ namespace _Logic.Gameplay.Effects
     public class EffectData : Data<EffectType>, IStatBuff
     {
         [field: SerializeField, Header("Affections")] 
-        public FastList<StatModifier> StatModifiers { get; private set; }
+        public List<StatModifier> StatModifiers { get; private set; }
 
         [field: SerializeField] 
         public StatModificationType StatModificationType { get; private set; }
