@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Logic.Gameplay.Equipment;
+using _Logic.Gameplay.Equipment.Weapon;
 using _Logic.Gameplay.Items;
-using _Logic.Gameplay.Items.Equipment;
-using _Logic.Gameplay.Items.Equipment.Weapon;
 using _Logic.Gameplay.Units.Attack;
 using DG.Tweening;
 using UnityEngine;
@@ -18,6 +18,7 @@ namespace _Logic.Gameplay.Units.Models
         private Dictionary<SlotType, ItemSlot> _slotsCache;
         private AttackStateMachineBehavior[] _attackStateMachineBehaviors;
         private Sequence _jumpSequence;
+        private WeaponProvider _weapon;
         private Action _attackAnimationCallback;
 
         private readonly int _attackTriggerHash = Animator.StringToHash("Attack");
@@ -51,6 +52,14 @@ namespace _Logic.Gameplay.Units.Models
             }
         }
 
+        public override Transform GetAttackPoint()
+        {
+            if (_weapon)
+                return _weapon.AttackPoint;
+            
+            return base.GetAttackPoint();
+        }
+
         public override void PlayAttackAnimation(float attackSpeed = 1, Action callback = null)
         {
             _animator.SetFloat(_attackSpeedFloatHash, attackSpeed);
@@ -76,16 +85,18 @@ namespace _Logic.Gameplay.Units.Models
             if (itemPlace != null)
                 return itemPlace.Get(out equipment);
 
-
             equipment = null;
             return false;
         }
         
         public void SetEquipment(SlotType slotType, EquipmentType equipmentType, EquipmentProvider equipment)
         {
-            if (equipment is WeaponProvider)
+            if (equipment is WeaponProvider weapon)
+            {
+                _weapon = weapon;
                 _animator.SetInteger(_weaponTypeHash, (int)equipmentType);
-            
+            }
+
             if (_slotsCache.TryGetValue(slotType, out var slot))
                 slot.Set(equipment);
         }

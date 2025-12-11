@@ -45,7 +45,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                     {
                         AttackerEntity = ent.Entity,
                         TargetEntity = attackTargetComponent.TargetEntity,
-                        AttackPosition = unitComponent.Value.Model.AttackPoint.position,
+                        AttackPosition = unitComponent.Value.Model.GetAttackPoint().position,
                         IsOrigin = true
                     });
                 }

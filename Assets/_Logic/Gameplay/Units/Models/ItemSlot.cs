@@ -1,5 +1,5 @@
-﻿using _Logic.Gameplay.Items;
-using _Logic.Gameplay.Items.Equipment;
+﻿using _Logic.Gameplay.Equipment;
+using _Logic.Gameplay.Items;
 using UnityEngine;
 
 namespace _Logic.Gameplay.Units.Models

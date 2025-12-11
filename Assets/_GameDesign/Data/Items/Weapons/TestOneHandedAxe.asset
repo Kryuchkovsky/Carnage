@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b501fb58c744f90bdcc46902a6a461b, type: 3}
+  m_Name: TestOneHandedAxe
+  m_EditorClassIdentifier: 
+  <Id>k__BackingField: c332ba12-c4f1-49b5-b914-707f8d53e994
+  <Prefab>k__BackingField: {fileID: 179697236615326014, guid: 7af28d79e2677e84d8f65d540c811426,
+    type: 3}
+  <EquipmentType>k__BackingField: 12
+  <StatModifiers>k__BackingField:
+    data:
+    - <StatType>k__BackingField: 10
+      <OperationType>k__BackingField: 0
+      <Value>k__BackingField: 10
+    length: 0
+    capacity: 4
+  <SetSlotsPreset>k__BackingField: 1
+  <SlotType>k__BackingField: 0
+  <SlotsPreset>k__BackingField: {fileID: 11400000, guid: a3f35343419cd3c489b12a43522f2160,
+    type: 2}
+  <ProjectileType>k__BackingField: 0
+  <AttackHealthChangeType>k__BackingField: 1

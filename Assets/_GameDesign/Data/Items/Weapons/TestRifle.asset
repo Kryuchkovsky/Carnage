@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b501fb58c744f90bdcc46902a6a461b, type: 3}
+  m_Name: TestRifle
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 0
+  <Id>k__BackingField: c36b1993-3825-4613-98b0-0fda2391c1e3
+  <Prefab>k__BackingField: {fileID: -2101222873846553431, guid: 9874dccf72e23aa439e8da374c011772,
+    type: 3}
+  <StatModifiers>k__BackingField:
+  - <StatType>k__BackingField: 10
+    <OperationType>k__BackingField: 0
+    <Value>k__BackingField: 100
+  - <StatType>k__BackingField: 12
+    <OperationType>k__BackingField: 0
+    <Value>k__BackingField: 600
+  <SetSlotsPreset>k__BackingField: 1
+  <SlotType>k__BackingField: 2
+  <SlotsPreset>k__BackingField: {fileID: 11400000, guid: d89792c1775fe6345815567c08dc2554,
+    type: 2}
+  <ProjectileType>k__BackingField: 2
+  <AttackHealthChangeType>k__BackingField: 1

@@ -10,7 +10,8 @@ namespace _Logic.Gameplay.SurvivalMode
         {
             AddInitializer<SurvivalModeInitializationSystem>();
             AddInitializer<HeroSelectionStageHandlingSystem>();
-            AddSystem<EnemiesSpawnRequestSendingSystem>();
+            AddSystem<SurvivalModeHandlingSystem>();
+            AddSystem<EnemiesWavesHandlingSystem>();
             AddSystem<SurvivalModeEnhancementSystem>();
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using _Logic.Core;
 using _Logic.Gameplay.Items;
-using _Logic.Gameplay.Items.Equipment;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -34,6 +33,11 @@ namespace _Logic.Gameplay.Units
             }
         }
 
+        public virtual Transform GetAttackPoint()
+        {
+            return AttackPoint;
+        }
+        
         public virtual void PlayAttackAnimation(float attackSpeed = 1, Action callback = null)
         {
             callback?.Invoke();

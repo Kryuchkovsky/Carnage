@@ -12,26 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c83f320ec04c358559b8bf471aa489, type: 3}
   m_Name: SM_Settings
   m_EditorClassIdentifier: 
-  <Allies>k__BackingField: 070000000500000006000000
-  <Enemies>k__BackingField: 0a0000000800000009000000
+  <TestPlayerEquipmentData>k__BackingField: {fileID: 11400000, guid: 65eee3878c3c9ce49b1a321e0a01c325,
+    type: 2}
+  <Allies>k__BackingField: 0b000000
+  <Enemies>k__BackingField: 0b000000
+  <SpawnSettings>k__BackingField:
+  - {fileID: 11400000, guid: f722b2e88956bd14fbdf3b327f87a7a4, type: 2}
+  - {fileID: 11400000, guid: 46d13be8bfe2d7347ab5576a508031f6, type: 2}
+  - {fileID: 11400000, guid: 9ce78b6e5a6fadf4da782f4b5df14fba, type: 2}
   <PlayerEnhancmentEffectType>k__BackingField: 2
-  <MaxEnemiesNumber>k__BackingField: 10
-  <EnemySpawnInterval>k__BackingField: 0.25
-  <PossibleAffectionsWhenLevelUp>k__BackingField:
-  - <StatType>k__BackingField: 0
-    <OperationType>k__BackingField: 0
-    <Value>k__BackingField: 5
-  - <StatType>k__BackingField: 2
-    <OperationType>k__BackingField: 0
-    <Value>k__BackingField: 10
-  - <StatType>k__BackingField: 5
-    <OperationType>k__BackingField: 0
-    <Value>k__BackingField: 20
-  - <StatType>k__BackingField: 7
-    <OperationType>k__BackingField: 0
-    <Value>k__BackingField: 1
-  - <StatType>k__BackingField: 4
-    <OperationType>k__BackingField: 0
-    <Value>k__BackingField: 5
-  <PossibleImpactsWhenLevelUp>k__BackingField: 02000000
+  <PossibleStatModifiersWhenLevelUp>k__BackingField:
+    data:
+    - <StatType>k__BackingField: 10
+      <OperationType>k__BackingField: 0
+      <Value>k__BackingField: 10
+    - <StatType>k__BackingField: 11
+      <OperationType>k__BackingField: 0
+      <Value>k__BackingField: 10
+    - <StatType>k__BackingField: 21
+      <OperationType>k__BackingField: 0
+      <Value>k__BackingField: 10
+    - <StatType>k__BackingField: 30
+      <OperationType>k__BackingField: 0
+      <Value>k__BackingField: 0.05
+    length: 0
+    capacity: 4
+  <PossibleImpactsWhenLevelUp>k__BackingField: 
   <RewardsNumberWhenLevelUp>k__BackingField: 4
+  <CollectorComponent>k__BackingField:
+    Radius: 30
+    Speed: 10

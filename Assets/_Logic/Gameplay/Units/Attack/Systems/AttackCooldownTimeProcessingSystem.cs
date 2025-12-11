@@ -30,16 +30,24 @@ namespace _Logic.Gameplay.Units.Attack.Systems
 
                 var attackSpeed = statsComponent.Value.GetCurrentValue(StatType.AttackSpeed);
                 var attackTime = statsComponent.Value.GetCurrentValue(StatType.AttackTime);
-                attackComponent.AttacksPerSecond = attackSpeed * 0.01f / attackTime;
-                attackComponent.AttackTime = 1 / attackComponent.AttacksPerSecond;
-                attackComponent.RemainingAttackTime = Mathf.Lerp(0, attackComponent.AttackTime, 1 - attackComponent.AttackTimePercentage);
+                var actualAttackTime = attackTime / (attackSpeed * 0.01f);
+                
+                if (attackSpeed <= 0.01f)
+                    actualAttackTime = float.MaxValue;
+                
+                attackComponent.AttacksPerSecond = 1 / actualAttackTime;
+                attackComponent.AttackTime = actualAttackTime;
+                attackComponent.RemainingAttackTime = actualAttackTime * (1 - attackComponent.AttackTimePercentage);
 
                 if (attackComponent.AttackTimePercentage < 1)
                 {
                     attackComponent.RemainingAttackTime -= deltaTime;
+                    
+                    if (attackComponent.RemainingAttackTime < 0)
+                        attackComponent.RemainingAttackTime = 0;
                 }
 
-                attackComponent.AttackTimePercentage = 1 - Mathf.InverseLerp(0, attackComponent.AttackTime, attackComponent.RemainingAttackTime);
+                attackComponent.AttackTimePercentage = Mathf.Clamp01(1 - attackComponent.RemainingAttackTime / attackComponent.AttackTime);
             }
         }
     }

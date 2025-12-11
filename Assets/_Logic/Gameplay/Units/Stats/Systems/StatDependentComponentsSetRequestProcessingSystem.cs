@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using _Logic.Core;
 using _Logic.Gameplay.Effects;
-using _Logic.Gameplay.Items.Equipment.Weapon.Components;
+using _Logic.Gameplay.Equipment.Weapon.Components;
 using _Logic.Gameplay.Projectiles;
 using _Logic.Gameplay.Units.Attack.Components;
 using _Logic.Gameplay.Units.Components;

@@ -59,7 +59,7 @@ namespace _Logic.Gameplay.Units.Attack.Systems
                 }
 
                 var position = unitComponent.Value.transform.position;
-                var attackPosition = unitComponent.Value.Model.AttackPoint.position;
+                var attackPosition = unitComponent.Value.Model.GetAttackPoint().position;
                 var mask = 1 << teamDataComponent.EnemiesLayer;
                 var colliderNumber = Physics.OverlapSphereNonAlloc(position, range, _colliders, mask);
                 var numberOfFoundedTargets = 0;

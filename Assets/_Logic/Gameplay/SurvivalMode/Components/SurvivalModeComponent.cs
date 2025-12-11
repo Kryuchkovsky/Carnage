@@ -1,3 +1,4 @@
+using _Logic.Gameplay.SurvivalMode.Session;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -9,6 +10,7 @@ namespace _Logic.Gameplay.SurvivalMode.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct SurvivalModeComponent : IComponent
     {
+        public SessionData SessionData;
         public int HeroId;
     }
 }

@@ -4,13 +4,14 @@ using _Logic.Extensions.Input;
 using _Logic.Extensions.Popup;
 using _Logic.Extensions.VFXManager;
 using _Logic.Gameplay.Effects;
+using _Logic.Gameplay.Equipment;
 using _Logic.Gameplay.FightMode;
 using _Logic.Gameplay.Items;
 using _Logic.Gameplay.Items.Assets;
-using _Logic.Gameplay.Items.Equipment;
 using _Logic.Gameplay.Projectiles;
 using _Logic.Gameplay.SelectionPanel;
 using _Logic.Gameplay.SurvivalMode;
+using _Logic.Gameplay.SurvivalMode.Session;
 using _Logic.Gameplay.Units;
 using _Logic.Gameplay.Units.AI;
 using _Logic.Gameplay.Units.Experience;
@@ -65,6 +66,8 @@ namespace _Logic.Gameplay
             builder.RegisterInstance(_gameplayUIContainer);
             builder.RegisterInstance(_gameplayUIContainer.StatsPanel);
             builder.RegisterInstance(_gameplayUIContainer.PlayerExperienceBar);
+            
+            builder.RegisterInstance(new SessionService());
         }
     }
 }

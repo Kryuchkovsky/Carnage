@@ -143,9 +143,6 @@ namespace _Logic.Gameplay.Units
                 Model.gameObject.layer = LayerMask.NameToLayer("Corpse");
                 Model.Renderer.material.color = Color.grey;
             }
-            
-            if (_seeker)
-                _seeker.enabled = false;
 
             if (_path)
                 _path.enabled = false;

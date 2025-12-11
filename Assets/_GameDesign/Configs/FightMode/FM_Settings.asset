@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfa5585fead47e9955d2af7b7540e95, type: 3}
   m_Name: FM_Settings
   m_EditorClassIdentifier: 
-  <Heroes>k__BackingField: 0b0000000c0000000e0000000d000000
-  <Units>k__BackingField: 0b0000000c0000000e0000000d000000
+  <Heroes>k__BackingField: 0b000000
+  <Units>k__BackingField: 0b000000
   <PlayerEnhancmentEffectType>k__BackingField: 0
-  <MaxUnitsInArmy>k__BackingField: 10
+  <MaxUnitsInArmy>k__BackingField: 100
+  <SpawnPlayer>k__BackingField: 0
